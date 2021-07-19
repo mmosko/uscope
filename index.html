@@ -1,0 +1,199 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>&mu;SCOPE</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="node_modules/d3-flame-graph/dist/d3-flamegraph.css">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="vendor/chart.js/Chart.min.js"></script>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="display-1">
+              &mu;SCOPE
+          </h1>
+
+          <h4>
+            A Methodology for Analyzing Least-Privilege Compartmentalization in Large Software Artifacts
+          </h4>
+
+            <!-- Content Row -->
+
+            <div class="row">
+              <!-- Area Chart -->
+              <div class="col-xl-15 col-lg-12">
+                <div class="card shadow mb-4">
+                  <!-- ABSTRACT -->
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Abstract</h6>
+                  </div>
+
+
+                  <!-- Abstract body -->
+                  <div class="card-body">
+                    <p> By prioritizing simplicity and portability, least-privilege engineering has been an
+                        afterthought in OS design, resulting in monolithic kernels where any exploit leads to
+                        total compromise. μSCOPE (“microscope”) addresses this problem by automatically identifying
+                        opportunities for least-privilege separation. μSCOPE replaces expert-driven, semi-automated
+                        analysis with a general methodology for exploring a continuum of security vs. performance design
+                        points by adopting a quantitative and systematic approach to privilege analysis. In the paper, we detail
+                        how we applied the μSCOPE methodology to the Linux kernel, allowing us to accomplish the following:
+                    </p>
+                    <ol>
+                      <li>The instrumentation of the entire Linux kernel, granting comprehensive, fine-grained memory access and call activity</li>
+                      <li>The mapping of fine-grained memory accesses and calls to semantic information</li>
+                      <li>The reporting of a separability analysis on the kernel, using both quantitative privilege and overhead metrics</li>
+                    </ol>
+                    <p class="mb-0"> We discover opportunities for orders of magnitude privilege reduction while
+                      predicting relatively low overheads - at 15% mediation overhead, overprivilege in Linux can be
+                      reduced up to 99.8% - suggesting fine-grained privilege separation is feasible and laying the
+                      groundwork for accelerating real privilege separation.</p>
+                  </div>
+
+                  <!-- Read &mu;SCOPE -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Learn More</h6>
+                  </div>
+
+                  <!-- Read &mu;SCOPE Body -->
+                  <div class="card-body">
+                    <ul>
+                      <li>
+                        Read &mu;SCOPE's here:
+                        <a href="uscope_raid21.pdf">Paper</a>
+                      </li>
+                      <li>
+                        &mu;SCOPE Linux Object Explorer:
+                        <a href="https://uscope-linux.github.io/object_explorer/">Object Explorer</a>
+                      </li>
+                      <li>
+                        &mu;SCOPE Linux Compartment Explorer:
+                        <a href="https://uscope-linux.github.io/compartment_explorer/">Compartment Explorer</a>
+                      </li>
+                    </ul>
+                  </div>
+
+
+                  <!-- Bibtex -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Bibtex</h6>
+                  </div>
+                  <div class="card-body">
+                    <pre><code>
+@article{roessler2021muscope,
+  title={$\mu$SCOPE: A Methodology for Analyzing Least-Privilege Compartmentalization in Large Software Artifacts},
+  author={Roessler, Nick and Atayde, Lucas and Palmer, Imani and McKee, Derrick and Pandey, Jai and Kemerlis, Vasileios P and Payer, Mathias and Bates, Adam and DeHon, Andr{\'e} and Smith, Jonathan M and others},
+  year={2021}
+}
+                    </code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-bar-demo.js"></script>
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+    <script type="text/javascript" src="node_modules/d3/dist/d3.js"></script>
+    <script type="text/javascript" src="node_modules/d3-tip/dist/index.js"></script>
+    <script type="text/javascript" src="node_modules/d3-flame-graph/dist/d3-flamegraph.js"></script>
+    <script type="text/javascript">
+      var readgraph1 = flamegraph().width(960);
+      d3.json("flamegraph/write.json").then(function (data) {
+        /*                      if (error) return console.warn(error);*/
+        d3.select("#write")
+          .datum(data)
+          .call(readgraph1)
+      });
+    </script>
+
+    <script type="text/javascript">
+      var readgraph2 = flamegraph().width(960);
+      d3.json("flamegraph/read.json").then(function (data) {
+        /*                      if (error) return console.warn(error);*/
+        d3.select("#read")
+          .datum(data)
+          .call(readgraph2)
+      });
+    </script>
+
+    <script type="text/javascript">
+      var readgraph3 = flamegraph().width(960);
+      d3.json("flamegraph/call.json").then(function (data) {
+        /*                      if (error) return console.warn(error);*/
+        d3.select("#call")
+          .datum(data)
+          .call(readgraph3)
+      });
+    </script>
+
+    <script type="text/javascript">
+      var readgraph4 = flamegraph().width(960);
+      d3.json("flamegraph/alloc.json").then(function (data) {
+        /*                      if (error) return console.warn(error);*/
+        d3.select("#alloc")
+          .datum(data)
+          .call(readgraph4)
+      });
+    </script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+
+</body>
+
+</html>
+
+
