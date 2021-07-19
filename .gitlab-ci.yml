@@ -10,5 +10,5 @@ pages:
     paths:
       - public
   only:
-    - initial_draft
+    - master
 
