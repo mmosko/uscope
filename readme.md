@@ -6,6 +6,7 @@ Welcome. Please find information related to our project on automated analysis on
 Link to the [Paper](https://fierce-lab.gitlab.io/uscope/uscope_raid21.pdf)
 
 ## Organization of the Site
+```
 .
 ├── README.md                        This document.
 ├── compartment-explorer             Linux kernel compartment
@@ -16,6 +17,7 @@ exploerer.
 explorer.
 ├── uscope\_raid21.pdf               Full paper for μSCOPE
 
+```
 
 ## Analysis Code
 
