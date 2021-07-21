@@ -1,0 +1,136 @@
+lib/kasprintf.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L1"> 1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L2"> 2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L3"> 3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L4"> 4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L5"> 5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L6"> 6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L7"> 7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L8"> 8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L9"> 9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L10">10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L11">11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L12">12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L13">13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L14">14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L15">15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L16">16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L17">17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L18">18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L19">19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L20">20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L21">21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L22">22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L23">23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L24">24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L25">25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L26">26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L27">27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L28">28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L29">29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L30">30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L31">31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L32">32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L33">33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L34">34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L35">35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L36">36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L37">37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L38">38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L39">39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L40">40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L41">41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L42">42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L43">43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L44">44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L45">45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L46">46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L47">47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L48">48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L49">49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L50">50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L51">51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L52">52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L53">53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L54">54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L55">55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L56">56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L57">57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L58">58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L59">59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L60">60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L61">61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L62">62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/lib/kasprintf.c#L63">63</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> *  linux/lib/kasprintf.c</span>
+<span class="cm"> *</span>
+<span class="cm"> *  Copyright (C) 1991, 1992  Linus Torvalds</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;stdarg.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/export.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/slab.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/types.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/string.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/* Simplified asprintf. */</span>
+<span class="kt">char</span> <span class="o">*</span><span class="nf">kvasprintf</span><span class="p">(</span><span class="n">gfp_t</span> <span class="n">gfp</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fmt</span><span class="p">,</span> <span class="kt">va_list</span> <span class="n">ap</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+	<span class="kt">va_list</span> <span class="n">aq</span><span class="p">;</span>
+
+	<span class="n">va_copy</span><span class="p">(</span><span class="n">aq</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
+	<span class="n">first</span> <span class="o">=</span> <span class="n">vsnprintf</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">aq</span><span class="p">);</span>
+	<span class="n">va_end</span><span class="p">(</span><span class="n">aq</span><span class="p">);</span>
+
+	<span class="n">p</span> <span class="o">=</span> <span class="n">kmalloc_track_caller</span><span class="p">(</span><span class="n">first</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">gfp</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">second</span> <span class="o">=</span> <span class="n">vsnprintf</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">first</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
+	<span class="n">WARN</span><span class="p">(</span><span class="n">first</span> <span class="o">!=</span> <span class="n">second</span><span class="p">,</span> <span class="s">&quot;different return values (%u and %u) from vsnprintf(</span><span class="se">\&quot;</span><span class="s">%s</span><span class="se">\&quot;</span><span class="s">, ...)&quot;</span><span class="p">,</span>
+	     <span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">p</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">kvasprintf</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * If fmt contains no % (or is exactly %s), use kstrdup_const. If fmt</span>
+<span class="cm"> * (or the sole vararg) points to rodata, we will then save a memory</span>
+<span class="cm"> * allocation and string copy. In any case, the return value should be</span>
+<span class="cm"> * freed using kfree_const().</span>
+<span class="cm"> */</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="nf">kvasprintf_const</span><span class="p">(</span><span class="n">gfp_t</span> <span class="n">gfp</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fmt</span><span class="p">,</span> <span class="kt">va_list</span> <span class="n">ap</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">strchr</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="sc">&#39;%&#39;</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">kstrdup_const</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">gfp</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">strcmp</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="s">&quot;%s&quot;</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">kstrdup_const</span><span class="p">(</span><span class="n">va_arg</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">),</span> <span class="n">gfp</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">kvasprintf</span><span class="p">(</span><span class="n">gfp</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">kvasprintf_const</span><span class="p">);</span>
+
+<span class="kt">char</span> <span class="o">*</span><span class="nf">kasprintf</span><span class="p">(</span><span class="n">gfp_t</span> <span class="n">gfp</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span>
+<span class="p">{</span>
+	<span class="kt">va_list</span> <span class="n">ap</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+
+	<span class="n">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
+	<span class="n">p</span> <span class="o">=</span> <span class="n">kvasprintf</span><span class="p">(</span><span class="n">gfp</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
+	<span class="n">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">p</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">kasprintf</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

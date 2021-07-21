@@ -1,0 +1,790 @@
+include/linux/fsnotify_backend.h<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/fsnotify_backend.h#L390">390</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Filesystem access notification for Linux</span>
+<span class="cm"> *</span>
+<span class="cm"> *  Copyright (C) 2008 Red Hat, Inc., Eric Paris &lt;eparis@redhat.com&gt;</span>
+<span class="cm"> */</span>
+
+<span class="cp">#ifndef __LINUX_FSNOTIFY_BACKEND_H</span>
+<span class="cp">#define __LINUX_FSNOTIFY_BACKEND_H</span>
+
+<span class="cp">#ifdef __KERNEL__</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/idr.h&gt; /* inotify uses this */</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/fs.h&gt; /* struct inode */</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/list.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/path.h&gt; /* struct path */</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/spinlock.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/types.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/atomic.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * IN_* from inotfy.h lines up EXACTLY with FS_*, this is so we can easily</span>
+<span class="cm"> * convert between them.  dnotify only needs conversion at watch creation</span>
+<span class="cm"> * so no perf loss there.  fanotify isn&#39;t defined yet, so it can use the</span>
+<span class="cm"> * wholes if it needs more events.</span>
+<span class="cm"> */</span>
+<span class="cp">#define FS_ACCESS		0x00000001	</span><span class="cm">/* File was accessed */</span><span class="cp"></span>
+<span class="cp">#define FS_MODIFY		0x00000002	</span><span class="cm">/* File was modified */</span><span class="cp"></span>
+<span class="cp">#define FS_ATTRIB		0x00000004	</span><span class="cm">/* Metadata changed */</span><span class="cp"></span>
+<span class="cp">#define FS_CLOSE_WRITE		0x00000008	</span><span class="cm">/* Writtable file was closed */</span><span class="cp"></span>
+<span class="cp">#define FS_CLOSE_NOWRITE	0x00000010	</span><span class="cm">/* Unwrittable file closed */</span><span class="cp"></span>
+<span class="cp">#define FS_OPEN			0x00000020	</span><span class="cm">/* File was opened */</span><span class="cp"></span>
+<span class="cp">#define FS_MOVED_FROM		0x00000040	</span><span class="cm">/* File was moved from X */</span><span class="cp"></span>
+<span class="cp">#define FS_MOVED_TO		0x00000080	</span><span class="cm">/* File was moved to Y */</span><span class="cp"></span>
+<span class="cp">#define FS_CREATE		0x00000100	</span><span class="cm">/* Subfile was created */</span><span class="cp"></span>
+<span class="cp">#define FS_DELETE		0x00000200	</span><span class="cm">/* Subfile was deleted */</span><span class="cp"></span>
+<span class="cp">#define FS_DELETE_SELF		0x00000400	</span><span class="cm">/* Self was deleted */</span><span class="cp"></span>
+<span class="cp">#define FS_MOVE_SELF		0x00000800	</span><span class="cm">/* Self was moved */</span><span class="cp"></span>
+
+<span class="cp">#define FS_UNMOUNT		0x00002000	</span><span class="cm">/* inode on umount fs */</span><span class="cp"></span>
+<span class="cp">#define FS_Q_OVERFLOW		0x00004000	</span><span class="cm">/* Event queued overflowed */</span><span class="cp"></span>
+<span class="cp">#define FS_IN_IGNORED		0x00008000	</span><span class="cm">/* last inotify event here */</span><span class="cp"></span>
+
+<span class="cp">#define FS_OPEN_PERM		0x00010000	</span><span class="cm">/* open event in an permission hook */</span><span class="cp"></span>
+<span class="cp">#define FS_ACCESS_PERM		0x00020000	</span><span class="cm">/* access event in a permissions hook */</span><span class="cp"></span>
+
+<span class="cp">#define FS_EXCL_UNLINK		0x04000000	</span><span class="cm">/* do not send events if object is unlinked */</span><span class="cp"></span>
+<span class="cp">#define FS_ISDIR		0x40000000	</span><span class="cm">/* event occurred against dir */</span><span class="cp"></span>
+<span class="cp">#define FS_IN_ONESHOT		0x80000000	</span><span class="cm">/* only send event once */</span><span class="cp"></span>
+
+<span class="cp">#define FS_DN_RENAME		0x10000000	</span><span class="cm">/* file renamed */</span><span class="cp"></span>
+<span class="cp">#define FS_DN_MULTISHOT		0x20000000	</span><span class="cm">/* dnotify multishot */</span><span class="cp"></span>
+
+<span class="cm">/* This inode cares about things that happen to its children.  Always set for</span>
+<span class="cm"> * dnotify and inotify. */</span>
+<span class="cp">#define FS_EVENT_ON_CHILD	0x08000000</span>
+
+<span class="cm">/* This is a list of all events that may get sent to a parernt based on fs event</span>
+<span class="cm"> * happening to inodes inside that directory */</span>
+<span class="cp">#define FS_EVENTS_POSS_ON_CHILD   (FS_ACCESS | FS_MODIFY | FS_ATTRIB |\</span>
+<span class="cp">				   FS_CLOSE_WRITE | FS_CLOSE_NOWRITE | FS_OPEN |\</span>
+<span class="cp">				   FS_MOVED_FROM | FS_MOVED_TO | FS_CREATE |\</span>
+<span class="cp">				   FS_DELETE | FS_OPEN_PERM | FS_ACCESS_PERM)</span>
+
+<span class="cp">#define FS_MOVE			(FS_MOVED_FROM | FS_MOVED_TO)</span>
+
+<span class="cp">#define ALL_FSNOTIFY_PERM_EVENTS (FS_OPEN_PERM | FS_ACCESS_PERM)</span>
+
+<span class="cp">#define ALL_FSNOTIFY_EVENTS (FS_ACCESS | FS_MODIFY | FS_ATTRIB | \</span>
+<span class="cp">			     FS_CLOSE_WRITE | FS_CLOSE_NOWRITE | FS_OPEN | \</span>
+<span class="cp">			     FS_MOVED_FROM | FS_MOVED_TO | FS_CREATE | \</span>
+<span class="cp">			     FS_DELETE | FS_DELETE_SELF | FS_MOVE_SELF | \</span>
+<span class="cp">			     FS_UNMOUNT | FS_Q_OVERFLOW | FS_IN_IGNORED | \</span>
+<span class="cp">			     FS_OPEN_PERM | FS_ACCESS_PERM | FS_EXCL_UNLINK | \</span>
+<span class="cp">			     FS_ISDIR | FS_IN_ONESHOT | FS_DN_RENAME | \</span>
+<span class="cp">			     FS_DN_MULTISHOT | FS_EVENT_ON_CHILD)</span>
+
+<span class="k">struct</span> <span class="n">fsnotify_group</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">fsnotify_event</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">fsnotify_mark</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">fsnotify_event_private_data</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">fsnotify_fname</span><span class="p">;</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Each group much define these ops.  The fsnotify infrastructure will call</span>
+<span class="cm"> * these operations for each relevant group.</span>
+<span class="cm"> *</span>
+<span class="cm"> * handle_event - main call for a group to handle an fs event</span>
+<span class="cm"> * free_group_priv - called when a group refcnt hits 0 to clean up the private union</span>
+<span class="cm"> * freeing_mark - called when a mark is being destroyed for some reason.  The group</span>
+<span class="cm"> * 		MUST be holding a reference on each mark and that reference must be</span>
+<span class="cm"> * 		dropped in this function.  inotify uses this function to send</span>
+<span class="cm"> * 		userspace messages that marks have been removed.</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="n">fsnotify_ops</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">handle_event</span><span class="p">)(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">,</span>
+			    <span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span>
+			    <span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">inode_mark</span><span class="p">,</span>
+			    <span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">vfsmount_mark</span><span class="p">,</span>
+			    <span class="n">u32</span> <span class="n">mask</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">data_type</span><span class="p">,</span>
+			    <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">file_name</span><span class="p">,</span> <span class="n">u32</span> <span class="n">cookie</span><span class="p">);</span>
+	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">free_group_priv</span><span class="p">)(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">);</span>
+	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">freeing_mark</span><span class="p">)(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">);</span>
+	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">free_event</span><span class="p">)(</span><span class="k">struct</span> <span class="n">fsnotify_event</span> <span class="o">*</span><span class="n">event</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * all of the information about the original object we want to now send to</span>
+<span class="cm"> * a group.  If you want to carry more info from the accessing task to the</span>
+<span class="cm"> * listener this structure is where you need to be adding fields.</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="n">fsnotify_event</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">list</span><span class="p">;</span>
+	<span class="cm">/* inode may ONLY be dereferenced during handle_event(). */</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">;</span>	<span class="cm">/* either the inode the event happened to or its parent */</span>
+	<span class="n">u32</span> <span class="n">mask</span><span class="p">;</span>		<span class="cm">/* the type of access, bitwise OR for FS_* event types */</span>
+<span class="p">};</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * A group is a &quot;thing&quot; that wants to receive notification about filesystem</span>
+<span class="cm"> * events.  The mask holds the subset of event types this group cares about.</span>
+<span class="cm"> * refcnt on a group is up to the implementor and at any moment if it goes 0</span>
+<span class="cm"> * everything will be cleaned up.</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="p">{</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * How the refcnt is used is up to each group.  When the refcnt hits 0</span>
+<span class="cm">	 * fsnotify will clean up all of the resources associated with this group.</span>
+<span class="cm">	 * As an example, the dnotify group will always have a refcnt=1 and that</span>
+<span class="cm">	 * will never change.  Inotify, on the other hand, has a group per</span>
+<span class="cm">	 * inotify_init() and the refcnt will hit 0 only when that fd has been</span>
+<span class="cm">	 * closed.</span>
+<span class="cm">	 */</span>
+	<span class="n">atomic_t</span> <span class="n">refcnt</span><span class="p">;</span>		<span class="cm">/* things with interest in this group */</span>
+
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">fsnotify_ops</span> <span class="o">*</span><span class="n">ops</span><span class="p">;</span>	<span class="cm">/* how this group handles things */</span>
+
+	<span class="cm">/* needed to send notification to userspace */</span>
+	<span class="n">spinlock_t</span> <span class="n">notification_lock</span><span class="p">;</span>		<span class="cm">/* protect the notification_list */</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">notification_list</span><span class="p">;</span>	<span class="cm">/* list of event_holder this group needs to send to userspace */</span>
+	<span class="n">wait_queue_head_t</span> <span class="n">notification_waitq</span><span class="p">;</span>	<span class="cm">/* read() on the notification file blocks on this waitq */</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">q_len</span><span class="p">;</span>			<span class="cm">/* events on the queue */</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">max_events</span><span class="p">;</span>		<span class="cm">/* maximum events allowed on the list */</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * Valid fsnotify group priorities.  Events are send in order from highest</span>
+<span class="cm">	 * priority to lowest priority.  We default to the lowest priority.</span>
+<span class="cm">	 */</span>
+	<span class="cp">#define FS_PRIO_0	0 </span><span class="cm">/* normal notifiers, no permissions */</span><span class="cp"></span>
+	<span class="cp">#define FS_PRIO_1	1 </span><span class="cm">/* fanotify content based access control */</span><span class="cp"></span>
+	<span class="cp">#define FS_PRIO_2	2 </span><span class="cm">/* fanotify pre-content access */</span><span class="cp"></span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">priority</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">shutdown</span><span class="p">;</span>		<span class="cm">/* group is being shut down, don&#39;t queue more events */</span>
+
+	<span class="cm">/* stores all fastpath marks assoc with this group so they can be cleaned on unregister */</span>
+	<span class="k">struct</span> <span class="n">mutex</span> <span class="n">mark_mutex</span><span class="p">;</span>	<span class="cm">/* protect marks_list */</span>
+	<span class="n">atomic_t</span> <span class="n">num_marks</span><span class="p">;</span>		<span class="cm">/* 1 for each mark and 1 for not being</span>
+<span class="cm">					 * past the point of no return when freeing</span>
+<span class="cm">					 * a group */</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">marks_list</span><span class="p">;</span>	<span class="cm">/* all inode marks for this group */</span>
+
+	<span class="k">struct</span> <span class="n">fasync_struct</span> <span class="o">*</span><span class="n">fsn_fa</span><span class="p">;</span>    <span class="cm">/* async notification */</span>
+
+	<span class="k">struct</span> <span class="n">fsnotify_event</span> <span class="o">*</span><span class="n">overflow_event</span><span class="p">;</span>	<span class="cm">/* Event we queue when the</span>
+<span class="cm">						 * notification list is too</span>
+<span class="cm">						 * full */</span>
+
+	<span class="cm">/* groups can define private fields here or use the void *private */</span>
+	<span class="k">union</span> <span class="p">{</span>
+		<span class="kt">void</span> <span class="o">*</span><span class="n">private</span><span class="p">;</span>
+<span class="cp">#ifdef CONFIG_INOTIFY_USER</span>
+		<span class="k">struct</span> <span class="n">inotify_group_private_data</span> <span class="p">{</span>
+			<span class="n">spinlock_t</span>	<span class="n">idr_lock</span><span class="p">;</span>
+			<span class="k">struct</span> <span class="n">idr</span>      <span class="n">idr</span><span class="p">;</span>
+			<span class="k">struct</span> <span class="n">user_struct</span>      <span class="o">*</span><span class="n">user</span><span class="p">;</span>
+		<span class="p">}</span> <span class="n">inotify_data</span><span class="p">;</span>
+<span class="cp">#endif</span>
+<span class="cp">#ifdef CONFIG_FANOTIFY</span>
+		<span class="k">struct</span> <span class="n">fanotify_group_private_data</span> <span class="p">{</span>
+<span class="cp">#ifdef CONFIG_FANOTIFY_ACCESS_PERMISSIONS</span>
+			<span class="cm">/* allows a group to block waiting for a userspace response */</span>
+			<span class="k">struct</span> <span class="n">list_head</span> <span class="n">access_list</span><span class="p">;</span>
+			<span class="n">wait_queue_head_t</span> <span class="n">access_waitq</span><span class="p">;</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_FANOTIFY_ACCESS_PERMISSIONS */</span><span class="cp"></span>
+			<span class="kt">int</span> <span class="n">f_flags</span><span class="p">;</span>
+			<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">max_marks</span><span class="p">;</span>
+			<span class="k">struct</span> <span class="n">user_struct</span> <span class="o">*</span><span class="n">user</span><span class="p">;</span>
+		<span class="p">}</span> <span class="n">fanotify_data</span><span class="p">;</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_FANOTIFY */</span><span class="cp"></span>
+	<span class="p">};</span>
+<span class="p">};</span>
+
+<span class="cm">/* when calling fsnotify tell it if the data is a path or inode */</span>
+<span class="cp">#define FSNOTIFY_EVENT_NONE	0</span>
+<span class="cp">#define FSNOTIFY_EVENT_PATH	1</span>
+<span class="cp">#define FSNOTIFY_EVENT_INODE	2</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * A mark is simply an object attached to an in core inode which allows an</span>
+<span class="cm"> * fsnotify listener to indicate they are either no longer interested in events</span>
+<span class="cm"> * of a type matching mask or only interested in those events.</span>
+<span class="cm"> *</span>
+<span class="cm"> * These are flushed when an inode is evicted from core and may be flushed</span>
+<span class="cm"> * when the inode is modified (as seen by fsnotify_access).  Some fsnotify</span>
+<span class="cm"> * users (such as dnotify) will flush these when the open fd is closed and not</span>
+<span class="cm"> * at inode eviction or modification.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Text in brackets is showing the lock(s) protecting modifications of a</span>
+<span class="cm"> * particular entry. obj_lock means either inode-&gt;i_lock or</span>
+<span class="cm"> * mnt-&gt;mnt_root-&gt;d_lock depending on the mark type.</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="p">{</span>
+	<span class="cm">/* Mask this mark is for [mark-&gt;lock, group-&gt;mark_mutex] */</span>
+	<span class="n">__u32</span> <span class="n">mask</span><span class="p">;</span>
+	<span class="cm">/* We hold one for presence in g_list. Also one ref for each &#39;thing&#39;</span>
+<span class="cm">	 * in kernel that found and may be using this mark. */</span>
+	<span class="n">atomic_t</span> <span class="n">refcnt</span><span class="p">;</span>
+	<span class="cm">/* Group this mark is for. Set on mark creation, stable until last ref</span>
+<span class="cm">	 * is dropped */</span>
+	<span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">;</span>
+	<span class="cm">/* List of marks by group-&gt;i_fsnotify_marks. Also reused for queueing</span>
+<span class="cm">	 * mark into destroy_list when it&#39;s waiting for the end of SRCU period</span>
+<span class="cm">	 * before it can be freed. [group-&gt;mark_mutex] */</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">g_list</span><span class="p">;</span>
+	<span class="cm">/* Protects inode / mnt pointers, flags, masks */</span>
+	<span class="n">spinlock_t</span> <span class="n">lock</span><span class="p">;</span>
+	<span class="cm">/* List of marks for inode / vfsmount [obj_lock] */</span>
+	<span class="k">struct</span> <span class="n">hlist_node</span> <span class="n">obj_list</span><span class="p">;</span>
+	<span class="k">union</span> <span class="p">{</span>	<span class="cm">/* Object pointer [mark-&gt;lock, group-&gt;mark_mutex] */</span>
+		<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">;</span>	<span class="cm">/* inode this mark is associated with */</span>
+		<span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">mnt</span><span class="p">;</span>	<span class="cm">/* vfsmount this mark is associated with */</span>
+	<span class="p">};</span>
+	<span class="cm">/* Events types to ignore [mark-&gt;lock, group-&gt;mark_mutex] */</span>
+	<span class="n">__u32</span> <span class="n">ignored_mask</span><span class="p">;</span>
+<span class="cp">#define FSNOTIFY_MARK_FLAG_INODE		0x01</span>
+<span class="cp">#define FSNOTIFY_MARK_FLAG_VFSMOUNT		0x02</span>
+<span class="cp">#define FSNOTIFY_MARK_FLAG_OBJECT_PINNED	0x04</span>
+<span class="cp">#define FSNOTIFY_MARK_FLAG_IGNORED_SURV_MODIFY	0x08</span>
+<span class="cp">#define FSNOTIFY_MARK_FLAG_ALIVE		0x10</span>
+<span class="cp">#define FSNOTIFY_MARK_FLAG_ATTACHED		0x20</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">;</span>		<span class="cm">/* flags [mark-&gt;lock] */</span>
+	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">free_mark</span><span class="p">)(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">);</span> <span class="cm">/* called on final put+free */</span>
+<span class="p">};</span>
+
+<span class="cp">#ifdef CONFIG_FSNOTIFY</span>
+
+<span class="cm">/* called from the vfs helpers */</span>
+
+<span class="cm">/* main fsnotify call to send events */</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">fsnotify</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">to_tell</span><span class="p">,</span> <span class="n">__u32</span> <span class="n">mask</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">data_is</span><span class="p">,</span>
+		    <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="n">u32</span> <span class="n">cookie</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">__fsnotify_parent</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">path</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">,</span> <span class="n">__u32</span> <span class="n">mask</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">__fsnotify_inode_delete</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">__fsnotify_vfsmount_delete</span><span class="p">(</span><span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">mnt</span><span class="p">);</span>
+<span class="k">extern</span> <span class="n">u32</span> <span class="nf">fsnotify_get_cookie</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">fsnotify_inode_watches_children</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/* FS_EVENT_ON_CHILD is set if the inode may care */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_fsnotify_mask</span> <span class="o">&amp;</span> <span class="n">FS_EVENT_ON_CHILD</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="cm">/* this inode might care about child events, does it care about the</span>
+<span class="cm">	 * specific set of events that can happen on a child? */</span>
+	<span class="k">return</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_fsnotify_mask</span> <span class="o">&amp;</span> <span class="n">FS_EVENTS_POSS_ON_CHILD</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Update the dentry with a flag indicating the interest of its parent to receive</span>
+<span class="cm"> * filesystem events when those events happens to this dentry-&gt;d_inode.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">fsnotify_update_flags</span><span class="p">(</span><span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert_spin_locked</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_lock</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * Serialisation of setting PARENT_WATCHED on the dentries is provided</span>
+<span class="cm">	 * by d_lock. If inotify_inode_watched changes after we have taken</span>
+<span class="cm">	 * d_lock, the following __fsnotify_update_child_dentry_flags call will</span>
+<span class="cm">	 * find our entry, so it will spin until we complete here, and update</span>
+<span class="cm">	 * us with the new state.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">fsnotify_inode_watches_children</span><span class="p">(</span><span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_parent</span><span class="o">-&gt;</span><span class="n">d_inode</span><span class="p">))</span>
+		<span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_flags</span> <span class="o">|=</span> <span class="n">DCACHE_FSNOTIFY_PARENT_WATCHED</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">DCACHE_FSNOTIFY_PARENT_WATCHED</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* called from fsnotify listeners, such as fanotify or dnotify */</span>
+
+<span class="cm">/* create a new group */</span>
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="nf">fsnotify_alloc_group</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">fsnotify_ops</span> <span class="o">*</span><span class="n">ops</span><span class="p">);</span>
+<span class="cm">/* get reference to a group */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_get_group</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">);</span>
+<span class="cm">/* drop reference on a group from fsnotify_alloc_group */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_put_group</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">);</span>
+<span class="cm">/* group destruction begins, stop queuing new events */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_group_stop_queueing</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">);</span>
+<span class="cm">/* destroy group */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_destroy_group</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">);</span>
+<span class="cm">/* fasync handler function */</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">fsnotify_fasync</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">int</span> <span class="n">on</span><span class="p">);</span>
+<span class="cm">/* Free event from memory */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_destroy_event</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">,</span>
+				   <span class="k">struct</span> <span class="n">fsnotify_event</span> <span class="o">*</span><span class="n">event</span><span class="p">);</span>
+<span class="cm">/* attach the event to the group notification queue */</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">fsnotify_add_event</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">,</span>
+			      <span class="k">struct</span> <span class="n">fsnotify_event</span> <span class="o">*</span><span class="n">event</span><span class="p">,</span>
+			      <span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">merge</span><span class="p">)(</span><span class="k">struct</span> <span class="n">list_head</span> <span class="o">*</span><span class="p">,</span>
+					   <span class="k">struct</span> <span class="n">fsnotify_event</span> <span class="o">*</span><span class="p">));</span>
+<span class="cm">/* true if the group notification queue is empty */</span>
+<span class="k">extern</span> <span class="n">bool</span> <span class="nf">fsnotify_notify_queue_is_empty</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">);</span>
+<span class="cm">/* return, but do not dequeue the first event on the notification queue */</span>
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">fsnotify_event</span> <span class="o">*</span><span class="nf">fsnotify_peek_first_event</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">);</span>
+<span class="cm">/* return AND dequeue the first event on the notification queue */</span>
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">fsnotify_event</span> <span class="o">*</span><span class="nf">fsnotify_remove_first_event</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">);</span>
+
+<span class="cm">/* functions used to manipulate the marks attached to inodes */</span>
+
+<span class="cm">/* run all marks associated with a vfsmount and update mnt-&gt;mnt_fsnotify_mask */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_recalc_vfsmount_mask</span><span class="p">(</span><span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">mnt</span><span class="p">);</span>
+<span class="cm">/* run all marks associated with an inode and update inode-&gt;i_fsnotify_mask */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_recalc_inode_mask</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_init_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">free_mark</span><span class="p">)(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">));</span>
+<span class="cm">/* find (and take a reference) to a mark associated with group and inode */</span>
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="nf">fsnotify_find_inode_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">,</span> <span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">);</span>
+<span class="cm">/* find (and take a reference) to a mark associated with group and vfsmount */</span>
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="nf">fsnotify_find_vfsmount_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">,</span> <span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">mnt</span><span class="p">);</span>
+<span class="cm">/* set the ignored_mask of a mark */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_set_mark_ignored_mask_locked</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span> <span class="n">__u32</span> <span class="n">mask</span><span class="p">);</span>
+<span class="cm">/* set the mask of a mark (might pin the object into memory */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_set_mark_mask_locked</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span> <span class="n">__u32</span> <span class="n">mask</span><span class="p">);</span>
+<span class="cm">/* attach the mark to both the group and the inode */</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">fsnotify_add_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">,</span>
+			     <span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">mnt</span><span class="p">,</span> <span class="kt">int</span> <span class="n">allow_dups</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">fsnotify_add_mark_locked</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">,</span>
+				    <span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">mnt</span><span class="p">,</span> <span class="kt">int</span> <span class="n">allow_dups</span><span class="p">);</span>
+<span class="cm">/* given a group and a mark, flag mark to be freed when all references are dropped */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_destroy_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span>
+				  <span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">);</span>
+<span class="cm">/* detach mark from inode / mount list, group list, drop inode reference */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_detach_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">);</span>
+<span class="cm">/* free mark */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_free_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">);</span>
+<span class="cm">/* run all the marks in a group, and clear all of the vfsmount marks */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_clear_vfsmount_marks_by_group</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">);</span>
+<span class="cm">/* run all the marks in a group, and clear all of the inode marks */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_clear_inode_marks_by_group</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">);</span>
+<span class="cm">/* run all the marks in a group, and clear all of the marks where mark-&gt;flags &amp; flags is true*/</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_clear_marks_by_group_flags</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_get_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_put_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_unmount_inodes</span><span class="p">(</span><span class="k">struct</span> <span class="n">super_block</span> <span class="o">*</span><span class="n">sb</span><span class="p">);</span>
+
+<span class="cm">/* put here because inotify does some weird stuff when destroying watches */</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">fsnotify_init_event</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_event</span> <span class="o">*</span><span class="n">event</span><span class="p">,</span>
+				<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">to_tell</span><span class="p">,</span> <span class="n">u32</span> <span class="n">mask</span><span class="p">);</span>
+
+<span class="cp">#else</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">fsnotify</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">to_tell</span><span class="p">,</span> <span class="n">__u32</span> <span class="n">mask</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">data_is</span><span class="p">,</span>
+			   <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="n">u32</span> <span class="n">cookie</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">__fsnotify_parent</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">path</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">,</span> <span class="n">__u32</span> <span class="n">mask</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">__fsnotify_inode_delete</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">)</span>
+<span class="p">{}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">__fsnotify_vfsmount_delete</span><span class="p">(</span><span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">mnt</span><span class="p">)</span>
+<span class="p">{}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">fsnotify_update_flags</span><span class="p">(</span><span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">)</span>
+<span class="p">{}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">u32</span> <span class="nf">fsnotify_get_cookie</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">fsnotify_unmount_inodes</span><span class="p">(</span><span class="k">struct</span> <span class="n">super_block</span> <span class="o">*</span><span class="n">sb</span><span class="p">)</span>
+<span class="p">{}</span>
+
+<span class="cp">#endif	</span><span class="cm">/* CONFIG_FSNOTIFY */</span><span class="cp"></span>
+
+<span class="cp">#endif	</span><span class="cm">/* __KERNEL __ */</span><span class="cp"></span>
+
+<span class="cp">#endif	</span><span class="cm">/* __LINUX_FSNOTIFY_BACKEND_H */</span><span class="cp"></span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

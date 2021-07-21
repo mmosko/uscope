@@ -1,0 +1,206 @@
+lib/win_minmax.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L1"> 1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L2"> 2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L3"> 3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L4"> 4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L5"> 5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L6"> 6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L7"> 7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L8"> 8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L9"> 9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L10">10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L11">11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L12">12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L13">13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L14">14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L15">15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L16">16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L17">17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L18">18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L19">19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L20">20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L21">21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L22">22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L23">23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L24">24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L25">25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L26">26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L27">27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L28">28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L29">29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L30">30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L31">31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L32">32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L33">33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L34">34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L35">35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L36">36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L37">37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L38">38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L39">39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L40">40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L41">41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L42">42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L43">43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L44">44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L45">45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L46">46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L47">47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L48">48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L49">49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L50">50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L51">51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L52">52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L53">53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L54">54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L55">55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L56">56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L57">57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L58">58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L59">59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L60">60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L61">61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L62">62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L63">63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L64">64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L65">65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L66">66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L67">67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L68">68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L69">69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L70">70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L71">71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L72">72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L73">73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L74">74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L75">75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L76">76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L77">77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L78">78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L79">79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L80">80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L81">81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L82">82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L83">83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L84">84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L85">85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L86">86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L87">87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L88">88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L89">89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L90">90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L91">91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L92">92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L93">93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L94">94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L95">95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L96">96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L97">97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/lib/win_minmax.c#L98">98</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * lib/minmax.c: windowed min/max tracker</span>
+<span class="cm"> *</span>
+<span class="cm"> * Kathleen Nichols&#39; algorithm for tracking the minimum (or maximum)</span>
+<span class="cm"> * value of a data stream over some fixed time interval.  (E.g.,</span>
+<span class="cm"> * the minimum RTT over the past five minutes.) It uses constant</span>
+<span class="cm"> * space and constant time per update yet almost always delivers</span>
+<span class="cm"> * the same minimum as an implementation that has to keep all the</span>
+<span class="cm"> * data in the window.</span>
+<span class="cm"> *</span>
+<span class="cm"> * The algorithm keeps track of the best, 2nd best &amp; 3rd best min</span>
+<span class="cm"> * values, maintaining an invariant that the measurement time of</span>
+<span class="cm"> * the n&#39;th best &gt;= n-1&#39;th best. It also makes sure that the three</span>
+<span class="cm"> * values are widely separated in the time window since that bounds</span>
+<span class="cm"> * the worse case error when that data is monotonically increasing</span>
+<span class="cm"> * over the window.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Upon getting a new min, we can forget everything earlier because</span>
+<span class="cm"> * it has no value - the new min is &lt;= everything else in the window</span>
+<span class="cm"> * by definition and it&#39;s the most recent. So we restart fresh on</span>
+<span class="cm"> * every new min and overwrites 2nd &amp; 3rd choices. The same property</span>
+<span class="cm"> * holds for 2nd &amp; 3rd best.</span>
+<span class="cm"> */</span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/module.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/win_minmax.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/* As time advances, update the 1st, 2nd, and 3rd choices. */</span>
+<span class="k">static</span> <span class="n">u32</span> <span class="nf">minmax_subwin_update</span><span class="p">(</span><span class="k">struct</span> <span class="n">minmax</span> <span class="o">*</span><span class="n">m</span><span class="p">,</span> <span class="n">u32</span> <span class="n">win</span><span class="p">,</span>
+				<span class="k">const</span> <span class="k">struct</span> <span class="n">minmax_sample</span> <span class="o">*</span><span class="n">val</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">u32</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">val</span><span class="o">-&gt;</span><span class="n">t</span> <span class="o">-</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">t</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">dt</span> <span class="o">&gt;</span> <span class="n">win</span><span class="p">))</span> <span class="p">{</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * Passed entire window without a new val so make 2nd</span>
+<span class="cm">		 * choice the new val &amp; 3rd choice the new 2nd choice.</span>
+<span class="cm">		 * we may have to iterate this since our 2nd choice</span>
+<span class="cm">		 * may also be outside the window (we checked on entry</span>
+<span class="cm">		 * that the third choice was in the window).</span>
+<span class="cm">		 */</span>
+		<span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+		<span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+		<span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">*</span><span class="n">val</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">val</span><span class="o">-&gt;</span><span class="n">t</span> <span class="o">-</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">t</span> <span class="o">&gt;</span> <span class="n">win</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+			<span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+			<span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">*</span><span class="n">val</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">t</span> <span class="o">==</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">t</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">dt</span> <span class="o">&gt;</span> <span class="n">win</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * We&#39;ve passed a quarter of the window without a new val</span>
+<span class="cm">		 * so take a 2nd choice from the 2nd quarter of the window.</span>
+<span class="cm">		 */</span>
+		<span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">*</span><span class="n">val</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">t</span> <span class="o">==</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">t</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">dt</span> <span class="o">&gt;</span> <span class="n">win</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * We&#39;ve passed half the window without finding a new val</span>
+<span class="cm">		 * so take a 3rd choice from the last half of the window</span>
+<span class="cm">		 */</span>
+		<span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">*</span><span class="n">val</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Check if new measurement updates the 1st, 2nd or 3rd choice max. */</span>
+<span class="n">u32</span> <span class="nf">minmax_running_max</span><span class="p">(</span><span class="k">struct</span> <span class="n">minmax</span> <span class="o">*</span><span class="n">m</span><span class="p">,</span> <span class="n">u32</span> <span class="n">win</span><span class="p">,</span> <span class="n">u32</span> <span class="n">t</span><span class="p">,</span> <span class="n">u32</span> <span class="n">meas</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">minmax_sample</span> <span class="n">val</span> <span class="o">=</span> <span class="p">{</span> <span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">,</span> <span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">meas</span> <span class="p">};</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">val</span><span class="p">.</span><span class="n">v</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v</span><span class="p">)</span> <span class="o">||</span>	  <span class="cm">/* found new max? */</span>
+	    <span class="n">unlikely</span><span class="p">(</span><span class="n">val</span><span class="p">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">t</span> <span class="o">&gt;</span> <span class="n">win</span><span class="p">))</span>	  <span class="cm">/* nothing left in window? */</span>
+		<span class="k">return</span> <span class="n">minmax_reset</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">meas</span><span class="p">);</span>  <span class="cm">/* forget earlier samples */</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">val</span><span class="p">.</span><span class="n">v</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">v</span><span class="p">))</span>
+		<span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">val</span><span class="p">.</span><span class="n">v</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">v</span><span class="p">))</span>
+		<span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">minmax_subwin_update</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">val</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">minmax_running_max</span><span class="p">);</span>
+
+<span class="cm">/* Check if new measurement updates the 1st, 2nd or 3rd choice min. */</span>
+<span class="n">u32</span> <span class="nf">minmax_running_min</span><span class="p">(</span><span class="k">struct</span> <span class="n">minmax</span> <span class="o">*</span><span class="n">m</span><span class="p">,</span> <span class="n">u32</span> <span class="n">win</span><span class="p">,</span> <span class="n">u32</span> <span class="n">t</span><span class="p">,</span> <span class="n">u32</span> <span class="n">meas</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">minmax_sample</span> <span class="n">val</span> <span class="o">=</span> <span class="p">{</span> <span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">,</span> <span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">meas</span> <span class="p">};</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">val</span><span class="p">.</span><span class="n">v</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v</span><span class="p">)</span> <span class="o">||</span>	  <span class="cm">/* found new min? */</span>
+	    <span class="n">unlikely</span><span class="p">(</span><span class="n">val</span><span class="p">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">t</span> <span class="o">&gt;</span> <span class="n">win</span><span class="p">))</span>	  <span class="cm">/* nothing left in window? */</span>
+		<span class="k">return</span> <span class="n">minmax_reset</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">meas</span><span class="p">);</span>  <span class="cm">/* forget earlier samples */</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">val</span><span class="p">.</span><span class="n">v</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">v</span><span class="p">))</span>
+		<span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">val</span><span class="p">.</span><span class="n">v</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">v</span><span class="p">))</span>
+		<span class="n">m</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">minmax_subwin_update</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">val</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

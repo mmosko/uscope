@@ -1,0 +1,210 @@
+security/integrity/evm/evm_secfs.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_secfs.c#L100">100</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Copyright (C) 2010 IBM Corporation</span>
+<span class="cm"> *</span>
+<span class="cm"> * Authors:</span>
+<span class="cm"> * Mimi Zohar &lt;zohar@us.ibm.com&gt;</span>
+<span class="cm"> *</span>
+<span class="cm"> * This program is free software; you can redistribute it and/or modify</span>
+<span class="cm"> * it under the terms of the GNU General Public License as published by</span>
+<span class="cm"> * the Free Software Foundation, version 2 of the License.</span>
+<span class="cm"> *</span>
+<span class="cm"> * File: evm_secfs.c</span>
+<span class="cm"> *	- Used to signal when key is on keyring</span>
+<span class="cm"> *	- Get the key and enable EVM</span>
+<span class="cm"> */</span>
+
+<span class="cp">#define pr_fmt(fmt) KBUILD_MODNAME &quot;: &quot; fmt</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/uaccess.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/module.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;evm.h&quot;</span><span class="cp"></span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">evm_init_tpm</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * evm_read_key - read() for &lt;securityfs&gt;/evm</span>
+<span class="cm"> *</span>
+<span class="cm"> * @filp: file pointer, not actually used</span>
+<span class="cm"> * @buf: where to put the result</span>
+<span class="cm"> * @count: maximum to send along</span>
+<span class="cm"> * @ppos: where to start</span>
+<span class="cm"> *</span>
+<span class="cm"> * Returns number of bytes read or error code, as appropriate</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="n">ssize_t</span> <span class="nf">evm_read_key</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">filp</span><span class="p">,</span> <span class="kt">char</span> <span class="n">__user</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span>
+			    <span class="n">size_t</span> <span class="n">count</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="n">ppos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">temp</span><span class="p">[</span><span class="mi">80</span><span class="p">];</span>
+	<span class="n">ssize_t</span> <span class="n">rc</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">ppos</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">sprintf</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="n">evm_initialized</span><span class="p">);</span>
+	<span class="n">rc</span> <span class="o">=</span> <span class="n">simple_read_from_buffer</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">ppos</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">temp</span><span class="p">));</span>
+
+	<span class="k">return</span> <span class="n">rc</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * evm_write_key - write() for &lt;securityfs&gt;/evm</span>
+<span class="cm"> * @file: file pointer, not actually used</span>
+<span class="cm"> * @buf: where to get the data from</span>
+<span class="cm"> * @count: bytes sent</span>
+<span class="cm"> * @ppos: where to start</span>
+<span class="cm"> *</span>
+<span class="cm"> * Used to signal that key is on the kernel key ring.</span>
+<span class="cm"> * - get the integrity hmac key from the kernel key ring</span>
+<span class="cm"> * - create list of hmac protected extended attributes</span>
+<span class="cm"> * Returns number of bytes written or error code, as appropriate</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="n">ssize_t</span> <span class="nf">evm_write_key</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">__user</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span>
+			     <span class="n">size_t</span> <span class="n">count</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="n">ppos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">temp</span><span class="p">[</span><span class="mi">80</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">capable</span><span class="p">(</span><span class="n">CAP_SYS_ADMIN</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">evm_initialized</span> <span class="o">&amp;</span> <span class="n">EVM_INIT_HMAC</span><span class="p">))</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EPERM</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&gt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span> <span class="o">||</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">copy_from_user</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EFAULT</span><span class="p">;</span>
+
+	<span class="n">temp</span><span class="p">[</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">sscanf</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">i</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">i</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">))</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+
+	<span class="n">evm_init_key</span><span class="p">();</span>
+
+	<span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">file_operations</span> <span class="n">evm_key_ops</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">read</span>		<span class="o">=</span> <span class="n">evm_read_key</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">write</span>		<span class="o">=</span> <span class="n">evm_write_key</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="n">__init</span> <span class="nf">evm_init_secfs</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">error</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">evm_init_tpm</span> <span class="o">=</span> <span class="n">securityfs_create_file</span><span class="p">(</span><span class="s">&quot;evm&quot;</span><span class="p">,</span> <span class="n">S_IRUSR</span> <span class="o">|</span> <span class="n">S_IRGRP</span><span class="p">,</span>
+					      <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">evm_key_ops</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">evm_init_tpm</span> <span class="o">||</span> <span class="n">IS_ERR</span><span class="p">(</span><span class="n">evm_init_tpm</span><span class="p">))</span>
+		<span class="n">error</span> <span class="o">=</span> <span class="o">-</span><span class="n">EFAULT</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">error</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

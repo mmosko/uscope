@@ -1,0 +1,64 @@
+security/integrity/evm/evm_posix_acl.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L1"> 1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L2"> 2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L3"> 3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L4"> 4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L5"> 5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L6"> 6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L7"> 7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L8"> 8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L9"> 9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L10">10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L11">11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L12">12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L13">13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L14">14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L15">15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L16">16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L17">17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L18">18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L19">19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L20">20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L21">21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L22">22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L23">23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L24">24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L25">25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L26">26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/security/integrity/evm/evm_posix_acl.c#L27">27</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Copyright (C) 2011 IBM Corporation</span>
+<span class="cm"> *</span>
+<span class="cm"> * Author:</span>
+<span class="cm"> * Mimi Zohar &lt;zohar@us.ibm.com&gt;</span>
+<span class="cm"> *</span>
+<span class="cm"> * This program is free software; you can redistribute it and/or modify</span>
+<span class="cm"> * it under the terms of the GNU General Public License as published by</span>
+<span class="cm"> * the Free Software Foundation, version 2 of the License.</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/module.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/xattr.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/evm.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">posix_xattr_acl</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">xattr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">xattr_len</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">xattr</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">strlen</span><span class="p">(</span><span class="n">XATTR_NAME_POSIX_ACL_ACCESS</span><span class="p">)</span> <span class="o">==</span> <span class="n">xattr_len</span><span class="p">)</span>
+	     <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">strncmp</span><span class="p">(</span><span class="n">XATTR_NAME_POSIX_ACL_ACCESS</span><span class="p">,</span> <span class="n">xattr</span><span class="p">,</span> <span class="n">xattr_len</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">((</span><span class="n">strlen</span><span class="p">(</span><span class="n">XATTR_NAME_POSIX_ACL_DEFAULT</span><span class="p">)</span> <span class="o">==</span> <span class="n">xattr_len</span><span class="p">)</span>
+	     <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">strncmp</span><span class="p">(</span><span class="n">XATTR_NAME_POSIX_ACL_DEFAULT</span><span class="p">,</span> <span class="n">xattr</span><span class="p">,</span> <span class="n">xattr_len</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

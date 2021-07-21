@@ -1,0 +1,1360 @@
+kernel/rcu/srcu.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L390">390</a>
+<a name="L391" id="L391" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L391">391</a>
+<a name="L392" id="L392" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L392">392</a>
+<a name="L393" id="L393" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L393">393</a>
+<a name="L394" id="L394" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L394">394</a>
+<a name="L395" id="L395" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L395">395</a>
+<a name="L396" id="L396" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L396">396</a>
+<a name="L397" id="L397" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L397">397</a>
+<a name="L398" id="L398" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L398">398</a>
+<a name="L399" id="L399" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L399">399</a>
+<a name="L400" id="L400" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L400">400</a>
+<a name="L401" id="L401" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L401">401</a>
+<a name="L402" id="L402" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L402">402</a>
+<a name="L403" id="L403" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L403">403</a>
+<a name="L404" id="L404" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L404">404</a>
+<a name="L405" id="L405" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L405">405</a>
+<a name="L406" id="L406" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L406">406</a>
+<a name="L407" id="L407" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L407">407</a>
+<a name="L408" id="L408" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L408">408</a>
+<a name="L409" id="L409" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L409">409</a>
+<a name="L410" id="L410" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L410">410</a>
+<a name="L411" id="L411" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L411">411</a>
+<a name="L412" id="L412" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L412">412</a>
+<a name="L413" id="L413" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L413">413</a>
+<a name="L414" id="L414" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L414">414</a>
+<a name="L415" id="L415" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L415">415</a>
+<a name="L416" id="L416" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L416">416</a>
+<a name="L417" id="L417" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L417">417</a>
+<a name="L418" id="L418" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L418">418</a>
+<a name="L419" id="L419" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L419">419</a>
+<a name="L420" id="L420" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L420">420</a>
+<a name="L421" id="L421" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L421">421</a>
+<a name="L422" id="L422" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L422">422</a>
+<a name="L423" id="L423" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L423">423</a>
+<a name="L424" id="L424" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L424">424</a>
+<a name="L425" id="L425" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L425">425</a>
+<a name="L426" id="L426" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L426">426</a>
+<a name="L427" id="L427" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L427">427</a>
+<a name="L428" id="L428" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L428">428</a>
+<a name="L429" id="L429" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L429">429</a>
+<a name="L430" id="L430" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L430">430</a>
+<a name="L431" id="L431" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L431">431</a>
+<a name="L432" id="L432" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L432">432</a>
+<a name="L433" id="L433" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L433">433</a>
+<a name="L434" id="L434" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L434">434</a>
+<a name="L435" id="L435" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L435">435</a>
+<a name="L436" id="L436" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L436">436</a>
+<a name="L437" id="L437" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L437">437</a>
+<a name="L438" id="L438" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L438">438</a>
+<a name="L439" id="L439" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L439">439</a>
+<a name="L440" id="L440" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L440">440</a>
+<a name="L441" id="L441" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L441">441</a>
+<a name="L442" id="L442" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L442">442</a>
+<a name="L443" id="L443" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L443">443</a>
+<a name="L444" id="L444" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L444">444</a>
+<a name="L445" id="L445" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L445">445</a>
+<a name="L446" id="L446" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L446">446</a>
+<a name="L447" id="L447" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L447">447</a>
+<a name="L448" id="L448" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L448">448</a>
+<a name="L449" id="L449" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L449">449</a>
+<a name="L450" id="L450" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L450">450</a>
+<a name="L451" id="L451" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L451">451</a>
+<a name="L452" id="L452" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L452">452</a>
+<a name="L453" id="L453" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L453">453</a>
+<a name="L454" id="L454" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L454">454</a>
+<a name="L455" id="L455" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L455">455</a>
+<a name="L456" id="L456" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L456">456</a>
+<a name="L457" id="L457" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L457">457</a>
+<a name="L458" id="L458" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L458">458</a>
+<a name="L459" id="L459" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L459">459</a>
+<a name="L460" id="L460" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L460">460</a>
+<a name="L461" id="L461" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L461">461</a>
+<a name="L462" id="L462" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L462">462</a>
+<a name="L463" id="L463" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L463">463</a>
+<a name="L464" id="L464" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L464">464</a>
+<a name="L465" id="L465" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L465">465</a>
+<a name="L466" id="L466" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L466">466</a>
+<a name="L467" id="L467" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L467">467</a>
+<a name="L468" id="L468" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L468">468</a>
+<a name="L469" id="L469" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L469">469</a>
+<a name="L470" id="L470" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L470">470</a>
+<a name="L471" id="L471" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L471">471</a>
+<a name="L472" id="L472" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L472">472</a>
+<a name="L473" id="L473" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L473">473</a>
+<a name="L474" id="L474" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L474">474</a>
+<a name="L475" id="L475" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L475">475</a>
+<a name="L476" id="L476" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L476">476</a>
+<a name="L477" id="L477" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L477">477</a>
+<a name="L478" id="L478" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L478">478</a>
+<a name="L479" id="L479" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L479">479</a>
+<a name="L480" id="L480" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L480">480</a>
+<a name="L481" id="L481" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L481">481</a>
+<a name="L482" id="L482" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L482">482</a>
+<a name="L483" id="L483" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L483">483</a>
+<a name="L484" id="L484" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L484">484</a>
+<a name="L485" id="L485" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L485">485</a>
+<a name="L486" id="L486" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L486">486</a>
+<a name="L487" id="L487" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L487">487</a>
+<a name="L488" id="L488" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L488">488</a>
+<a name="L489" id="L489" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L489">489</a>
+<a name="L490" id="L490" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L490">490</a>
+<a name="L491" id="L491" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L491">491</a>
+<a name="L492" id="L492" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L492">492</a>
+<a name="L493" id="L493" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L493">493</a>
+<a name="L494" id="L494" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L494">494</a>
+<a name="L495" id="L495" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L495">495</a>
+<a name="L496" id="L496" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L496">496</a>
+<a name="L497" id="L497" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L497">497</a>
+<a name="L498" id="L498" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L498">498</a>
+<a name="L499" id="L499" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L499">499</a>
+<a name="L500" id="L500" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L500">500</a>
+<a name="L501" id="L501" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L501">501</a>
+<a name="L502" id="L502" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L502">502</a>
+<a name="L503" id="L503" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L503">503</a>
+<a name="L504" id="L504" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L504">504</a>
+<a name="L505" id="L505" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L505">505</a>
+<a name="L506" id="L506" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L506">506</a>
+<a name="L507" id="L507" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L507">507</a>
+<a name="L508" id="L508" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L508">508</a>
+<a name="L509" id="L509" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L509">509</a>
+<a name="L510" id="L510" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L510">510</a>
+<a name="L511" id="L511" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L511">511</a>
+<a name="L512" id="L512" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L512">512</a>
+<a name="L513" id="L513" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L513">513</a>
+<a name="L514" id="L514" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L514">514</a>
+<a name="L515" id="L515" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L515">515</a>
+<a name="L516" id="L516" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L516">516</a>
+<a name="L517" id="L517" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L517">517</a>
+<a name="L518" id="L518" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L518">518</a>
+<a name="L519" id="L519" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L519">519</a>
+<a name="L520" id="L520" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L520">520</a>
+<a name="L521" id="L521" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L521">521</a>
+<a name="L522" id="L522" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L522">522</a>
+<a name="L523" id="L523" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L523">523</a>
+<a name="L524" id="L524" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L524">524</a>
+<a name="L525" id="L525" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L525">525</a>
+<a name="L526" id="L526" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L526">526</a>
+<a name="L527" id="L527" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L527">527</a>
+<a name="L528" id="L528" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L528">528</a>
+<a name="L529" id="L529" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L529">529</a>
+<a name="L530" id="L530" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L530">530</a>
+<a name="L531" id="L531" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L531">531</a>
+<a name="L532" id="L532" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L532">532</a>
+<a name="L533" id="L533" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L533">533</a>
+<a name="L534" id="L534" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L534">534</a>
+<a name="L535" id="L535" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L535">535</a>
+<a name="L536" id="L536" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L536">536</a>
+<a name="L537" id="L537" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L537">537</a>
+<a name="L538" id="L538" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L538">538</a>
+<a name="L539" id="L539" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L539">539</a>
+<a name="L540" id="L540" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L540">540</a>
+<a name="L541" id="L541" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L541">541</a>
+<a name="L542" id="L542" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L542">542</a>
+<a name="L543" id="L543" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L543">543</a>
+<a name="L544" id="L544" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L544">544</a>
+<a name="L545" id="L545" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L545">545</a>
+<a name="L546" id="L546" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L546">546</a>
+<a name="L547" id="L547" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L547">547</a>
+<a name="L548" id="L548" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L548">548</a>
+<a name="L549" id="L549" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L549">549</a>
+<a name="L550" id="L550" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L550">550</a>
+<a name="L551" id="L551" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L551">551</a>
+<a name="L552" id="L552" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L552">552</a>
+<a name="L553" id="L553" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L553">553</a>
+<a name="L554" id="L554" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L554">554</a>
+<a name="L555" id="L555" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L555">555</a>
+<a name="L556" id="L556" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L556">556</a>
+<a name="L557" id="L557" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L557">557</a>
+<a name="L558" id="L558" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L558">558</a>
+<a name="L559" id="L559" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L559">559</a>
+<a name="L560" id="L560" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L560">560</a>
+<a name="L561" id="L561" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L561">561</a>
+<a name="L562" id="L562" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L562">562</a>
+<a name="L563" id="L563" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L563">563</a>
+<a name="L564" id="L564" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L564">564</a>
+<a name="L565" id="L565" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L565">565</a>
+<a name="L566" id="L566" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L566">566</a>
+<a name="L567" id="L567" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L567">567</a>
+<a name="L568" id="L568" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L568">568</a>
+<a name="L569" id="L569" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L569">569</a>
+<a name="L570" id="L570" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L570">570</a>
+<a name="L571" id="L571" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L571">571</a>
+<a name="L572" id="L572" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L572">572</a>
+<a name="L573" id="L573" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L573">573</a>
+<a name="L574" id="L574" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L574">574</a>
+<a name="L575" id="L575" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L575">575</a>
+<a name="L576" id="L576" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L576">576</a>
+<a name="L577" id="L577" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L577">577</a>
+<a name="L578" id="L578" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L578">578</a>
+<a name="L579" id="L579" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L579">579</a>
+<a name="L580" id="L580" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L580">580</a>
+<a name="L581" id="L581" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L581">581</a>
+<a name="L582" id="L582" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L582">582</a>
+<a name="L583" id="L583" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L583">583</a>
+<a name="L584" id="L584" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L584">584</a>
+<a name="L585" id="L585" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L585">585</a>
+<a name="L586" id="L586" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L586">586</a>
+<a name="L587" id="L587" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L587">587</a>
+<a name="L588" id="L588" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L588">588</a>
+<a name="L589" id="L589" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L589">589</a>
+<a name="L590" id="L590" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L590">590</a>
+<a name="L591" id="L591" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L591">591</a>
+<a name="L592" id="L592" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L592">592</a>
+<a name="L593" id="L593" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L593">593</a>
+<a name="L594" id="L594" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L594">594</a>
+<a name="L595" id="L595" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L595">595</a>
+<a name="L596" id="L596" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L596">596</a>
+<a name="L597" id="L597" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L597">597</a>
+<a name="L598" id="L598" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L598">598</a>
+<a name="L599" id="L599" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L599">599</a>
+<a name="L600" id="L600" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L600">600</a>
+<a name="L601" id="L601" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L601">601</a>
+<a name="L602" id="L602" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L602">602</a>
+<a name="L603" id="L603" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L603">603</a>
+<a name="L604" id="L604" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L604">604</a>
+<a name="L605" id="L605" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L605">605</a>
+<a name="L606" id="L606" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L606">606</a>
+<a name="L607" id="L607" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L607">607</a>
+<a name="L608" id="L608" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L608">608</a>
+<a name="L609" id="L609" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L609">609</a>
+<a name="L610" id="L610" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L610">610</a>
+<a name="L611" id="L611" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L611">611</a>
+<a name="L612" id="L612" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L612">612</a>
+<a name="L613" id="L613" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L613">613</a>
+<a name="L614" id="L614" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L614">614</a>
+<a name="L615" id="L615" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L615">615</a>
+<a name="L616" id="L616" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L616">616</a>
+<a name="L617" id="L617" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L617">617</a>
+<a name="L618" id="L618" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L618">618</a>
+<a name="L619" id="L619" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L619">619</a>
+<a name="L620" id="L620" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L620">620</a>
+<a name="L621" id="L621" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L621">621</a>
+<a name="L622" id="L622" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L622">622</a>
+<a name="L623" id="L623" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L623">623</a>
+<a name="L624" id="L624" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L624">624</a>
+<a name="L625" id="L625" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L625">625</a>
+<a name="L626" id="L626" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L626">626</a>
+<a name="L627" id="L627" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L627">627</a>
+<a name="L628" id="L628" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L628">628</a>
+<a name="L629" id="L629" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L629">629</a>
+<a name="L630" id="L630" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L630">630</a>
+<a name="L631" id="L631" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L631">631</a>
+<a name="L632" id="L632" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L632">632</a>
+<a name="L633" id="L633" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L633">633</a>
+<a name="L634" id="L634" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L634">634</a>
+<a name="L635" id="L635" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L635">635</a>
+<a name="L636" id="L636" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L636">636</a>
+<a name="L637" id="L637" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L637">637</a>
+<a name="L638" id="L638" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L638">638</a>
+<a name="L639" id="L639" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L639">639</a>
+<a name="L640" id="L640" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L640">640</a>
+<a name="L641" id="L641" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L641">641</a>
+<a name="L642" id="L642" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L642">642</a>
+<a name="L643" id="L643" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L643">643</a>
+<a name="L644" id="L644" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L644">644</a>
+<a name="L645" id="L645" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L645">645</a>
+<a name="L646" id="L646" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L646">646</a>
+<a name="L647" id="L647" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L647">647</a>
+<a name="L648" id="L648" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L648">648</a>
+<a name="L649" id="L649" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L649">649</a>
+<a name="L650" id="L650" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L650">650</a>
+<a name="L651" id="L651" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L651">651</a>
+<a name="L652" id="L652" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L652">652</a>
+<a name="L653" id="L653" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L653">653</a>
+<a name="L654" id="L654" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L654">654</a>
+<a name="L655" id="L655" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L655">655</a>
+<a name="L656" id="L656" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L656">656</a>
+<a name="L657" id="L657" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L657">657</a>
+<a name="L658" id="L658" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L658">658</a>
+<a name="L659" id="L659" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L659">659</a>
+<a name="L660" id="L660" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L660">660</a>
+<a name="L661" id="L661" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L661">661</a>
+<a name="L662" id="L662" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L662">662</a>
+<a name="L663" id="L663" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L663">663</a>
+<a name="L664" id="L664" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L664">664</a>
+<a name="L665" id="L665" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L665">665</a>
+<a name="L666" id="L666" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L666">666</a>
+<a name="L667" id="L667" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L667">667</a>
+<a name="L668" id="L668" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L668">668</a>
+<a name="L669" id="L669" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L669">669</a>
+<a name="L670" id="L670" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L670">670</a>
+<a name="L671" id="L671" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L671">671</a>
+<a name="L672" id="L672" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L672">672</a>
+<a name="L673" id="L673" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L673">673</a>
+<a name="L674" id="L674" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L674">674</a>
+<a name="L675" id="L675" href="https://uscope-linux.github.io/object_explorer/linux/kernel/rcu/srcu.c#L675">675</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Sleepable Read-Copy Update mechanism for mutual exclusion.</span>
+<span class="cm"> *</span>
+<span class="cm"> * This program is free software; you can redistribute it and/or modify</span>
+<span class="cm"> * it under the terms of the GNU General Public License as published by</span>
+<span class="cm"> * the Free Software Foundation; either version 2 of the License, or</span>
+<span class="cm"> * (at your option) any later version.</span>
+<span class="cm"> *</span>
+<span class="cm"> * This program is distributed in the hope that it will be useful,</span>
+<span class="cm"> * but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="cm"> * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="cm"> * GNU General Public License for more details.</span>
+<span class="cm"> *</span>
+<span class="cm"> * You should have received a copy of the GNU General Public License</span>
+<span class="cm"> * along with this program; if not, you can access it online at</span>
+<span class="cm"> * http://www.gnu.org/licenses/gpl-2.0.html.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Copyright (C) IBM Corporation, 2006</span>
+<span class="cm"> * Copyright (C) Fujitsu, 2012</span>
+<span class="cm"> *</span>
+<span class="cm"> * Author: Paul McKenney &lt;paulmck@us.ibm.com&gt;</span>
+<span class="cm"> *	   Lai Jiangshan &lt;laijs@cn.fujitsu.com&gt;</span>
+<span class="cm"> *</span>
+<span class="cm"> * For detailed explanation of Read-Copy Update mechanism see -</span>
+<span class="cm"> * 		Documentation/RCU/ *.txt</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/export.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/mutex.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/percpu.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/preempt.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/rcupdate.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/sched.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/smp.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/delay.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/srcu.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;rcu.h&quot;</span><span class="cp"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Initialize an rcu_batch structure to empty.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">rcu_batch_init</span><span class="p">(</span><span class="k">struct</span> <span class="n">rcu_batch</span> <span class="o">*</span><span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">b</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">b</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">b</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Enqueue a callback onto the tail of the specified rcu_batch structure.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">rcu_batch_queue</span><span class="p">(</span><span class="k">struct</span> <span class="n">rcu_batch</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="k">struct</span> <span class="n">rcu_head</span> <span class="o">*</span><span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="o">*</span><span class="n">b</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+	<span class="n">b</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Is the specified rcu_batch structure empty?</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">bool</span> <span class="nf">rcu_batch_empty</span><span class="p">(</span><span class="k">struct</span> <span class="n">rcu_batch</span> <span class="o">*</span><span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">b</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Remove the callback at the head of the specified rcu_batch structure</span>
+<span class="cm"> * and return a pointer to it, or return NULL if the structure is empty.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="k">struct</span> <span class="n">rcu_head</span> <span class="o">*</span><span class="nf">rcu_batch_dequeue</span><span class="p">(</span><span class="k">struct</span> <span class="n">rcu_batch</span> <span class="o">*</span><span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">rcu_head</span> <span class="o">*</span><span class="n">head</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">rcu_batch_empty</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">head</span> <span class="o">=</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">;</span>
+	<span class="n">b</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">b</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span>
+		<span class="n">rcu_batch_init</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">head</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Move all callbacks from the rcu_batch structure specified by &quot;from&quot; to</span>
+<span class="cm"> * the structure specified by &quot;to&quot;.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">rcu_batch_move</span><span class="p">(</span><span class="k">struct</span> <span class="n">rcu_batch</span> <span class="o">*</span><span class="n">to</span><span class="p">,</span> <span class="k">struct</span> <span class="n">rcu_batch</span> <span class="o">*</span><span class="n">from</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">rcu_batch_empty</span><span class="p">(</span><span class="n">from</span><span class="p">))</span> <span class="p">{</span>
+		<span class="o">*</span><span class="n">to</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">=</span> <span class="n">from</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">;</span>
+		<span class="n">to</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">=</span> <span class="n">from</span><span class="o">-&gt;</span><span class="n">tail</span><span class="p">;</span>
+		<span class="n">rcu_batch_init</span><span class="p">(</span><span class="n">from</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">init_srcu_struct_fields</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">sp</span><span class="o">-&gt;</span><span class="n">completed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">spin_lock_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">queue_lock</span><span class="p">);</span>
+	<span class="n">sp</span><span class="o">-&gt;</span><span class="n">running</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+	<span class="n">rcu_batch_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_queue</span><span class="p">);</span>
+	<span class="n">rcu_batch_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check0</span><span class="p">);</span>
+	<span class="n">rcu_batch_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check1</span><span class="p">);</span>
+	<span class="n">rcu_batch_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_done</span><span class="p">);</span>
+	<span class="n">INIT_DELAYED_WORK</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">work</span><span class="p">,</span> <span class="n">process_srcu</span><span class="p">);</span>
+	<span class="n">sp</span><span class="o">-&gt;</span><span class="n">per_cpu_ref</span> <span class="o">=</span> <span class="n">alloc_percpu</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct_array</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">sp</span><span class="o">-&gt;</span><span class="n">per_cpu_ref</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#ifdef CONFIG_DEBUG_LOCK_ALLOC</span>
+
+<span class="kt">int</span> <span class="nf">__init_srcu_struct</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span>
+		       <span class="k">struct</span> <span class="n">lock_class_key</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/* Don&#39;t re-initialize a lock while it is held. */</span>
+	<span class="n">debug_check_no_locks_freed</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">sp</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">sp</span><span class="p">));</span>
+	<span class="n">lockdep_init_map</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">dep_map</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">init_srcu_struct_fields</span><span class="p">(</span><span class="n">sp</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">__init_srcu_struct</span><span class="p">);</span>
+
+<span class="cp">#else </span><span class="cm">/* #ifdef CONFIG_DEBUG_LOCK_ALLOC */</span><span class="cp"></span>
+
+<span class="cm">/**</span>
+<span class="cm"> * init_srcu_struct - initialize a sleep-RCU structure</span>
+<span class="cm"> * @sp: structure to initialize.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Must invoke this on a given srcu_struct before passing that srcu_struct</span>
+<span class="cm"> * to any other function.  Each srcu_struct represents a separate domain</span>
+<span class="cm"> * of SRCU protection.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">init_srcu_struct</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">init_srcu_struct_fields</span><span class="p">(</span><span class="n">sp</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">init_srcu_struct</span><span class="p">);</span>
+
+<span class="cp">#endif </span><span class="cm">/* #else #ifdef CONFIG_DEBUG_LOCK_ALLOC */</span><span class="cp"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Returns approximate total of the readers&#39; -&gt;seq[] values for the</span>
+<span class="cm"> * rank of per-CPU counters specified by idx.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="nf">srcu_readers_seq_idx</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">idx</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">cpu</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">t</span><span class="p">;</span>
+
+	<span class="n">for_each_possible_cpu</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">t</span> <span class="o">=</span> <span class="n">READ_ONCE</span><span class="p">(</span><span class="n">per_cpu_ptr</span><span class="p">(</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">per_cpu_ref</span><span class="p">,</span> <span class="n">cpu</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">seq</span><span class="p">[</span><span class="n">idx</span><span class="p">]);</span>
+		<span class="n">sum</span> <span class="o">+=</span> <span class="n">t</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Returns approximate number of readers active on the specified rank</span>
+<span class="cm"> * of the per-CPU -&gt;c[] counters.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="nf">srcu_readers_active_idx</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">idx</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">cpu</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">t</span><span class="p">;</span>
+
+	<span class="n">for_each_possible_cpu</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">t</span> <span class="o">=</span> <span class="n">READ_ONCE</span><span class="p">(</span><span class="n">per_cpu_ptr</span><span class="p">(</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">per_cpu_ref</span><span class="p">,</span> <span class="n">cpu</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">c</span><span class="p">[</span><span class="n">idx</span><span class="p">]);</span>
+		<span class="n">sum</span> <span class="o">+=</span> <span class="n">t</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Return true if the number of pre-existing readers is determined to</span>
+<span class="cm"> * be stably zero.  An example unstable zero can occur if the call</span>
+<span class="cm"> * to srcu_readers_active_idx() misses an __srcu_read_lock() increment,</span>
+<span class="cm"> * but due to task migration, sees the corresponding __srcu_read_unlock()</span>
+<span class="cm"> * decrement.  This can happen because srcu_readers_active_idx() takes</span>
+<span class="cm"> * time to sum the array, and might in fact be interrupted or preempted</span>
+<span class="cm"> * partway through the summation.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="n">bool</span> <span class="nf">srcu_readers_active_idx_check</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">idx</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">seq</span><span class="p">;</span>
+
+	<span class="n">seq</span> <span class="o">=</span> <span class="n">srcu_readers_seq_idx</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">idx</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * The following smp_mb() A pairs with the smp_mb() B located in</span>
+<span class="cm">	 * __srcu_read_lock().  This pairing ensures that if an</span>
+<span class="cm">	 * __srcu_read_lock() increments its counter after the summation</span>
+<span class="cm">	 * in srcu_readers_active_idx(), then the corresponding SRCU read-side</span>
+<span class="cm">	 * critical section will see any changes made prior to the start</span>
+<span class="cm">	 * of the current SRCU grace period.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * Also, if the above call to srcu_readers_seq_idx() saw the</span>
+<span class="cm">	 * increment of -&gt;seq[], then the call to srcu_readers_active_idx()</span>
+<span class="cm">	 * must see the increment of -&gt;c[].</span>
+<span class="cm">	 */</span>
+	<span class="n">smp_mb</span><span class="p">();</span> <span class="cm">/* A */</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * Note that srcu_readers_active_idx() can incorrectly return</span>
+<span class="cm">	 * zero even though there is a pre-existing reader throughout.</span>
+<span class="cm">	 * To see this, suppose that task A is in a very long SRCU</span>
+<span class="cm">	 * read-side critical section that started on CPU 0, and that</span>
+<span class="cm">	 * no other reader exists, so that the sum of the counters</span>
+<span class="cm">	 * is equal to one.  Then suppose that task B starts executing</span>
+<span class="cm">	 * srcu_readers_active_idx(), summing up to CPU 1, and then that</span>
+<span class="cm">	 * task C starts reading on CPU 0, so that its increment is not</span>
+<span class="cm">	 * summed, but finishes reading on CPU 2, so that its decrement</span>
+<span class="cm">	 * -is- summed.  Then when task B completes its sum, it will</span>
+<span class="cm">	 * incorrectly get zero, despite the fact that task A has been</span>
+<span class="cm">	 * in its SRCU read-side critical section the whole time.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * We therefore do a validation step should srcu_readers_active_idx()</span>
+<span class="cm">	 * return zero.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">srcu_readers_active_idx</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * The remainder of this function is the validation step.</span>
+<span class="cm">	 * The following smp_mb() D pairs with the smp_mb() C in</span>
+<span class="cm">	 * __srcu_read_unlock().  If the __srcu_read_unlock() was seen</span>
+<span class="cm">	 * by srcu_readers_active_idx() above, then any destructive</span>
+<span class="cm">	 * operation performed after the grace period will happen after</span>
+<span class="cm">	 * the corresponding SRCU read-side critical section.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * Note that there can be at most NR_CPUS worth of readers using</span>
+<span class="cm">	 * the old index, which is not enough to overflow even a 32-bit</span>
+<span class="cm">	 * integer.  (Yes, this does mean that systems having more than</span>
+<span class="cm">	 * a billion or so CPUs need to be 64-bit systems.)  Therefore,</span>
+<span class="cm">	 * the sum of the -&gt;seq[] counters cannot possibly overflow.</span>
+<span class="cm">	 * Therefore, the only way that the return values of the two</span>
+<span class="cm">	 * calls to srcu_readers_seq_idx() can be equal is if there were</span>
+<span class="cm">	 * no increments of the corresponding rank of -&gt;seq[] counts</span>
+<span class="cm">	 * in the interim.  But the missed-increment scenario laid out</span>
+<span class="cm">	 * above includes an increment of the -&gt;seq[] counter by</span>
+<span class="cm">	 * the corresponding __srcu_read_lock().  Therefore, if this</span>
+<span class="cm">	 * scenario occurs, the return values from the two calls to</span>
+<span class="cm">	 * srcu_readers_seq_idx() will differ, and thus the validation</span>
+<span class="cm">	 * step below suffices.</span>
+<span class="cm">	 */</span>
+	<span class="n">smp_mb</span><span class="p">();</span> <span class="cm">/* D */</span>
+
+	<span class="k">return</span> <span class="n">srcu_readers_seq_idx</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span> <span class="o">==</span> <span class="n">seq</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * srcu_readers_active - returns true if there are readers. and false</span>
+<span class="cm"> *                       otherwise</span>
+<span class="cm"> * @sp: which srcu_struct to count active readers (holding srcu_read_lock).</span>
+<span class="cm"> *</span>
+<span class="cm"> * Note that this is not an atomic primitive, and can therefore suffer</span>
+<span class="cm"> * severe errors when invoked on an active srcu_struct.  That said, it</span>
+<span class="cm"> * can be useful as an error check at cleanup time.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="n">bool</span> <span class="nf">srcu_readers_active</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">cpu</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">for_each_possible_cpu</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">sum</span> <span class="o">+=</span> <span class="n">READ_ONCE</span><span class="p">(</span><span class="n">per_cpu_ptr</span><span class="p">(</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">per_cpu_ref</span><span class="p">,</span> <span class="n">cpu</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+		<span class="n">sum</span> <span class="o">+=</span> <span class="n">READ_ONCE</span><span class="p">(</span><span class="n">per_cpu_ptr</span><span class="p">(</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">per_cpu_ref</span><span class="p">,</span> <span class="n">cpu</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * cleanup_srcu_struct - deconstruct a sleep-RCU structure</span>
+<span class="cm"> * @sp: structure to clean up.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Must invoke this after you are finished using a given srcu_struct that</span>
+<span class="cm"> * was initialized via init_srcu_struct(), else you leak memory.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">cleanup_srcu_struct</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">WARN_ON</span><span class="p">(</span><span class="n">srcu_readers_active</span><span class="p">(</span><span class="n">sp</span><span class="p">)))</span>
+		<span class="k">return</span><span class="p">;</span> <span class="cm">/* Leakage unless caller handles error. */</span>
+	<span class="n">free_percpu</span><span class="p">(</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">per_cpu_ref</span><span class="p">);</span>
+	<span class="n">sp</span><span class="o">-&gt;</span><span class="n">per_cpu_ref</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">cleanup_srcu_struct</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Counts the new reader in the appropriate per-CPU element of the</span>
+<span class="cm"> * srcu_struct.  Must be called from process context.</span>
+<span class="cm"> * Returns an index that must be passed to the matching srcu_read_unlock().</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">__srcu_read_lock</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">idx</span><span class="p">;</span>
+
+	<span class="n">idx</span> <span class="o">=</span> <span class="n">READ_ONCE</span><span class="p">(</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">completed</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x1</span><span class="p">;</span>
+	<span class="n">__this_cpu_inc</span><span class="p">(</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">per_cpu_ref</span><span class="o">-&gt;</span><span class="n">c</span><span class="p">[</span><span class="n">idx</span><span class="p">]);</span>
+	<span class="n">smp_mb</span><span class="p">();</span> <span class="cm">/* B */</span>  <span class="cm">/* Avoid leaking the critical section. */</span>
+	<span class="n">__this_cpu_inc</span><span class="p">(</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">per_cpu_ref</span><span class="o">-&gt;</span><span class="n">seq</span><span class="p">[</span><span class="n">idx</span><span class="p">]);</span>
+	<span class="k">return</span> <span class="n">idx</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">__srcu_read_lock</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Removes the count for the old reader from the appropriate per-CPU</span>
+<span class="cm"> * element of the srcu_struct.  Note that this may well be a different</span>
+<span class="cm"> * CPU than that which was incremented by the corresponding srcu_read_lock().</span>
+<span class="cm"> * Must be called from process context.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">__srcu_read_unlock</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">idx</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">smp_mb</span><span class="p">();</span> <span class="cm">/* C */</span>  <span class="cm">/* Avoid leaking the critical section. */</span>
+	<span class="n">this_cpu_dec</span><span class="p">(</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">per_cpu_ref</span><span class="o">-&gt;</span><span class="n">c</span><span class="p">[</span><span class="n">idx</span><span class="p">]);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">__srcu_read_unlock</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * We use an adaptive strategy for synchronize_srcu() and especially for</span>
+<span class="cm"> * synchronize_srcu_expedited().  We spin for a fixed time period</span>
+<span class="cm"> * (defined below) to allow SRCU readers to exit their read-side critical</span>
+<span class="cm"> * sections.  If there are still some readers after 10 microseconds,</span>
+<span class="cm"> * we repeatedly block for 1-millisecond time periods.  This approach</span>
+<span class="cm"> * has done well in testing, so there is no need for a config parameter.</span>
+<span class="cm"> */</span>
+<span class="cp">#define SRCU_RETRY_CHECK_DELAY		5</span>
+<span class="cp">#define SYNCHRONIZE_SRCU_TRYCOUNT	2</span>
+<span class="cp">#define SYNCHRONIZE_SRCU_EXP_TRYCOUNT	12</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * @@@ Wait until all pre-existing readers complete.  Such readers</span>
+<span class="cm"> * will have used the index specified by &quot;idx&quot;.</span>
+<span class="cm"> * the caller should ensures the -&gt;completed is not changed while checking</span>
+<span class="cm"> * and idx = (-&gt;completed &amp; 1) ^ 1</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="n">bool</span> <span class="nf">try_check_zero</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">idx</span><span class="p">,</span> <span class="kt">int</span> <span class="n">trycount</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">for</span> <span class="p">(;;)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">srcu_readers_active_idx_check</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">idx</span><span class="p">))</span>
+			<span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">--</span><span class="n">trycount</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+			<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+		<span class="n">udelay</span><span class="p">(</span><span class="n">SRCU_RETRY_CHECK_DELAY</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Increment the -&gt;completed counter so that future SRCU readers will</span>
+<span class="cm"> * use the other rank of the -&gt;c[] and -&gt;seq[] arrays.  This allows</span>
+<span class="cm"> * us to wait for pre-existing readers in a starvation-free manner.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">srcu_flip</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">sp</span><span class="o">-&gt;</span><span class="n">completed</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Enqueue an SRCU callback on the specified srcu_struct structure,</span>
+<span class="cm"> * initiating grace-period processing if it is not already running.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Note that all CPUs must agree that the grace period extended beyond</span>
+<span class="cm"> * all pre-existing SRCU read-side critical section.  On systems with</span>
+<span class="cm"> * more than one CPU, this means that when &quot;func()&quot; is invoked, each CPU</span>
+<span class="cm"> * is guaranteed to have executed a full memory barrier since the end of</span>
+<span class="cm"> * its last corresponding SRCU read-side critical section whose beginning</span>
+<span class="cm"> * preceded the call to call_rcu().  It also means that each CPU executing</span>
+<span class="cm"> * an SRCU read-side critical section that continues beyond the start of</span>
+<span class="cm"> * &quot;func()&quot; must have executed a memory barrier after the call_rcu()</span>
+<span class="cm"> * but before the beginning of that SRCU read-side critical section.</span>
+<span class="cm"> * Note that these guarantees include CPUs that are offline, idle, or</span>
+<span class="cm"> * executing in user mode, as well as CPUs that are executing in the kernel.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Furthermore, if CPU A invoked call_rcu() and CPU B invoked the</span>
+<span class="cm"> * resulting SRCU callback function &quot;func()&quot;, then both CPU A and CPU</span>
+<span class="cm"> * B are guaranteed to execute a full memory barrier during the time</span>
+<span class="cm"> * interval between the call to call_rcu() and the invocation of &quot;func()&quot;.</span>
+<span class="cm"> * This guarantee applies even if CPU A and CPU B are the same CPU (but</span>
+<span class="cm"> * again only if the system has more than one CPU).</span>
+<span class="cm"> *</span>
+<span class="cm"> * Of course, these guarantees apply only for invocations of call_srcu(),</span>
+<span class="cm"> * srcu_read_lock(), and srcu_read_unlock() that are all passed the same</span>
+<span class="cm"> * srcu_struct structure.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">call_srcu</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="k">struct</span> <span class="n">rcu_head</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span>
+	       <span class="n">rcu_callback_t</span> <span class="n">func</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">;</span>
+
+	<span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">head</span><span class="o">-&gt;</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span><span class="p">;</span>
+	<span class="n">spin_lock_irqsave</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">queue_lock</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+	<span class="n">rcu_batch_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_queue</span><span class="p">,</span> <span class="n">head</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">running</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">sp</span><span class="o">-&gt;</span><span class="n">running</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+		<span class="n">queue_delayed_work</span><span class="p">(</span><span class="n">system_power_efficient_wq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">work</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">spin_unlock_irqrestore</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">queue_lock</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">call_srcu</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">srcu_advance_batches</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">trycount</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">srcu_reschedule</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Helper function for synchronize_srcu() and synchronize_srcu_expedited().</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">__synchronize_srcu</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">trycount</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">rcu_synchronize</span> <span class="n">rcu</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">rcu_head</span> <span class="o">*</span><span class="n">head</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">rcu</span><span class="p">.</span><span class="n">head</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">done</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="n">RCU_LOCKDEP_WARN</span><span class="p">(</span><span class="n">lock_is_held</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">dep_map</span><span class="p">)</span> <span class="o">||</span>
+			 <span class="n">lock_is_held</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rcu_bh_lock_map</span><span class="p">)</span> <span class="o">||</span>
+			 <span class="n">lock_is_held</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rcu_lock_map</span><span class="p">)</span> <span class="o">||</span>
+			 <span class="n">lock_is_held</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rcu_sched_lock_map</span><span class="p">),</span>
+			 <span class="s">&quot;Illegal synchronize_srcu() in same-type SRCU (or in RCU) read-side critical section&quot;</span><span class="p">);</span>
+
+	<span class="n">might_sleep</span><span class="p">();</span>
+	<span class="n">init_completion</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rcu</span><span class="p">.</span><span class="n">completion</span><span class="p">);</span>
+
+	<span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">head</span><span class="o">-&gt;</span><span class="n">func</span> <span class="o">=</span> <span class="n">wakeme_after_rcu</span><span class="p">;</span>
+	<span class="n">spin_lock_irq</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">queue_lock</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">running</span><span class="p">)</span> <span class="p">{</span>
+		<span class="cm">/* steal the processing owner */</span>
+		<span class="n">sp</span><span class="o">-&gt;</span><span class="n">running</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+		<span class="n">rcu_batch_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check0</span><span class="p">,</span> <span class="n">head</span><span class="p">);</span>
+		<span class="n">spin_unlock_irq</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">queue_lock</span><span class="p">);</span>
+
+		<span class="n">srcu_advance_batches</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">trycount</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_done</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">BUG_ON</span><span class="p">(</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_done</span><span class="p">.</span><span class="n">head</span> <span class="o">!=</span> <span class="n">head</span><span class="p">);</span>
+			<span class="n">rcu_batch_dequeue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_done</span><span class="p">);</span>
+			<span class="n">done</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="cm">/* give the processing owner to work_struct */</span>
+		<span class="n">srcu_reschedule</span><span class="p">(</span><span class="n">sp</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">rcu_batch_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_queue</span><span class="p">,</span> <span class="n">head</span><span class="p">);</span>
+		<span class="n">spin_unlock_irq</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">queue_lock</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">done</span><span class="p">)</span>
+		<span class="n">wait_for_completion</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rcu</span><span class="p">.</span><span class="n">completion</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * synchronize_srcu - wait for prior SRCU read-side critical-section completion</span>
+<span class="cm"> * @sp: srcu_struct with which to synchronize.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Wait for the count to drain to zero of both indexes. To avoid the</span>
+<span class="cm"> * possible starvation of synchronize_srcu(), it waits for the count of</span>
+<span class="cm"> * the index=((-&gt;completed &amp; 1) ^ 1) to drain to zero at first,</span>
+<span class="cm"> * and then flip the completed and wait for the count of the other index.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Can block; must be called from process context.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Note that it is illegal to call synchronize_srcu() from the corresponding</span>
+<span class="cm"> * SRCU read-side critical section; doing so will result in deadlock.</span>
+<span class="cm"> * However, it is perfectly legal to call synchronize_srcu() on one</span>
+<span class="cm"> * srcu_struct from some other srcu_struct&#39;s read-side critical section,</span>
+<span class="cm"> * as long as the resulting graph of srcu_structs is acyclic.</span>
+<span class="cm"> *</span>
+<span class="cm"> * There are memory-ordering constraints implied by synchronize_srcu().</span>
+<span class="cm"> * On systems with more than one CPU, when synchronize_srcu() returns,</span>
+<span class="cm"> * each CPU is guaranteed to have executed a full memory barrier since</span>
+<span class="cm"> * the end of its last corresponding SRCU-sched read-side critical section</span>
+<span class="cm"> * whose beginning preceded the call to synchronize_srcu().  In addition,</span>
+<span class="cm"> * each CPU having an SRCU read-side critical section that extends beyond</span>
+<span class="cm"> * the return from synchronize_srcu() is guaranteed to have executed a</span>
+<span class="cm"> * full memory barrier after the beginning of synchronize_srcu() and before</span>
+<span class="cm"> * the beginning of that SRCU read-side critical section.  Note that these</span>
+<span class="cm"> * guarantees include CPUs that are offline, idle, or executing in user mode,</span>
+<span class="cm"> * as well as CPUs that are executing in the kernel.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Furthermore, if CPU A invoked synchronize_srcu(), which returned</span>
+<span class="cm"> * to its caller on CPU B, then both CPU A and CPU B are guaranteed</span>
+<span class="cm"> * to have executed a full memory barrier during the execution of</span>
+<span class="cm"> * synchronize_srcu().  This guarantee applies even if CPU A and CPU B</span>
+<span class="cm"> * are the same CPU, but again only if the system has more than one CPU.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Of course, these memory-ordering guarantees apply only when</span>
+<span class="cm"> * synchronize_srcu(), srcu_read_lock(), and srcu_read_unlock() are</span>
+<span class="cm"> * passed the same srcu_struct structure.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">synchronize_srcu</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">__synchronize_srcu</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="p">(</span><span class="n">rcu_gp_is_expedited</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">rcu_gp_is_normal</span><span class="p">())</span>
+			   <span class="o">?</span> <span class="nl">SYNCHRONIZE_SRCU_EXP_TRYCOUNT</span>
+			   <span class="p">:</span> <span class="n">SYNCHRONIZE_SRCU_TRYCOUNT</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">synchronize_srcu</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * synchronize_srcu_expedited - Brute-force SRCU grace period</span>
+<span class="cm"> * @sp: srcu_struct with which to synchronize.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Wait for an SRCU grace period to elapse, but be more aggressive about</span>
+<span class="cm"> * spinning rather than blocking when waiting.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Note that synchronize_srcu_expedited() has the same deadlock and</span>
+<span class="cm"> * memory-ordering properties as does synchronize_srcu().</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">synchronize_srcu_expedited</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">__synchronize_srcu</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">SYNCHRONIZE_SRCU_EXP_TRYCOUNT</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">synchronize_srcu_expedited</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * srcu_barrier - Wait until all in-flight call_srcu() callbacks complete.</span>
+<span class="cm"> * @sp: srcu_struct on which to wait for in-flight callbacks.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">srcu_barrier</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">synchronize_srcu</span><span class="p">(</span><span class="n">sp</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">srcu_barrier</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * srcu_batches_completed - return batches completed.</span>
+<span class="cm"> * @sp: srcu_struct on which to report batch completion.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Report the number of batches, correlated with, but not necessarily</span>
+<span class="cm"> * precisely the same as, the number of grace periods that have elapsed.</span>
+<span class="cm"> */</span>
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="nf">srcu_batches_completed</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">sp</span><span class="o">-&gt;</span><span class="n">completed</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">srcu_batches_completed</span><span class="p">);</span>
+
+<span class="cp">#define SRCU_CALLBACK_BATCH	10</span>
+<span class="cp">#define SRCU_INTERVAL		1</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Move any new SRCU callbacks to the first stage of the SRCU grace</span>
+<span class="cm"> * period pipeline.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">srcu_collect_new</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_queue</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">spin_lock_irq</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">queue_lock</span><span class="p">);</span>
+		<span class="n">rcu_batch_move</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_queue</span><span class="p">);</span>
+		<span class="n">spin_unlock_irq</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">queue_lock</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Core SRCU state machine.  Advance callbacks from -&gt;batch_check0 to</span>
+<span class="cm"> * -&gt;batch_check1 and then to -&gt;batch_done as readers drain.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">srcu_advance_batches</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">trycount</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">^</span> <span class="p">(</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">completed</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * Because readers might be delayed for an extended period after</span>
+<span class="cm">	 * fetching -&gt;completed for their index, at any point in time there</span>
+<span class="cm">	 * might well be readers using both idx=0 and idx=1.  We therefore</span>
+<span class="cm">	 * need to wait for readers to clear from both index values before</span>
+<span class="cm">	 * invoking a callback.</span>
+<span class="cm">	 */</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check0</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+	    <span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check1</span><span class="p">))</span>
+		<span class="k">return</span><span class="p">;</span> <span class="cm">/* no callbacks need to be advanced */</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">try_check_zero</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">trycount</span><span class="p">))</span>
+		<span class="k">return</span><span class="p">;</span> <span class="cm">/* failed to advance, will try after SRCU_INTERVAL */</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * The callbacks in -&gt;batch_check1 have already done with their</span>
+<span class="cm">	 * first zero check and flip back when they were enqueued on</span>
+<span class="cm">	 * -&gt;batch_check0 in a previous invocation of srcu_advance_batches().</span>
+<span class="cm">	 * (Presumably try_check_zero() returned false during that</span>
+<span class="cm">	 * invocation, leaving the callbacks stranded on -&gt;batch_check1.)</span>
+<span class="cm">	 * They are therefore ready to invoke, so move them to -&gt;batch_done.</span>
+<span class="cm">	 */</span>
+	<span class="n">rcu_batch_move</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_done</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check1</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check0</span><span class="p">))</span>
+		<span class="k">return</span><span class="p">;</span> <span class="cm">/* no callbacks need to be advanced */</span>
+	<span class="n">srcu_flip</span><span class="p">(</span><span class="n">sp</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * The callbacks in -&gt;batch_check0 just finished their</span>
+<span class="cm">	 * first check zero and flip, so move them to -&gt;batch_check1</span>
+<span class="cm">	 * for future checking on the other idx.</span>
+<span class="cm">	 */</span>
+	<span class="n">rcu_batch_move</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check0</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * SRCU read-side critical sections are normally short, so check</span>
+<span class="cm">	 * at least twice in quick succession after a flip.</span>
+<span class="cm">	 */</span>
+	<span class="n">trycount</span> <span class="o">=</span> <span class="n">trycount</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">?</span> <span class="mi">2</span> <span class="o">:</span> <span class="n">trycount</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">try_check_zero</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">idx</span><span class="o">^</span><span class="mi">1</span><span class="p">,</span> <span class="n">trycount</span><span class="p">))</span>
+		<span class="k">return</span><span class="p">;</span> <span class="cm">/* failed to advance, will try after SRCU_INTERVAL */</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * The callbacks in -&gt;batch_check1 have now waited for all</span>
+<span class="cm">	 * pre-existing readers using both idx values.  They are therefore</span>
+<span class="cm">	 * ready to invoke, so move them to -&gt;batch_done.</span>
+<span class="cm">	 */</span>
+	<span class="n">rcu_batch_move</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_done</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Invoke a limited number of SRCU callbacks that have passed through</span>
+<span class="cm"> * their grace period.  If there are more to do, SRCU will reschedule</span>
+<span class="cm"> * the workqueue.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">srcu_invoke_callbacks</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">rcu_head</span> <span class="o">*</span><span class="n">head</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">SRCU_CALLBACK_BATCH</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">head</span> <span class="o">=</span> <span class="n">rcu_batch_dequeue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_done</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">head</span><span class="p">)</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="n">local_bh_disable</span><span class="p">();</span>
+		<span class="n">head</span><span class="o">-&gt;</span><span class="n">func</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+		<span class="n">local_bh_enable</span><span class="p">();</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Finished one round of SRCU grace period.  Start another if there are</span>
+<span class="cm"> * more SRCU callbacks queued, otherwise put SRCU into not-running state.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">srcu_reschedule</span><span class="p">(</span><span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">bool</span> <span class="n">pending</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_done</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+	    <span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check1</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+	    <span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check0</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+	    <span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_queue</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">spin_lock_irq</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">queue_lock</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_done</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+		    <span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check1</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+		    <span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_check0</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+		    <span class="n">rcu_batch_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">batch_queue</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">sp</span><span class="o">-&gt;</span><span class="n">running</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+			<span class="n">pending</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">spin_unlock_irq</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">queue_lock</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pending</span><span class="p">)</span>
+		<span class="n">queue_delayed_work</span><span class="p">(</span><span class="n">system_power_efficient_wq</span><span class="p">,</span>
+				   <span class="o">&amp;</span><span class="n">sp</span><span class="o">-&gt;</span><span class="n">work</span><span class="p">,</span> <span class="n">SRCU_INTERVAL</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * This is the work-queue function that handles SRCU grace periods.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">process_srcu</span><span class="p">(</span><span class="k">struct</span> <span class="n">work_struct</span> <span class="o">*</span><span class="n">work</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">srcu_struct</span> <span class="o">*</span><span class="n">sp</span><span class="p">;</span>
+
+	<span class="n">sp</span> <span class="o">=</span> <span class="n">container_of</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="k">struct</span> <span class="n">srcu_struct</span><span class="p">,</span> <span class="n">work</span><span class="p">.</span><span class="n">work</span><span class="p">);</span>
+
+	<span class="n">srcu_collect_new</span><span class="p">(</span><span class="n">sp</span><span class="p">);</span>
+	<span class="n">srcu_advance_batches</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="n">srcu_invoke_callbacks</span><span class="p">(</span><span class="n">sp</span><span class="p">);</span>
+	<span class="n">srcu_reschedule</span><span class="p">(</span><span class="n">sp</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">process_srcu</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

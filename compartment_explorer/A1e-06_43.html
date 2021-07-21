@@ -1,0 +1,24 @@
+<html>
+Compartment 43<br />
+<a href='A1e-06_42.html'> Prev</a>
+<a href='A1e-06_44.html'> Next</a>
+<br /><br />
+<strong> Compartment 43 is 9344 bytes and has 4 functions:</strong><br />
+1. <a href='javascript:void(0)' onclick="parent.setColors(11,[3,5,6,7],[[],[5],[1,5,6,8,10],[1,2,5,6,7,8,9,10,11],[1,2,3,4,5,6,7,8,9,10,11]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/extents.c.html#L164'">fs/ext4/extents.c:__ext4_ext_dirty</a> (144 bytes)<br />
+2. <a href='javascript:void(0)' onclick="parent.setColors(11,[1,2,3,4,6,7,8,10,11],[[],[5],[1,5,6,8,10],[1,2,5,6,7,8,9,10,11],[1,2,3,4,5,6,7,8,9,10,11]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/extents.c.html#L1938'">fs/ext4/extents.c:ext4_ext_insert_extent</a> (4832 bytes)<br />
+3. <a href='javascript:void(0)' onclick="parent.setColors(11,[1,2,3,5,6,7,8,10],[[],[5],[1,5,6,8,10],[1,2,5,6,7,8,9,10,11],[1,2,3,4,5,6,7,8,9,10,11]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/extents.c.html#L2821'">fs/ext4/extents.c:ext4_ext_remove_space</a> (4288 bytes)<br />
+4. <a href='javascript:void(0)' onclick="parent.setColors(11,[9],[[],[5],[1,5,6,8,10],[1,2,5,6,7,8,9,10,11],[1,2,3,4,5,6,7,8,9,10,11]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/extents.c.html#L113'">fs/ext4/extents.c:ext4_ext_truncate_extend_restart</a> (80 bytes)<br />
+<br /><br />
+<strong> Compartment 43 accesses 11 objects:</strong><br />
+<span id='obj1'>1. ALLOC_PAGES alloc from fs/buffer.c:__find_get_block <br /></span>
+<span id='obj2'>2. ALLOC_PAGES alloc from mm/filemap.c:generic_file_read_iter <br /></span>
+<span id='obj3'>3. KMEM_CACHE alloc from fs/buffer.c:alloc_buffer_head <br /></span>
+<span id='obj4'>4. KMEM_CACHE alloc from fs/ext4/extents.c:ext4_ext_insert_extent <br /></span>
+<span id='obj5'>5. KMEM_CACHE alloc from fs/ext4/extents.c:ext4_ext_remove_space <br /></span>
+<span id='obj6'>6. KMEM_CACHE alloc from fs/ext4/extents.c:ext4_find_extent <br /></span>
+<span id='obj7'>7. KMEM_CACHE alloc from fs/ext4/super.c:ext4_alloc_inode <br /></span>
+<span id='obj8'>8. KMEM_CACHE alloc from fs/ext4/super.c:ext4_fill_super <br /></span>
+<span id='obj9'>9. KMEM_CACHE alloc from fs/jbd2/transaction.c:jbd2__journal_start <br /></span>
+<span id='obj10'>10. KMEM_CACHE alloc from fs/super.c:sget_userns <br /></span>
+<span id='obj11'>11. STACK <br /></span>
+</body></html>

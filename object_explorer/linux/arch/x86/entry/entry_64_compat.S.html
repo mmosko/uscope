@@ -1,0 +1,720 @@
+arch/x86/entry/entry_64_compat.S<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/entry/entry_64_compat.S#L355">355</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="o">/*</span>
+ <span class="o">*</span> <span class="n">Compatibility</span> <span class="n">mode</span> <span class="n">system</span> <span class="n">call</span> <span class="n">entry</span> <span class="n">point</span> <span class="n">for</span> <span class="n">x86</span><span class="m">-64</span><span class="n">.</span>
+ <span class="o">*</span>
+ <span class="o">*</span> <span class="n">Copyright</span> <span class="m">2000-2002</span> <span class="n">Andi</span> <span class="n">Kleen</span><span class="p">,</span> <span class="n">SuSE</span> <span class="n">Labs.</span>
+ <span class="o">*/</span>
+<span class="c1">#include &quot;calling.h&quot;</span>
+<span class="c1">#include &lt;asm/asm-offsets.h&gt;</span>
+<span class="c1">#include &lt;asm/current.h&gt;</span>
+<span class="c1">#include &lt;asm/errno.h&gt;</span>
+<span class="c1">#include &lt;asm/ia32_unistd.h&gt;</span>
+<span class="c1">#include &lt;asm/thread_info.h&gt;</span>
+<span class="c1">#include &lt;asm/segment.h&gt;</span>
+<span class="c1">#include &lt;asm/irqflags.h&gt;</span>
+<span class="c1">#include &lt;asm/asm.h&gt;</span>
+<span class="c1">#include &lt;asm/smap.h&gt;</span>
+<span class="c1">#include &lt;linux/linkage.h&gt;</span>
+<span class="c1">#include &lt;linux/err.h&gt;</span>
+
+	<span class="n">.section</span> <span class="n">.entry.text</span><span class="p">,</span> <span class="s">&quot;ax&quot;</span>
+
+<span class="o">/*</span>
+ <span class="o">*</span> <span class="m">32</span><span class="o">-</span><span class="n">bit</span> <span class="n">SYSENTER</span> <span class="n">entry.</span>
+ <span class="o">*</span>
+ <span class="o">*</span> <span class="m">32</span><span class="o">-</span><span class="n">bit</span> <span class="n">system</span> <span class="n">calls</span> <span class="n">through</span> <span class="n">the</span> <span class="n">vDSO</span><span class="s">&#39;s __kernel_vsyscall enter here</span>
+<span class="s"> * on 64-bit kernels running on Intel CPUs.</span>
+<span class="s"> *</span>
+<span class="s"> * The SYSENTER instruction, in principle, should *only* occur in the</span>
+<span class="s"> * vDSO.  In practice, a small number of Android devices were shipped</span>
+<span class="s"> * with a copy of Bionic that inlined a SYSENTER instruction.  This</span>
+<span class="s"> * never happened in any of Google&#39;</span><span class="n">s</span> <span class="n">Bionic</span> <span class="n">versions</span> <span class="o">--</span> <span class="n">it</span> <span class="n">only</span> <span class="n">happened</span>
+ <span class="o">*</span> <span class="n">in</span> <span class="n">a</span> <span class="n">narrow</span> <span class="n">range</span> <span class="n">of</span> <span class="n">Intel</span><span class="o">-</span><span class="n">provided</span> <span class="n">versions.</span>
+ <span class="o">*</span>
+ <span class="o">*</span> <span class="n">SYSENTER</span> <span class="n">loads</span> <span class="n">SS</span><span class="p">,</span> <span class="n">RSP</span><span class="p">,</span> <span class="n">CS</span><span class="p">,</span> <span class="n">and</span> <span class="n">RIP</span> <span class="n">from</span> <span class="n">previously</span> <span class="n">programmed</span> <span class="n">MSRs.</span>
+ <span class="o">*</span> <span class="n">IF</span> <span class="n">and</span> <span class="n">VM</span> <span class="n">in</span> <span class="n">RFLAGS</span> <span class="n">are</span> <span class="nf">cleared </span><span class="p">(</span><span class="n">IOW</span><span class="o">:</span> <span class="n">interrupts</span> <span class="n">are</span> <span class="n">off</span><span class="p">)</span><span class="n">.</span>
+ <span class="o">*</span> <span class="n">SYSENTER</span> <span class="n">does</span> <span class="n">not</span> <span class="n">save</span> <span class="n">anything</span> <span class="n">on</span> <span class="n">the</span> <span class="n">stack</span><span class="p">,</span>
+ <span class="o">*</span> <span class="n">and</span> <span class="n">does</span> <span class="n">not</span> <span class="n">save</span> <span class="n">old</span> <span class="nf">RIP </span><span class="p">(</span><span class="o">!!!</span><span class="p">),</span> <span class="n">RSP</span><span class="p">,</span> <span class="n">or</span> <span class="n">RFLAGS.</span>
+ <span class="o">*</span>
+ <span class="o">*</span> <span class="n">Arguments</span><span class="o">:</span>
+ <span class="o">*</span> <span class="n">eax</span>  <span class="n">system</span> <span class="n">call</span> <span class="n">number</span>
+ <span class="o">*</span> <span class="n">ebx</span>  <span class="n">arg1</span>
+ <span class="o">*</span> <span class="n">ecx</span>  <span class="n">arg2</span>
+ <span class="o">*</span> <span class="n">edx</span>  <span class="n">arg3</span>
+ <span class="o">*</span> <span class="n">esi</span>  <span class="n">arg4</span>
+ <span class="o">*</span> <span class="n">edi</span>  <span class="n">arg5</span>
+ <span class="o">*</span> <span class="n">ebp</span>  <span class="n">user</span> <span class="n">stack</span>
+ <span class="o">*</span> <span class="m">0</span><span class="p">(</span><span class="o">%ebp) arg6</span>
+<span class="o"> */</span>
+<span class="o">ENTRY(entry_SYSENTER_compat)</span>
+<span class="o">	/* Interrupts are off on entry. */</span>
+<span class="o">	SWAPGS_UNSAFE_STACK</span>
+<span class="o">	movq	PER_CPU_VAR(cpu_current_top_of_stack), %</span><span class="n">rsp</span>
+
+	<span class="o">/*</span>
+	 <span class="o">*</span> <span class="n">User</span> <span class="n">tracing</span> <span class="nf">code </span><span class="p">(</span><span class="n">ptrace</span> <span class="n">or</span> <span class="n">signal</span> <span class="n">handlers</span><span class="p">)</span> <span class="n">might</span> <span class="n">assume</span> <span class="n">that</span>
+	 <span class="o">*</span> <span class="n">the</span> <span class="n">saved</span> <span class="n">RAX</span> <span class="n">contains</span> <span class="n">a</span> <span class="m">32</span><span class="o">-</span><span class="n">bit</span> <span class="n">number</span> <span class="n">when</span> <span class="n">we</span><span class="s">&#39;re invoking a 32-bit</span>
+<span class="s">	 * syscall.  Just in case the high bits are nonzero, zero-extend</span>
+<span class="s">	 * the syscall number.  (This could almost certainly be deleted</span>
+<span class="s">	 * with no ill effects.)</span>
+<span class="s">	 */</span>
+<span class="s">	movl	%eax, %eax</span>
+
+<span class="s">	/* Construct struct pt_regs on stack */</span>
+<span class="s">	pushq	$__USER32_DS		/* pt_regs-&gt;ss */</span>
+<span class="s">	pushq	%rbp			/* pt_regs-&gt;sp (stashed in bp) */</span>
+
+<span class="s">	/*</span>
+<span class="s">	 * Push flags.  This is nasty.  First, interrupts are currently</span>
+<span class="s">	 * off, but we need pt_regs-&gt;flags to have IF set.  Second, even</span>
+<span class="s">	 * if TF was set when SYSENTER started, it&#39;</span><span class="n">s</span> <span class="n">clear</span> <span class="n">by</span> <span class="n">now.</span>  <span class="n">We</span> <span class="n">fix</span>
+	 <span class="o">*</span> <span class="n">that</span> <span class="n">later</span> <span class="n">using</span> <span class="n">TIF_SINGLESTEP.</span>
+	 <span class="o">*/</span>
+	<span class="n">pushfq</span>				<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="nf">flags </span><span class="p">(</span><span class="n">except</span> <span class="n">IF</span> <span class="o">=</span> <span class="m">0</span><span class="p">)</span> <span class="o">*/</span>
+	<span class="n">orl</span>	<span class="o">$</span><span class="n">X86_EFLAGS_IF</span><span class="p">,</span> <span class="p">(</span><span class="o">%rsp)	/* Fix saved flags */</span>
+<span class="o">	pushq	$__USER32_CS		/* pt_regs-&gt;cs */</span>
+<span class="o">	pushq	$0			/* pt_regs-&gt;ip = 0 (placeholder) */</span>
+<span class="o">	pushq	%</span><span class="n">rax</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">orig_ax</span> <span class="o">*/</span>
+	<span class="n">pushq</span>	<span class="o">%rdi			/* pt_regs-&gt;di */</span>
+<span class="o">	pushq	%</span><span class="n">rsi</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">si</span> <span class="o">*/</span>
+	<span class="n">pushq</span>	<span class="o">%rdx			/* pt_regs-&gt;dx */</span>
+<span class="o">	pushq	%</span><span class="n">rcx</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">cx</span> <span class="o">*/</span>
+	<span class="n">pushq</span>	<span class="o">$-</span><span class="n">ENOSYS</span>		<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">ax</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">$</span><span class="m">0</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r8</span>  <span class="o">=</span> <span class="m">0</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">$</span><span class="m">0</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r9</span>  <span class="o">=</span> <span class="m">0</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">$</span><span class="m">0</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r10</span> <span class="o">=</span> <span class="m">0</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">$</span><span class="m">0</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r11</span> <span class="o">=</span> <span class="m">0</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">%rbx                    /* pt_regs-&gt;rbx */</span>
+<span class="o">	pushq   %</span><span class="n">rbp</span>                    <span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="nf">rbp </span><span class="p">(</span><span class="n">will</span> <span class="n">be</span> <span class="n">overwritten</span><span class="p">)</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">$</span><span class="m">0</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r12</span> <span class="o">=</span> <span class="m">0</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">$</span><span class="m">0</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r13</span> <span class="o">=</span> <span class="m">0</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">$</span><span class="m">0</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r14</span> <span class="o">=</span> <span class="m">0</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">$</span><span class="m">0</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r15</span> <span class="o">=</span> <span class="m">0</span> <span class="o">*/</span>
+	<span class="n">cld</span>
+
+	<span class="o">/*</span>
+	 <span class="o">*</span> <span class="n">SYSENTER</span> <span class="n">doesn</span><span class="s">&#39;t filter flags, so we need to clear NT and AC</span>
+<span class="s">	 * ourselves.  To save a few cycles, we can check whether</span>
+<span class="s">	 * either was set instead of doing an unconditional popfq.</span>
+<span class="s">	 * This needs to happen before enabling interrupts so that</span>
+<span class="s">	 * we don&#39;</span><span class="n">t</span> <span class="n">get</span> <span class="n">preempted</span> <span class="n">with</span> <span class="n">NT</span> <span class="n">set.</span>
+	 <span class="o">*</span>
+	 <span class="o">*</span> <span class="n">If</span> <span class="n">TF</span> <span class="n">is</span> <span class="n">set</span><span class="p">,</span> <span class="n">we</span> <span class="n">will</span> <span class="n">single</span><span class="o">-</span><span class="n">step</span> <span class="n">all</span> <span class="n">the</span> <span class="n">way</span> <span class="n">to</span> <span class="n">here</span> <span class="o">--</span> <span class="n">do_debug</span>
+	 <span class="o">*</span> <span class="n">will</span> <span class="n">ignore</span> <span class="n">all</span> <span class="n">the</span> <span class="nf">traps.  </span><span class="p">(</span><span class="n">Yes</span><span class="p">,</span> <span class="n">this</span> <span class="n">is</span> <span class="n">slow</span><span class="p">,</span> <span class="n">but</span> <span class="n">so</span> <span class="n">is</span>
+	 <span class="o">*</span> <span class="n">single</span><span class="o">-</span><span class="n">stepping</span> <span class="n">in</span> <span class="n">general.</span>  <span class="n">This</span> <span class="n">allows</span> <span class="n">us</span> <span class="n">to</span> <span class="n">avoid</span> <span class="n">having</span>
+	 <span class="o">*</span> <span class="n">a</span> <span class="n">more</span> <span class="n">complicated</span> <span class="n">code</span> <span class="n">to</span> <span class="n">handle</span> <span class="n">the</span> <span class="n">case</span> <span class="n">where</span> <span class="n">a</span> <span class="n">user</span> <span class="n">program</span>
+	 <span class="o">*</span> <span class="n">forces</span> <span class="n">us</span> <span class="n">to</span> <span class="n">single</span><span class="o">-</span><span class="n">step</span> <span class="n">through</span> <span class="n">the</span> <span class="n">SYSENTER</span> <span class="n">entry</span> <span class="n">code.</span><span class="p">)</span>
+	 <span class="o">*</span>
+	 <span class="o">*</span> <span class="n">NB.</span><span class="o">:</span> <span class="n">.Lsysenter_fix_flags</span> <span class="n">is</span> <span class="n">a</span> <span class="n">label</span> <span class="n">with</span> <span class="n">the</span> <span class="n">code</span> <span class="n">under</span> <span class="n">it</span> <span class="n">moved</span>
+	 <span class="o">*</span> <span class="n">out</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">line</span> <span class="n">as</span> <span class="n">an</span> <span class="n">optimization</span><span class="o">:</span> <span class="n">NT</span> <span class="n">is</span> <span class="n">unlikely</span> <span class="n">to</span> <span class="n">be</span> <span class="n">set</span> <span class="n">in</span> <span class="n">the</span>
+	 <span class="o">*</span> <span class="n">majority</span> <span class="n">of</span> <span class="n">the</span> <span class="n">cases</span> <span class="n">and</span> <span class="n">instead</span> <span class="n">of</span> <span class="n">polluting</span> <span class="n">the</span> <span class="n">I</span><span class="o">$</span> <span class="n">unnecessarily</span><span class="p">,</span>
+	 <span class="o">*</span> <span class="n">we</span><span class="s">&#39;re keeping that code behind a branch which will predict as</span>
+<span class="s">	 * not-taken and therefore its instructions won&#39;</span><span class="n">t</span> <span class="n">be</span> <span class="n">fetched.</span>
+	 <span class="o">*/</span>
+	<span class="n">testl</span>	<span class="o">$</span><span class="n">X86_EFLAGS_NT</span><span class="o">|</span><span class="n">X86_EFLAGS_AC</span><span class="o">|</span><span class="n">X86_EFLAGS_TF</span><span class="p">,</span> <span class="nf">EFLAGS</span><span class="p">(</span><span class="o">%rsp)</span>
+<span class="o">	jnz	.Lsysenter_fix_flags</span>
+<span class="o">.Lsysenter_flags_fixed:</span>
+
+<span class="o">	/*</span>
+<span class="o">	 * User mode is traced as though IRQs are on, and SYSENTER</span>
+<span class="o">	 * turned them off.</span>
+<span class="o">	 */</span>
+<span class="o">	TRACE_IRQS_OFF</span>
+
+<span class="o">	movq	%</span><span class="n">rsp</span><span class="p">,</span> <span class="o">%rdi</span>
+<span class="o">	call	do_fast_syscall_32</span>
+<span class="o">	/* XEN PV guests always use IRET path */</span>
+<span class="o">	ALTERNATIVE &quot;testl %</span><span class="n">eax</span><span class="p">,</span> <span class="o">%eax; jz .Lsyscall_32_done&quot;, \</span>
+<span class="o">		    &quot;jmp .Lsyscall_32_done&quot;, X86_FEATURE_XENPV</span>
+<span class="o">	jmp	sysret32_from_system_call</span>
+
+<span class="o">.Lsysenter_fix_flags:</span>
+<span class="o">	pushq	$X86_EFLAGS_FIXED</span>
+<span class="o">	popfq</span>
+<span class="o">	jmp	.Lsysenter_flags_fixed</span>
+<span class="o">GLOBAL(__end_entry_SYSENTER_compat)</span>
+<span class="o">ENDPROC(entry_SYSENTER_compat)</span>
+
+<span class="o">/*</span>
+<span class="o"> * 32-bit SYSCALL entry.</span>
+<span class="o"> *</span>
+<span class="o"> * 32-bit system calls through the vDSO&#39;s __kernel_vsyscall enter here</span>
+<span class="o"> * on 64-bit kernels running on AMD CPUs.</span>
+<span class="o"> *</span>
+<span class="o"> * The SYSCALL instruction, in principle, should *only* occur in the</span>
+<span class="o"> * vDSO.  In practice, it appears that this really is the case.</span>
+<span class="o"> * As evidence:</span>
+<span class="o"> *</span>
+<span class="o"> *  - The calling convention for SYSCALL has changed several times without</span>
+<span class="o"> *    anyone noticing.</span>
+<span class="o"> *</span>
+<span class="o"> *  - Prior to the in-kernel X86_BUG_SYSRET_SS_ATTRS fixup, anything</span>
+<span class="o"> *    user task that did SYSCALL without immediately reloading SS</span>
+<span class="o"> *    would randomly crash.</span>
+<span class="o"> *</span>
+<span class="o"> *  - Most programmers do not directly target AMD CPUs, and the 32-bit</span>
+<span class="o"> *    SYSCALL instruction does not exist on Intel CPUs.  Even on AMD</span>
+<span class="o"> *    CPUs, Linux disables the SYSCALL instruction on 32-bit kernels</span>
+<span class="o"> *    because the SYSCALL instruction in legacy/native 32-bit mode (as</span>
+<span class="o"> *    opposed to compat mode) is sufficiently poorly designed as to be</span>
+<span class="o"> *    essentially unusable.</span>
+<span class="o"> *</span>
+<span class="o"> * 32-bit SYSCALL saves RIP to RCX, clears RFLAGS.RF, then saves</span>
+<span class="o"> * RFLAGS to R11, then loads new SS, CS, and RIP from previously</span>
+<span class="o"> * programmed MSRs.  RFLAGS gets masked by a value from another MSR</span>
+<span class="o"> * (so CLD and CLAC are not needed).  SYSCALL does not save anything on</span>
+<span class="o"> * the stack and does not change RSP.</span>
+<span class="o"> *</span>
+<span class="o"> * Note: RFLAGS saving+masking-with-MSR happens only in Long mode</span>
+<span class="o"> * (in legacy 32-bit mode, IF, RF and VM bits are cleared and that&#39;s it).</span>
+<span class="o"> * Don&#39;t get confused: RFLAGS saving+masking depends on Long Mode Active bit</span>
+<span class="o"> * (EFER.LMA=1), NOT on bitness of userspace where SYSCALL executes</span>
+<span class="o"> * or target CS descriptor&#39;s L bit (SYSCALL does not read segment descriptors).</span>
+<span class="o"> *</span>
+<span class="o"> * Arguments:</span>
+<span class="o"> * eax  system call number</span>
+<span class="o"> * ecx  return address</span>
+<span class="o"> * ebx  arg1</span>
+<span class="o"> * ebp  arg2	(note: not saved in the stack frame, should not be touched)</span>
+<span class="o"> * edx  arg3</span>
+<span class="o"> * esi  arg4</span>
+<span class="o"> * edi  arg5</span>
+<span class="o"> * esp  user stack</span>
+<span class="o"> * 0(%</span><span class="n">esp</span><span class="p">)</span> <span class="n">arg6</span>
+ <span class="o">*/</span>
+<span class="nf">ENTRY</span><span class="p">(</span><span class="n">entry_SYSCALL_compat</span><span class="p">)</span>
+	<span class="o">/*</span> <span class="n">Interrupts</span> <span class="n">are</span> <span class="n">off</span> <span class="n">on</span> <span class="n">entry.</span> <span class="o">*/</span>
+	<span class="n">SWAPGS_UNSAFE_STACK</span>
+
+	<span class="o">/*</span> <span class="n">Stash</span> <span class="n">user</span> <span class="n">ESP</span> <span class="n">and</span> <span class="n">switch</span> <span class="n">to</span> <span class="n">the</span> <span class="n">kernel</span> <span class="n">stack.</span> <span class="o">*/</span>
+	<span class="n">movl</span>	<span class="o">%esp, %</span><span class="n">r8d</span>
+	<span class="n">movq</span>	<span class="nf">PER_CPU_VAR</span><span class="p">(</span><span class="n">cpu_current_top_of_stack</span><span class="p">),</span> <span class="o">%rsp</span>
+
+<span class="o">	/* Zero-extending 32-bit regs, do not remove */</span>
+<span class="o">	movl	%</span><span class="n">eax</span><span class="p">,</span> <span class="o">%eax</span>
+
+<span class="o">	/* Construct struct pt_regs on stack */</span>
+<span class="o">	pushq	$__USER32_DS		/* pt_regs-&gt;ss */</span>
+<span class="o">	pushq	%</span><span class="n">r8</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">sp</span> <span class="o">*/</span>
+	<span class="n">pushq</span>	<span class="o">%r11			/* pt_regs-&gt;flags */</span>
+<span class="o">	pushq	$__USER32_CS		/* pt_regs-&gt;cs */</span>
+<span class="o">	pushq	%</span><span class="n">rcx</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">ip</span> <span class="o">*/</span>
+	<span class="n">pushq</span>	<span class="o">%rax			/* pt_regs-&gt;orig_ax */</span>
+<span class="o">	pushq	%</span><span class="n">rdi</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">di</span> <span class="o">*/</span>
+	<span class="n">pushq</span>	<span class="o">%rsi			/* pt_regs-&gt;si */</span>
+<span class="o">	pushq	%</span><span class="n">rdx</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">dx</span> <span class="o">*/</span>
+	<span class="n">pushq</span>	<span class="o">%rbp			/* pt_regs-&gt;cx (stashed in bp) */</span>
+<span class="o">	pushq	$-ENOSYS		/* pt_regs-&gt;ax */</span>
+<span class="o">	pushq   $0			/* pt_regs-&gt;r8  = 0 */</span>
+<span class="o">	pushq   $0			/* pt_regs-&gt;r9  = 0 */</span>
+<span class="o">	pushq   $0			/* pt_regs-&gt;r10 = 0 */</span>
+<span class="o">	pushq   $0			/* pt_regs-&gt;r11 = 0 */</span>
+<span class="o">	pushq   %</span><span class="n">rbx</span>                    <span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">rbx</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">%rbp                    /* pt_regs-&gt;rbp (will be overwritten) */</span>
+<span class="o">	pushq   $0			/* pt_regs-&gt;r12 = 0 */</span>
+<span class="o">	pushq   $0			/* pt_regs-&gt;r13 = 0 */</span>
+<span class="o">	pushq   $0			/* pt_regs-&gt;r14 = 0 */</span>
+<span class="o">	pushq   $0			/* pt_regs-&gt;r15 = 0 */</span>
+
+<span class="o">	/*</span>
+<span class="o">	 * User mode is traced as though IRQs are on, and SYSENTER</span>
+<span class="o">	 * turned them off.</span>
+<span class="o">	 */</span>
+<span class="o">	TRACE_IRQS_OFF</span>
+
+<span class="o">	movq	%</span><span class="n">rsp</span><span class="p">,</span> <span class="o">%rdi</span>
+<span class="o">	call	do_fast_syscall_32</span>
+<span class="o">	/* XEN PV guests always use IRET path */</span>
+<span class="o">	ALTERNATIVE &quot;testl %</span><span class="n">eax</span><span class="p">,</span> <span class="o">%eax; jz .Lsyscall_32_done&quot;, \</span>
+<span class="o">		    &quot;jmp .Lsyscall_32_done&quot;, X86_FEATURE_XENPV</span>
+
+<span class="o">	/* Opportunistic SYSRET */</span>
+<span class="o">sysret32_from_system_call:</span>
+<span class="o">	TRACE_IRQS_ON			/* User mode traces as IRQs on. */</span>
+<span class="o">	movq	RBX(%</span><span class="n">rsp</span><span class="p">),</span> <span class="o">%rbx		/* pt_regs-&gt;rbx */</span>
+<span class="o">	movq	RBP(%</span><span class="n">rsp</span><span class="p">),</span> <span class="o">%rbp		/* pt_regs-&gt;rbp */</span>
+<span class="o">	movq	EFLAGS(%</span><span class="n">rsp</span><span class="p">),</span> <span class="o">%r11	/* pt_regs-&gt;flags (in r11) */</span>
+<span class="o">	movq	RIP(%</span><span class="n">rsp</span><span class="p">),</span> <span class="o">%rcx		/* pt_regs-&gt;ip (in rcx) */</span>
+<span class="o">	addq	$RAX, %</span><span class="n">rsp</span>		<span class="o">/*</span> <span class="n">Skip</span> <span class="n">r8</span><span class="o">-</span><span class="n">r15</span> <span class="o">*/</span>
+	<span class="n">popq</span>	<span class="o">%rax			/* pt_regs-&gt;rax */</span>
+<span class="o">	popq	%</span><span class="n">rdx</span>			<span class="o">/*</span> <span class="n">Skip</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">cx</span> <span class="o">*/</span>
+	<span class="n">popq</span>	<span class="o">%rdx			/* pt_regs-&gt;dx */</span>
+<span class="o">	popq	%</span><span class="n">rsi</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">si</span> <span class="o">*/</span>
+	<span class="n">popq</span>	<span class="o">%rdi			/* pt_regs-&gt;di */</span>
+
+<span class="o">        /*</span>
+<span class="o">         * USERGS_SYSRET32 does:</span>
+<span class="o">         *  GSBASE = user&#39;s GS base</span>
+<span class="o">         *  EIP = ECX</span>
+<span class="o">         *  RFLAGS = R11</span>
+<span class="o">         *  CS = __USER32_CS</span>
+<span class="o">         *  SS = __USER_DS</span>
+<span class="o">         *</span>
+<span class="o">	 * ECX will not match pt_regs-&gt;cx, but we&#39;re returning to a vDSO</span>
+<span class="o">	 * trampoline that will fix up RCX, so this is okay.</span>
+<span class="o">	 *</span>
+<span class="o">	 * R12-R15 are callee-saved, so they contain whatever was in them</span>
+<span class="o">	 * when the system call started, which is already known to user</span>
+<span class="o">	 * code.  We zero R8-R10 to avoid info leaks.</span>
+<span class="o">         */</span>
+<span class="o">	xorq	%</span><span class="n">r8</span><span class="p">,</span> <span class="o">%r8</span>
+<span class="o">	xorq	%</span><span class="n">r9</span><span class="p">,</span> <span class="o">%r9</span>
+<span class="o">	xorq	%</span><span class="n">r10</span><span class="p">,</span> <span class="o">%r10</span>
+<span class="o">	movq	RSP-ORIG_RAX(%</span><span class="n">rsp</span><span class="p">),</span> <span class="o">%rsp</span>
+<span class="o">	swapgs</span>
+<span class="o">	sysretl</span>
+<span class="o">END(entry_SYSCALL_compat)</span>
+
+<span class="o">/*</span>
+<span class="o"> * 32-bit legacy system call entry.</span>
+<span class="o"> *</span>
+<span class="o"> * 32-bit x86 Linux system calls traditionally used the INT $0x80</span>
+<span class="o"> * instruction.  INT $0x80 lands here.</span>
+<span class="o"> *</span>
+<span class="o"> * This entry point can be used by 32-bit and 64-bit programs to perform</span>
+<span class="o"> * 32-bit system calls.  Instances of INT $0x80 can be found inline in</span>
+<span class="o"> * various programs and libraries.  It is also used by the vDSO&#39;s</span>
+<span class="o"> * __kernel_vsyscall fallback for hardware that doesn&#39;t support a faster</span>
+<span class="o"> * entry method.  Restarted 32-bit system calls also fall back to INT</span>
+<span class="o"> * $0x80 regardless of what instruction was originally used to do the</span>
+<span class="o"> * system call.</span>
+<span class="o"> *</span>
+<span class="o"> * This is considered a slow path.  It is not used by most libc</span>
+<span class="o"> * implementations on modern hardware except during process startup.</span>
+<span class="o"> *</span>
+<span class="o"> * Arguments:</span>
+<span class="o"> * eax  system call number</span>
+<span class="o"> * ebx  arg1</span>
+<span class="o"> * ecx  arg2</span>
+<span class="o"> * edx  arg3</span>
+<span class="o"> * esi  arg4</span>
+<span class="o"> * edi  arg5</span>
+<span class="o"> * ebp  arg6</span>
+<span class="o"> */</span>
+<span class="o">ENTRY(entry_INT80_compat)</span>
+<span class="o">	/*</span>
+<span class="o">	 * Interrupts are off on entry.</span>
+<span class="o">	 */</span>
+<span class="o">	PARAVIRT_ADJUST_EXCEPTION_FRAME</span>
+<span class="o">	ASM_CLAC			/* Do this early to minimize exposure */</span>
+<span class="o">	SWAPGS</span>
+
+<span class="o">	/*</span>
+<span class="o">	 * User tracing code (ptrace or signal handlers) might assume that</span>
+<span class="o">	 * the saved RAX contains a 32-bit number when we&#39;re invoking a 32-bit</span>
+<span class="o">	 * syscall.  Just in case the high bits are nonzero, zero-extend</span>
+<span class="o">	 * the syscall number.  (This could almost certainly be deleted</span>
+<span class="o">	 * with no ill effects.)</span>
+<span class="o">	 */</span>
+<span class="o">	movl	%</span><span class="n">eax</span><span class="p">,</span> <span class="o">%eax</span>
+
+<span class="o">	/* Construct struct pt_regs on stack (iret frame is already on stack) */</span>
+<span class="o">	pushq	%</span><span class="n">rax</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">orig_ax</span> <span class="o">*/</span>
+	<span class="n">pushq</span>	<span class="o">%rdi			/* pt_regs-&gt;di */</span>
+<span class="o">	pushq	%</span><span class="n">rsi</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">si</span> <span class="o">*/</span>
+	<span class="n">pushq</span>	<span class="o">%rdx			/* pt_regs-&gt;dx */</span>
+<span class="o">	pushq	%</span><span class="n">rcx</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">cx</span> <span class="o">*/</span>
+	<span class="n">pushq</span>	<span class="o">$-</span><span class="n">ENOSYS</span>		<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">ax</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">$</span><span class="m">0</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r8</span>  <span class="o">=</span> <span class="m">0</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">$</span><span class="m">0</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r9</span>  <span class="o">=</span> <span class="m">0</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">$</span><span class="m">0</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r10</span> <span class="o">=</span> <span class="m">0</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">$</span><span class="m">0</span>			<span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r11</span> <span class="o">=</span> <span class="m">0</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">%rbx                    /* pt_regs-&gt;rbx */</span>
+<span class="o">	pushq   %</span><span class="n">rbp</span>                    <span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">rbp</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">%r12                    /* pt_regs-&gt;r12 */</span>
+<span class="o">	pushq   %</span><span class="n">r13</span>                    <span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r13</span> <span class="o">*/</span>
+	<span class="n">pushq</span>   <span class="o">%r14                    /* pt_regs-&gt;r14 */</span>
+<span class="o">	pushq   %</span><span class="n">r15</span>                    <span class="o">/*</span> <span class="n">pt_regs</span><span class="o">-&gt;</span><span class="n">r15</span> <span class="o">*/</span>
+	<span class="n">cld</span>
+
+	<span class="o">/*</span>
+	 <span class="o">*</span> <span class="n">User</span> <span class="n">mode</span> <span class="n">is</span> <span class="n">traced</span> <span class="n">as</span> <span class="n">though</span> <span class="n">IRQs</span> <span class="n">are</span> <span class="n">on</span><span class="p">,</span> <span class="n">and</span> <span class="n">the</span> <span class="n">interrupt</span>
+	 <span class="o">*</span> <span class="n">gate</span> <span class="n">turned</span> <span class="n">them</span> <span class="n">off.</span>
+	 <span class="o">*/</span>
+	<span class="n">TRACE_IRQS_OFF</span>
+
+	<span class="n">movq</span>	<span class="o">%rsp, %</span><span class="n">rdi</span>
+	<span class="n">call</span>	<span class="n">do_int80_syscall_32</span>
+<span class="n">.Lsyscall_32_done</span><span class="o">:</span>
+
+	<span class="o">/*</span> <span class="n">Go</span> <span class="n">back</span> <span class="n">to</span> <span class="n">user</span> <span class="n">mode.</span> <span class="o">*/</span>
+	<span class="n">TRACE_IRQS_ON</span>
+	<span class="n">SWAPGS</span>
+	<span class="n">jmp</span>	<span class="n">restore_regs_and_iret</span>
+<span class="nf">END</span><span class="p">(</span><span class="n">entry_INT80_compat</span><span class="p">)</span>
+
+	<span class="n">ALIGN</span>
+<span class="nf">GLOBAL</span><span class="p">(</span><span class="n">stub32_clone</span><span class="p">)</span>
+	<span class="o">/*</span>
+	 <span class="o">*</span> <span class="n">The</span> <span class="m">32</span><span class="o">-</span><span class="n">bit</span> <span class="n">clone</span> <span class="n">ABI</span> <span class="n">is</span><span class="o">:</span> <span class="nf">clone</span><span class="p">(</span><span class="kc">...</span><span class="p">,</span> <span class="n">int</span> <span class="n">tls_val</span><span class="p">,</span> <span class="n">int</span> <span class="o">*</span><span class="n">child_tidptr</span><span class="p">)</span><span class="n">.</span>
+	 <span class="o">*</span> <span class="n">The</span> <span class="m">64</span><span class="o">-</span><span class="n">bit</span> <span class="n">clone</span> <span class="n">ABI</span> <span class="n">is</span><span class="o">:</span> <span class="nf">clone</span><span class="p">(</span><span class="kc">...</span><span class="p">,</span> <span class="n">int</span> <span class="o">*</span><span class="n">child_tidptr</span><span class="p">,</span> <span class="n">int</span> <span class="n">tls_val</span><span class="p">)</span><span class="n">.</span>
+	 <span class="o">*</span>
+	 <span class="o">*</span> <span class="n">The</span> <span class="n">native</span> <span class="m">64</span><span class="o">-</span><span class="n">bit</span> <span class="n">kernel</span><span class="s">&#39;</span><span class="err">s sys_clone() implements the latter,</span>
+	 <span class="o">*</span> <span class="n">so</span> <span class="n">we</span> <span class="n">need</span> <span class="n">to</span> <span class="n">swap</span> <span class="n">arguments</span> <span class="n">here</span> <span class="n">before</span> <span class="n">calling</span> <span class="n">it</span><span class="o">:</span>
+	 <span class="o">*/</span>
+	<span class="n">xchg</span>	<span class="o">%r8, %</span><span class="n">rcx</span>
+	<span class="n">jmp</span>	<span class="n">sys_clone</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

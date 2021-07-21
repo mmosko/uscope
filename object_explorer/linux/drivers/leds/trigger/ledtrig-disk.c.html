@@ -1,0 +1,92 @@
+drivers/leds/trigger/ledtrig-disk.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L1"> 1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L2"> 2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L3"> 3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L4"> 4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L5"> 5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L6"> 6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L7"> 7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L8"> 8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L9"> 9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L10">10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L11">11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L12">12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L13">13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L14">14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L15">15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L16">16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L17">17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L18">18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L19">19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L20">20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L21">21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L22">22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L23">23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L24">24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L25">25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L26">26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L27">27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L28">28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L29">29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L30">30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L31">31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L32">32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L33">33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L34">34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L35">35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L36">36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L37">37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L38">38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L39">39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L40">40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/drivers/leds/trigger/ledtrig-disk.c#L41">41</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * LED Disk Activity Trigger</span>
+<span class="cm"> *</span>
+<span class="cm"> * Copyright 2006 Openedhand Ltd.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Author: Richard Purdie &lt;rpurdie@openedhand.com&gt;</span>
+<span class="cm"> *</span>
+<span class="cm"> * This program is free software; you can redistribute it and/or modify</span>
+<span class="cm"> * it under the terms of the GNU General Public License version 2 as</span>
+<span class="cm"> * published by the Free Software Foundation.</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/kernel.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/init.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/leds.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#define BLINK_DELAY 30</span>
+
+<span class="n">DEFINE_LED_TRIGGER</span><span class="p">(</span><span class="n">ledtrig_disk</span><span class="p">);</span>
+<span class="n">DEFINE_LED_TRIGGER</span><span class="p">(</span><span class="n">ledtrig_ide</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">ledtrig_disk_activity</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">blink_delay</span> <span class="o">=</span> <span class="n">BLINK_DELAY</span><span class="p">;</span>
+
+	<span class="n">led_trigger_blink_oneshot</span><span class="p">(</span><span class="n">ledtrig_disk</span><span class="p">,</span>
+				  <span class="o">&amp;</span><span class="n">blink_delay</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">blink_delay</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="n">led_trigger_blink_oneshot</span><span class="p">(</span><span class="n">ledtrig_ide</span><span class="p">,</span>
+				  <span class="o">&amp;</span><span class="n">blink_delay</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">blink_delay</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">ledtrig_disk_activity</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">__init</span> <span class="nf">ledtrig_disk_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">led_trigger_register_simple</span><span class="p">(</span><span class="s">&quot;disk-activity&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ledtrig_disk</span><span class="p">);</span>
+	<span class="n">led_trigger_register_simple</span><span class="p">(</span><span class="s">&quot;ide-disk&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ledtrig_ide</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">device_initcall</span><span class="p">(</span><span class="n">ledtrig_disk_init</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

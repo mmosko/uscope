@@ -1,0 +1,1110 @@
+fs/notify/mark.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L390">390</a>
+<a name="L391" id="L391" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L391">391</a>
+<a name="L392" id="L392" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L392">392</a>
+<a name="L393" id="L393" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L393">393</a>
+<a name="L394" id="L394" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L394">394</a>
+<a name="L395" id="L395" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L395">395</a>
+<a name="L396" id="L396" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L396">396</a>
+<a name="L397" id="L397" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L397">397</a>
+<a name="L398" id="L398" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L398">398</a>
+<a name="L399" id="L399" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L399">399</a>
+<a name="L400" id="L400" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L400">400</a>
+<a name="L401" id="L401" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L401">401</a>
+<a name="L402" id="L402" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L402">402</a>
+<a name="L403" id="L403" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L403">403</a>
+<a name="L404" id="L404" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L404">404</a>
+<a name="L405" id="L405" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L405">405</a>
+<a name="L406" id="L406" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L406">406</a>
+<a name="L407" id="L407" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L407">407</a>
+<a name="L408" id="L408" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L408">408</a>
+<a name="L409" id="L409" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L409">409</a>
+<a name="L410" id="L410" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L410">410</a>
+<a name="L411" id="L411" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L411">411</a>
+<a name="L412" id="L412" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L412">412</a>
+<a name="L413" id="L413" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L413">413</a>
+<a name="L414" id="L414" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L414">414</a>
+<a name="L415" id="L415" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L415">415</a>
+<a name="L416" id="L416" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L416">416</a>
+<a name="L417" id="L417" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L417">417</a>
+<a name="L418" id="L418" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L418">418</a>
+<a name="L419" id="L419" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L419">419</a>
+<a name="L420" id="L420" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L420">420</a>
+<a name="L421" id="L421" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L421">421</a>
+<a name="L422" id="L422" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L422">422</a>
+<a name="L423" id="L423" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L423">423</a>
+<a name="L424" id="L424" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L424">424</a>
+<a name="L425" id="L425" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L425">425</a>
+<a name="L426" id="L426" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L426">426</a>
+<a name="L427" id="L427" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L427">427</a>
+<a name="L428" id="L428" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L428">428</a>
+<a name="L429" id="L429" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L429">429</a>
+<a name="L430" id="L430" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L430">430</a>
+<a name="L431" id="L431" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L431">431</a>
+<a name="L432" id="L432" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L432">432</a>
+<a name="L433" id="L433" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L433">433</a>
+<a name="L434" id="L434" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L434">434</a>
+<a name="L435" id="L435" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L435">435</a>
+<a name="L436" id="L436" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L436">436</a>
+<a name="L437" id="L437" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L437">437</a>
+<a name="L438" id="L438" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L438">438</a>
+<a name="L439" id="L439" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L439">439</a>
+<a name="L440" id="L440" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L440">440</a>
+<a name="L441" id="L441" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L441">441</a>
+<a name="L442" id="L442" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L442">442</a>
+<a name="L443" id="L443" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L443">443</a>
+<a name="L444" id="L444" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L444">444</a>
+<a name="L445" id="L445" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L445">445</a>
+<a name="L446" id="L446" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L446">446</a>
+<a name="L447" id="L447" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L447">447</a>
+<a name="L448" id="L448" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L448">448</a>
+<a name="L449" id="L449" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L449">449</a>
+<a name="L450" id="L450" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L450">450</a>
+<a name="L451" id="L451" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L451">451</a>
+<a name="L452" id="L452" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L452">452</a>
+<a name="L453" id="L453" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L453">453</a>
+<a name="L454" id="L454" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L454">454</a>
+<a name="L455" id="L455" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L455">455</a>
+<a name="L456" id="L456" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L456">456</a>
+<a name="L457" id="L457" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L457">457</a>
+<a name="L458" id="L458" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L458">458</a>
+<a name="L459" id="L459" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L459">459</a>
+<a name="L460" id="L460" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L460">460</a>
+<a name="L461" id="L461" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L461">461</a>
+<a name="L462" id="L462" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L462">462</a>
+<a name="L463" id="L463" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L463">463</a>
+<a name="L464" id="L464" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L464">464</a>
+<a name="L465" id="L465" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L465">465</a>
+<a name="L466" id="L466" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L466">466</a>
+<a name="L467" id="L467" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L467">467</a>
+<a name="L468" id="L468" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L468">468</a>
+<a name="L469" id="L469" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L469">469</a>
+<a name="L470" id="L470" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L470">470</a>
+<a name="L471" id="L471" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L471">471</a>
+<a name="L472" id="L472" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L472">472</a>
+<a name="L473" id="L473" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L473">473</a>
+<a name="L474" id="L474" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L474">474</a>
+<a name="L475" id="L475" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L475">475</a>
+<a name="L476" id="L476" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L476">476</a>
+<a name="L477" id="L477" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L477">477</a>
+<a name="L478" id="L478" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L478">478</a>
+<a name="L479" id="L479" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L479">479</a>
+<a name="L480" id="L480" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L480">480</a>
+<a name="L481" id="L481" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L481">481</a>
+<a name="L482" id="L482" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L482">482</a>
+<a name="L483" id="L483" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L483">483</a>
+<a name="L484" id="L484" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L484">484</a>
+<a name="L485" id="L485" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L485">485</a>
+<a name="L486" id="L486" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L486">486</a>
+<a name="L487" id="L487" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L487">487</a>
+<a name="L488" id="L488" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L488">488</a>
+<a name="L489" id="L489" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L489">489</a>
+<a name="L490" id="L490" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L490">490</a>
+<a name="L491" id="L491" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L491">491</a>
+<a name="L492" id="L492" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L492">492</a>
+<a name="L493" id="L493" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L493">493</a>
+<a name="L494" id="L494" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L494">494</a>
+<a name="L495" id="L495" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L495">495</a>
+<a name="L496" id="L496" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L496">496</a>
+<a name="L497" id="L497" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L497">497</a>
+<a name="L498" id="L498" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L498">498</a>
+<a name="L499" id="L499" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L499">499</a>
+<a name="L500" id="L500" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L500">500</a>
+<a name="L501" id="L501" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L501">501</a>
+<a name="L502" id="L502" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L502">502</a>
+<a name="L503" id="L503" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L503">503</a>
+<a name="L504" id="L504" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L504">504</a>
+<a name="L505" id="L505" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L505">505</a>
+<a name="L506" id="L506" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L506">506</a>
+<a name="L507" id="L507" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L507">507</a>
+<a name="L508" id="L508" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L508">508</a>
+<a name="L509" id="L509" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L509">509</a>
+<a name="L510" id="L510" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L510">510</a>
+<a name="L511" id="L511" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L511">511</a>
+<a name="L512" id="L512" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L512">512</a>
+<a name="L513" id="L513" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L513">513</a>
+<a name="L514" id="L514" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L514">514</a>
+<a name="L515" id="L515" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L515">515</a>
+<a name="L516" id="L516" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L516">516</a>
+<a name="L517" id="L517" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L517">517</a>
+<a name="L518" id="L518" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L518">518</a>
+<a name="L519" id="L519" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L519">519</a>
+<a name="L520" id="L520" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L520">520</a>
+<a name="L521" id="L521" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L521">521</a>
+<a name="L522" id="L522" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L522">522</a>
+<a name="L523" id="L523" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L523">523</a>
+<a name="L524" id="L524" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L524">524</a>
+<a name="L525" id="L525" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L525">525</a>
+<a name="L526" id="L526" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L526">526</a>
+<a name="L527" id="L527" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L527">527</a>
+<a name="L528" id="L528" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L528">528</a>
+<a name="L529" id="L529" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L529">529</a>
+<a name="L530" id="L530" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L530">530</a>
+<a name="L531" id="L531" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L531">531</a>
+<a name="L532" id="L532" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L532">532</a>
+<a name="L533" id="L533" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L533">533</a>
+<a name="L534" id="L534" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L534">534</a>
+<a name="L535" id="L535" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L535">535</a>
+<a name="L536" id="L536" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L536">536</a>
+<a name="L537" id="L537" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L537">537</a>
+<a name="L538" id="L538" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L538">538</a>
+<a name="L539" id="L539" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L539">539</a>
+<a name="L540" id="L540" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L540">540</a>
+<a name="L541" id="L541" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L541">541</a>
+<a name="L542" id="L542" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L542">542</a>
+<a name="L543" id="L543" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L543">543</a>
+<a name="L544" id="L544" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L544">544</a>
+<a name="L545" id="L545" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L545">545</a>
+<a name="L546" id="L546" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L546">546</a>
+<a name="L547" id="L547" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L547">547</a>
+<a name="L548" id="L548" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L548">548</a>
+<a name="L549" id="L549" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L549">549</a>
+<a name="L550" id="L550" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/mark.c#L550">550</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> *  Copyright (C) 2008 Red Hat, Inc., Eric Paris &lt;eparis@redhat.com&gt;</span>
+<span class="cm"> *</span>
+<span class="cm"> *  This program is free software; you can redistribute it and/or modify</span>
+<span class="cm"> *  it under the terms of the GNU General Public License as published by</span>
+<span class="cm"> *  the Free Software Foundation; either version 2, or (at your option)</span>
+<span class="cm"> *  any later version.</span>
+<span class="cm"> *</span>
+<span class="cm"> *  This program is distributed in the hope that it will be useful,</span>
+<span class="cm"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="cm"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="cm"> *  GNU General Public License for more details.</span>
+<span class="cm"> *</span>
+<span class="cm"> *  You should have received a copy of the GNU General Public License</span>
+<span class="cm"> *  along with this program; see the file COPYING.  If not, write to</span>
+<span class="cm"> *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.</span>
+<span class="cm"> */</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * fsnotify inode mark locking/lifetime/and refcnting</span>
+<span class="cm"> *</span>
+<span class="cm"> * REFCNT:</span>
+<span class="cm"> * The group-&gt;recnt and mark-&gt;refcnt tell how many &quot;things&quot; in the kernel</span>
+<span class="cm"> * currently are referencing the objects. Both kind of objects typically will</span>
+<span class="cm"> * live inside the kernel with a refcnt of 2, one for its creation and one for</span>
+<span class="cm"> * the reference a group and a mark hold to each other.</span>
+<span class="cm"> * If you are holding the appropriate locks, you can take a reference and the</span>
+<span class="cm"> * object itself is guaranteed to survive until the reference is dropped.</span>
+<span class="cm"> *</span>
+<span class="cm"> * LOCKING:</span>
+<span class="cm"> * There are 3 locks involved with fsnotify inode marks and they MUST be taken</span>
+<span class="cm"> * in order as follows:</span>
+<span class="cm"> *</span>
+<span class="cm"> * group-&gt;mark_mutex</span>
+<span class="cm"> * mark-&gt;lock</span>
+<span class="cm"> * inode-&gt;i_lock</span>
+<span class="cm"> *</span>
+<span class="cm"> * group-&gt;mark_mutex protects the marks_list anchored inside a given group and</span>
+<span class="cm"> * each mark is hooked via the g_list.  It also protects the groups private</span>
+<span class="cm"> * data (i.e group limits).</span>
+
+<span class="cm"> * mark-&gt;lock protects the marks attributes like its masks and flags.</span>
+<span class="cm"> * Furthermore it protects the access to a reference of the group that the mark</span>
+<span class="cm"> * is assigned to as well as the access to a reference of the inode/vfsmount</span>
+<span class="cm"> * that is being watched by the mark.</span>
+<span class="cm"> *</span>
+<span class="cm"> * inode-&gt;i_lock protects the i_fsnotify_marks list anchored inside a</span>
+<span class="cm"> * given inode and each mark is hooked via the i_list. (and sorta the</span>
+<span class="cm"> * free_i_list)</span>
+<span class="cm"> *</span>
+<span class="cm"> *</span>
+<span class="cm"> * LIFETIME:</span>
+<span class="cm"> * Inode marks survive between when they are added to an inode and when their</span>
+<span class="cm"> * refcnt==0.</span>
+<span class="cm"> *</span>
+<span class="cm"> * The inode mark can be cleared for a number of different reasons including:</span>
+<span class="cm"> * - The inode is unlinked for the last time.  (fsnotify_inode_remove)</span>
+<span class="cm"> * - The inode is being evicted from cache. (fsnotify_inode_delete)</span>
+<span class="cm"> * - The fs the inode is on is unmounted.  (fsnotify_inode_delete/fsnotify_unmount_inodes)</span>
+<span class="cm"> * - Something explicitly requests that it be removed.  (fsnotify_destroy_mark)</span>
+<span class="cm"> * - The fsnotify_group associated with the mark is going away and all such marks</span>
+<span class="cm"> *   need to be cleaned up. (fsnotify_clear_marks_by_group)</span>
+<span class="cm"> *</span>
+<span class="cm"> * Worst case we are given an inode and need to clean up all the marks on that</span>
+<span class="cm"> * inode.  We take i_lock and walk the i_fsnotify_marks safely.  For each</span>
+<span class="cm"> * mark on the list we take a reference (so the mark can&#39;t disappear under us).</span>
+<span class="cm"> * We remove that mark form the inode&#39;s list of marks and we add this mark to a</span>
+<span class="cm"> * private list anchored on the stack using i_free_list; we walk i_free_list</span>
+<span class="cm"> * and before we destroy the mark we make sure that we dont race with a</span>
+<span class="cm"> * concurrent destroy_group by getting a ref to the marks group and taking the</span>
+<span class="cm"> * groups mutex.</span>
+
+<span class="cm"> * Very similarly for freeing by group, except we use free_g_list.</span>
+<span class="cm"> *</span>
+<span class="cm"> * This has the very interesting property of being able to run concurrently with</span>
+<span class="cm"> * any (or all) other directions.</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/fs.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/init.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/kernel.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/kthread.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/module.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/mutex.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/slab.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/spinlock.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/srcu.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/atomic.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/fsnotify_backend.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;fsnotify.h&quot;</span><span class="cp"></span>
+
+<span class="cp">#define FSNOTIFY_REAPER_DELAY	(1)	</span><span class="cm">/* 1 jiffy */</span><span class="cp"></span>
+
+<span class="k">struct</span> <span class="n">srcu_struct</span> <span class="n">fsnotify_mark_srcu</span><span class="p">;</span>
+<span class="k">static</span> <span class="nf">DEFINE_SPINLOCK</span><span class="p">(</span><span class="n">destroy_lock</span><span class="p">);</span>
+<span class="k">static</span> <span class="nf">LIST_HEAD</span><span class="p">(</span><span class="n">destroy_list</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">fsnotify_mark_destroy_workfn</span><span class="p">(</span><span class="k">struct</span> <span class="n">work_struct</span> <span class="o">*</span><span class="n">work</span><span class="p">);</span>
+<span class="k">static</span> <span class="nf">DECLARE_DELAYED_WORK</span><span class="p">(</span><span class="n">reaper_work</span><span class="p">,</span> <span class="n">fsnotify_mark_destroy_workfn</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">fsnotify_get_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">atomic_inc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">refcnt</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">fsnotify_put_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">atomic_dec_and_test</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">refcnt</span><span class="p">))</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">group</span><span class="p">)</span>
+			<span class="n">fsnotify_put_group</span><span class="p">(</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">group</span><span class="p">);</span>
+		<span class="n">mark</span><span class="o">-&gt;</span><span class="n">free_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/* Calculate mask of events for a list of marks */</span>
+<span class="n">u32</span> <span class="nf">fsnotify_recalc_mask</span><span class="p">(</span><span class="k">struct</span> <span class="n">hlist_head</span> <span class="o">*</span><span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">u32</span> <span class="n">new_mask</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">;</span>
+
+	<span class="n">hlist_for_each_entry</span><span class="p">(</span><span class="n">mark</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">obj_list</span><span class="p">)</span>
+		<span class="n">new_mask</span> <span class="o">|=</span> <span class="n">mark</span><span class="o">-&gt;</span><span class="n">mask</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">new_mask</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Remove mark from inode / vfsmount list, group list, drop inode reference</span>
+<span class="cm"> * if we got one.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Must be called with group-&gt;mark_mutex held.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">fsnotify_detach_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span> <span class="o">=</span> <span class="n">mark</span><span class="o">-&gt;</span><span class="n">group</span><span class="p">;</span>
+
+	<span class="n">BUG_ON</span><span class="p">(</span><span class="o">!</span><span class="n">mutex_is_locked</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">));</span>
+
+	<span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+
+	<span class="cm">/* something else already called this function on this mark */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">FSNOTIFY_MARK_FLAG_ATTACHED</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">mark</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">FSNOTIFY_MARK_FLAG_ATTACHED</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">FSNOTIFY_MARK_FLAG_INODE</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">inode</span> <span class="o">=</span> <span class="n">mark</span><span class="o">-&gt;</span><span class="n">inode</span><span class="p">;</span>
+		<span class="n">fsnotify_destroy_inode_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">FSNOTIFY_MARK_FLAG_VFSMOUNT</span><span class="p">)</span>
+		<span class="n">fsnotify_destroy_vfsmount_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">BUG</span><span class="p">();</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * Note that we didn&#39;t update flags telling whether inode cares about</span>
+<span class="cm">	 * what&#39;s happening with children. We update these flags from</span>
+<span class="cm">	 * __fsnotify_parent() lazily when next event happens on one of our</span>
+<span class="cm">	 * children.</span>
+<span class="cm">	 */</span>
+
+	<span class="n">list_del_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">g_list</span><span class="p">);</span>
+
+	<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">inode</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">FSNOTIFY_MARK_FLAG_OBJECT_PINNED</span><span class="p">))</span>
+		<span class="n">iput</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+
+	<span class="n">atomic_dec</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">num_marks</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Prepare mark for freeing and add it to the list of marks prepared for</span>
+<span class="cm"> * freeing. The actual freeing must happen after SRCU period ends and the</span>
+<span class="cm"> * caller is responsible for this.</span>
+<span class="cm"> *</span>
+<span class="cm"> * The function returns true if the mark was added to the list of marks for</span>
+<span class="cm"> * freeing. The function returns false if someone else has already called</span>
+<span class="cm"> * __fsnotify_free_mark() for the mark.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="n">bool</span> <span class="nf">__fsnotify_free_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span> <span class="o">=</span> <span class="n">mark</span><span class="o">-&gt;</span><span class="n">group</span><span class="p">;</span>
+
+	<span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+	<span class="cm">/* something else already called this function on this mark */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">FSNOTIFY_MARK_FLAG_ALIVE</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">mark</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">FSNOTIFY_MARK_FLAG_ALIVE</span><span class="p">;</span>
+	<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * Some groups like to know that marks are being freed.  This is a</span>
+<span class="cm">	 * callback to the group function to let it know that this mark</span>
+<span class="cm">	 * is being freed.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">freeing_mark</span><span class="p">)</span>
+		<span class="n">group</span><span class="o">-&gt;</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">freeing_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">,</span> <span class="n">group</span><span class="p">);</span>
+
+	<span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">destroy_lock</span><span class="p">);</span>
+	<span class="n">list_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">g_list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">destroy_list</span><span class="p">);</span>
+	<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">destroy_lock</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Free fsnotify mark. The freeing is actually happening from a workqueue which</span>
+<span class="cm"> * first waits for srcu period end. Caller must have a reference to the mark</span>
+<span class="cm"> * or be protected by fsnotify_mark_srcu.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">fsnotify_free_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">__fsnotify_free_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">queue_delayed_work</span><span class="p">(</span><span class="n">system_unbound_wq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">reaper_work</span><span class="p">,</span>
+				   <span class="n">FSNOTIFY_REAPER_DELAY</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">fsnotify_destroy_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span>
+			   <span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">mutex_lock_nested</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">,</span> <span class="n">SINGLE_DEPTH_NESTING</span><span class="p">);</span>
+	<span class="n">fsnotify_detach_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+	<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">);</span>
+	<span class="n">fsnotify_free_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">fsnotify_destroy_marks</span><span class="p">(</span><span class="k">struct</span> <span class="n">hlist_head</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="n">spinlock_t</span> <span class="o">*</span><span class="n">lock</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * We have to be careful since we can race with e.g.</span>
+<span class="cm">		 * fsnotify_clear_marks_by_group() and once we drop &#39;lock&#39;,</span>
+<span class="cm">		 * mark can get removed from the obj_list and destroyed. But</span>
+<span class="cm">		 * we are holding mark reference so mark cannot be freed and</span>
+<span class="cm">		 * calling fsnotify_destroy_mark() more than once is fine.</span>
+<span class="cm">		 */</span>
+		<span class="n">spin_lock</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">hlist_empty</span><span class="p">(</span><span class="n">head</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">spin_unlock</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">mark</span> <span class="o">=</span> <span class="n">hlist_entry</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fsnotify_mark</span><span class="p">,</span> <span class="n">obj_list</span><span class="p">);</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * We don&#39;t update i_fsnotify_mask / mnt_fsnotify_mask here</span>
+<span class="cm">		 * since inode / mount is going away anyway. So just remove</span>
+<span class="cm">		 * mark from the list.</span>
+<span class="cm">		 */</span>
+		<span class="n">hlist_del_init_rcu</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">obj_list</span><span class="p">);</span>
+		<span class="n">fsnotify_get_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+		<span class="n">spin_unlock</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
+		<span class="n">fsnotify_destroy_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">,</span> <span class="n">mark</span><span class="o">-&gt;</span><span class="n">group</span><span class="p">);</span>
+		<span class="n">fsnotify_put_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">fsnotify_set_mark_mask_locked</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span> <span class="n">__u32</span> <span class="n">mask</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert_spin_locked</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+
+	<span class="n">mark</span><span class="o">-&gt;</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">FSNOTIFY_MARK_FLAG_INODE</span><span class="p">)</span>
+		<span class="n">fsnotify_set_inode_mark_mask_locked</span><span class="p">(</span><span class="n">mark</span><span class="p">,</span> <span class="n">mask</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">fsnotify_set_mark_ignored_mask_locked</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span> <span class="n">__u32</span> <span class="n">mask</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert_spin_locked</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+
+	<span class="n">mark</span><span class="o">-&gt;</span><span class="n">ignored_mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Sorting function for lists of fsnotify marks.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Fanotify supports different notification classes (reflected as priority of</span>
+<span class="cm"> * notification group). Events shall be passed to notification groups in</span>
+<span class="cm"> * decreasing priority order. To achieve this marks in notification lists for</span>
+<span class="cm"> * inodes and vfsmounts are sorted so that priorities of corresponding groups</span>
+<span class="cm"> * are descending.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Furthermore correct handling of the ignore mask requires processing inode</span>
+<span class="cm"> * and vfsmount marks of each group together. Using the group address as</span>
+<span class="cm"> * further sort criterion provides a unique sorting order and thus we can</span>
+<span class="cm"> * merge inode and vfsmount lists of marks in linear time and find groups</span>
+<span class="cm"> * present in both lists.</span>
+<span class="cm"> *</span>
+<span class="cm"> * A return value of 1 signifies that b has priority over a.</span>
+<span class="cm"> * A return value of 0 signifies that the two marks have to be handled together.</span>
+<span class="cm"> * A return value of -1 signifies that a has priority over b.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">fsnotify_compare_groups</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">a</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">b</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">priority</span> <span class="o">&lt;</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">priority</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">priority</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">priority</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Add mark into proper place in given list of marks */</span>
+<span class="kt">int</span> <span class="nf">fsnotify_add_mark_list</span><span class="p">(</span><span class="k">struct</span> <span class="n">hlist_head</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span>
+			   <span class="kt">int</span> <span class="n">allow_dups</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">lmark</span><span class="p">,</span> <span class="o">*</span><span class="n">last</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">cmp</span><span class="p">;</span>
+
+	<span class="cm">/* is mark the first mark? */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">hlist_empty</span><span class="p">(</span><span class="n">head</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">hlist_add_head_rcu</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">obj_list</span><span class="p">,</span> <span class="n">head</span><span class="p">);</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* should mark be in the middle of the current list? */</span>
+	<span class="n">hlist_for_each_entry</span><span class="p">(</span><span class="n">lmark</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">obj_list</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">last</span> <span class="o">=</span> <span class="n">lmark</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">((</span><span class="n">lmark</span><span class="o">-&gt;</span><span class="n">group</span> <span class="o">==</span> <span class="n">mark</span><span class="o">-&gt;</span><span class="n">group</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">allow_dups</span><span class="p">)</span>
+			<span class="k">return</span> <span class="o">-</span><span class="n">EEXIST</span><span class="p">;</span>
+
+		<span class="n">cmp</span> <span class="o">=</span> <span class="n">fsnotify_compare_groups</span><span class="p">(</span><span class="n">lmark</span><span class="o">-&gt;</span><span class="n">group</span><span class="p">,</span> <span class="n">mark</span><span class="o">-&gt;</span><span class="n">group</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">cmp</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">hlist_add_before_rcu</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">obj_list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">lmark</span><span class="o">-&gt;</span><span class="n">obj_list</span><span class="p">);</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="n">BUG_ON</span><span class="p">(</span><span class="n">last</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="cm">/* mark should be the last entry.  last is the current last entry */</span>
+	<span class="n">hlist_add_behind_rcu</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">obj_list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">last</span><span class="o">-&gt;</span><span class="n">obj_list</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Attach an initialized mark to a given group and fs object.</span>
+<span class="cm"> * These marks may be used for the fsnotify backend to determine which</span>
+<span class="cm"> * event types should be delivered to which group.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">fsnotify_add_mark_locked</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span>
+			     <span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">,</span> <span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span>
+			     <span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">mnt</span><span class="p">,</span> <span class="kt">int</span> <span class="n">allow_dups</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">BUG_ON</span><span class="p">(</span><span class="n">inode</span> <span class="o">&amp;&amp;</span> <span class="n">mnt</span><span class="p">);</span>
+	<span class="n">BUG_ON</span><span class="p">(</span><span class="o">!</span><span class="n">inode</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">mnt</span><span class="p">);</span>
+	<span class="n">BUG_ON</span><span class="p">(</span><span class="o">!</span><span class="n">mutex_is_locked</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">));</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * LOCKING ORDER!!!!</span>
+<span class="cm">	 * group-&gt;mark_mutex</span>
+<span class="cm">	 * mark-&gt;lock</span>
+<span class="cm">	 * inode-&gt;i_lock</span>
+<span class="cm">	 */</span>
+	<span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+	<span class="n">mark</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">|=</span> <span class="n">FSNOTIFY_MARK_FLAG_ALIVE</span> <span class="o">|</span> <span class="n">FSNOTIFY_MARK_FLAG_ATTACHED</span><span class="p">;</span>
+
+	<span class="n">fsnotify_get_group</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+	<span class="n">mark</span><span class="o">-&gt;</span><span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="p">;</span>
+	<span class="n">list_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">g_list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">marks_list</span><span class="p">);</span>
+	<span class="n">atomic_inc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">num_marks</span><span class="p">);</span>
+	<span class="n">fsnotify_get_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span> <span class="cm">/* for i_list and g_list */</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">inode</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">fsnotify_add_inode_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">inode</span><span class="p">,</span> <span class="n">allow_dups</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+			<span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">mnt</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">fsnotify_add_vfsmount_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">mnt</span><span class="p">,</span> <span class="n">allow_dups</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+			<span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">BUG</span><span class="p">();</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* this will pin the object if appropriate */</span>
+	<span class="n">fsnotify_set_mark_mask_locked</span><span class="p">(</span><span class="n">mark</span><span class="p">,</span> <span class="n">mark</span><span class="o">-&gt;</span><span class="n">mask</span><span class="p">);</span>
+	<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">inode</span><span class="p">)</span>
+		<span class="n">__fsnotify_update_child_dentry_flags</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="nl">err</span><span class="p">:</span>
+	<span class="n">mark</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">FSNOTIFY_MARK_FLAG_ALIVE</span><span class="p">;</span>
+	<span class="n">list_del_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">g_list</span><span class="p">);</span>
+	<span class="n">fsnotify_put_group</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+	<span class="n">mark</span><span class="o">-&gt;</span><span class="n">group</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">atomic_dec</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">num_marks</span><span class="p">);</span>
+
+	<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+
+	<span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">destroy_lock</span><span class="p">);</span>
+	<span class="n">list_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">g_list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">destroy_list</span><span class="p">);</span>
+	<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">destroy_lock</span><span class="p">);</span>
+	<span class="n">queue_delayed_work</span><span class="p">(</span><span class="n">system_unbound_wq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">reaper_work</span><span class="p">,</span>
+				<span class="n">FSNOTIFY_REAPER_DELAY</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">fsnotify_add_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">,</span>
+		      <span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">mnt</span><span class="p">,</span> <span class="kt">int</span> <span class="n">allow_dups</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="n">mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">);</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">fsnotify_add_mark_locked</span><span class="p">(</span><span class="n">mark</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">inode</span><span class="p">,</span> <span class="n">mnt</span><span class="p">,</span> <span class="n">allow_dups</span><span class="p">);</span>
+	<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Given a list of marks, find the mark associated with given group. If found</span>
+<span class="cm"> * take a reference to that mark and return it, else return NULL.</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="nf">fsnotify_find_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">hlist_head</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span>
+					 <span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">;</span>
+
+	<span class="n">hlist_for_each_entry</span><span class="p">(</span><span class="n">mark</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">obj_list</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">group</span> <span class="o">==</span> <span class="n">group</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">fsnotify_get_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+			<span class="k">return</span> <span class="n">mark</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * clear any marks in a group in which mark-&gt;flags &amp; flags is true</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">fsnotify_clear_marks_by_group_flags</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">,</span>
+					 <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">lmark</span><span class="p">,</span> <span class="o">*</span><span class="n">mark</span><span class="p">;</span>
+	<span class="n">LIST_HEAD</span><span class="p">(</span><span class="n">to_free</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * We have to be really careful here. Anytime we drop mark_mutex, e.g.</span>
+<span class="cm">	 * fsnotify_clear_marks_by_inode() can come and free marks. Even in our</span>
+<span class="cm">	 * to_free list so we have to use mark_mutex even when accessing that</span>
+<span class="cm">	 * list. And freeing mark requires us to drop mark_mutex. So we can</span>
+<span class="cm">	 * reliably free only the first mark in the list. That&#39;s why we first</span>
+<span class="cm">	 * move marks to free to to_free list in one go and then free marks in</span>
+<span class="cm">	 * to_free list one by one.</span>
+<span class="cm">	 */</span>
+	<span class="n">mutex_lock_nested</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">,</span> <span class="n">SINGLE_DEPTH_NESTING</span><span class="p">);</span>
+	<span class="n">list_for_each_entry_safe</span><span class="p">(</span><span class="n">mark</span><span class="p">,</span> <span class="n">lmark</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">marks_list</span><span class="p">,</span> <span class="n">g_list</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">flags</span><span class="p">)</span>
+			<span class="n">list_move</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">g_list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">to_free</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">);</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">mutex_lock_nested</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">,</span> <span class="n">SINGLE_DEPTH_NESTING</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">list_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">to_free</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">mark</span> <span class="o">=</span> <span class="n">list_first_entry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">to_free</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fsnotify_mark</span><span class="p">,</span> <span class="n">g_list</span><span class="p">);</span>
+		<span class="n">fsnotify_get_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+		<span class="n">fsnotify_detach_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+		<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">);</span>
+		<span class="n">fsnotify_free_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+		<span class="n">fsnotify_put_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Given a group, prepare for freeing all the marks associated with that group.</span>
+<span class="cm"> * The marks are attached to the list of marks prepared for destruction, the</span>
+<span class="cm"> * caller is responsible for freeing marks in that list after SRCU period has</span>
+<span class="cm"> * ended.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">fsnotify_detach_group_marks</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_group</span> <span class="o">*</span><span class="n">group</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">mutex_lock_nested</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">,</span> <span class="n">SINGLE_DEPTH_NESTING</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">list_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">marks_list</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">mark</span> <span class="o">=</span> <span class="n">list_first_entry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">marks_list</span><span class="p">,</span>
+					<span class="k">struct</span> <span class="n">fsnotify_mark</span><span class="p">,</span> <span class="n">g_list</span><span class="p">);</span>
+		<span class="n">fsnotify_get_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+		<span class="n">fsnotify_detach_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+		<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">group</span><span class="o">-&gt;</span><span class="n">mark_mutex</span><span class="p">);</span>
+		<span class="n">__fsnotify_free_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+		<span class="n">fsnotify_put_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Nothing fancy, just initialize lists and locks and counters.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">fsnotify_init_mark</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span>
+			<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">free_mark</span><span class="p">)(</span><span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">))</span>
+<span class="p">{</span>
+	<span class="n">memset</span><span class="p">(</span><span class="n">mark</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">mark</span><span class="p">));</span>
+	<span class="n">spin_lock_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+	<span class="n">atomic_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">refcnt</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="n">mark</span><span class="o">-&gt;</span><span class="n">free_mark</span> <span class="o">=</span> <span class="n">free_mark</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Destroy all marks in destroy_list, waits for SRCU period to finish before</span>
+<span class="cm"> * actually freeing marks.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">fsnotify_mark_destroy_list</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">fsnotify_mark</span> <span class="o">*</span><span class="n">mark</span><span class="p">,</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">private_destroy_list</span><span class="p">;</span>
+
+	<span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">destroy_lock</span><span class="p">);</span>
+	<span class="cm">/* exchange the list head */</span>
+	<span class="n">list_replace_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">destroy_list</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">private_destroy_list</span><span class="p">);</span>
+	<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">destroy_lock</span><span class="p">);</span>
+
+	<span class="n">synchronize_srcu</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fsnotify_mark_srcu</span><span class="p">);</span>
+
+	<span class="n">list_for_each_entry_safe</span><span class="p">(</span><span class="n">mark</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">private_destroy_list</span><span class="p">,</span> <span class="n">g_list</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">list_del_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mark</span><span class="o">-&gt;</span><span class="n">g_list</span><span class="p">);</span>
+		<span class="n">fsnotify_put_mark</span><span class="p">(</span><span class="n">mark</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">fsnotify_mark_destroy_workfn</span><span class="p">(</span><span class="k">struct</span> <span class="n">work_struct</span> <span class="o">*</span><span class="n">work</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">fsnotify_mark_destroy_list</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

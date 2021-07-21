@@ -1,0 +1,20 @@
+<html>
+Compartment 78<br />
+<a href='A1e-06_77.html'> Prev</a>
+<a href='A1e-06_79.html'> Next</a>
+<br /><br />
+<strong> Compartment 78 is 768 bytes and has 3 functions:</strong><br />
+1. <a href='javascript:void(0)' onclick="parent.setColors(8,[4,5,6,7,8],[[],[],[1,2,3,5,6,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7,8]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/balloc.c.html#L667'">fs/ext4/balloc.c:ext4_count_free_clusters</a> (192 bytes)<br />
+2. <a href='javascript:void(0)' onclick="parent.setColors(8,[1,2,3,4,5,6,7,8],[[],[],[1,2,3,5,6,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7,8]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/mballoc.c.html#L2402'">fs/ext4/mballoc.c:ext4_mb_add_groupinfo</a> (528 bytes)<br />
+3. <a href='javascript:void(0)' onclick="parent.setColors(8,[1,2,6,8],[[],[],[1,2,3,5,6,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7,8]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/super.c.html#L225'">fs/ext4/super.c:ext4_free_group_clusters</a> (48 bytes)<br />
+<br /><br />
+<strong> Compartment 78 accesses 8 objects:</strong><br />
+<span id='obj1'>1. ALLOC_PAGES alloc from fs/buffer.c:__find_get_block <br /></span>
+<span id='obj2'>2. ALLOC_PAGES alloc from mm/filemap.c:generic_file_read_iter <br /></span>
+<span id='obj3'>3. Global var ext4_groupinfo_caches <br /></span>
+<span id='obj4'>4. KMEM_CACHE alloc from fs/ext4/mballoc.c:ext4_mb_add_groupinfo <br /></span>
+<span id='obj5'>5. KMEM_CACHE alloc from fs/ext4/mballoc.c:ext4_mb_add_groupinfo <br /></span>
+<span id='obj6'>6. KMEM_CACHE alloc from fs/ext4/super.c:ext4_fill_super <br /></span>
+<span id='obj7'>7. KMEM_CACHE alloc from fs/ext4/super.c:ext4_kvzalloc <br /></span>
+<span id='obj8'>8. KMEM_CACHE alloc from fs/super.c:sget_userns <br /></span>
+</body></html>

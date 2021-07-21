@@ -1,0 +1,286 @@
+net/core/request_sock.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/net/core/request_sock.c#L138">138</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * NET		Generic infrastructure for Network protocols.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Authors:	Arnaldo Carvalho de Melo &lt;acme@conectiva.com.br&gt;</span>
+<span class="cm"> *</span>
+<span class="cm"> * 		From code originally in include/net/tcp.h</span>
+<span class="cm"> *</span>
+<span class="cm"> *		This program is free software; you can redistribute it and/or</span>
+<span class="cm"> *		modify it under the terms of the GNU General Public License</span>
+<span class="cm"> *		as published by the Free Software Foundation; either version</span>
+<span class="cm"> *		2 of the License, or (at your option) any later version.</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/module.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/random.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/slab.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/string.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/tcp.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/vmalloc.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;net/request_sock.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Maximum number of SYN_RECV sockets in queue per LISTEN socket.</span>
+<span class="cm"> * One SYN_RECV socket costs about 80bytes on a 32bit machine.</span>
+<span class="cm"> * It would be better to replace it with a global counter for all sockets</span>
+<span class="cm"> * but then some measure against one socket starving all other sockets</span>
+<span class="cm"> * would be needed.</span>
+<span class="cm"> *</span>
+<span class="cm"> * The minimum value of it is 128. Experiments with real servers show that</span>
+<span class="cm"> * it is absolutely not enough even at 100conn/sec. 256 cures most</span>
+<span class="cm"> * of problems.</span>
+<span class="cm"> * This value is adjusted to 128 for low memory machines,</span>
+<span class="cm"> * and it will increase in proportion to the memory of machine.</span>
+<span class="cm"> * Note : Dont forget somaxconn that may limit backlog too.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="n">sysctl_max_syn_backlog</span> <span class="o">=</span> <span class="mi">256</span><span class="p">;</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">sysctl_max_syn_backlog</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">reqsk_queue_alloc</span><span class="p">(</span><span class="k">struct</span> <span class="n">request_sock_queue</span> <span class="o">*</span><span class="n">queue</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">spin_lock_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="o">-&gt;</span><span class="n">rskq_lock</span><span class="p">);</span>
+
+	<span class="n">spin_lock_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="o">-&gt;</span><span class="n">fastopenq</span><span class="p">.</span><span class="n">lock</span><span class="p">);</span>
+	<span class="n">queue</span><span class="o">-&gt;</span><span class="n">fastopenq</span><span class="p">.</span><span class="n">rskq_rst_head</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">queue</span><span class="o">-&gt;</span><span class="n">fastopenq</span><span class="p">.</span><span class="n">rskq_rst_tail</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">queue</span><span class="o">-&gt;</span><span class="n">fastopenq</span><span class="p">.</span><span class="n">qlen</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">queue</span><span class="o">-&gt;</span><span class="n">rskq_accept_head</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * This function is called to set a Fast Open socket&#39;s &quot;fastopen_rsk&quot; field</span>
+<span class="cm"> * to NULL when a TFO socket no longer needs to access the request_sock.</span>
+<span class="cm"> * This happens only after 3WHS has been either completed or aborted (e.g.,</span>
+<span class="cm"> * RST is received).</span>
+<span class="cm"> *</span>
+<span class="cm"> * Before TFO, a child socket is created only after 3WHS is completed,</span>
+<span class="cm"> * hence it never needs to access the request_sock. things get a lot more</span>
+<span class="cm"> * complex with TFO. A child socket, accepted or not, has to access its</span>
+<span class="cm"> * request_sock for 3WHS processing, e.g., to retransmit SYN-ACK pkts,</span>
+<span class="cm"> * until 3WHS is either completed or aborted. Afterwards the req will stay</span>
+<span class="cm"> * until either the child socket is accepted, or in the rare case when the</span>
+<span class="cm"> * listener is closed before the child is accepted.</span>
+<span class="cm"> *</span>
+<span class="cm"> * In short, a request socket is only freed after BOTH 3WHS has completed</span>
+<span class="cm"> * (or aborted) and the child socket has been accepted (or listener closed).</span>
+<span class="cm"> * When a child socket is accepted, its corresponding req-&gt;sk is set to</span>
+<span class="cm"> * NULL since it&#39;s no longer needed. More importantly, &quot;req-&gt;sk == NULL&quot;</span>
+<span class="cm"> * will be used by the code below to determine if a child socket has been</span>
+<span class="cm"> * accepted or not, and the check is protected by the fastopenq-&gt;lock</span>
+<span class="cm"> * described below.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Note that fastopen_rsk is only accessed from the child socket&#39;s context</span>
+<span class="cm"> * with its socket lock held. But a request_sock (req) can be accessed by</span>
+<span class="cm"> * both its child socket through fastopen_rsk, and a listener socket through</span>
+<span class="cm"> * icsk_accept_queue.rskq_accept_head. To protect the access a simple spin</span>
+<span class="cm"> * lock per listener &quot;icsk-&gt;icsk_accept_queue.fastopenq-&gt;lock&quot; is created.</span>
+<span class="cm"> * only in the rare case when both the listener and the child locks are held,</span>
+<span class="cm"> * e.g., in inet_csk_listen_stop() do we not need to acquire the lock.</span>
+<span class="cm"> * The lock also protects other fields such as fastopenq-&gt;qlen, which is</span>
+<span class="cm"> * decremented by this function when fastopen_rsk is no longer needed.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Note that another solution was to simply use the existing socket lock</span>
+<span class="cm"> * from the listener. But first socket lock is difficult to use. It is not</span>
+<span class="cm"> * a simple spin lock - one must consider sock_owned_by_user() and arrange</span>
+<span class="cm"> * to use sk_add_backlog() stuff. But what really makes it infeasible is the</span>
+<span class="cm"> * locking hierarchy violation. E.g., inet_csk_listen_stop() may try to</span>
+<span class="cm"> * acquire a child&#39;s lock while holding listener&#39;s socket lock. A corner</span>
+<span class="cm"> * case might also exist in tcp_v4_hnd_req() that will trigger this locking</span>
+<span class="cm"> * order.</span>
+<span class="cm"> *</span>
+<span class="cm"> * This function also sets &quot;treq-&gt;tfo_listener&quot; to false.</span>
+<span class="cm"> * treq-&gt;tfo_listener is used by the listener so it is protected by the</span>
+<span class="cm"> * fastopenq-&gt;lock in this function.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">reqsk_fastopen_remove</span><span class="p">(</span><span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">,</span> <span class="k">struct</span> <span class="n">request_sock</span> <span class="o">*</span><span class="n">req</span><span class="p">,</span>
+			   <span class="n">bool</span> <span class="n">reset</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">lsk</span> <span class="o">=</span> <span class="n">req</span><span class="o">-&gt;</span><span class="n">rsk_listener</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">fastopen_queue</span> <span class="o">*</span><span class="n">fastopenq</span><span class="p">;</span>
+
+	<span class="n">fastopenq</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">inet_csk</span><span class="p">(</span><span class="n">lsk</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">icsk_accept_queue</span><span class="p">.</span><span class="n">fastopenq</span><span class="p">;</span>
+
+	<span class="n">tcp_sk</span><span class="p">(</span><span class="n">sk</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">fastopen_rsk</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">spin_lock_bh</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fastopenq</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+	<span class="n">fastopenq</span><span class="o">-&gt;</span><span class="n">qlen</span><span class="o">--</span><span class="p">;</span>
+	<span class="n">tcp_rsk</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">tfo_listener</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">sk</span><span class="p">)</span>	<span class="cm">/* the child socket hasn&#39;t been accepted yet */</span>
+		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">reset</span> <span class="o">||</span> <span class="n">lsk</span><span class="o">-&gt;</span><span class="n">sk_state</span> <span class="o">!=</span> <span class="n">TCP_LISTEN</span><span class="p">)</span> <span class="p">{</span>
+		<span class="cm">/* If the listener has been closed don&#39;t bother with the</span>
+<span class="cm">		 * special RST handling below.</span>
+<span class="cm">		 */</span>
+		<span class="n">spin_unlock_bh</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fastopenq</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+		<span class="n">reqsk_put</span><span class="p">(</span><span class="n">req</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="cm">/* Wait for 60secs before removing a req that has triggered RST.</span>
+<span class="cm">	 * This is a simple defense against TFO spoofing attack - by</span>
+<span class="cm">	 * counting the req against fastopen.max_qlen, and disabling</span>
+<span class="cm">	 * TFO when the qlen exceeds max_qlen.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * For more details see CoNext&#39;11 &quot;TCP Fast Open&quot; paper.</span>
+<span class="cm">	 */</span>
+	<span class="n">req</span><span class="o">-&gt;</span><span class="n">rsk_timer</span><span class="p">.</span><span class="n">expires</span> <span class="o">=</span> <span class="n">jiffies</span> <span class="o">+</span> <span class="mi">60</span><span class="o">*</span><span class="n">HZ</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">fastopenq</span><span class="o">-&gt;</span><span class="n">rskq_rst_head</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">fastopenq</span><span class="o">-&gt;</span><span class="n">rskq_rst_head</span> <span class="o">=</span> <span class="n">req</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">fastopenq</span><span class="o">-&gt;</span><span class="n">rskq_rst_tail</span><span class="o">-&gt;</span><span class="n">dl_next</span> <span class="o">=</span> <span class="n">req</span><span class="p">;</span>
+
+	<span class="n">req</span><span class="o">-&gt;</span><span class="n">dl_next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">fastopenq</span><span class="o">-&gt;</span><span class="n">rskq_rst_tail</span> <span class="o">=</span> <span class="n">req</span><span class="p">;</span>
+	<span class="n">fastopenq</span><span class="o">-&gt;</span><span class="n">qlen</span><span class="o">++</span><span class="p">;</span>
+<span class="nl">out</span><span class="p">:</span>
+	<span class="n">spin_unlock_bh</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fastopenq</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

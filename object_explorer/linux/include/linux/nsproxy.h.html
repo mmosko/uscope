@@ -1,0 +1,184 @@
+include/linux/nsproxy.h<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L1"> 1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L2"> 2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L3"> 3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L4"> 4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L5"> 5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L6"> 6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L7"> 7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L8"> 8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L9"> 9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L10">10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L11">11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L12">12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L13">13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L14">14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L15">15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L16">16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L17">17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L18">18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L19">19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L20">20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L21">21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L22">22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L23">23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L24">24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L25">25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L26">26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L27">27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L28">28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L29">29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L30">30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L31">31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L32">32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L33">33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L34">34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L35">35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L36">36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L37">37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L38">38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L39">39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L40">40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L41">41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L42">42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L43">43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L44">44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L45">45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L46">46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L47">47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L48">48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L49">49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L50">50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L51">51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L52">52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L53">53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L54">54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L55">55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L56">56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L57">57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L58">58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L59">59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L60">60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L61">61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L62">62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L63">63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L64">64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L65">65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L66">66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L67">67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L68">68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L69">69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L70">70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L71">71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L72">72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L73">73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L74">74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L75">75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L76">76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L77">77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L78">78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L79">79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L80">80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L81">81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L82">82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L83">83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L84">84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L85">85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L86">86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/include/linux/nsproxy.h#L87">87</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#ifndef _LINUX_NSPROXY_H</span>
+<span class="cp">#define _LINUX_NSPROXY_H</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/spinlock.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/sched.h&gt;</span><span class="cp"></span>
+
+<span class="k">struct</span> <span class="n">mnt_namespace</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">uts_namespace</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">ipc_namespace</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">pid_namespace</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">cgroup_namespace</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">fs_struct</span><span class="p">;</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * A structure to contain pointers to all per-process</span>
+<span class="cm"> * namespaces - fs (mount), uts, network, sysvipc, etc.</span>
+<span class="cm"> *</span>
+<span class="cm"> * The pid namespace is an exception -- it&#39;s accessed using</span>
+<span class="cm"> * task_active_pid_ns.  The pid namespace here is the</span>
+<span class="cm"> * namespace that children will use.</span>
+<span class="cm"> *</span>
+<span class="cm"> * &#39;count&#39; is the number of tasks holding a reference.</span>
+<span class="cm"> * The count for each namespace, then, will be the number</span>
+<span class="cm"> * of nsproxies pointing to it, not the number of tasks.</span>
+<span class="cm"> *</span>
+<span class="cm"> * The nsproxy is shared by tasks which share all namespaces.</span>
+<span class="cm"> * As soon as a single namespace is cloned or unshared, the</span>
+<span class="cm"> * nsproxy is copied.</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="n">nsproxy</span> <span class="p">{</span>
+	<span class="n">atomic_t</span> <span class="n">count</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">uts_namespace</span> <span class="o">*</span><span class="n">uts_ns</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ipc_namespace</span> <span class="o">*</span><span class="n">ipc_ns</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">mnt_namespace</span> <span class="o">*</span><span class="n">mnt_ns</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">pid_namespace</span> <span class="o">*</span><span class="n">pid_ns_for_children</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">net</span> 	     <span class="o">*</span><span class="n">net_ns</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">cgroup_namespace</span> <span class="o">*</span><span class="n">cgroup_ns</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">nsproxy</span> <span class="n">init_nsproxy</span><span class="p">;</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * the namespaces access rules are:</span>
+<span class="cm"> *</span>
+<span class="cm"> *  1. only current task is allowed to change tsk-&gt;nsproxy pointer or</span>
+<span class="cm"> *     any pointer on the nsproxy itself.  Current must hold the task_lock</span>
+<span class="cm"> *     when changing tsk-&gt;nsproxy.</span>
+<span class="cm"> *</span>
+<span class="cm"> *  2. when accessing (i.e. reading) current task&#39;s namespaces - no</span>
+<span class="cm"> *     precautions should be taken - just dereference the pointers</span>
+<span class="cm"> *</span>
+<span class="cm"> *  3. the access to other task namespaces is performed like this</span>
+<span class="cm"> *     task_lock(task);</span>
+<span class="cm"> *     nsproxy = task-&gt;nsproxy;</span>
+<span class="cm"> *     if (nsproxy != NULL) {</span>
+<span class="cm"> *             / *</span>
+<span class="cm"> *               * work with the namespaces here</span>
+<span class="cm"> *               * e.g. get the reference on one of them</span>
+<span class="cm"> *               * /</span>
+<span class="cm"> *     } / *</span>
+<span class="cm"> *         * NULL task-&gt;nsproxy means that this task is</span>
+<span class="cm"> *         * almost dead (zombie)</span>
+<span class="cm"> *         * /</span>
+<span class="cm"> *     task_unlock(task);</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+
+<span class="kt">int</span> <span class="nf">copy_namespaces</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">tsk</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">exit_task_namespaces</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">tsk</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">switch_task_namespaces</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">tsk</span><span class="p">,</span> <span class="k">struct</span> <span class="n">nsproxy</span> <span class="o">*</span><span class="n">new</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">free_nsproxy</span><span class="p">(</span><span class="k">struct</span> <span class="n">nsproxy</span> <span class="o">*</span><span class="n">ns</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">unshare_nsproxy_namespaces</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">,</span> <span class="k">struct</span> <span class="n">nsproxy</span> <span class="o">**</span><span class="p">,</span>
+	<span class="k">struct</span> <span class="n">cred</span> <span class="o">*</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fs_struct</span> <span class="o">*</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">__init</span> <span class="nf">nsproxy_cache_init</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">put_nsproxy</span><span class="p">(</span><span class="k">struct</span> <span class="n">nsproxy</span> <span class="o">*</span><span class="n">ns</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">atomic_dec_and_test</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ns</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">free_nsproxy</span><span class="p">(</span><span class="n">ns</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">get_nsproxy</span><span class="p">(</span><span class="k">struct</span> <span class="n">nsproxy</span> <span class="o">*</span><span class="n">ns</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">atomic_inc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ns</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

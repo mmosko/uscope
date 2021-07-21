@@ -1,0 +1,24 @@
+<html>
+Compartment 80<br />
+<a href='A1e-06_79.html'> Prev</a>
+<a href='A1e-06_81.html'> Next</a>
+<br /><br />
+<strong> Compartment 80 is 2160 bytes and has 5 functions:</strong><br />
+1. <a href='javascript:void(0)' onclick="parent.setColors(10,[1,2,4,8,9,10],[[],[4,5,6,8],[1,2,4,5,6,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/balloc.c.html#L52'">fs/ext4/balloc.c:ext4_get_group_no_and_offset</a> (80 bytes)<br />
+2. <a href='javascript:void(0)' onclick="parent.setColors(10,[1,2,4,7,8,9,10],[[],[4,5,6,8],[1,2,4,5,6,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/mballoc.c.html#L4180'">fs/ext4/mballoc.c:ext4_mb_initialize_context</a> (368 bytes)<br />
+3. <a href='javascript:void(0)' onclick="parent.setColors(10,[4,6,7,8,9,10],[[],[4,5,6,8],[1,2,4,5,6,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/mballoc.c.html#L3031'">fs/ext4/mballoc.c:ext4_mb_normalize_request</a> (1024 bytes)<br />
+4. <a href='javascript:void(0)' onclick="parent.setColors(10,[4,6,8,9],[[],[4,5,6,8],[1,2,4,5,6,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/mballoc.c.html#L3282'">fs/ext4/mballoc.c:ext4_mb_use_inode_pa</a> (208 bytes)<br />
+5. <a href='javascript:void(0)' onclick="parent.setColors(10,[1,2,3,4,5,6,7,8,9],[[],[4,5,6,8],[1,2,4,5,6,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/mballoc.c.html#L3364'">fs/ext4/mballoc.c:ext4_mb_use_preallocated</a> (480 bytes)<br />
+<br /><br />
+<strong> Compartment 80 accesses 10 objects:</strong><br />
+<span id='obj1'>1. ALLOC_PAGES alloc from fs/buffer.c:__find_get_block <br /></span>
+<span id='obj2'>2. ALLOC_PAGES alloc from mm/filemap.c:generic_file_read_iter <br /></span>
+<span id='obj3'>3. ALLOC_PAGES alloc from mm/percpu-km.c:pcpu_create_chunk <br /></span>
+<span id='obj4'>4. KMEM_CACHE alloc from fs/ext4/mballoc.c:ext4_mb_new_blocks <br /></span>
+<span id='obj5'>5. KMEM_CACHE alloc from fs/ext4/mballoc.c:ext4_mb_new_group_pa <br /></span>
+<span id='obj6'>6. KMEM_CACHE alloc from fs/ext4/mballoc.c:ext4_mb_new_inode_pa <br /></span>
+<span id='obj7'>7. KMEM_CACHE alloc from fs/ext4/super.c:ext4_alloc_inode <br /></span>
+<span id='obj8'>8. KMEM_CACHE alloc from fs/ext4/super.c:ext4_fill_super <br /></span>
+<span id='obj9'>9. KMEM_CACHE alloc from fs/super.c:sget_userns <br /></span>
+<span id='obj10'>10. STACK <br /></span>
+</body></html>

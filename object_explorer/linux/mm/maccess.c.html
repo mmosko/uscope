@@ -1,0 +1,224 @@
+mm/maccess.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/mm/maccess.c#L107">107</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Access kernel memory without faulting.</span>
+<span class="cm"> */</span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/export.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/mm.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/uaccess.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/**</span>
+<span class="cm"> * probe_kernel_read(): safely attempt to read from a location</span>
+<span class="cm"> * @dst: pointer to the buffer that shall take the data</span>
+<span class="cm"> * @src: address to read from</span>
+<span class="cm"> * @size: size of the data chunk</span>
+<span class="cm"> *</span>
+<span class="cm"> * Safely read from address @src to the buffer at @dst.  If a kernel fault</span>
+<span class="cm"> * happens, handle that and return -EFAULT.</span>
+<span class="cm"> *</span>
+<span class="cm"> * We ensure that the copy_from_user is executed in atomic context so that</span>
+<span class="cm"> * do_page_fault() doesn&#39;t attempt to take mmap_sem.  This makes</span>
+<span class="cm"> * probe_kernel_read() suitable for use within regions where the caller</span>
+<span class="cm"> * already holds mmap_sem, or other locks which nest inside mmap_sem.</span>
+<span class="cm"> */</span>
+
+<span class="kt">long</span> <span class="n">__weak</span> <span class="nf">probe_kernel_read</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">)</span>
+    <span class="n">__attribute__</span><span class="p">((</span><span class="n">alias</span><span class="p">(</span><span class="s">&quot;__probe_kernel_read&quot;</span><span class="p">)));</span>
+
+<span class="kt">long</span> <span class="nf">__probe_kernel_read</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">long</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="n">mm_segment_t</span> <span class="n">old_fs</span> <span class="o">=</span> <span class="n">get_fs</span><span class="p">();</span>
+
+	<span class="n">set_fs</span><span class="p">(</span><span class="n">KERNEL_DS</span><span class="p">);</span>
+	<span class="n">pagefault_disable</span><span class="p">();</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">__copy_from_user_inatomic</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span>
+			<span class="p">(</span><span class="n">__force</span> <span class="k">const</span> <span class="kt">void</span> <span class="n">__user</span> <span class="o">*</span><span class="p">)</span><span class="n">src</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+	<span class="n">pagefault_enable</span><span class="p">();</span>
+	<span class="n">set_fs</span><span class="p">(</span><span class="n">old_fs</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">ret</span> <span class="o">?</span> <span class="o">-</span><span class="nl">EFAULT</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">probe_kernel_read</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * probe_kernel_write(): safely attempt to write to a location</span>
+<span class="cm"> * @dst: address to write to</span>
+<span class="cm"> * @src: pointer to the data that shall be written</span>
+<span class="cm"> * @size: size of the data chunk</span>
+<span class="cm"> *</span>
+<span class="cm"> * Safely write to address @dst from the buffer at @src.  If a kernel fault</span>
+<span class="cm"> * happens, handle that and return -EFAULT.</span>
+<span class="cm"> */</span>
+<span class="kt">long</span> <span class="n">__weak</span> <span class="nf">probe_kernel_write</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">)</span>
+    <span class="n">__attribute__</span><span class="p">((</span><span class="n">alias</span><span class="p">(</span><span class="s">&quot;__probe_kernel_write&quot;</span><span class="p">)));</span>
+
+<span class="kt">long</span> <span class="nf">__probe_kernel_write</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">long</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="n">mm_segment_t</span> <span class="n">old_fs</span> <span class="o">=</span> <span class="n">get_fs</span><span class="p">();</span>
+
+	<span class="n">set_fs</span><span class="p">(</span><span class="n">KERNEL_DS</span><span class="p">);</span>
+	<span class="n">pagefault_disable</span><span class="p">();</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">__copy_to_user_inatomic</span><span class="p">((</span><span class="n">__force</span> <span class="kt">void</span> <span class="n">__user</span> <span class="o">*</span><span class="p">)</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+	<span class="n">pagefault_enable</span><span class="p">();</span>
+	<span class="n">set_fs</span><span class="p">(</span><span class="n">old_fs</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">ret</span> <span class="o">?</span> <span class="o">-</span><span class="nl">EFAULT</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">probe_kernel_write</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * strncpy_from_unsafe: - Copy a NUL terminated string from unsafe address.</span>
+<span class="cm"> * @dst:   Destination address, in kernel space.  This buffer must be at</span>
+<span class="cm"> *         least @count bytes long.</span>
+<span class="cm"> * @src:   Unsafe address.</span>
+<span class="cm"> * @count: Maximum number of bytes to copy, including the trailing NUL.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Copies a NUL-terminated string from unsafe address to kernel buffer.</span>
+<span class="cm"> *</span>
+<span class="cm"> * On success, returns the length of the string INCLUDING the trailing NUL.</span>
+<span class="cm"> *</span>
+<span class="cm"> * If access fails, returns -EFAULT (some data may have been copied</span>
+<span class="cm"> * and the trailing NUL added).</span>
+<span class="cm"> *</span>
+<span class="cm"> * If @count is smaller than the length of the string, copies @count-1 bytes,</span>
+<span class="cm"> * sets the last byte of @dst buffer to NUL and returns @count.</span>
+<span class="cm"> */</span>
+<span class="kt">long</span> <span class="nf">strncpy_from_unsafe</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">unsafe_addr</span><span class="p">,</span> <span class="kt">long</span> <span class="n">count</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">mm_segment_t</span> <span class="n">old_fs</span> <span class="o">=</span> <span class="n">get_fs</span><span class="p">();</span>
+	<span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="n">unsafe_addr</span><span class="p">;</span>
+	<span class="kt">long</span> <span class="n">ret</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">count</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">set_fs</span><span class="p">(</span><span class="n">KERNEL_DS</span><span class="p">);</span>
+	<span class="n">pagefault_disable</span><span class="p">();</span>
+
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">__get_user</span><span class="p">(</span><span class="o">*</span><span class="n">dst</span><span class="o">++</span><span class="p">,</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="n">__user</span> <span class="n">__force</span> <span class="o">*</span><span class="p">)</span><span class="n">src</span><span class="o">++</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">dst</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">ret</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">src</span> <span class="o">-</span> <span class="n">unsafe_addr</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">);</span>
+
+	<span class="n">dst</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+	<span class="n">pagefault_enable</span><span class="p">();</span>
+	<span class="n">set_fs</span><span class="p">(</span><span class="n">old_fs</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">ret</span> <span class="o">?</span> <span class="o">-</span><span class="nl">EFAULT</span> <span class="p">:</span> <span class="n">src</span> <span class="o">-</span> <span class="n">unsafe_addr</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

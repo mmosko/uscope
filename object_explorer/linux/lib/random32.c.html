@@ -1,0 +1,938 @@
+lib/random32.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L390">390</a>
+<a name="L391" id="L391" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L391">391</a>
+<a name="L392" id="L392" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L392">392</a>
+<a name="L393" id="L393" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L393">393</a>
+<a name="L394" id="L394" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L394">394</a>
+<a name="L395" id="L395" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L395">395</a>
+<a name="L396" id="L396" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L396">396</a>
+<a name="L397" id="L397" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L397">397</a>
+<a name="L398" id="L398" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L398">398</a>
+<a name="L399" id="L399" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L399">399</a>
+<a name="L400" id="L400" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L400">400</a>
+<a name="L401" id="L401" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L401">401</a>
+<a name="L402" id="L402" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L402">402</a>
+<a name="L403" id="L403" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L403">403</a>
+<a name="L404" id="L404" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L404">404</a>
+<a name="L405" id="L405" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L405">405</a>
+<a name="L406" id="L406" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L406">406</a>
+<a name="L407" id="L407" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L407">407</a>
+<a name="L408" id="L408" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L408">408</a>
+<a name="L409" id="L409" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L409">409</a>
+<a name="L410" id="L410" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L410">410</a>
+<a name="L411" id="L411" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L411">411</a>
+<a name="L412" id="L412" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L412">412</a>
+<a name="L413" id="L413" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L413">413</a>
+<a name="L414" id="L414" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L414">414</a>
+<a name="L415" id="L415" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L415">415</a>
+<a name="L416" id="L416" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L416">416</a>
+<a name="L417" id="L417" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L417">417</a>
+<a name="L418" id="L418" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L418">418</a>
+<a name="L419" id="L419" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L419">419</a>
+<a name="L420" id="L420" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L420">420</a>
+<a name="L421" id="L421" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L421">421</a>
+<a name="L422" id="L422" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L422">422</a>
+<a name="L423" id="L423" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L423">423</a>
+<a name="L424" id="L424" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L424">424</a>
+<a name="L425" id="L425" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L425">425</a>
+<a name="L426" id="L426" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L426">426</a>
+<a name="L427" id="L427" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L427">427</a>
+<a name="L428" id="L428" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L428">428</a>
+<a name="L429" id="L429" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L429">429</a>
+<a name="L430" id="L430" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L430">430</a>
+<a name="L431" id="L431" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L431">431</a>
+<a name="L432" id="L432" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L432">432</a>
+<a name="L433" id="L433" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L433">433</a>
+<a name="L434" id="L434" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L434">434</a>
+<a name="L435" id="L435" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L435">435</a>
+<a name="L436" id="L436" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L436">436</a>
+<a name="L437" id="L437" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L437">437</a>
+<a name="L438" id="L438" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L438">438</a>
+<a name="L439" id="L439" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L439">439</a>
+<a name="L440" id="L440" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L440">440</a>
+<a name="L441" id="L441" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L441">441</a>
+<a name="L442" id="L442" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L442">442</a>
+<a name="L443" id="L443" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L443">443</a>
+<a name="L444" id="L444" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L444">444</a>
+<a name="L445" id="L445" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L445">445</a>
+<a name="L446" id="L446" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L446">446</a>
+<a name="L447" id="L447" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L447">447</a>
+<a name="L448" id="L448" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L448">448</a>
+<a name="L449" id="L449" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L449">449</a>
+<a name="L450" id="L450" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L450">450</a>
+<a name="L451" id="L451" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L451">451</a>
+<a name="L452" id="L452" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L452">452</a>
+<a name="L453" id="L453" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L453">453</a>
+<a name="L454" id="L454" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L454">454</a>
+<a name="L455" id="L455" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L455">455</a>
+<a name="L456" id="L456" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L456">456</a>
+<a name="L457" id="L457" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L457">457</a>
+<a name="L458" id="L458" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L458">458</a>
+<a name="L459" id="L459" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L459">459</a>
+<a name="L460" id="L460" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L460">460</a>
+<a name="L461" id="L461" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L461">461</a>
+<a name="L462" id="L462" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L462">462</a>
+<a name="L463" id="L463" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L463">463</a>
+<a name="L464" id="L464" href="https://uscope-linux.github.io/object_explorer/linux/lib/random32.c#L464">464</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * This is a maximally equidistributed combined Tausworthe generator</span>
+<span class="cm"> * based on code from GNU Scientific Library 1.5 (30 Jun 2004)</span>
+<span class="cm"> *</span>
+<span class="cm"> * lfsr113 version:</span>
+<span class="cm"> *</span>
+<span class="cm"> * x_n = (s1_n ^ s2_n ^ s3_n ^ s4_n)</span>
+<span class="cm"> *</span>
+<span class="cm"> * s1_{n+1} = (((s1_n &amp; 4294967294) &lt;&lt; 18) ^ (((s1_n &lt;&lt;  6) ^ s1_n) &gt;&gt; 13))</span>
+<span class="cm"> * s2_{n+1} = (((s2_n &amp; 4294967288) &lt;&lt;  2) ^ (((s2_n &lt;&lt;  2) ^ s2_n) &gt;&gt; 27))</span>
+<span class="cm"> * s3_{n+1} = (((s3_n &amp; 4294967280) &lt;&lt;  7) ^ (((s3_n &lt;&lt; 13) ^ s3_n) &gt;&gt; 21))</span>
+<span class="cm"> * s4_{n+1} = (((s4_n &amp; 4294967168) &lt;&lt; 13) ^ (((s4_n &lt;&lt;  3) ^ s4_n) &gt;&gt; 12))</span>
+<span class="cm"> *</span>
+<span class="cm"> * The period of this generator is about 2^113 (see erratum paper).</span>
+<span class="cm"> *</span>
+<span class="cm"> * From: P. L&#39;Ecuyer, &quot;Maximally Equidistributed Combined Tausworthe</span>
+<span class="cm"> * Generators&quot;, Mathematics of Computation, 65, 213 (1996), 203--213:</span>
+<span class="cm"> * http://www.iro.umontreal.ca/~lecuyer/myftp/papers/tausme.ps</span>
+<span class="cm"> * ftp://ftp.iro.umontreal.ca/pub/simulation/lecuyer/papers/tausme.ps</span>
+<span class="cm"> *</span>
+<span class="cm"> * There is an erratum in the paper &quot;Tables of Maximally Equidistributed</span>
+<span class="cm"> * Combined LFSR Generators&quot;, Mathematics of Computation, 68, 225 (1999),</span>
+<span class="cm"> * 261--269: http://www.iro.umontreal.ca/~lecuyer/myftp/papers/tausme2.ps</span>
+<span class="cm"> *</span>
+<span class="cm"> *      ... the k_j most significant bits of z_j must be non-zero,</span>
+<span class="cm"> *      for each j. (Note: this restriction also applies to the</span>
+<span class="cm"> *      computer code given in [4], but was mistakenly not mentioned</span>
+<span class="cm"> *      in that paper.)</span>
+<span class="cm"> *</span>
+<span class="cm"> * This affects the seeding procedure by imposing the requirement</span>
+<span class="cm"> * s1 &gt; 1, s2 &gt; 7, s3 &gt; 15, s4 &gt; 127.</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/types.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/percpu.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/export.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/jiffies.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/random.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/sched.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/unaligned.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#ifdef CONFIG_RANDOM32_SELFTEST</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__init</span> <span class="nf">prandom_state_selftest</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="cp">#else</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">prandom_state_selftest</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="k">static</span> <span class="nf">DEFINE_PER_CPU</span><span class="p">(</span><span class="k">struct</span> <span class="n">rnd_state</span><span class="p">,</span> <span class="n">net_rand_state</span><span class="p">)</span> <span class="n">__latent_entropy</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> *	prandom_u32_state - seeded pseudo-random number generator.</span>
+<span class="cm"> *	@state: pointer to state structure holding seeded state.</span>
+<span class="cm"> *</span>
+<span class="cm"> *	This is used for pseudo-randomness with no outside seeding.</span>
+<span class="cm"> *	For more random results, use prandom_u32().</span>
+<span class="cm"> */</span>
+<span class="n">u32</span> <span class="nf">prandom_u32_state</span><span class="p">(</span><span class="k">struct</span> <span class="n">rnd_state</span> <span class="o">*</span><span class="n">state</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="cp">#define TAUSWORTHE(s, a, b, c, d) ((s &amp; c) &lt;&lt; d) ^ (((s &lt;&lt; a) ^ s) &gt;&gt; b)</span>
+	<span class="n">state</span><span class="o">-&gt;</span><span class="n">s1</span> <span class="o">=</span> <span class="n">TAUSWORTHE</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">s1</span><span class="p">,</span>  <span class="mi">6U</span><span class="p">,</span> <span class="mi">13U</span><span class="p">,</span> <span class="mi">4294967294U</span><span class="p">,</span> <span class="mi">18U</span><span class="p">);</span>
+	<span class="n">state</span><span class="o">-&gt;</span><span class="n">s2</span> <span class="o">=</span> <span class="n">TAUSWORTHE</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">s2</span><span class="p">,</span>  <span class="mi">2U</span><span class="p">,</span> <span class="mi">27U</span><span class="p">,</span> <span class="mi">4294967288U</span><span class="p">,</span>  <span class="mi">2U</span><span class="p">);</span>
+	<span class="n">state</span><span class="o">-&gt;</span><span class="n">s3</span> <span class="o">=</span> <span class="n">TAUSWORTHE</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">s3</span><span class="p">,</span> <span class="mi">13U</span><span class="p">,</span> <span class="mi">21U</span><span class="p">,</span> <span class="mi">4294967280U</span><span class="p">,</span>  <span class="mi">7U</span><span class="p">);</span>
+	<span class="n">state</span><span class="o">-&gt;</span><span class="n">s4</span> <span class="o">=</span> <span class="n">TAUSWORTHE</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">s4</span><span class="p">,</span>  <span class="mi">3U</span><span class="p">,</span> <span class="mi">12U</span><span class="p">,</span> <span class="mi">4294967168U</span><span class="p">,</span> <span class="mi">13U</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">s1</span> <span class="o">^</span> <span class="n">state</span><span class="o">-&gt;</span><span class="n">s2</span> <span class="o">^</span> <span class="n">state</span><span class="o">-&gt;</span><span class="n">s3</span> <span class="o">^</span> <span class="n">state</span><span class="o">-&gt;</span><span class="n">s4</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">prandom_u32_state</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm"> *	prandom_u32 - pseudo random number generator</span>
+<span class="cm"> *</span>
+<span class="cm"> *	A 32 bit pseudo-random number is generated using a fast</span>
+<span class="cm"> *	algorithm suitable for simulation. This algorithm is NOT</span>
+<span class="cm"> *	considered safe for cryptographic use.</span>
+<span class="cm"> */</span>
+<span class="n">u32</span> <span class="nf">prandom_u32</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">rnd_state</span> <span class="o">*</span><span class="n">state</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">get_cpu_var</span><span class="p">(</span><span class="n">net_rand_state</span><span class="p">);</span>
+	<span class="n">u32</span> <span class="n">res</span><span class="p">;</span>
+
+	<span class="n">res</span> <span class="o">=</span> <span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="n">put_cpu_var</span><span class="p">(</span><span class="n">net_rand_state</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">prandom_u32</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm"> *	prandom_bytes_state - get the requested number of pseudo-random bytes</span>
+<span class="cm"> *</span>
+<span class="cm"> *	@state: pointer to state structure holding seeded state.</span>
+<span class="cm"> *	@buf: where to copy the pseudo-random bytes to</span>
+<span class="cm"> *	@bytes: the requested number of bytes</span>
+<span class="cm"> *</span>
+<span class="cm"> *	This is used for pseudo-randomness with no outside seeding.</span>
+<span class="cm"> *	For more random results, use prandom_bytes().</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">prandom_bytes_state</span><span class="p">(</span><span class="k">struct</span> <span class="n">rnd_state</span> <span class="o">*</span><span class="n">state</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">bytes</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">u8</span> <span class="o">*</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">buf</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">bytes</span> <span class="o">&gt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">u32</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">put_unaligned</span><span class="p">(</span><span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">),</span> <span class="p">(</span><span class="n">u32</span> <span class="o">*</span><span class="p">)</span> <span class="n">ptr</span><span class="p">);</span>
+		<span class="n">ptr</span> <span class="o">+=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">u32</span><span class="p">);</span>
+		<span class="n">bytes</span> <span class="o">-=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">u32</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">bytes</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">u32</span> <span class="n">rem</span> <span class="o">=</span> <span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+		<span class="k">do</span> <span class="p">{</span>
+			<span class="o">*</span><span class="n">ptr</span><span class="o">++</span> <span class="o">=</span> <span class="p">(</span><span class="n">u8</span><span class="p">)</span> <span class="n">rem</span><span class="p">;</span>
+			<span class="n">bytes</span><span class="o">--</span><span class="p">;</span>
+			<span class="n">rem</span> <span class="o">&gt;&gt;=</span> <span class="n">BITS_PER_BYTE</span><span class="p">;</span>
+		<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">bytes</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">prandom_bytes_state</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm"> *	prandom_bytes - get the requested number of pseudo-random bytes</span>
+<span class="cm"> *	@buf: where to copy the pseudo-random bytes to</span>
+<span class="cm"> *	@bytes: the requested number of bytes</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">prandom_bytes</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">bytes</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">rnd_state</span> <span class="o">*</span><span class="n">state</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">get_cpu_var</span><span class="p">(</span><span class="n">net_rand_state</span><span class="p">);</span>
+
+	<span class="n">prandom_bytes_state</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">bytes</span><span class="p">);</span>
+	<span class="n">put_cpu_var</span><span class="p">(</span><span class="n">net_rand_state</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">prandom_bytes</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">prandom_warmup</span><span class="p">(</span><span class="k">struct</span> <span class="n">rnd_state</span> <span class="o">*</span><span class="n">state</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/* Calling RNG ten times to satisfy recurrence condition */</span>
+	<span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="n">prandom_u32_state</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">u32</span> <span class="nf">__extract_hwseed</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="p">(</span><span class="kt">void</span><span class="p">)(</span><span class="n">arch_get_random_seed_int</span><span class="p">(</span><span class="o">&amp;</span><span class="n">val</span><span class="p">)</span> <span class="o">||</span>
+	       <span class="n">arch_get_random_int</span><span class="p">(</span><span class="o">&amp;</span><span class="n">val</span><span class="p">));</span>
+
+	<span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">prandom_seed_early</span><span class="p">(</span><span class="k">struct</span> <span class="n">rnd_state</span> <span class="o">*</span><span class="n">state</span><span class="p">,</span> <span class="n">u32</span> <span class="n">seed</span><span class="p">,</span>
+			       <span class="n">bool</span> <span class="n">mix_with_hwseed</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="cp">#define LCG(x)	 ((x) * 69069U)	</span><span class="cm">/* super-duper LCG */</span><span class="cp"></span>
+<span class="cp">#define HWSEED() (mix_with_hwseed ? __extract_hwseed() : 0)</span>
+	<span class="n">state</span><span class="o">-&gt;</span><span class="n">s1</span> <span class="o">=</span> <span class="n">__seed</span><span class="p">(</span><span class="n">HWSEED</span><span class="p">()</span> <span class="o">^</span> <span class="n">LCG</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span>        <span class="mi">2U</span><span class="p">);</span>
+	<span class="n">state</span><span class="o">-&gt;</span><span class="n">s2</span> <span class="o">=</span> <span class="n">__seed</span><span class="p">(</span><span class="n">HWSEED</span><span class="p">()</span> <span class="o">^</span> <span class="n">LCG</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">s1</span><span class="p">),</span>   <span class="mi">8U</span><span class="p">);</span>
+	<span class="n">state</span><span class="o">-&gt;</span><span class="n">s3</span> <span class="o">=</span> <span class="n">__seed</span><span class="p">(</span><span class="n">HWSEED</span><span class="p">()</span> <span class="o">^</span> <span class="n">LCG</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">s2</span><span class="p">),</span>  <span class="mi">16U</span><span class="p">);</span>
+	<span class="n">state</span><span class="o">-&gt;</span><span class="n">s4</span> <span class="o">=</span> <span class="n">__seed</span><span class="p">(</span><span class="n">HWSEED</span><span class="p">()</span> <span class="o">^</span> <span class="n">LCG</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">s3</span><span class="p">),</span> <span class="mi">128U</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> *	prandom_seed - add entropy to pseudo random number generator</span>
+<span class="cm"> *	@seed: seed value</span>
+<span class="cm"> *</span>
+<span class="cm"> *	Add some additional seeding to the prandom pool.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">prandom_seed</span><span class="p">(</span><span class="n">u32</span> <span class="n">entropy</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * No locking on the CPUs, but then somewhat random results are, well,</span>
+<span class="cm">	 * expected.</span>
+<span class="cm">	 */</span>
+	<span class="n">for_each_possible_cpu</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">rnd_state</span> <span class="o">*</span><span class="n">state</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">per_cpu</span><span class="p">(</span><span class="n">net_rand_state</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+
+		<span class="n">state</span><span class="o">-&gt;</span><span class="n">s1</span> <span class="o">=</span> <span class="n">__seed</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">s1</span> <span class="o">^</span> <span class="n">entropy</span><span class="p">,</span> <span class="mi">2U</span><span class="p">);</span>
+		<span class="n">prandom_warmup</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">prandom_seed</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> *	Generate some initially weak seeding values to allow</span>
+<span class="cm"> *	to start the prandom_u32() engine.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">__init</span> <span class="nf">prandom_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="n">prandom_state_selftest</span><span class="p">();</span>
+
+	<span class="n">for_each_possible_cpu</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">rnd_state</span> <span class="o">*</span><span class="n">state</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">per_cpu</span><span class="p">(</span><span class="n">net_rand_state</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+		<span class="n">u32</span> <span class="n">weak_seed</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">jiffies</span><span class="p">)</span> <span class="o">^</span> <span class="n">random_get_entropy</span><span class="p">();</span>
+
+		<span class="n">prandom_seed_early</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">weak_seed</span><span class="p">,</span> <span class="n">true</span><span class="p">);</span>
+		<span class="n">prandom_warmup</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">core_initcall</span><span class="p">(</span><span class="n">prandom_init</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">__prandom_timer</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">dontcare</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="nf">DEFINE_TIMER</span><span class="p">(</span><span class="n">seed_timer</span><span class="p">,</span> <span class="n">__prandom_timer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">__prandom_timer</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">dontcare</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">u32</span> <span class="n">entropy</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">expires</span><span class="p">;</span>
+
+	<span class="n">get_random_bytes</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entropy</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">entropy</span><span class="p">));</span>
+	<span class="n">prandom_seed</span><span class="p">(</span><span class="n">entropy</span><span class="p">);</span>
+
+	<span class="cm">/* reseed every ~60 seconds, in [40 .. 80) interval with slack */</span>
+	<span class="n">expires</span> <span class="o">=</span> <span class="mi">40</span> <span class="o">+</span> <span class="n">prandom_u32_max</span><span class="p">(</span><span class="mi">40</span><span class="p">);</span>
+	<span class="n">seed_timer</span><span class="p">.</span><span class="n">expires</span> <span class="o">=</span> <span class="n">jiffies</span> <span class="o">+</span> <span class="n">msecs_to_jiffies</span><span class="p">(</span><span class="n">expires</span> <span class="o">*</span> <span class="n">MSEC_PER_SEC</span><span class="p">);</span>
+
+	<span class="n">add_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seed_timer</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__init</span> <span class="nf">__prandom_start_seed_timer</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">seed_timer</span><span class="p">.</span><span class="n">expires</span> <span class="o">=</span> <span class="n">jiffies</span> <span class="o">+</span> <span class="n">msecs_to_jiffies</span><span class="p">(</span><span class="mi">40</span> <span class="o">*</span> <span class="n">MSEC_PER_SEC</span><span class="p">);</span>
+	<span class="n">add_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seed_timer</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">prandom_seed_full_state</span><span class="p">(</span><span class="k">struct</span> <span class="n">rnd_state</span> <span class="n">__percpu</span> <span class="o">*</span><span class="n">pcpu_state</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="n">for_each_possible_cpu</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">rnd_state</span> <span class="o">*</span><span class="n">state</span> <span class="o">=</span> <span class="n">per_cpu_ptr</span><span class="p">(</span><span class="n">pcpu_state</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+		<span class="n">u32</span> <span class="n">seeds</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+
+		<span class="n">get_random_bytes</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seeds</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">seeds</span><span class="p">));</span>
+		<span class="n">state</span><span class="o">-&gt;</span><span class="n">s1</span> <span class="o">=</span> <span class="n">__seed</span><span class="p">(</span><span class="n">seeds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>   <span class="mi">2U</span><span class="p">);</span>
+		<span class="n">state</span><span class="o">-&gt;</span><span class="n">s2</span> <span class="o">=</span> <span class="n">__seed</span><span class="p">(</span><span class="n">seeds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>   <span class="mi">8U</span><span class="p">);</span>
+		<span class="n">state</span><span class="o">-&gt;</span><span class="n">s3</span> <span class="o">=</span> <span class="n">__seed</span><span class="p">(</span><span class="n">seeds</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>  <span class="mi">16U</span><span class="p">);</span>
+		<span class="n">state</span><span class="o">-&gt;</span><span class="n">s4</span> <span class="o">=</span> <span class="n">__seed</span><span class="p">(</span><span class="n">seeds</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">128U</span><span class="p">);</span>
+
+		<span class="n">prandom_warmup</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">prandom_seed_full_state</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> *	Generate better values after random number generator</span>
+<span class="cm"> *	is fully initialized.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">__prandom_reseed</span><span class="p">(</span><span class="n">bool</span> <span class="n">late</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">;</span>
+	<span class="k">static</span> <span class="n">bool</span> <span class="n">latch</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+	<span class="k">static</span> <span class="n">DEFINE_SPINLOCK</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
+
+	<span class="cm">/* Asking for random bytes might result in bytes getting</span>
+<span class="cm">	 * moved into the nonblocking pool and thus marking it</span>
+<span class="cm">	 * as initialized. In this case we would double back into</span>
+<span class="cm">	 * this function and attempt to do a late reseed.</span>
+<span class="cm">	 * Ignore the pointless attempt to reseed again if we&#39;re</span>
+<span class="cm">	 * already waiting for bytes when the nonblocking pool</span>
+<span class="cm">	 * got initialized.</span>
+<span class="cm">	 */</span>
+
+	<span class="cm">/* only allow initial seeding (late == false) once */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">spin_trylock_irqsave</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">,</span> <span class="n">flags</span><span class="p">))</span>
+		<span class="k">return</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">latch</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">late</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+
+	<span class="n">latch</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+	<span class="n">prandom_seed_full_state</span><span class="p">(</span><span class="o">&amp;</span><span class="n">net_rand_state</span><span class="p">);</span>
+<span class="nl">out</span><span class="p">:</span>
+	<span class="n">spin_unlock_irqrestore</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">prandom_reseed_late</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">__prandom_reseed</span><span class="p">(</span><span class="n">true</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">__init</span> <span class="nf">prandom_reseed</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">__prandom_reseed</span><span class="p">(</span><span class="n">false</span><span class="p">);</span>
+	<span class="n">__prandom_start_seed_timer</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">late_initcall</span><span class="p">(</span><span class="n">prandom_reseed</span><span class="p">);</span>
+
+<span class="cp">#ifdef CONFIG_RANDOM32_SELFTEST</span>
+<span class="k">static</span> <span class="k">struct</span> <span class="n">prandom_test1</span> <span class="p">{</span>
+	<span class="n">u32</span> <span class="n">seed</span><span class="p">;</span>
+	<span class="n">u32</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">test1</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">{</span> <span class="mi">1U</span><span class="p">,</span> <span class="mi">3484351685U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">2U</span><span class="p">,</span> <span class="mi">2623130059U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">3U</span><span class="p">,</span> <span class="mi">3125133893U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">4U</span><span class="p">,</span>  <span class="mi">984847254U</span> <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">prandom_test2</span> <span class="p">{</span>
+	<span class="n">u32</span> <span class="n">seed</span><span class="p">;</span>
+	<span class="n">u32</span> <span class="n">iteration</span><span class="p">;</span>
+	<span class="n">u32</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">test2</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="cm">/* Test cases against taus113 from GSL library. */</span>
+	<span class="p">{</span>  <span class="mi">931557656U</span><span class="p">,</span> <span class="mi">959U</span><span class="p">,</span> <span class="mi">2975593782U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1339693295U</span><span class="p">,</span> <span class="mi">876U</span><span class="p">,</span> <span class="mi">3887776532U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1545556285U</span><span class="p">,</span> <span class="mi">961U</span><span class="p">,</span> <span class="mi">1615538833U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">601730776U</span><span class="p">,</span> <span class="mi">723U</span><span class="p">,</span> <span class="mi">1776162651U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1027516047U</span><span class="p">,</span> <span class="mi">687U</span><span class="p">,</span>  <span class="mi">511983079U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">416526298U</span><span class="p">,</span> <span class="mi">700U</span><span class="p">,</span>  <span class="mi">916156552U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1395522032U</span><span class="p">,</span> <span class="mi">652U</span><span class="p">,</span> <span class="mi">2222063676U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">366221443U</span><span class="p">,</span> <span class="mi">617U</span><span class="p">,</span> <span class="mi">2992857763U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1539836965U</span><span class="p">,</span> <span class="mi">714U</span><span class="p">,</span> <span class="mi">3783265725U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">556206671U</span><span class="p">,</span> <span class="mi">994U</span><span class="p">,</span>  <span class="mi">799626459U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">684907218U</span><span class="p">,</span> <span class="mi">799U</span><span class="p">,</span>  <span class="mi">367789491U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">2121230701U</span><span class="p">,</span> <span class="mi">931U</span><span class="p">,</span> <span class="mi">2115467001U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1668516451U</span><span class="p">,</span> <span class="mi">644U</span><span class="p">,</span> <span class="mi">3620590685U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">768046066U</span><span class="p">,</span> <span class="mi">883U</span><span class="p">,</span> <span class="mi">2034077390U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1989159136U</span><span class="p">,</span> <span class="mi">833U</span><span class="p">,</span> <span class="mi">1195767305U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">536585145U</span><span class="p">,</span> <span class="mi">996U</span><span class="p">,</span> <span class="mi">3577259204U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1008129373U</span><span class="p">,</span> <span class="mi">642U</span><span class="p">,</span> <span class="mi">1478080776U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1740775604U</span><span class="p">,</span> <span class="mi">939U</span><span class="p">,</span> <span class="mi">1264980372U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1967883163U</span><span class="p">,</span> <span class="mi">508U</span><span class="p">,</span>   <span class="mi">10734624U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1923019697U</span><span class="p">,</span> <span class="mi">730U</span><span class="p">,</span> <span class="mi">3821419629U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">442079932U</span><span class="p">,</span> <span class="mi">560U</span><span class="p">,</span> <span class="mi">3440032343U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1961302714U</span><span class="p">,</span> <span class="mi">845U</span><span class="p">,</span>  <span class="mi">841962572U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">2030205964U</span><span class="p">,</span> <span class="mi">962U</span><span class="p">,</span> <span class="mi">1325144227U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1160407529U</span><span class="p">,</span> <span class="mi">507U</span><span class="p">,</span>  <span class="mi">240940858U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">635482502U</span><span class="p">,</span> <span class="mi">779U</span><span class="p">,</span> <span class="mi">4200489746U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1252788931U</span><span class="p">,</span> <span class="mi">699U</span><span class="p">,</span>  <span class="mi">867195434U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1961817131U</span><span class="p">,</span> <span class="mi">719U</span><span class="p">,</span>  <span class="mi">668237657U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1071468216U</span><span class="p">,</span> <span class="mi">983U</span><span class="p">,</span>  <span class="mi">917876630U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1281848367U</span><span class="p">,</span> <span class="mi">932U</span><span class="p">,</span> <span class="mi">1003100039U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">582537119U</span><span class="p">,</span> <span class="mi">780U</span><span class="p">,</span> <span class="mi">1127273778U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1973672777U</span><span class="p">,</span> <span class="mi">853U</span><span class="p">,</span> <span class="mi">1071368872U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1896756996U</span><span class="p">,</span> <span class="mi">762U</span><span class="p">,</span> <span class="mi">1127851055U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">847917054U</span><span class="p">,</span> <span class="mi">500U</span><span class="p">,</span> <span class="mi">1717499075U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1240520510U</span><span class="p">,</span> <span class="mi">951U</span><span class="p">,</span> <span class="mi">2849576657U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1685071682U</span><span class="p">,</span> <span class="mi">567U</span><span class="p">,</span> <span class="mi">1961810396U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1516232129U</span><span class="p">,</span> <span class="mi">557U</span><span class="p">,</span>    <span class="mi">3173877U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1208118903U</span><span class="p">,</span> <span class="mi">612U</span><span class="p">,</span> <span class="mi">1613145022U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1817269927U</span><span class="p">,</span> <span class="mi">693U</span><span class="p">,</span> <span class="mi">4279122573U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1510091701U</span><span class="p">,</span> <span class="mi">717U</span><span class="p">,</span>  <span class="mi">638191229U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">365916850U</span><span class="p">,</span> <span class="mi">807U</span><span class="p">,</span>  <span class="mi">600424314U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">399324359U</span><span class="p">,</span> <span class="mi">702U</span><span class="p">,</span> <span class="mi">1803598116U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1318480274U</span><span class="p">,</span> <span class="mi">779U</span><span class="p">,</span> <span class="mi">2074237022U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">697758115U</span><span class="p">,</span> <span class="mi">840U</span><span class="p">,</span> <span class="mi">1483639402U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1696507773U</span><span class="p">,</span> <span class="mi">840U</span><span class="p">,</span>  <span class="mi">577415447U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">2081979121U</span><span class="p">,</span> <span class="mi">981U</span><span class="p">,</span> <span class="mi">3041486449U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">955646687U</span><span class="p">,</span> <span class="mi">742U</span><span class="p">,</span> <span class="mi">3846494357U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1250683506U</span><span class="p">,</span> <span class="mi">749U</span><span class="p">,</span>  <span class="mi">836419859U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">595003102U</span><span class="p">,</span> <span class="mi">534U</span><span class="p">,</span>  <span class="mi">366794109U</span> <span class="p">},</span>
+	<span class="p">{</span>   <span class="mi">47485338U</span><span class="p">,</span> <span class="mi">558U</span><span class="p">,</span> <span class="mi">3521120834U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">619433479U</span><span class="p">,</span> <span class="mi">610U</span><span class="p">,</span> <span class="mi">3991783875U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">704096520U</span><span class="p">,</span> <span class="mi">518U</span><span class="p">,</span> <span class="mi">4139493852U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1712224984U</span><span class="p">,</span> <span class="mi">606U</span><span class="p">,</span> <span class="mi">2393312003U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1318233152U</span><span class="p">,</span> <span class="mi">922U</span><span class="p">,</span> <span class="mi">3880361134U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">855572992U</span><span class="p">,</span> <span class="mi">761U</span><span class="p">,</span> <span class="mi">1472974787U</span> <span class="p">},</span>
+	<span class="p">{</span>   <span class="mi">64721421U</span><span class="p">,</span> <span class="mi">703U</span><span class="p">,</span>  <span class="mi">683860550U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">678931758U</span><span class="p">,</span> <span class="mi">840U</span><span class="p">,</span>  <span class="mi">380616043U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">692711973U</span><span class="p">,</span> <span class="mi">778U</span><span class="p">,</span> <span class="mi">1382361947U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">677703619U</span><span class="p">,</span> <span class="mi">530U</span><span class="p">,</span> <span class="mi">2826914161U</span> <span class="p">},</span>
+	<span class="p">{</span>   <span class="mi">92393223U</span><span class="p">,</span> <span class="mi">586U</span><span class="p">,</span> <span class="mi">1522128471U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1222592920U</span><span class="p">,</span> <span class="mi">743U</span><span class="p">,</span> <span class="mi">3466726667U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">358288986U</span><span class="p">,</span> <span class="mi">695U</span><span class="p">,</span> <span class="mi">1091956998U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1935056945U</span><span class="p">,</span> <span class="mi">958U</span><span class="p">,</span>  <span class="mi">514864477U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">735675993U</span><span class="p">,</span> <span class="mi">990U</span><span class="p">,</span> <span class="mi">1294239989U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1560089402U</span><span class="p">,</span> <span class="mi">897U</span><span class="p">,</span> <span class="mi">2238551287U</span> <span class="p">},</span>
+	<span class="p">{</span>   <span class="mi">70616361U</span><span class="p">,</span> <span class="mi">829U</span><span class="p">,</span>   <span class="mi">22483098U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">368234700U</span><span class="p">,</span> <span class="mi">731U</span><span class="p">,</span> <span class="mi">2913875084U</span> <span class="p">},</span>
+	<span class="p">{</span>   <span class="mi">20221190U</span><span class="p">,</span> <span class="mi">879U</span><span class="p">,</span> <span class="mi">1564152970U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">539444654U</span><span class="p">,</span> <span class="mi">682U</span><span class="p">,</span> <span class="mi">1835141259U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1314987297U</span><span class="p">,</span> <span class="mi">840U</span><span class="p">,</span> <span class="mi">1801114136U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">2019295544U</span><span class="p">,</span> <span class="mi">645U</span><span class="p">,</span> <span class="mi">3286438930U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">469023838U</span><span class="p">,</span> <span class="mi">716U</span><span class="p">,</span> <span class="mi">1637918202U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1843754496U</span><span class="p">,</span> <span class="mi">653U</span><span class="p">,</span> <span class="mi">2562092152U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">400672036U</span><span class="p">,</span> <span class="mi">809U</span><span class="p">,</span> <span class="mi">4264212785U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">404722249U</span><span class="p">,</span> <span class="mi">965U</span><span class="p">,</span> <span class="mi">2704116999U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">600702209U</span><span class="p">,</span> <span class="mi">758U</span><span class="p">,</span>  <span class="mi">584979986U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">519953954U</span><span class="p">,</span> <span class="mi">667U</span><span class="p">,</span> <span class="mi">2574436237U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1658071126U</span><span class="p">,</span> <span class="mi">694U</span><span class="p">,</span> <span class="mi">2214569490U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">420480037U</span><span class="p">,</span> <span class="mi">749U</span><span class="p">,</span> <span class="mi">3430010866U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">690103647U</span><span class="p">,</span> <span class="mi">969U</span><span class="p">,</span> <span class="mi">3700758083U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1029424799U</span><span class="p">,</span> <span class="mi">937U</span><span class="p">,</span> <span class="mi">3787746841U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">2012608669U</span><span class="p">,</span> <span class="mi">506U</span><span class="p">,</span> <span class="mi">3362628973U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1535432887U</span><span class="p">,</span> <span class="mi">998U</span><span class="p">,</span>   <span class="mi">42610943U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1330635533U</span><span class="p">,</span> <span class="mi">857U</span><span class="p">,</span> <span class="mi">3040806504U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1223800550U</span><span class="p">,</span> <span class="mi">539U</span><span class="p">,</span> <span class="mi">3954229517U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1322411537U</span><span class="p">,</span> <span class="mi">680U</span><span class="p">,</span> <span class="mi">3223250324U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1877847898U</span><span class="p">,</span> <span class="mi">945U</span><span class="p">,</span> <span class="mi">2915147143U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1646356099U</span><span class="p">,</span> <span class="mi">874U</span><span class="p">,</span>  <span class="mi">965988280U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">805687536U</span><span class="p">,</span> <span class="mi">744U</span><span class="p">,</span> <span class="mi">4032277920U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1948093210U</span><span class="p">,</span> <span class="mi">633U</span><span class="p">,</span> <span class="mi">1346597684U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">392609744U</span><span class="p">,</span> <span class="mi">783U</span><span class="p">,</span> <span class="mi">1636083295U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">690241304U</span><span class="p">,</span> <span class="mi">770U</span><span class="p">,</span> <span class="mi">1201031298U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1360302965U</span><span class="p">,</span> <span class="mi">696U</span><span class="p">,</span> <span class="mi">1665394461U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1220090946U</span><span class="p">,</span> <span class="mi">780U</span><span class="p">,</span> <span class="mi">1316922812U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">447092251U</span><span class="p">,</span> <span class="mi">500U</span><span class="p">,</span> <span class="mi">3438743375U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1613868791U</span><span class="p">,</span> <span class="mi">592U</span><span class="p">,</span>  <span class="mi">828546883U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">523430951U</span><span class="p">,</span> <span class="mi">548U</span><span class="p">,</span> <span class="mi">2552392304U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">726692899U</span><span class="p">,</span> <span class="mi">810U</span><span class="p">,</span> <span class="mi">1656872867U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1364340021U</span><span class="p">,</span> <span class="mi">836U</span><span class="p">,</span> <span class="mi">3710513486U</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="mi">1986257729U</span><span class="p">,</span> <span class="mi">931U</span><span class="p">,</span>  <span class="mi">935013962U</span> <span class="p">},</span>
+	<span class="p">{</span>  <span class="mi">407983964U</span><span class="p">,</span> <span class="mi">921U</span><span class="p">,</span>  <span class="mi">728767059U</span> <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__init</span> <span class="nf">prandom_state_selftest</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">runs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">error</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ARRAY_SIZE</span><span class="p">(</span><span class="n">test1</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">rnd_state</span> <span class="n">state</span><span class="p">;</span>
+
+		<span class="n">prandom_seed_early</span><span class="p">(</span><span class="o">&amp;</span><span class="n">state</span><span class="p">,</span> <span class="n">test1</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">seed</span><span class="p">,</span> <span class="n">false</span><span class="p">);</span>
+		<span class="n">prandom_warmup</span><span class="p">(</span><span class="o">&amp;</span><span class="n">state</span><span class="p">);</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">test1</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">result</span> <span class="o">!=</span> <span class="n">prandom_u32_state</span><span class="p">(</span><span class="o">&amp;</span><span class="n">state</span><span class="p">))</span>
+			<span class="n">error</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span>
+		<span class="n">pr_warn</span><span class="p">(</span><span class="s">&quot;prandom: seed boundary self test failed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">pr_info</span><span class="p">(</span><span class="s">&quot;prandom: seed boundary self test passed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ARRAY_SIZE</span><span class="p">(</span><span class="n">test2</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">rnd_state</span> <span class="n">state</span><span class="p">;</span>
+
+		<span class="n">prandom_seed_early</span><span class="p">(</span><span class="o">&amp;</span><span class="n">state</span><span class="p">,</span> <span class="n">test2</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">seed</span><span class="p">,</span> <span class="n">false</span><span class="p">);</span>
+		<span class="n">prandom_warmup</span><span class="p">(</span><span class="o">&amp;</span><span class="n">state</span><span class="p">);</span>
+
+		<span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">test2</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">iteration</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+			<span class="n">prandom_u32_state</span><span class="p">(</span><span class="o">&amp;</span><span class="n">state</span><span class="p">);</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">test2</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">result</span> <span class="o">!=</span> <span class="n">prandom_u32_state</span><span class="p">(</span><span class="o">&amp;</span><span class="n">state</span><span class="p">))</span>
+			<span class="n">errors</span><span class="o">++</span><span class="p">;</span>
+
+		<span class="n">runs</span><span class="o">++</span><span class="p">;</span>
+		<span class="n">cond_resched</span><span class="p">();</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+		<span class="n">pr_warn</span><span class="p">(</span><span class="s">&quot;prandom: %d/%d self tests failed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="n">runs</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">pr_info</span><span class="p">(</span><span class="s">&quot;prandom: %d self tests passed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">runs</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

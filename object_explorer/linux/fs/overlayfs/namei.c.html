@@ -1,0 +1,830 @@
+fs/overlayfs/namei.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L390">390</a>
+<a name="L391" id="L391" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L391">391</a>
+<a name="L392" id="L392" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L392">392</a>
+<a name="L393" id="L393" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L393">393</a>
+<a name="L394" id="L394" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L394">394</a>
+<a name="L395" id="L395" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L395">395</a>
+<a name="L396" id="L396" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L396">396</a>
+<a name="L397" id="L397" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L397">397</a>
+<a name="L398" id="L398" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L398">398</a>
+<a name="L399" id="L399" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L399">399</a>
+<a name="L400" id="L400" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L400">400</a>
+<a name="L401" id="L401" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L401">401</a>
+<a name="L402" id="L402" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L402">402</a>
+<a name="L403" id="L403" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L403">403</a>
+<a name="L404" id="L404" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L404">404</a>
+<a name="L405" id="L405" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L405">405</a>
+<a name="L406" id="L406" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L406">406</a>
+<a name="L407" id="L407" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L407">407</a>
+<a name="L408" id="L408" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L408">408</a>
+<a name="L409" id="L409" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L409">409</a>
+<a name="L410" id="L410" href="https://uscope-linux.github.io/object_explorer/linux/fs/overlayfs/namei.c#L410">410</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Copyright (C) 2011 Novell Inc.</span>
+<span class="cm"> * Copyright (C) 2016 Red Hat, Inc.</span>
+<span class="cm"> *</span>
+<span class="cm"> * This program is free software; you can redistribute it and/or modify it</span>
+<span class="cm"> * under the terms of the GNU General Public License version 2 as published by</span>
+<span class="cm"> * the Free Software Foundation.</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/fs.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/namei.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/xattr.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/ratelimit.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;overlayfs.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;ovl_entry.h&quot;</span><span class="cp"></span>
+
+<span class="k">struct</span> <span class="n">ovl_lookup_data</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">qstr</span> <span class="n">name</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">is_dir</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">opaque</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">stop</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">last</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">redirect</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">ovl_check_redirect</span><span class="p">(</span><span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">,</span> <span class="k">struct</span> <span class="n">ovl_lookup_data</span> <span class="o">*</span><span class="n">d</span><span class="p">,</span>
+			      <span class="n">size_t</span> <span class="n">prelen</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">post</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">res</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">,</span> <span class="o">*</span><span class="n">next</span><span class="p">,</span> <span class="o">*</span><span class="n">buf</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">res</span> <span class="o">=</span> <span class="n">vfs_getxattr</span><span class="p">(</span><span class="n">dentry</span><span class="p">,</span> <span class="n">OVL_XATTR_REDIRECT</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="o">-</span><span class="n">ENODATA</span> <span class="o">||</span> <span class="n">res</span> <span class="o">==</span> <span class="o">-</span><span class="n">EOPNOTSUPP</span><span class="p">)</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="k">goto</span> <span class="n">fail</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">buf</span> <span class="o">=</span> <span class="n">kzalloc</span><span class="p">(</span><span class="n">prelen</span> <span class="o">+</span> <span class="n">res</span> <span class="o">+</span> <span class="n">strlen</span><span class="p">(</span><span class="n">post</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">GFP_TEMPORARY</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">buf</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">invalid</span><span class="p">;</span>
+
+	<span class="n">res</span> <span class="o">=</span> <span class="n">vfs_getxattr</span><span class="p">(</span><span class="n">dentry</span><span class="p">,</span> <span class="n">OVL_XATTR_REDIRECT</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">res</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">fail</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">invalid</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;/&#39;</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="p">(</span><span class="n">s</span> <span class="o">=</span> <span class="n">buf</span><span class="p">;</span> <span class="o">*</span><span class="n">s</span><span class="o">++</span> <span class="o">==</span> <span class="sc">&#39;/&#39;</span><span class="p">;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">next</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">next</span> <span class="o">=</span> <span class="n">strchrnul</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="sc">&#39;/&#39;</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="n">next</span><span class="p">)</span>
+				<span class="k">goto</span> <span class="n">invalid</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">strchr</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="sc">&#39;/&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+			<span class="k">goto</span> <span class="n">invalid</span><span class="p">;</span>
+
+		<span class="n">memmove</span><span class="p">(</span><span class="n">buf</span> <span class="o">+</span> <span class="n">prelen</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">res</span><span class="p">);</span>
+		<span class="n">memcpy</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">prelen</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">strcat</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">post</span><span class="p">);</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">d</span><span class="o">-&gt;</span><span class="n">redirect</span><span class="p">);</span>
+	<span class="n">d</span><span class="o">-&gt;</span><span class="n">redirect</span> <span class="o">=</span> <span class="n">buf</span><span class="p">;</span>
+	<span class="n">d</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">redirect</span><span class="p">;</span>
+	<span class="n">d</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">.</span><span class="n">len</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">d</span><span class="o">-&gt;</span><span class="n">redirect</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="nl">err_free</span><span class="p">:</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nl">fail</span><span class="p">:</span>
+	<span class="n">pr_warn_ratelimited</span><span class="p">(</span><span class="s">&quot;overlayfs: failed to get redirect (%i)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">res</span><span class="p">);</span>
+	<span class="k">goto</span> <span class="n">err_free</span><span class="p">;</span>
+<span class="nl">invalid</span><span class="p">:</span>
+	<span class="n">pr_warn_ratelimited</span><span class="p">(</span><span class="s">&quot;overlayfs: invalid redirect (%s)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">buf</span><span class="p">);</span>
+	<span class="k">goto</span> <span class="n">err_free</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">bool</span> <span class="nf">ovl_is_opaquedir</span><span class="p">(</span><span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">res</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">val</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">d_is_dir</span><span class="p">(</span><span class="n">dentry</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="n">res</span> <span class="o">=</span> <span class="n">vfs_getxattr</span><span class="p">(</span><span class="n">dentry</span><span class="p">,</span> <span class="n">OVL_XATTR_OPAQUE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">val</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">val</span> <span class="o">==</span> <span class="sc">&#39;y&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">ovl_lookup_single</span><span class="p">(</span><span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">base</span><span class="p">,</span> <span class="k">struct</span> <span class="n">ovl_lookup_data</span> <span class="o">*</span><span class="n">d</span><span class="p">,</span>
+			     <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">namelen</span><span class="p">,</span>
+			     <span class="n">size_t</span> <span class="n">prelen</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">post</span><span class="p">,</span>
+			     <span class="k">struct</span> <span class="n">dentry</span> <span class="o">**</span><span class="n">ret</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">this</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">err</span><span class="p">;</span>
+
+	<span class="n">this</span> <span class="o">=</span> <span class="n">lookup_one_len_unlocked</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">namelen</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">IS_ERR</span><span class="p">(</span><span class="n">this</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="n">PTR_ERR</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+		<span class="n">this</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">==</span> <span class="o">-</span><span class="n">ENOENT</span> <span class="o">||</span> <span class="n">err</span> <span class="o">==</span> <span class="o">-</span><span class="n">ENAMETOOLONG</span><span class="p">)</span>
+			<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+		<span class="k">goto</span> <span class="n">out_err</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">d_inode</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">put_and_out</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">ovl_dentry_weird</span><span class="p">(</span><span class="n">this</span><span class="p">))</span> <span class="p">{</span>
+		<span class="cm">/* Don&#39;t support traversing automounts and other weirdness */</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="o">-</span><span class="n">EREMOTE</span><span class="p">;</span>
+		<span class="k">goto</span> <span class="n">out_err</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ovl_is_whiteout</span><span class="p">(</span><span class="n">this</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">d</span><span class="o">-&gt;</span><span class="n">stop</span> <span class="o">=</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">opaque</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+		<span class="k">goto</span> <span class="n">put_and_out</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">d_can_lookup</span><span class="p">(</span><span class="n">this</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">d</span><span class="o">-&gt;</span><span class="n">stop</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">d</span><span class="o">-&gt;</span><span class="n">is_dir</span><span class="p">)</span>
+			<span class="k">goto</span> <span class="n">put_and_out</span><span class="p">;</span>
+		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">d</span><span class="o">-&gt;</span><span class="n">is_dir</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">d</span><span class="o">-&gt;</span><span class="n">last</span> <span class="o">&amp;&amp;</span> <span class="n">ovl_is_opaquedir</span><span class="p">(</span><span class="n">this</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">d</span><span class="o">-&gt;</span><span class="n">stop</span> <span class="o">=</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">opaque</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">err</span> <span class="o">=</span> <span class="n">ovl_check_redirect</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">prelen</span><span class="p">,</span> <span class="n">post</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">err</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">out_err</span><span class="p">;</span>
+<span class="nl">out</span><span class="p">:</span>
+	<span class="o">*</span><span class="n">ret</span> <span class="o">=</span> <span class="n">this</span><span class="p">;</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="nl">put_and_out</span><span class="p">:</span>
+	<span class="n">dput</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+	<span class="n">this</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+
+<span class="nl">out_err</span><span class="p">:</span>
+	<span class="n">dput</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">ovl_lookup_layer</span><span class="p">(</span><span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">base</span><span class="p">,</span> <span class="k">struct</span> <span class="n">ovl_lookup_data</span> <span class="o">*</span><span class="n">d</span><span class="p">,</span>
+			    <span class="k">struct</span> <span class="n">dentry</span> <span class="o">**</span><span class="n">ret</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/* Counting down from the end, since the prefix can change */</span>
+	<span class="n">size_t</span> <span class="n">rem</span> <span class="o">=</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">.</span><span class="n">len</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">err</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">d</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">&#39;/&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">ovl_lookup_single</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">.</span><span class="n">len</span><span class="p">,</span>
+					 <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">ret</span><span class="p">);</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">IS_ERR_OR_NULL</span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">d_can_lookup</span><span class="p">(</span><span class="n">base</span><span class="p">))</span> <span class="p">{</span>
+		<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">.</span><span class="n">name</span> <span class="o">+</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">.</span><span class="n">len</span> <span class="o">-</span> <span class="n">rem</span><span class="p">;</span>
+		<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">next</span> <span class="o">=</span> <span class="n">strchrnul</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="sc">&#39;/&#39;</span><span class="p">);</span>
+		<span class="n">size_t</span> <span class="n">thislen</span> <span class="o">=</span> <span class="n">next</span> <span class="o">-</span> <span class="n">s</span><span class="p">;</span>
+		<span class="n">bool</span> <span class="n">end</span> <span class="o">=</span> <span class="o">!</span><span class="n">next</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+		<span class="cm">/* Verify we did not go off the rails */</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">WARN_ON</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">&#39;/&#39;</span><span class="p">))</span>
+			<span class="k">return</span> <span class="o">-</span><span class="n">EIO</span><span class="p">;</span>
+
+		<span class="n">err</span> <span class="o">=</span> <span class="n">ovl_lookup_single</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">thislen</span><span class="p">,</span>
+					<span class="n">d</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">.</span><span class="n">len</span> <span class="o">-</span> <span class="n">rem</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">base</span><span class="p">);</span>
+		<span class="n">dput</span><span class="p">(</span><span class="n">dentry</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">err</span><span class="p">)</span>
+			<span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+		<span class="n">dentry</span> <span class="o">=</span> <span class="n">base</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">end</span><span class="p">)</span>
+			<span class="k">break</span><span class="p">;</span>
+
+		<span class="n">rem</span> <span class="o">-=</span> <span class="n">thislen</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">WARN_ON</span><span class="p">(</span><span class="n">rem</span> <span class="o">&gt;=</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">.</span><span class="n">len</span><span class="p">))</span>
+			<span class="k">return</span> <span class="o">-</span><span class="n">EIO</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="o">*</span><span class="n">ret</span> <span class="o">=</span> <span class="n">dentry</span><span class="p">;</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Returns next layer in stack starting from top.</span>
+<span class="cm"> * Returns -1 if this is the last layer.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">ovl_path_next</span><span class="p">(</span><span class="kt">int</span> <span class="n">idx</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">,</span> <span class="k">struct</span> <span class="n">path</span> <span class="o">*</span><span class="n">path</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">ovl_entry</span> <span class="o">*</span><span class="n">oe</span> <span class="o">=</span> <span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_fsdata</span><span class="p">;</span>
+
+	<span class="n">BUG_ON</span><span class="p">(</span><span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">ovl_path_upper</span><span class="p">(</span><span class="n">dentry</span><span class="p">,</span> <span class="n">path</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">path</span><span class="o">-&gt;</span><span class="n">dentry</span><span class="p">)</span>
+			<span class="k">return</span> <span class="n">oe</span><span class="o">-&gt;</span><span class="n">numlower</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+		<span class="n">idx</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">BUG_ON</span><span class="p">(</span><span class="n">idx</span> <span class="o">&gt;</span> <span class="n">oe</span><span class="o">-&gt;</span><span class="n">numlower</span><span class="p">);</span>
+	<span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="n">oe</span><span class="o">-&gt;</span><span class="n">lowerstack</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+
+	<span class="k">return</span> <span class="p">(</span><span class="n">idx</span> <span class="o">&lt;</span> <span class="n">oe</span><span class="o">-&gt;</span><span class="n">numlower</span><span class="p">)</span> <span class="o">?</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="nf">ovl_lookup</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">dir</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">,</span>
+			  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">ovl_entry</span> <span class="o">*</span><span class="n">oe</span><span class="p">;</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">cred</span> <span class="o">*</span><span class="n">old_cred</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ovl_fs</span> <span class="o">*</span><span class="n">ofs</span> <span class="o">=</span> <span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_sb</span><span class="o">-&gt;</span><span class="n">s_fs_info</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ovl_entry</span> <span class="o">*</span><span class="n">poe</span> <span class="o">=</span> <span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_parent</span><span class="o">-&gt;</span><span class="n">d_fsdata</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">path</span> <span class="o">*</span><span class="n">stack</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">upperdir</span><span class="p">,</span> <span class="o">*</span><span class="n">upperdentry</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">ctr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">upperopaque</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">upperredirect</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">this</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">err</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ovl_lookup_data</span> <span class="n">d</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_name</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">is_dir</span> <span class="o">=</span> <span class="n">false</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">opaque</span> <span class="o">=</span> <span class="n">false</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">stop</span> <span class="o">=</span> <span class="n">false</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">last</span> <span class="o">=</span> <span class="o">!</span><span class="n">poe</span><span class="o">-&gt;</span><span class="n">numlower</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">redirect</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">,</span>
+	<span class="p">};</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_name</span><span class="p">.</span><span class="n">len</span> <span class="o">&gt;</span> <span class="n">ofs</span><span class="o">-&gt;</span><span class="n">namelen</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">ERR_PTR</span><span class="p">(</span><span class="o">-</span><span class="n">ENAMETOOLONG</span><span class="p">);</span>
+
+	<span class="n">old_cred</span> <span class="o">=</span> <span class="n">ovl_override_creds</span><span class="p">(</span><span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_sb</span><span class="p">);</span>
+	<span class="n">upperdir</span> <span class="o">=</span> <span class="n">ovl_upperdentry_dereference</span><span class="p">(</span><span class="n">poe</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">upperdir</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="n">ovl_lookup_layer</span><span class="p">(</span><span class="n">upperdir</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">d</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">upperdentry</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">err</span><span class="p">)</span>
+			<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">upperdentry</span> <span class="o">&amp;&amp;</span> <span class="n">unlikely</span><span class="p">(</span><span class="n">ovl_dentry_remote</span><span class="p">(</span><span class="n">upperdentry</span><span class="p">)))</span> <span class="p">{</span>
+			<span class="n">dput</span><span class="p">(</span><span class="n">upperdentry</span><span class="p">);</span>
+			<span class="n">err</span> <span class="o">=</span> <span class="o">-</span><span class="n">EREMOTE</span><span class="p">;</span>
+			<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">redirect</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">upperredirect</span> <span class="o">=</span> <span class="n">kstrdup</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">redirect</span><span class="p">,</span> <span class="n">GFP_KERNEL</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">upperredirect</span><span class="p">)</span>
+				<span class="k">goto</span> <span class="n">out_put_upper</span><span class="p">;</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">redirect</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;/&#39;</span><span class="p">)</span>
+				<span class="n">poe</span> <span class="o">=</span> <span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_sb</span><span class="o">-&gt;</span><span class="n">s_root</span><span class="o">-&gt;</span><span class="n">d_fsdata</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">upperopaque</span> <span class="o">=</span> <span class="n">d</span><span class="p">.</span><span class="n">opaque</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">d</span><span class="p">.</span><span class="n">stop</span> <span class="o">&amp;&amp;</span> <span class="n">poe</span><span class="o">-&gt;</span><span class="n">numlower</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+		<span class="n">stack</span> <span class="o">=</span> <span class="n">kcalloc</span><span class="p">(</span><span class="n">ofs</span><span class="o">-&gt;</span><span class="n">numlower</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">path</span><span class="p">),</span>
+				<span class="n">GFP_TEMPORARY</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">stack</span><span class="p">)</span>
+			<span class="k">goto</span> <span class="n">out_put_upper</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">!</span><span class="n">d</span><span class="p">.</span><span class="n">stop</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">poe</span><span class="o">-&gt;</span><span class="n">numlower</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">path</span> <span class="n">lowerpath</span> <span class="o">=</span> <span class="n">poe</span><span class="o">-&gt;</span><span class="n">lowerstack</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+		<span class="n">d</span><span class="p">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">i</span> <span class="o">==</span> <span class="n">poe</span><span class="o">-&gt;</span><span class="n">numlower</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="n">ovl_lookup_layer</span><span class="p">(</span><span class="n">lowerpath</span><span class="p">.</span><span class="n">dentry</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">d</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">this</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">err</span><span class="p">)</span>
+			<span class="k">goto</span> <span class="n">out_put</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">this</span><span class="p">)</span>
+			<span class="k">continue</span><span class="p">;</span>
+
+		<span class="n">stack</span><span class="p">[</span><span class="n">ctr</span><span class="p">].</span><span class="n">dentry</span> <span class="o">=</span> <span class="n">this</span><span class="p">;</span>
+		<span class="n">stack</span><span class="p">[</span><span class="n">ctr</span><span class="p">].</span><span class="n">mnt</span> <span class="o">=</span> <span class="n">lowerpath</span><span class="p">.</span><span class="n">mnt</span><span class="p">;</span>
+		<span class="n">ctr</span><span class="o">++</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">stop</span><span class="p">)</span>
+			<span class="k">break</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">redirect</span> <span class="o">&amp;&amp;</span>
+		    <span class="n">d</span><span class="p">.</span><span class="n">redirect</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;/&#39;</span> <span class="o">&amp;&amp;</span>
+		    <span class="n">poe</span> <span class="o">!=</span> <span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_sb</span><span class="o">-&gt;</span><span class="n">s_root</span><span class="o">-&gt;</span><span class="n">d_fsdata</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">poe</span> <span class="o">=</span> <span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_sb</span><span class="o">-&gt;</span><span class="n">s_root</span><span class="o">-&gt;</span><span class="n">d_fsdata</span><span class="p">;</span>
+
+			<span class="cm">/* Find the current layer on the root dentry */</span>
+			<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">poe</span><span class="o">-&gt;</span><span class="n">numlower</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">poe</span><span class="o">-&gt;</span><span class="n">lowerstack</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">mnt</span> <span class="o">==</span> <span class="n">lowerpath</span><span class="p">.</span><span class="n">mnt</span><span class="p">)</span>
+					<span class="k">break</span><span class="p">;</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">WARN_ON</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">poe</span><span class="o">-&gt;</span><span class="n">numlower</span><span class="p">))</span>
+				<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="n">oe</span> <span class="o">=</span> <span class="n">ovl_alloc_entry</span><span class="p">(</span><span class="n">ctr</span><span class="p">);</span>
+	<span class="n">err</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">oe</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">out_put</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">upperdentry</span> <span class="o">||</span> <span class="n">ctr</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">realdentry</span><span class="p">;</span>
+		<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">realinode</span><span class="p">;</span>
+
+		<span class="n">realdentry</span> <span class="o">=</span> <span class="n">upperdentry</span> <span class="o">?</span> <span class="nl">upperdentry</span> <span class="p">:</span> <span class="n">stack</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">dentry</span><span class="p">;</span>
+		<span class="n">realinode</span> <span class="o">=</span> <span class="n">d_inode</span><span class="p">(</span><span class="n">realdentry</span><span class="p">);</span>
+
+		<span class="n">err</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">upperdentry</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">d_is_dir</span><span class="p">(</span><span class="n">upperdentry</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">inode</span> <span class="o">=</span> <span class="n">ovl_get_inode</span><span class="p">(</span><span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_sb</span><span class="p">,</span> <span class="n">realinode</span><span class="p">);</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="n">inode</span> <span class="o">=</span> <span class="n">ovl_new_inode</span><span class="p">(</span><span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_sb</span><span class="p">,</span> <span class="n">realinode</span><span class="o">-&gt;</span><span class="n">i_mode</span><span class="p">,</span>
+					      <span class="n">realinode</span><span class="o">-&gt;</span><span class="n">i_rdev</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">inode</span><span class="p">)</span>
+				<span class="n">ovl_inode_init</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">realinode</span><span class="p">,</span> <span class="o">!!</span><span class="n">upperdentry</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">inode</span><span class="p">)</span>
+			<span class="k">goto</span> <span class="n">out_free_oe</span><span class="p">;</span>
+		<span class="n">ovl_copyattr</span><span class="p">(</span><span class="n">realdentry</span><span class="o">-&gt;</span><span class="n">d_inode</span><span class="p">,</span> <span class="n">inode</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">revert_creds</span><span class="p">(</span><span class="n">old_cred</span><span class="p">);</span>
+	<span class="n">oe</span><span class="o">-&gt;</span><span class="n">opaque</span> <span class="o">=</span> <span class="n">upperopaque</span><span class="p">;</span>
+	<span class="n">oe</span><span class="o">-&gt;</span><span class="n">redirect</span> <span class="o">=</span> <span class="n">upperredirect</span><span class="p">;</span>
+	<span class="n">oe</span><span class="o">-&gt;</span><span class="n">__upperdentry</span> <span class="o">=</span> <span class="n">upperdentry</span><span class="p">;</span>
+	<span class="n">memcpy</span><span class="p">(</span><span class="n">oe</span><span class="o">-&gt;</span><span class="n">lowerstack</span><span class="p">,</span> <span class="n">stack</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">path</span><span class="p">)</span> <span class="o">*</span> <span class="n">ctr</span><span class="p">);</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">stack</span><span class="p">);</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">redirect</span><span class="p">);</span>
+	<span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_fsdata</span> <span class="o">=</span> <span class="n">oe</span><span class="p">;</span>
+	<span class="n">d_add</span><span class="p">(</span><span class="n">dentry</span><span class="p">,</span> <span class="n">inode</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+
+<span class="nl">out_free_oe</span><span class="p">:</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">oe</span><span class="p">);</span>
+<span class="nl">out_put</span><span class="p">:</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ctr</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">dput</span><span class="p">(</span><span class="n">stack</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">dentry</span><span class="p">);</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">stack</span><span class="p">);</span>
+<span class="nl">out_put_upper</span><span class="p">:</span>
+	<span class="n">dput</span><span class="p">(</span><span class="n">upperdentry</span><span class="p">);</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">upperredirect</span><span class="p">);</span>
+<span class="nl">out</span><span class="p">:</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">redirect</span><span class="p">);</span>
+	<span class="n">revert_creds</span><span class="p">(</span><span class="n">old_cred</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">ERR_PTR</span><span class="p">(</span><span class="n">err</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">bool</span> <span class="nf">ovl_lower_positive</span><span class="p">(</span><span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">ovl_entry</span> <span class="o">*</span><span class="n">oe</span> <span class="o">=</span> <span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_fsdata</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ovl_entry</span> <span class="o">*</span><span class="n">poe</span> <span class="o">=</span> <span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_parent</span><span class="o">-&gt;</span><span class="n">d_fsdata</span><span class="p">;</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">qstr</span> <span class="o">*</span><span class="n">name</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_name</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">positive</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">done</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * If dentry is negative, then lower is positive iff this is a</span>
+<span class="cm">	 * whiteout.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">dentry</span><span class="o">-&gt;</span><span class="n">d_inode</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">oe</span><span class="o">-&gt;</span><span class="n">opaque</span><span class="p">;</span>
+
+	<span class="cm">/* Negative upper -&gt; positive lower */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">oe</span><span class="o">-&gt;</span><span class="n">__upperdentry</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+
+	<span class="cm">/* Positive upper -&gt; have to look up lower to see whether it exists */</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">!</span><span class="n">done</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">positive</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">poe</span><span class="o">-&gt;</span><span class="n">numlower</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">this</span><span class="p">;</span>
+		<span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">lowerdir</span> <span class="o">=</span> <span class="n">poe</span><span class="o">-&gt;</span><span class="n">lowerstack</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">dentry</span><span class="p">;</span>
+
+		<span class="n">this</span> <span class="o">=</span> <span class="n">lookup_one_len_unlocked</span><span class="p">(</span><span class="n">name</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span> <span class="n">lowerdir</span><span class="p">,</span>
+					       <span class="n">name</span><span class="o">-&gt;</span><span class="n">len</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">IS_ERR</span><span class="p">(</span><span class="n">this</span><span class="p">))</span> <span class="p">{</span>
+			<span class="k">switch</span> <span class="p">(</span><span class="n">PTR_ERR</span><span class="p">(</span><span class="n">this</span><span class="p">))</span> <span class="p">{</span>
+			<span class="k">case</span> <span class="o">-</span><span class="nl">ENOENT</span><span class="p">:</span>
+			<span class="k">case</span> <span class="o">-</span><span class="nl">ENAMETOOLONG</span><span class="p">:</span>
+				<span class="k">break</span><span class="p">;</span>
+
+			<span class="k">default</span><span class="o">:</span>
+				<span class="cm">/*</span>
+<span class="cm">				 * Assume something is there, we just couldn&#39;t</span>
+<span class="cm">				 * access it.</span>
+<span class="cm">				 */</span>
+				<span class="n">positive</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">d_inode</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">positive</span> <span class="o">=</span> <span class="o">!</span><span class="n">ovl_is_whiteout</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+				<span class="n">done</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">dput</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">positive</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

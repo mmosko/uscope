@@ -1,0 +1,422 @@
+arch/x86/kernel/rtc.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/rtc.c#L206">206</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * RTC related functions</span>
+<span class="cm"> */</span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/platform_device.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/mc146818rtc.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/acpi.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/bcd.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/export.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/pnp.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/of.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;asm/vsyscall.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/x86_init.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/time.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/intel-mid.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/setup.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#ifdef CONFIG_X86_32</span>
+<span class="cm">/*</span>
+<span class="cm"> * This is a special lock that is owned by the CPU and holds the index</span>
+<span class="cm"> * register we are working with.  It is required for NMI access to the</span>
+<span class="cm"> * CMOS/RTC registers.  See include/asm-i386/mc146818rtc.h for details.</span>
+<span class="cm"> */</span>
+<span class="k">volatile</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">cmos_lock</span><span class="p">;</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">cmos_lock</span><span class="p">);</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_X86_32 */</span><span class="cp"></span>
+
+<span class="cm">/* For two digit years assume time is always after that */</span>
+<span class="cp">#define CMOS_YEARS_OFFS 2000</span>
+
+<span class="n">DEFINE_SPINLOCK</span><span class="p">(</span><span class="n">rtc_lock</span><span class="p">);</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">rtc_lock</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * In order to set the CMOS clock precisely, set_rtc_mmss has to be</span>
+<span class="cm"> * called 500 ms after the second nowtime has started, because when</span>
+<span class="cm"> * nowtime is written into the registers of the CMOS clock, it will</span>
+<span class="cm"> * jump to the next second precisely 500 ms later. Check the Motorola</span>
+<span class="cm"> * MC146818A or Dallas DS12887 data sheet for details.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">mach_set_rtc_mmss</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">timespec</span> <span class="o">*</span><span class="n">now</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">nowtime</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">tv_sec</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">rtc_time</span> <span class="n">tm</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">retval</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">rtc_time_to_tm</span><span class="p">(</span><span class="n">nowtime</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tm</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">rtc_valid_tm</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tm</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">retval</span> <span class="o">=</span> <span class="n">mc146818_set_time</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tm</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">retval</span><span class="p">)</span>
+			<span class="n">printk</span><span class="p">(</span><span class="n">KERN_ERR</span> <span class="s">&quot;%s: RTC write failed with error %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+			       <span class="n">__func__</span><span class="p">,</span> <span class="n">retval</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">printk</span><span class="p">(</span><span class="n">KERN_ERR</span>
+		       <span class="s">&quot;%s: Invalid RTC value: write of %lx to RTC failed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+			<span class="n">__func__</span><span class="p">,</span> <span class="n">nowtime</span><span class="p">);</span>
+		<span class="n">retval</span> <span class="o">=</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">retval</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">mach_get_cmos_time</span><span class="p">(</span><span class="k">struct</span> <span class="n">timespec</span> <span class="o">*</span><span class="n">now</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">status</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">mon</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">hour</span><span class="p">,</span> <span class="n">min</span><span class="p">,</span> <span class="n">sec</span><span class="p">,</span> <span class="n">century</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">;</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * If pm_trace abused the RTC as storage, set the timespec to 0,</span>
+<span class="cm">	 * which tells the caller that this RTC value is unusable.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">pm_trace_rtc_valid</span><span class="p">())</span> <span class="p">{</span>
+		<span class="n">now</span><span class="o">-&gt;</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">tv_nsec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">spin_lock_irqsave</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rtc_lock</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * If UIP is clear, then we have &gt;= 244 microseconds before</span>
+<span class="cm">	 * RTC registers will be updated.  Spec sheet says that this</span>
+<span class="cm">	 * is the reliable way to read RTC - registers. If UIP is set</span>
+<span class="cm">	 * then the register access might be invalid.</span>
+<span class="cm">	 */</span>
+	<span class="k">while</span> <span class="p">((</span><span class="n">CMOS_READ</span><span class="p">(</span><span class="n">RTC_FREQ_SELECT</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">RTC_UIP</span><span class="p">))</span>
+		<span class="n">cpu_relax</span><span class="p">();</span>
+
+	<span class="n">sec</span> <span class="o">=</span> <span class="n">CMOS_READ</span><span class="p">(</span><span class="n">RTC_SECONDS</span><span class="p">);</span>
+	<span class="n">min</span> <span class="o">=</span> <span class="n">CMOS_READ</span><span class="p">(</span><span class="n">RTC_MINUTES</span><span class="p">);</span>
+	<span class="n">hour</span> <span class="o">=</span> <span class="n">CMOS_READ</span><span class="p">(</span><span class="n">RTC_HOURS</span><span class="p">);</span>
+	<span class="n">day</span> <span class="o">=</span> <span class="n">CMOS_READ</span><span class="p">(</span><span class="n">RTC_DAY_OF_MONTH</span><span class="p">);</span>
+	<span class="n">mon</span> <span class="o">=</span> <span class="n">CMOS_READ</span><span class="p">(</span><span class="n">RTC_MONTH</span><span class="p">);</span>
+	<span class="n">year</span> <span class="o">=</span> <span class="n">CMOS_READ</span><span class="p">(</span><span class="n">RTC_YEAR</span><span class="p">);</span>
+
+<span class="cp">#ifdef CONFIG_ACPI</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">acpi_gbl_FADT</span><span class="p">.</span><span class="n">header</span><span class="p">.</span><span class="n">revision</span> <span class="o">&gt;=</span> <span class="n">FADT2_REVISION_ID</span> <span class="o">&amp;&amp;</span>
+	    <span class="n">acpi_gbl_FADT</span><span class="p">.</span><span class="n">century</span><span class="p">)</span>
+		<span class="n">century</span> <span class="o">=</span> <span class="n">CMOS_READ</span><span class="p">(</span><span class="n">acpi_gbl_FADT</span><span class="p">.</span><span class="n">century</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+	<span class="n">status</span> <span class="o">=</span> <span class="n">CMOS_READ</span><span class="p">(</span><span class="n">RTC_CONTROL</span><span class="p">);</span>
+	<span class="n">WARN_ON_ONCE</span><span class="p">(</span><span class="n">RTC_ALWAYS_BCD</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">status</span> <span class="o">&amp;</span> <span class="n">RTC_DM_BINARY</span><span class="p">));</span>
+
+	<span class="n">spin_unlock_irqrestore</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rtc_lock</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">RTC_ALWAYS_BCD</span> <span class="o">||</span> <span class="o">!</span><span class="p">(</span><span class="n">status</span> <span class="o">&amp;</span> <span class="n">RTC_DM_BINARY</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">sec</span> <span class="o">=</span> <span class="n">bcd2bin</span><span class="p">(</span><span class="n">sec</span><span class="p">);</span>
+		<span class="n">min</span> <span class="o">=</span> <span class="n">bcd2bin</span><span class="p">(</span><span class="n">min</span><span class="p">);</span>
+		<span class="n">hour</span> <span class="o">=</span> <span class="n">bcd2bin</span><span class="p">(</span><span class="n">hour</span><span class="p">);</span>
+		<span class="n">day</span> <span class="o">=</span> <span class="n">bcd2bin</span><span class="p">(</span><span class="n">day</span><span class="p">);</span>
+		<span class="n">mon</span> <span class="o">=</span> <span class="n">bcd2bin</span><span class="p">(</span><span class="n">mon</span><span class="p">);</span>
+		<span class="n">year</span> <span class="o">=</span> <span class="n">bcd2bin</span><span class="p">(</span><span class="n">year</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">century</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">century</span> <span class="o">=</span> <span class="n">bcd2bin</span><span class="p">(</span><span class="n">century</span><span class="p">);</span>
+		<span class="n">year</span> <span class="o">+=</span> <span class="n">century</span> <span class="o">*</span> <span class="mi">100</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span>
+		<span class="n">year</span> <span class="o">+=</span> <span class="n">CMOS_YEARS_OFFS</span><span class="p">;</span>
+
+	<span class="n">now</span><span class="o">-&gt;</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="n">mktime</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">mon</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">hour</span><span class="p">,</span> <span class="n">min</span><span class="p">,</span> <span class="n">sec</span><span class="p">);</span>
+	<span class="n">now</span><span class="o">-&gt;</span><span class="n">tv_nsec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Routines for accessing the CMOS RAM/RTC. */</span>
+<span class="kt">unsigned</span> <span class="kt">char</span> <span class="nf">rtc_cmos_read</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">addr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">val</span><span class="p">;</span>
+
+	<span class="n">lock_cmos_prefix</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
+	<span class="n">outb</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">RTC_PORT</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+	<span class="n">val</span> <span class="o">=</span> <span class="n">inb</span><span class="p">(</span><span class="n">RTC_PORT</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+	<span class="n">lock_cmos_suffix</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">rtc_cmos_read</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">rtc_cmos_write</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">val</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">addr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">lock_cmos_prefix</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
+	<span class="n">outb</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">RTC_PORT</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+	<span class="n">outb</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">RTC_PORT</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+	<span class="n">lock_cmos_suffix</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">rtc_cmos_write</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">update_persistent_clock</span><span class="p">(</span><span class="k">struct</span> <span class="n">timespec</span> <span class="n">now</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">x86_platform</span><span class="p">.</span><span class="n">set_wallclock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">now</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/* not static: needed by APM */</span>
+<span class="kt">void</span> <span class="nf">read_persistent_clock</span><span class="p">(</span><span class="k">struct</span> <span class="n">timespec</span> <span class="o">*</span><span class="n">ts</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">x86_platform</span><span class="p">.</span><span class="n">get_wallclock</span><span class="p">(</span><span class="n">ts</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">resource</span> <span class="n">rtc_resources</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="p">.</span><span class="n">start</span>	<span class="o">=</span> <span class="n">RTC_PORT</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+		<span class="p">.</span><span class="n">end</span>	<span class="o">=</span> <span class="n">RTC_PORT</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+		<span class="p">.</span><span class="n">flags</span>	<span class="o">=</span> <span class="n">IORESOURCE_IO</span><span class="p">,</span>
+	<span class="p">},</span>
+	<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="p">.</span><span class="n">start</span>	<span class="o">=</span> <span class="n">RTC_IRQ</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">end</span>	<span class="o">=</span> <span class="n">RTC_IRQ</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">flags</span>	<span class="o">=</span> <span class="n">IORESOURCE_IRQ</span><span class="p">,</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">platform_device</span> <span class="n">rtc_device</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">name</span>		<span class="o">=</span> <span class="s">&quot;rtc_cmos&quot;</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">id</span>		<span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">resource</span>	<span class="o">=</span> <span class="n">rtc_resources</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">num_resources</span>	<span class="o">=</span> <span class="n">ARRAY_SIZE</span><span class="p">(</span><span class="n">rtc_resources</span><span class="p">),</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="n">__init</span> <span class="kt">int</span> <span class="nf">add_rtc_cmos</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="cp">#ifdef CONFIG_PNP</span>
+	<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="k">const</span> <span class="n">ids</span><span class="p">[]</span> <span class="n">__initconst</span> <span class="o">=</span>
+	    <span class="p">{</span> <span class="s">&quot;PNP0b00&quot;</span><span class="p">,</span> <span class="s">&quot;PNP0b01&quot;</span><span class="p">,</span> <span class="s">&quot;PNP0b02&quot;</span><span class="p">,</span> <span class="p">};</span>
+	<span class="k">struct</span> <span class="n">pnp_dev</span> <span class="o">*</span><span class="n">dev</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">pnp_id</span> <span class="o">*</span><span class="n">id</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="n">pnp_for_each_dev</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="p">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">dev</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">;</span> <span class="n">id</span><span class="p">;</span> <span class="n">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ARRAY_SIZE</span><span class="p">(</span><span class="n">ids</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">compare_pnp_id</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">ids</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+					<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="cp">#endif</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">x86_platform</span><span class="p">.</span><span class="n">legacy</span><span class="p">.</span><span class="n">rtc</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENODEV</span><span class="p">;</span>
+
+	<span class="n">platform_device_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rtc_device</span><span class="p">);</span>
+	<span class="n">dev_info</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rtc_device</span><span class="p">.</span><span class="n">dev</span><span class="p">,</span>
+		 <span class="s">&quot;registered platform RTC device (no PNP device found)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">device_initcall</span><span class="p">(</span><span class="n">add_rtc_cmos</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

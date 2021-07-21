@@ -1,0 +1,1316 @@
+drivers/tty/vt/vc_screen.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L390">390</a>
+<a name="L391" id="L391" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L391">391</a>
+<a name="L392" id="L392" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L392">392</a>
+<a name="L393" id="L393" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L393">393</a>
+<a name="L394" id="L394" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L394">394</a>
+<a name="L395" id="L395" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L395">395</a>
+<a name="L396" id="L396" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L396">396</a>
+<a name="L397" id="L397" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L397">397</a>
+<a name="L398" id="L398" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L398">398</a>
+<a name="L399" id="L399" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L399">399</a>
+<a name="L400" id="L400" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L400">400</a>
+<a name="L401" id="L401" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L401">401</a>
+<a name="L402" id="L402" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L402">402</a>
+<a name="L403" id="L403" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L403">403</a>
+<a name="L404" id="L404" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L404">404</a>
+<a name="L405" id="L405" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L405">405</a>
+<a name="L406" id="L406" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L406">406</a>
+<a name="L407" id="L407" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L407">407</a>
+<a name="L408" id="L408" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L408">408</a>
+<a name="L409" id="L409" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L409">409</a>
+<a name="L410" id="L410" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L410">410</a>
+<a name="L411" id="L411" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L411">411</a>
+<a name="L412" id="L412" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L412">412</a>
+<a name="L413" id="L413" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L413">413</a>
+<a name="L414" id="L414" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L414">414</a>
+<a name="L415" id="L415" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L415">415</a>
+<a name="L416" id="L416" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L416">416</a>
+<a name="L417" id="L417" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L417">417</a>
+<a name="L418" id="L418" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L418">418</a>
+<a name="L419" id="L419" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L419">419</a>
+<a name="L420" id="L420" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L420">420</a>
+<a name="L421" id="L421" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L421">421</a>
+<a name="L422" id="L422" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L422">422</a>
+<a name="L423" id="L423" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L423">423</a>
+<a name="L424" id="L424" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L424">424</a>
+<a name="L425" id="L425" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L425">425</a>
+<a name="L426" id="L426" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L426">426</a>
+<a name="L427" id="L427" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L427">427</a>
+<a name="L428" id="L428" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L428">428</a>
+<a name="L429" id="L429" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L429">429</a>
+<a name="L430" id="L430" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L430">430</a>
+<a name="L431" id="L431" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L431">431</a>
+<a name="L432" id="L432" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L432">432</a>
+<a name="L433" id="L433" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L433">433</a>
+<a name="L434" id="L434" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L434">434</a>
+<a name="L435" id="L435" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L435">435</a>
+<a name="L436" id="L436" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L436">436</a>
+<a name="L437" id="L437" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L437">437</a>
+<a name="L438" id="L438" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L438">438</a>
+<a name="L439" id="L439" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L439">439</a>
+<a name="L440" id="L440" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L440">440</a>
+<a name="L441" id="L441" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L441">441</a>
+<a name="L442" id="L442" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L442">442</a>
+<a name="L443" id="L443" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L443">443</a>
+<a name="L444" id="L444" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L444">444</a>
+<a name="L445" id="L445" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L445">445</a>
+<a name="L446" id="L446" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L446">446</a>
+<a name="L447" id="L447" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L447">447</a>
+<a name="L448" id="L448" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L448">448</a>
+<a name="L449" id="L449" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L449">449</a>
+<a name="L450" id="L450" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L450">450</a>
+<a name="L451" id="L451" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L451">451</a>
+<a name="L452" id="L452" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L452">452</a>
+<a name="L453" id="L453" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L453">453</a>
+<a name="L454" id="L454" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L454">454</a>
+<a name="L455" id="L455" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L455">455</a>
+<a name="L456" id="L456" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L456">456</a>
+<a name="L457" id="L457" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L457">457</a>
+<a name="L458" id="L458" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L458">458</a>
+<a name="L459" id="L459" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L459">459</a>
+<a name="L460" id="L460" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L460">460</a>
+<a name="L461" id="L461" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L461">461</a>
+<a name="L462" id="L462" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L462">462</a>
+<a name="L463" id="L463" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L463">463</a>
+<a name="L464" id="L464" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L464">464</a>
+<a name="L465" id="L465" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L465">465</a>
+<a name="L466" id="L466" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L466">466</a>
+<a name="L467" id="L467" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L467">467</a>
+<a name="L468" id="L468" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L468">468</a>
+<a name="L469" id="L469" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L469">469</a>
+<a name="L470" id="L470" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L470">470</a>
+<a name="L471" id="L471" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L471">471</a>
+<a name="L472" id="L472" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L472">472</a>
+<a name="L473" id="L473" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L473">473</a>
+<a name="L474" id="L474" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L474">474</a>
+<a name="L475" id="L475" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L475">475</a>
+<a name="L476" id="L476" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L476">476</a>
+<a name="L477" id="L477" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L477">477</a>
+<a name="L478" id="L478" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L478">478</a>
+<a name="L479" id="L479" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L479">479</a>
+<a name="L480" id="L480" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L480">480</a>
+<a name="L481" id="L481" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L481">481</a>
+<a name="L482" id="L482" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L482">482</a>
+<a name="L483" id="L483" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L483">483</a>
+<a name="L484" id="L484" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L484">484</a>
+<a name="L485" id="L485" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L485">485</a>
+<a name="L486" id="L486" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L486">486</a>
+<a name="L487" id="L487" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L487">487</a>
+<a name="L488" id="L488" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L488">488</a>
+<a name="L489" id="L489" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L489">489</a>
+<a name="L490" id="L490" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L490">490</a>
+<a name="L491" id="L491" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L491">491</a>
+<a name="L492" id="L492" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L492">492</a>
+<a name="L493" id="L493" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L493">493</a>
+<a name="L494" id="L494" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L494">494</a>
+<a name="L495" id="L495" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L495">495</a>
+<a name="L496" id="L496" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L496">496</a>
+<a name="L497" id="L497" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L497">497</a>
+<a name="L498" id="L498" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L498">498</a>
+<a name="L499" id="L499" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L499">499</a>
+<a name="L500" id="L500" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L500">500</a>
+<a name="L501" id="L501" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L501">501</a>
+<a name="L502" id="L502" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L502">502</a>
+<a name="L503" id="L503" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L503">503</a>
+<a name="L504" id="L504" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L504">504</a>
+<a name="L505" id="L505" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L505">505</a>
+<a name="L506" id="L506" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L506">506</a>
+<a name="L507" id="L507" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L507">507</a>
+<a name="L508" id="L508" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L508">508</a>
+<a name="L509" id="L509" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L509">509</a>
+<a name="L510" id="L510" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L510">510</a>
+<a name="L511" id="L511" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L511">511</a>
+<a name="L512" id="L512" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L512">512</a>
+<a name="L513" id="L513" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L513">513</a>
+<a name="L514" id="L514" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L514">514</a>
+<a name="L515" id="L515" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L515">515</a>
+<a name="L516" id="L516" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L516">516</a>
+<a name="L517" id="L517" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L517">517</a>
+<a name="L518" id="L518" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L518">518</a>
+<a name="L519" id="L519" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L519">519</a>
+<a name="L520" id="L520" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L520">520</a>
+<a name="L521" id="L521" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L521">521</a>
+<a name="L522" id="L522" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L522">522</a>
+<a name="L523" id="L523" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L523">523</a>
+<a name="L524" id="L524" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L524">524</a>
+<a name="L525" id="L525" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L525">525</a>
+<a name="L526" id="L526" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L526">526</a>
+<a name="L527" id="L527" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L527">527</a>
+<a name="L528" id="L528" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L528">528</a>
+<a name="L529" id="L529" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L529">529</a>
+<a name="L530" id="L530" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L530">530</a>
+<a name="L531" id="L531" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L531">531</a>
+<a name="L532" id="L532" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L532">532</a>
+<a name="L533" id="L533" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L533">533</a>
+<a name="L534" id="L534" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L534">534</a>
+<a name="L535" id="L535" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L535">535</a>
+<a name="L536" id="L536" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L536">536</a>
+<a name="L537" id="L537" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L537">537</a>
+<a name="L538" id="L538" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L538">538</a>
+<a name="L539" id="L539" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L539">539</a>
+<a name="L540" id="L540" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L540">540</a>
+<a name="L541" id="L541" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L541">541</a>
+<a name="L542" id="L542" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L542">542</a>
+<a name="L543" id="L543" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L543">543</a>
+<a name="L544" id="L544" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L544">544</a>
+<a name="L545" id="L545" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L545">545</a>
+<a name="L546" id="L546" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L546">546</a>
+<a name="L547" id="L547" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L547">547</a>
+<a name="L548" id="L548" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L548">548</a>
+<a name="L549" id="L549" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L549">549</a>
+<a name="L550" id="L550" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L550">550</a>
+<a name="L551" id="L551" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L551">551</a>
+<a name="L552" id="L552" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L552">552</a>
+<a name="L553" id="L553" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L553">553</a>
+<a name="L554" id="L554" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L554">554</a>
+<a name="L555" id="L555" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L555">555</a>
+<a name="L556" id="L556" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L556">556</a>
+<a name="L557" id="L557" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L557">557</a>
+<a name="L558" id="L558" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L558">558</a>
+<a name="L559" id="L559" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L559">559</a>
+<a name="L560" id="L560" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L560">560</a>
+<a name="L561" id="L561" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L561">561</a>
+<a name="L562" id="L562" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L562">562</a>
+<a name="L563" id="L563" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L563">563</a>
+<a name="L564" id="L564" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L564">564</a>
+<a name="L565" id="L565" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L565">565</a>
+<a name="L566" id="L566" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L566">566</a>
+<a name="L567" id="L567" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L567">567</a>
+<a name="L568" id="L568" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L568">568</a>
+<a name="L569" id="L569" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L569">569</a>
+<a name="L570" id="L570" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L570">570</a>
+<a name="L571" id="L571" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L571">571</a>
+<a name="L572" id="L572" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L572">572</a>
+<a name="L573" id="L573" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L573">573</a>
+<a name="L574" id="L574" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L574">574</a>
+<a name="L575" id="L575" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L575">575</a>
+<a name="L576" id="L576" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L576">576</a>
+<a name="L577" id="L577" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L577">577</a>
+<a name="L578" id="L578" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L578">578</a>
+<a name="L579" id="L579" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L579">579</a>
+<a name="L580" id="L580" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L580">580</a>
+<a name="L581" id="L581" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L581">581</a>
+<a name="L582" id="L582" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L582">582</a>
+<a name="L583" id="L583" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L583">583</a>
+<a name="L584" id="L584" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L584">584</a>
+<a name="L585" id="L585" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L585">585</a>
+<a name="L586" id="L586" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L586">586</a>
+<a name="L587" id="L587" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L587">587</a>
+<a name="L588" id="L588" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L588">588</a>
+<a name="L589" id="L589" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L589">589</a>
+<a name="L590" id="L590" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L590">590</a>
+<a name="L591" id="L591" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L591">591</a>
+<a name="L592" id="L592" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L592">592</a>
+<a name="L593" id="L593" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L593">593</a>
+<a name="L594" id="L594" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L594">594</a>
+<a name="L595" id="L595" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L595">595</a>
+<a name="L596" id="L596" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L596">596</a>
+<a name="L597" id="L597" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L597">597</a>
+<a name="L598" id="L598" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L598">598</a>
+<a name="L599" id="L599" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L599">599</a>
+<a name="L600" id="L600" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L600">600</a>
+<a name="L601" id="L601" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L601">601</a>
+<a name="L602" id="L602" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L602">602</a>
+<a name="L603" id="L603" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L603">603</a>
+<a name="L604" id="L604" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L604">604</a>
+<a name="L605" id="L605" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L605">605</a>
+<a name="L606" id="L606" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L606">606</a>
+<a name="L607" id="L607" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L607">607</a>
+<a name="L608" id="L608" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L608">608</a>
+<a name="L609" id="L609" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L609">609</a>
+<a name="L610" id="L610" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L610">610</a>
+<a name="L611" id="L611" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L611">611</a>
+<a name="L612" id="L612" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L612">612</a>
+<a name="L613" id="L613" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L613">613</a>
+<a name="L614" id="L614" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L614">614</a>
+<a name="L615" id="L615" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L615">615</a>
+<a name="L616" id="L616" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L616">616</a>
+<a name="L617" id="L617" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L617">617</a>
+<a name="L618" id="L618" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L618">618</a>
+<a name="L619" id="L619" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L619">619</a>
+<a name="L620" id="L620" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L620">620</a>
+<a name="L621" id="L621" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L621">621</a>
+<a name="L622" id="L622" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L622">622</a>
+<a name="L623" id="L623" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L623">623</a>
+<a name="L624" id="L624" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L624">624</a>
+<a name="L625" id="L625" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L625">625</a>
+<a name="L626" id="L626" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L626">626</a>
+<a name="L627" id="L627" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L627">627</a>
+<a name="L628" id="L628" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L628">628</a>
+<a name="L629" id="L629" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L629">629</a>
+<a name="L630" id="L630" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L630">630</a>
+<a name="L631" id="L631" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L631">631</a>
+<a name="L632" id="L632" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L632">632</a>
+<a name="L633" id="L633" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L633">633</a>
+<a name="L634" id="L634" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L634">634</a>
+<a name="L635" id="L635" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L635">635</a>
+<a name="L636" id="L636" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L636">636</a>
+<a name="L637" id="L637" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L637">637</a>
+<a name="L638" id="L638" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L638">638</a>
+<a name="L639" id="L639" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L639">639</a>
+<a name="L640" id="L640" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L640">640</a>
+<a name="L641" id="L641" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L641">641</a>
+<a name="L642" id="L642" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L642">642</a>
+<a name="L643" id="L643" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L643">643</a>
+<a name="L644" id="L644" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L644">644</a>
+<a name="L645" id="L645" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L645">645</a>
+<a name="L646" id="L646" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L646">646</a>
+<a name="L647" id="L647" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L647">647</a>
+<a name="L648" id="L648" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L648">648</a>
+<a name="L649" id="L649" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L649">649</a>
+<a name="L650" id="L650" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L650">650</a>
+<a name="L651" id="L651" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L651">651</a>
+<a name="L652" id="L652" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L652">652</a>
+<a name="L653" id="L653" href="https://uscope-linux.github.io/object_explorer/linux/drivers/tty/vt/vc_screen.c#L653">653</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Provide access to virtual console memory.</span>
+<span class="cm"> * /dev/vcs0: the screen as it is being viewed right now (possibly scrolled)</span>
+<span class="cm"> * /dev/vcsN: the screen of /dev/ttyN (1 &lt;= N &lt;= 63)</span>
+<span class="cm"> *            [minor: N]</span>
+<span class="cm"> *</span>
+<span class="cm"> * /dev/vcsaN: idem, but including attributes, and prefixed with</span>
+<span class="cm"> *	the 4 bytes lines,columns,x,y (as screendump used to give).</span>
+<span class="cm"> *	Attribute/character pair is in native endianity.</span>
+<span class="cm"> *            [minor: N+128]</span>
+<span class="cm"> *</span>
+<span class="cm"> * This replaces screendump and part of selection, so that the system</span>
+<span class="cm"> * administrator can control access using file system permissions.</span>
+<span class="cm"> *</span>
+<span class="cm"> * aeb@cwi.nl - efter Friedas begravelse - 950211</span>
+<span class="cm"> *</span>
+<span class="cm"> * machek@k332.feld.cvut.cz - modified not to send characters to wrong console</span>
+<span class="cm"> *	 - fixed some fatal off-by-one bugs (0-- no longer == -1 -&gt; looping and looping and looping...)</span>
+<span class="cm"> *	 - making it shorter - scr_readw are macros which expand in PRETTY long code</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/kernel.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/major.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/errno.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/export.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/tty.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/interrupt.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/mm.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/init.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/vt_kern.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/selection.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/kbd_kern.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/console.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/device.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/sched.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/fs.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/poll.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/signal.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/slab.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/notifier.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/uaccess.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/byteorder.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/unaligned.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#undef attr</span>
+<span class="cp">#undef org</span>
+<span class="cp">#undef addr</span>
+<span class="cp">#define HEADER_SIZE	4</span>
+
+<span class="cp">#define CON_BUF_SIZE (CONFIG_BASE_SMALL ? 256 : PAGE_SIZE)</span>
+
+<span class="k">struct</span> <span class="n">vcs_poll_data</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">notifier_block</span> <span class="n">notifier</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">cons_num</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">seen_last_update</span><span class="p">;</span>
+	<span class="n">wait_queue_head_t</span> <span class="n">waitq</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">fasync_struct</span> <span class="o">*</span><span class="n">fasync</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">int</span>
+<span class="nf">vcs_notifier</span><span class="p">(</span><span class="k">struct</span> <span class="n">notifier_block</span> <span class="o">*</span><span class="n">nb</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">code</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">_param</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">vt_notifier_param</span> <span class="o">*</span><span class="n">param</span> <span class="o">=</span> <span class="n">_param</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">vc_data</span> <span class="o">*</span><span class="n">vc</span> <span class="o">=</span> <span class="n">param</span><span class="o">-&gt;</span><span class="n">vc</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">vcs_poll_data</span> <span class="o">*</span><span class="n">poll</span> <span class="o">=</span>
+		<span class="n">container_of</span><span class="p">(</span><span class="n">nb</span><span class="p">,</span> <span class="k">struct</span> <span class="n">vcs_poll_data</span><span class="p">,</span> <span class="n">notifier</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">currcons</span> <span class="o">=</span> <span class="n">poll</span><span class="o">-&gt;</span><span class="n">cons_num</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">code</span> <span class="o">!=</span> <span class="n">VT_UPDATE</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">NOTIFY_DONE</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">currcons</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">currcons</span> <span class="o">=</span> <span class="n">fg_console</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">currcons</span><span class="o">--</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">currcons</span> <span class="o">!=</span> <span class="n">vc</span><span class="o">-&gt;</span><span class="n">vc_num</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">NOTIFY_DONE</span><span class="p">;</span>
+
+	<span class="n">poll</span><span class="o">-&gt;</span><span class="n">seen_last_update</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+	<span class="n">wake_up_interruptible</span><span class="p">(</span><span class="o">&amp;</span><span class="n">poll</span><span class="o">-&gt;</span><span class="n">waitq</span><span class="p">);</span>
+	<span class="n">kill_fasync</span><span class="p">(</span><span class="o">&amp;</span><span class="n">poll</span><span class="o">-&gt;</span><span class="n">fasync</span><span class="p">,</span> <span class="n">SIGIO</span><span class="p">,</span> <span class="n">POLL_IN</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">NOTIFY_OK</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span>
+<span class="nf">vcs_poll_data_free</span><span class="p">(</span><span class="k">struct</span> <span class="n">vcs_poll_data</span> <span class="o">*</span><span class="n">poll</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">unregister_vt_notifier</span><span class="p">(</span><span class="o">&amp;</span><span class="n">poll</span><span class="o">-&gt;</span><span class="n">notifier</span><span class="p">);</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">poll</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">vcs_poll_data</span> <span class="o">*</span>
+<span class="nf">vcs_poll_data_get</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">vcs_poll_data</span> <span class="o">*</span><span class="n">poll</span> <span class="o">=</span> <span class="n">file</span><span class="o">-&gt;</span><span class="n">private_data</span><span class="p">,</span> <span class="o">*</span><span class="n">kill</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">poll</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">poll</span><span class="p">;</span>
+
+	<span class="n">poll</span> <span class="o">=</span> <span class="n">kzalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">poll</span><span class="p">),</span> <span class="n">GFP_KERNEL</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">poll</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">poll</span><span class="o">-&gt;</span><span class="n">cons_num</span> <span class="o">=</span> <span class="n">iminor</span><span class="p">(</span><span class="n">file_inode</span><span class="p">(</span><span class="n">file</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mi">127</span><span class="p">;</span>
+	<span class="n">init_waitqueue_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">poll</span><span class="o">-&gt;</span><span class="n">waitq</span><span class="p">);</span>
+	<span class="n">poll</span><span class="o">-&gt;</span><span class="n">notifier</span><span class="p">.</span><span class="n">notifier_call</span> <span class="o">=</span> <span class="n">vcs_notifier</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">register_vt_notifier</span><span class="p">(</span><span class="o">&amp;</span><span class="n">poll</span><span class="o">-&gt;</span><span class="n">notifier</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">kfree</span><span class="p">(</span><span class="n">poll</span><span class="p">);</span>
+		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * This code may be called either through -&gt;poll() or -&gt;fasync().</span>
+<span class="cm">	 * If we have two threads using the same file descriptor, they could</span>
+<span class="cm">	 * both enter this function, both notice that the structure hasn&#39;t</span>
+<span class="cm">	 * been allocated yet and go ahead allocating it in parallel, but</span>
+<span class="cm">	 * only one of them must survive and be shared otherwise we&#39;d leak</span>
+<span class="cm">	 * memory with a dangling notifier callback.</span>
+<span class="cm">	 */</span>
+	<span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">file</span><span class="o">-&gt;</span><span class="n">f_lock</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">file</span><span class="o">-&gt;</span><span class="n">private_data</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">file</span><span class="o">-&gt;</span><span class="n">private_data</span> <span class="o">=</span> <span class="n">poll</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="cm">/* someone else raced ahead of us */</span>
+		<span class="n">kill</span> <span class="o">=</span> <span class="n">poll</span><span class="p">;</span>
+		<span class="n">poll</span> <span class="o">=</span> <span class="n">file</span><span class="o">-&gt;</span><span class="n">private_data</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">file</span><span class="o">-&gt;</span><span class="n">f_lock</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">kill</span><span class="p">)</span>
+		<span class="n">vcs_poll_data_free</span><span class="p">(</span><span class="n">kill</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">poll</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Returns VC for inode.</span>
+<span class="cm"> * Must be called with console_lock.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="k">struct</span> <span class="n">vc_data</span><span class="o">*</span>
+<span class="nf">vcs_vc</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">viewed</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">currcons</span> <span class="o">=</span> <span class="n">iminor</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">127</span><span class="p">;</span>
+
+	<span class="n">WARN_CONSOLE_UNLOCKED</span><span class="p">();</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">currcons</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">currcons</span> <span class="o">=</span> <span class="n">fg_console</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">viewed</span><span class="p">)</span>
+			<span class="o">*</span><span class="n">viewed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">currcons</span><span class="o">--</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">viewed</span><span class="p">)</span>
+			<span class="o">*</span><span class="n">viewed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">vc_cons</span><span class="p">[</span><span class="n">currcons</span><span class="p">].</span><span class="n">d</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Returns size for VC carried by inode.</span>
+<span class="cm"> * Must be called with console_lock.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">int</span>
+<span class="nf">vcs_size</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">minor</span> <span class="o">=</span> <span class="n">iminor</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">vc_data</span> <span class="o">*</span><span class="n">vc</span><span class="p">;</span>
+
+	<span class="n">WARN_CONSOLE_UNLOCKED</span><span class="p">();</span>
+
+	<span class="n">vc</span> <span class="o">=</span> <span class="n">vcs_vc</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">vc</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENXIO</span><span class="p">;</span>
+
+	<span class="n">size</span> <span class="o">=</span> <span class="n">vc</span><span class="o">-&gt;</span><span class="n">vc_rows</span> <span class="o">*</span> <span class="n">vc</span><span class="o">-&gt;</span><span class="n">vc_cols</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">minor</span> <span class="o">&amp;</span> <span class="mi">128</span><span class="p">)</span>
+		<span class="n">size</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">size</span> <span class="o">+</span> <span class="n">HEADER_SIZE</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">size</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">loff_t</span> <span class="nf">vcs_lseek</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="n">loff_t</span> <span class="n">offset</span><span class="p">,</span> <span class="kt">int</span> <span class="n">orig</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
+
+	<span class="n">console_lock</span><span class="p">();</span>
+	<span class="n">size</span> <span class="o">=</span> <span class="n">vcs_size</span><span class="p">(</span><span class="n">file_inode</span><span class="p">(</span><span class="n">file</span><span class="p">));</span>
+	<span class="n">console_unlock</span><span class="p">();</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">size</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">fixed_size_llseek</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">orig</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="k">static</span> <span class="n">ssize_t</span>
+<span class="nf">vcs_read</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">char</span> <span class="n">__user</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="n">ppos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file_inode</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">currcons</span> <span class="o">=</span> <span class="n">iminor</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">vc_data</span> <span class="o">*</span><span class="n">vc</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">vcs_poll_data</span> <span class="o">*</span><span class="n">poll</span><span class="p">;</span>
+	<span class="kt">long</span> <span class="n">pos</span><span class="p">;</span>
+	<span class="kt">long</span> <span class="n">attr</span><span class="p">,</span> <span class="n">read</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">col</span><span class="p">,</span> <span class="n">maxcol</span><span class="p">,</span> <span class="n">viewed</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span> <span class="o">*</span><span class="n">org</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">ssize_t</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">con_buf</span><span class="p">;</span>
+
+	<span class="n">con_buf</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="n">__get_free_page</span><span class="p">(</span><span class="n">GFP_KERNEL</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">con_buf</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+
+	<span class="n">pos</span> <span class="o">=</span> <span class="o">*</span><span class="n">ppos</span><span class="p">;</span>
+
+	<span class="cm">/* Select the proper current console and verify</span>
+<span class="cm">	 * sanity of the situation under the console lock.</span>
+<span class="cm">	 */</span>
+	<span class="n">console_lock</span><span class="p">();</span>
+
+	<span class="n">attr</span> <span class="o">=</span> <span class="p">(</span><span class="n">currcons</span> <span class="o">&amp;</span> <span class="mi">128</span><span class="p">);</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENXIO</span><span class="p">;</span>
+	<span class="n">vc</span> <span class="o">=</span> <span class="n">vcs_vc</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">viewed</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">vc</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">unlock_out</span><span class="p">;</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">unlock_out</span><span class="p">;</span>
+	<span class="n">poll</span> <span class="o">=</span> <span class="n">file</span><span class="o">-&gt;</span><span class="n">private_data</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&amp;&amp;</span> <span class="n">poll</span><span class="p">)</span>
+		<span class="n">poll</span><span class="o">-&gt;</span><span class="n">seen_last_update</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+	<span class="n">read</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">char</span> <span class="o">*</span><span class="n">con_buf0</span><span class="p">,</span> <span class="o">*</span><span class="n">con_buf_start</span><span class="p">;</span>
+		<span class="kt">long</span> <span class="n">this_round</span><span class="p">,</span> <span class="n">size</span><span class="p">;</span>
+		<span class="n">ssize_t</span> <span class="n">orig_count</span><span class="p">;</span>
+		<span class="kt">long</span> <span class="n">p</span> <span class="o">=</span> <span class="n">pos</span><span class="p">;</span>
+
+		<span class="cm">/* Check whether we are above size each round,</span>
+<span class="cm">		 * as copy_to_user at the end of this loop</span>
+<span class="cm">		 * could sleep.</span>
+<span class="cm">		 */</span>
+		<span class="n">size</span> <span class="o">=</span> <span class="n">vcs_size</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">read</span><span class="p">)</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="n">ret</span> <span class="o">=</span> <span class="n">size</span><span class="p">;</span>
+			<span class="k">goto</span> <span class="n">unlock_out</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">&gt;=</span> <span class="n">size</span><span class="p">)</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="n">size</span> <span class="o">-</span> <span class="n">pos</span><span class="p">)</span>
+			<span class="n">count</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="n">pos</span><span class="p">;</span>
+
+		<span class="n">this_round</span> <span class="o">=</span> <span class="n">count</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">this_round</span> <span class="o">&gt;</span> <span class="n">CON_BUF_SIZE</span><span class="p">)</span>
+			<span class="n">this_round</span> <span class="o">=</span> <span class="n">CON_BUF_SIZE</span><span class="p">;</span>
+
+		<span class="cm">/* Perform the whole read into the local con_buf.</span>
+<span class="cm">		 * Then we can drop the console spinlock and safely</span>
+<span class="cm">		 * attempt to move it to userspace.</span>
+<span class="cm">		 */</span>
+
+		<span class="n">con_buf_start</span> <span class="o">=</span> <span class="n">con_buf0</span> <span class="o">=</span> <span class="n">con_buf</span><span class="p">;</span>
+		<span class="n">orig_count</span> <span class="o">=</span> <span class="n">this_round</span><span class="p">;</span>
+		<span class="n">maxcol</span> <span class="o">=</span> <span class="n">vc</span><span class="o">-&gt;</span><span class="n">vc_cols</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">attr</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">org</span> <span class="o">=</span> <span class="n">screen_pos</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">viewed</span><span class="p">);</span>
+			<span class="n">col</span> <span class="o">=</span> <span class="n">p</span> <span class="o">%</span> <span class="n">maxcol</span><span class="p">;</span>
+			<span class="n">p</span> <span class="o">+=</span> <span class="n">maxcol</span> <span class="o">-</span> <span class="n">col</span><span class="p">;</span>
+			<span class="k">while</span> <span class="p">(</span><span class="n">this_round</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+				<span class="o">*</span><span class="n">con_buf0</span><span class="o">++</span> <span class="o">=</span> <span class="p">(</span><span class="n">vcs_scr_readw</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">org</span><span class="o">++</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+				<span class="k">if</span> <span class="p">(</span><span class="o">++</span><span class="n">col</span> <span class="o">==</span> <span class="n">maxcol</span><span class="p">)</span> <span class="p">{</span>
+					<span class="n">org</span> <span class="o">=</span> <span class="n">screen_pos</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">viewed</span><span class="p">);</span>
+					<span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+					<span class="n">p</span> <span class="o">+=</span> <span class="n">maxcol</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="n">HEADER_SIZE</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">size_t</span> <span class="n">tmp_count</span><span class="p">;</span>
+
+				<span class="n">con_buf0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="n">vc</span><span class="o">-&gt;</span><span class="n">vc_rows</span><span class="p">;</span>
+				<span class="n">con_buf0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="n">vc</span><span class="o">-&gt;</span><span class="n">vc_cols</span><span class="p">;</span>
+				<span class="n">getconsxy</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">con_buf0</span> <span class="o">+</span> <span class="mi">2</span><span class="p">);</span>
+
+				<span class="n">con_buf_start</span> <span class="o">+=</span> <span class="n">p</span><span class="p">;</span>
+				<span class="n">this_round</span> <span class="o">+=</span> <span class="n">p</span><span class="p">;</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">this_round</span> <span class="o">&gt;</span> <span class="n">CON_BUF_SIZE</span><span class="p">)</span> <span class="p">{</span>
+					<span class="n">this_round</span> <span class="o">=</span> <span class="n">CON_BUF_SIZE</span><span class="p">;</span>
+					<span class="n">orig_count</span> <span class="o">=</span> <span class="n">this_round</span> <span class="o">-</span> <span class="n">p</span><span class="p">;</span>
+				<span class="p">}</span>
+
+				<span class="n">tmp_count</span> <span class="o">=</span> <span class="n">HEADER_SIZE</span><span class="p">;</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">tmp_count</span> <span class="o">&gt;</span> <span class="n">this_round</span><span class="p">)</span>
+					<span class="n">tmp_count</span> <span class="o">=</span> <span class="n">this_round</span><span class="p">;</span>
+
+				<span class="cm">/* Advance state pointers and move on. */</span>
+				<span class="n">this_round</span> <span class="o">-=</span> <span class="n">tmp_count</span><span class="p">;</span>
+				<span class="n">p</span> <span class="o">=</span> <span class="n">HEADER_SIZE</span><span class="p">;</span>
+				<span class="n">con_buf0</span> <span class="o">=</span> <span class="n">con_buf</span> <span class="o">+</span> <span class="n">HEADER_SIZE</span><span class="p">;</span>
+				<span class="cm">/* If this_round &gt;= 0, then p is even... */</span>
+			<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+				<span class="cm">/* Skip first byte for output if start address is odd</span>
+<span class="cm">				 * Update region sizes up/down depending on free</span>
+<span class="cm">				 * space in buffer.</span>
+<span class="cm">				 */</span>
+				<span class="n">con_buf_start</span><span class="o">++</span><span class="p">;</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">this_round</span> <span class="o">&lt;</span> <span class="n">CON_BUF_SIZE</span><span class="p">)</span>
+					<span class="n">this_round</span><span class="o">++</span><span class="p">;</span>
+				<span class="k">else</span>
+					<span class="n">orig_count</span><span class="o">--</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">this_round</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+				<span class="kt">unsigned</span> <span class="kt">short</span> <span class="o">*</span><span class="n">tmp_buf</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">short</span> <span class="o">*</span><span class="p">)</span><span class="n">con_buf0</span><span class="p">;</span>
+
+				<span class="n">p</span> <span class="o">-=</span> <span class="n">HEADER_SIZE</span><span class="p">;</span>
+				<span class="n">p</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">;</span>
+				<span class="n">col</span> <span class="o">=</span> <span class="n">p</span> <span class="o">%</span> <span class="n">maxcol</span><span class="p">;</span>
+
+				<span class="n">org</span> <span class="o">=</span> <span class="n">screen_pos</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">viewed</span><span class="p">);</span>
+				<span class="n">p</span> <span class="o">+=</span> <span class="n">maxcol</span> <span class="o">-</span> <span class="n">col</span><span class="p">;</span>
+
+				<span class="cm">/* Buffer has even length, so we can always copy</span>
+<span class="cm">				 * character + attribute. We do not copy last byte</span>
+<span class="cm">				 * to userspace if this_round is odd.</span>
+<span class="cm">				 */</span>
+				<span class="n">this_round</span> <span class="o">=</span> <span class="p">(</span><span class="n">this_round</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
+
+				<span class="k">while</span> <span class="p">(</span><span class="n">this_round</span><span class="p">)</span> <span class="p">{</span>
+					<span class="o">*</span><span class="n">tmp_buf</span><span class="o">++</span> <span class="o">=</span> <span class="n">vcs_scr_readw</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">org</span><span class="o">++</span><span class="p">);</span>
+					<span class="n">this_round</span> <span class="o">--</span><span class="p">;</span>
+					<span class="k">if</span> <span class="p">(</span><span class="o">++</span><span class="n">col</span> <span class="o">==</span> <span class="n">maxcol</span><span class="p">)</span> <span class="p">{</span>
+						<span class="n">org</span> <span class="o">=</span> <span class="n">screen_pos</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">viewed</span><span class="p">);</span>
+						<span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+						<span class="n">p</span> <span class="o">+=</span> <span class="n">maxcol</span><span class="p">;</span>
+					<span class="p">}</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="cm">/* Finally, release the console semaphore while we push</span>
+<span class="cm">		 * all the data to userspace from our temporary buffer.</span>
+<span class="cm">		 *</span>
+<span class="cm">		 * AKPM: Even though it&#39;s a semaphore, we should drop it because</span>
+<span class="cm">		 * the pagefault handling code may want to call printk().</span>
+<span class="cm">		 */</span>
+
+		<span class="n">console_unlock</span><span class="p">();</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">copy_to_user</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">con_buf_start</span><span class="p">,</span> <span class="n">orig_count</span><span class="p">);</span>
+		<span class="n">console_lock</span><span class="p">();</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">read</span> <span class="o">+=</span> <span class="p">(</span><span class="n">orig_count</span> <span class="o">-</span> <span class="n">ret</span><span class="p">);</span>
+			<span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="n">EFAULT</span><span class="p">;</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">buf</span> <span class="o">+=</span> <span class="n">orig_count</span><span class="p">;</span>
+		<span class="n">pos</span> <span class="o">+=</span> <span class="n">orig_count</span><span class="p">;</span>
+		<span class="n">read</span> <span class="o">+=</span> <span class="n">orig_count</span><span class="p">;</span>
+		<span class="n">count</span> <span class="o">-=</span> <span class="n">orig_count</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="o">*</span><span class="n">ppos</span> <span class="o">+=</span> <span class="n">read</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">read</span><span class="p">)</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">read</span><span class="p">;</span>
+<span class="nl">unlock_out</span><span class="p">:</span>
+	<span class="n">console_unlock</span><span class="p">();</span>
+	<span class="n">free_page</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span> <span class="n">con_buf</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">ssize_t</span>
+<span class="nf">vcs_write</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">__user</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="n">ppos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file_inode</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">currcons</span> <span class="o">=</span> <span class="n">iminor</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">vc_data</span> <span class="o">*</span><span class="n">vc</span><span class="p">;</span>
+	<span class="kt">long</span> <span class="n">pos</span><span class="p">;</span>
+	<span class="kt">long</span> <span class="n">attr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">written</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">con_buf0</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">col</span><span class="p">,</span> <span class="n">maxcol</span><span class="p">,</span> <span class="n">viewed</span><span class="p">;</span>
+	<span class="n">u16</span> <span class="o">*</span><span class="n">org0</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">*</span><span class="n">org</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">size_t</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">con_buf</span><span class="p">;</span>
+
+	<span class="n">con_buf</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="n">__get_free_page</span><span class="p">(</span><span class="n">GFP_KERNEL</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">con_buf</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+
+	<span class="n">pos</span> <span class="o">=</span> <span class="o">*</span><span class="n">ppos</span><span class="p">;</span>
+
+	<span class="cm">/* Select the proper current console and verify</span>
+<span class="cm">	 * sanity of the situation under the console lock.</span>
+<span class="cm">	 */</span>
+	<span class="n">console_lock</span><span class="p">();</span>
+
+	<span class="n">attr</span> <span class="o">=</span> <span class="p">(</span><span class="n">currcons</span> <span class="o">&amp;</span> <span class="mi">128</span><span class="p">);</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENXIO</span><span class="p">;</span>
+	<span class="n">vc</span> <span class="o">=</span> <span class="n">vcs_vc</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">viewed</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">vc</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">unlock_out</span><span class="p">;</span>
+
+	<span class="n">size</span> <span class="o">=</span> <span class="n">vcs_size</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">pos</span> <span class="o">&gt;</span> <span class="n">size</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">unlock_out</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="n">size</span> <span class="o">-</span> <span class="n">pos</span><span class="p">)</span>
+		<span class="n">count</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="n">pos</span><span class="p">;</span>
+	<span class="n">written</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">long</span> <span class="n">this_round</span> <span class="o">=</span> <span class="n">count</span><span class="p">;</span>
+		<span class="n">size_t</span> <span class="n">orig_count</span><span class="p">;</span>
+		<span class="kt">long</span> <span class="n">p</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">this_round</span> <span class="o">&gt;</span> <span class="n">CON_BUF_SIZE</span><span class="p">)</span>
+			<span class="n">this_round</span> <span class="o">=</span> <span class="n">CON_BUF_SIZE</span><span class="p">;</span>
+
+		<span class="cm">/* Temporarily drop the console lock so that we can read</span>
+<span class="cm">		 * in the write data from userspace safely.</span>
+<span class="cm">		 */</span>
+		<span class="n">console_unlock</span><span class="p">();</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">copy_from_user</span><span class="p">(</span><span class="n">con_buf</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">this_round</span><span class="p">);</span>
+		<span class="n">console_lock</span><span class="p">();</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">this_round</span> <span class="o">-=</span> <span class="n">ret</span><span class="p">;</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">this_round</span><span class="p">)</span> <span class="p">{</span>
+				<span class="cm">/* Abort loop if no data were copied. Otherwise</span>
+<span class="cm">				 * fail with -EFAULT.</span>
+<span class="cm">				 */</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">written</span><span class="p">)</span>
+					<span class="k">break</span><span class="p">;</span>
+				<span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="n">EFAULT</span><span class="p">;</span>
+				<span class="k">goto</span> <span class="n">unlock_out</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="cm">/* The vcs_size might have changed while we slept to grab</span>
+<span class="cm">		 * the user buffer, so recheck.</span>
+<span class="cm">		 * Return data written up to now on failure.</span>
+<span class="cm">		 */</span>
+		<span class="n">size</span> <span class="o">=</span> <span class="n">vcs_size</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">written</span><span class="p">)</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="n">ret</span> <span class="o">=</span> <span class="n">size</span><span class="p">;</span>
+			<span class="k">goto</span> <span class="n">unlock_out</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">&gt;=</span> <span class="n">size</span><span class="p">)</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">this_round</span> <span class="o">&gt;</span> <span class="n">size</span> <span class="o">-</span> <span class="n">pos</span><span class="p">)</span>
+			<span class="n">this_round</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="n">pos</span><span class="p">;</span>
+
+		<span class="cm">/* OK, now actually push the write to the console</span>
+<span class="cm">		 * under the lock using the local kernel buffer.</span>
+<span class="cm">		 */</span>
+
+		<span class="n">con_buf0</span> <span class="o">=</span> <span class="n">con_buf</span><span class="p">;</span>
+		<span class="n">orig_count</span> <span class="o">=</span> <span class="n">this_round</span><span class="p">;</span>
+		<span class="n">maxcol</span> <span class="o">=</span> <span class="n">vc</span><span class="o">-&gt;</span><span class="n">vc_cols</span><span class="p">;</span>
+		<span class="n">p</span> <span class="o">=</span> <span class="n">pos</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">attr</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">org0</span> <span class="o">=</span> <span class="n">org</span> <span class="o">=</span> <span class="n">screen_pos</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">viewed</span><span class="p">);</span>
+			<span class="n">col</span> <span class="o">=</span> <span class="n">p</span> <span class="o">%</span> <span class="n">maxcol</span><span class="p">;</span>
+			<span class="n">p</span> <span class="o">+=</span> <span class="n">maxcol</span> <span class="o">-</span> <span class="n">col</span><span class="p">;</span>
+
+			<span class="k">while</span> <span class="p">(</span><span class="n">this_round</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+				<span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="o">*</span><span class="n">con_buf0</span><span class="o">++</span><span class="p">;</span>
+
+				<span class="n">this_round</span><span class="o">--</span><span class="p">;</span>
+				<span class="n">vcs_scr_writew</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span>
+					       <span class="p">(</span><span class="n">vcs_scr_readw</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">org</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff00</span><span class="p">)</span> <span class="o">|</span> <span class="n">c</span><span class="p">,</span> <span class="n">org</span><span class="p">);</span>
+				<span class="n">org</span><span class="o">++</span><span class="p">;</span>
+				<span class="k">if</span> <span class="p">(</span><span class="o">++</span><span class="n">col</span> <span class="o">==</span> <span class="n">maxcol</span><span class="p">)</span> <span class="p">{</span>
+					<span class="n">org</span> <span class="o">=</span> <span class="n">screen_pos</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">viewed</span><span class="p">);</span>
+					<span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+					<span class="n">p</span> <span class="o">+=</span> <span class="n">maxcol</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="n">HEADER_SIZE</span><span class="p">)</span> <span class="p">{</span>
+				<span class="kt">char</span> <span class="n">header</span><span class="p">[</span><span class="n">HEADER_SIZE</span><span class="p">];</span>
+
+				<span class="n">getconsxy</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">header</span> <span class="o">+</span> <span class="mi">2</span><span class="p">);</span>
+				<span class="k">while</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="n">HEADER_SIZE</span> <span class="o">&amp;&amp;</span> <span class="n">this_round</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+					<span class="n">this_round</span><span class="o">--</span><span class="p">;</span>
+					<span class="n">header</span><span class="p">[</span><span class="n">p</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="o">*</span><span class="n">con_buf0</span><span class="o">++</span><span class="p">;</span>
+				<span class="p">}</span>
+				<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">viewed</span><span class="p">)</span>
+					<span class="n">putconsxy</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">header</span> <span class="o">+</span> <span class="mi">2</span><span class="p">);</span>
+			<span class="p">}</span>
+			<span class="n">p</span> <span class="o">-=</span> <span class="n">HEADER_SIZE</span><span class="p">;</span>
+			<span class="n">col</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">maxcol</span><span class="p">;</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">this_round</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">org0</span> <span class="o">=</span> <span class="n">org</span> <span class="o">=</span> <span class="n">screen_pos</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">p</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">viewed</span><span class="p">);</span>
+				<span class="k">if</span> <span class="p">((</span><span class="n">p</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">this_round</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+					<span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+
+					<span class="n">this_round</span><span class="o">--</span><span class="p">;</span>
+					<span class="n">c</span> <span class="o">=</span> <span class="o">*</span><span class="n">con_buf0</span><span class="o">++</span><span class="p">;</span>
+<span class="cp">#ifdef __BIG_ENDIAN</span>
+					<span class="n">vcs_scr_writew</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">c</span> <span class="o">|</span>
+					     <span class="p">(</span><span class="n">vcs_scr_readw</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">org</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff00</span><span class="p">),</span> <span class="n">org</span><span class="p">);</span>
+<span class="cp">#else</span>
+					<span class="n">vcs_scr_writew</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="p">(</span><span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span>
+					     <span class="p">(</span><span class="n">vcs_scr_readw</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">org</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">),</span> <span class="n">org</span><span class="p">);</span>
+<span class="cp">#endif</span>
+					<span class="n">org</span><span class="o">++</span><span class="p">;</span>
+					<span class="n">p</span><span class="o">++</span><span class="p">;</span>
+					<span class="k">if</span> <span class="p">(</span><span class="o">++</span><span class="n">col</span> <span class="o">==</span> <span class="n">maxcol</span><span class="p">)</span> <span class="p">{</span>
+						<span class="n">org</span> <span class="o">=</span> <span class="n">screen_pos</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">p</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">viewed</span><span class="p">);</span>
+						<span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+					<span class="p">}</span>
+				<span class="p">}</span>
+				<span class="n">p</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">;</span>
+				<span class="n">p</span> <span class="o">+=</span> <span class="n">maxcol</span> <span class="o">-</span> <span class="n">col</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="k">while</span> <span class="p">(</span><span class="n">this_round</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+				<span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">w</span><span class="p">;</span>
+
+				<span class="n">w</span> <span class="o">=</span> <span class="n">get_unaligned</span><span class="p">(((</span><span class="kt">unsigned</span> <span class="kt">short</span> <span class="o">*</span><span class="p">)</span><span class="n">con_buf0</span><span class="p">));</span>
+				<span class="n">vcs_scr_writew</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">org</span><span class="o">++</span><span class="p">);</span>
+				<span class="n">con_buf0</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">;</span>
+				<span class="n">this_round</span> <span class="o">-=</span> <span class="mi">2</span><span class="p">;</span>
+				<span class="k">if</span> <span class="p">(</span><span class="o">++</span><span class="n">col</span> <span class="o">==</span> <span class="n">maxcol</span><span class="p">)</span> <span class="p">{</span>
+					<span class="n">org</span> <span class="o">=</span> <span class="n">screen_pos</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">viewed</span><span class="p">);</span>
+					<span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+					<span class="n">p</span> <span class="o">+=</span> <span class="n">maxcol</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">this_round</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+				<span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+
+				<span class="n">c</span> <span class="o">=</span> <span class="o">*</span><span class="n">con_buf0</span><span class="o">++</span><span class="p">;</span>
+<span class="cp">#ifdef __BIG_ENDIAN</span>
+				<span class="n">vcs_scr_writew</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="p">(</span><span class="n">vcs_scr_readw</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">org</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">),</span> <span class="n">org</span><span class="p">);</span>
+<span class="cp">#else</span>
+				<span class="n">vcs_scr_writew</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="p">(</span><span class="n">vcs_scr_readw</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">org</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff00</span><span class="p">)</span> <span class="o">|</span> <span class="n">c</span><span class="p">,</span> <span class="n">org</span><span class="p">);</span>
+<span class="cp">#endif</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="n">count</span> <span class="o">-=</span> <span class="n">orig_count</span><span class="p">;</span>
+		<span class="n">written</span> <span class="o">+=</span> <span class="n">orig_count</span><span class="p">;</span>
+		<span class="n">buf</span> <span class="o">+=</span> <span class="n">orig_count</span><span class="p">;</span>
+		<span class="n">pos</span> <span class="o">+=</span> <span class="n">orig_count</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">org0</span><span class="p">)</span>
+			<span class="n">update_region</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)(</span><span class="n">org0</span><span class="p">),</span> <span class="n">org</span> <span class="o">-</span> <span class="n">org0</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="o">*</span><span class="n">ppos</span> <span class="o">+=</span> <span class="n">written</span><span class="p">;</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">written</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">written</span><span class="p">)</span>
+		<span class="n">vcs_scr_updated</span><span class="p">(</span><span class="n">vc</span><span class="p">);</span>
+
+<span class="nl">unlock_out</span><span class="p">:</span>
+	<span class="n">console_unlock</span><span class="p">();</span>
+	<span class="n">free_page</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span> <span class="n">con_buf</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">int</span>
+<span class="nf">vcs_poll</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="n">poll_table</span> <span class="o">*</span><span class="n">wait</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">vcs_poll_data</span> <span class="o">*</span><span class="n">poll</span> <span class="o">=</span> <span class="n">vcs_poll_data_get</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">DEFAULT_POLLMASK</span><span class="o">|</span><span class="n">POLLERR</span><span class="o">|</span><span class="n">POLLPRI</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">poll</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">poll_wait</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">poll</span><span class="o">-&gt;</span><span class="n">waitq</span><span class="p">,</span> <span class="n">wait</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">poll</span><span class="o">-&gt;</span><span class="n">seen_last_update</span><span class="p">)</span>
+			<span class="n">ret</span> <span class="o">=</span> <span class="n">DEFAULT_POLLMASK</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span>
+<span class="nf">vcs_fasync</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">int</span> <span class="n">on</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">vcs_poll_data</span> <span class="o">*</span><span class="n">poll</span> <span class="o">=</span> <span class="n">file</span><span class="o">-&gt;</span><span class="n">private_data</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">poll</span><span class="p">)</span> <span class="p">{</span>
+		<span class="cm">/* don&#39;t allocate anything if all we want is disable fasync */</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">on</span><span class="p">)</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="n">poll</span> <span class="o">=</span> <span class="n">vcs_poll_data_get</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">poll</span><span class="p">)</span>
+			<span class="k">return</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">fasync_helper</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">on</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">poll</span><span class="o">-&gt;</span><span class="n">fasync</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span>
+<span class="nf">vcs_open</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">filp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">currcons</span> <span class="o">=</span> <span class="n">iminor</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">127</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	
+	<span class="n">console_lock</span><span class="p">();</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">currcons</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">vc_cons_allocated</span><span class="p">(</span><span class="n">currcons</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENXIO</span><span class="p">;</span>
+	<span class="n">console_unlock</span><span class="p">();</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">vcs_release</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">vcs_poll_data</span> <span class="o">*</span><span class="n">poll</span> <span class="o">=</span> <span class="n">file</span><span class="o">-&gt;</span><span class="n">private_data</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">poll</span><span class="p">)</span>
+		<span class="n">vcs_poll_data_free</span><span class="p">(</span><span class="n">poll</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">file_operations</span> <span class="n">vcs_fops</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">llseek</span>		<span class="o">=</span> <span class="n">vcs_lseek</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">read</span>		<span class="o">=</span> <span class="n">vcs_read</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">write</span>		<span class="o">=</span> <span class="n">vcs_write</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">poll</span>		<span class="o">=</span> <span class="n">vcs_poll</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">fasync</span>		<span class="o">=</span> <span class="n">vcs_fasync</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">open</span>		<span class="o">=</span> <span class="n">vcs_open</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">release</span>	<span class="o">=</span> <span class="n">vcs_release</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">class</span> <span class="o">*</span><span class="n">vc_class</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">vcs_make_sysfs</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">device_create</span><span class="p">(</span><span class="n">vc_class</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">MKDEV</span><span class="p">(</span><span class="n">VCS_MAJOR</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span>
+		      <span class="s">&quot;vcs%u&quot;</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="n">device_create</span><span class="p">(</span><span class="n">vc_class</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">MKDEV</span><span class="p">(</span><span class="n">VCS_MAJOR</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">129</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span>
+		      <span class="s">&quot;vcsa%u&quot;</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">vcs_remove_sysfs</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">device_destroy</span><span class="p">(</span><span class="n">vc_class</span><span class="p">,</span> <span class="n">MKDEV</span><span class="p">(</span><span class="n">VCS_MAJOR</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+	<span class="n">device_destroy</span><span class="p">(</span><span class="n">vc_class</span><span class="p">,</span> <span class="n">MKDEV</span><span class="p">(</span><span class="n">VCS_MAJOR</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">129</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">__init</span> <span class="nf">vcs_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">register_chrdev</span><span class="p">(</span><span class="n">VCS_MAJOR</span><span class="p">,</span> <span class="s">&quot;vcs&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">vcs_fops</span><span class="p">))</span>
+		<span class="n">panic</span><span class="p">(</span><span class="s">&quot;unable to get major %d for vcs device&quot;</span><span class="p">,</span> <span class="n">VCS_MAJOR</span><span class="p">);</span>
+	<span class="n">vc_class</span> <span class="o">=</span> <span class="n">class_create</span><span class="p">(</span><span class="n">THIS_MODULE</span><span class="p">,</span> <span class="s">&quot;vc&quot;</span><span class="p">);</span>
+
+	<span class="n">device_create</span><span class="p">(</span><span class="n">vc_class</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">MKDEV</span><span class="p">(</span><span class="n">VCS_MAJOR</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span> <span class="s">&quot;vcs&quot;</span><span class="p">);</span>
+	<span class="n">device_create</span><span class="p">(</span><span class="n">vc_class</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">MKDEV</span><span class="p">(</span><span class="n">VCS_MAJOR</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span> <span class="s">&quot;vcsa&quot;</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">MIN_NR_CONSOLES</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">vcs_make_sysfs</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

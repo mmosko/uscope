@@ -1,0 +1,180 @@
+lib/syscall.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L1"> 1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L2"> 2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L3"> 3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L4"> 4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L5"> 5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L6"> 6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L7"> 7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L8"> 8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L9"> 9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L10">10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L11">11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L12">12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L13">13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L14">14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L15">15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L16">16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L17">17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L18">18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L19">19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L20">20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L21">21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L22">22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L23">23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L24">24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L25">25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L26">26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L27">27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L28">28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L29">29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L30">30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L31">31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L32">32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L33">33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L34">34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L35">35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L36">36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L37">37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L38">38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L39">39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L40">40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L41">41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L42">42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L43">43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L44">44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L45">45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L46">46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L47">47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L48">48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L49">49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L50">50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L51">51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L52">52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L53">53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L54">54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L55">55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L56">56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L57">57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L58">58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L59">59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L60">60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L61">61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L62">62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L63">63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L64">64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L65">65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L66">66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L67">67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L68">68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L69">69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L70">70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L71">71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L72">72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L73">73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L74">74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L75">75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L76">76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L77">77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L78">78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L79">79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L80">80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L81">81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L82">82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L83">83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L84">84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/lib/syscall.c#L85">85</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;linux/ptrace.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/sched.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/export.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/syscall.h&gt;</span><span class="cp"></span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">collect_syscall</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">target</span><span class="p">,</span> <span class="kt">long</span> <span class="o">*</span><span class="n">callno</span><span class="p">,</span>
+			   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">args</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">maxargs</span><span class="p">,</span>
+			   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">*</span><span class="n">pc</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">pt_regs</span> <span class="o">*</span><span class="n">regs</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">try_get_task_stack</span><span class="p">(</span><span class="n">target</span><span class="p">))</span> <span class="p">{</span>
+		<span class="cm">/* Task has no stack, so the task isn&#39;t in a syscall. */</span>
+		<span class="o">*</span><span class="n">callno</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">regs</span> <span class="o">=</span> <span class="n">task_pt_regs</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">regs</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">put_task_stack</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EAGAIN</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="o">*</span><span class="n">sp</span> <span class="o">=</span> <span class="n">user_stack_pointer</span><span class="p">(</span><span class="n">regs</span><span class="p">);</span>
+	<span class="o">*</span><span class="n">pc</span> <span class="o">=</span> <span class="n">instruction_pointer</span><span class="p">(</span><span class="n">regs</span><span class="p">);</span>
+
+	<span class="o">*</span><span class="n">callno</span> <span class="o">=</span> <span class="n">syscall_get_nr</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">regs</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">callno</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1L</span> <span class="o">&amp;&amp;</span> <span class="n">maxargs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">syscall_get_arguments</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">regs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">maxargs</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+
+	<span class="n">put_task_stack</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * task_current_syscall - Discover what a blocked task is doing.</span>
+<span class="cm"> * @target:		thread to examine</span>
+<span class="cm"> * @callno:		filled with system call number or -1</span>
+<span class="cm"> * @args:		filled with @maxargs system call arguments</span>
+<span class="cm"> * @maxargs:		number of elements in @args to fill</span>
+<span class="cm"> * @sp:			filled with user stack pointer</span>
+<span class="cm"> * @pc:			filled with user PC</span>
+<span class="cm"> *</span>
+<span class="cm"> * If @target is blocked in a system call, returns zero with *@callno</span>
+<span class="cm"> * set to the the call&#39;s number and @args filled in with its arguments.</span>
+<span class="cm"> * Registers not used for system call arguments may not be available and</span>
+<span class="cm"> * it is not kosher to use &amp;struct user_regset calls while the system</span>
+<span class="cm"> * call is still in progress.  Note we may get this result if @target</span>
+<span class="cm"> * has finished its system call but not yet returned to user mode, such</span>
+<span class="cm"> * as when it&#39;s stopped for signal handling or syscall exit tracing.</span>
+<span class="cm"> *</span>
+<span class="cm"> * If @target is blocked in the kernel during a fault or exception,</span>
+<span class="cm"> * returns zero with *@callno set to -1 and does not fill in @args.</span>
+<span class="cm"> * If so, it&#39;s now safe to examine @target using &amp;struct user_regset</span>
+<span class="cm"> * get() calls as long as we&#39;re sure @target won&#39;t return to user mode.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Returns -%EAGAIN if @target does not remain blocked.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Returns -%EINVAL if @maxargs is too large (maximum is six).</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">task_current_syscall</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">target</span><span class="p">,</span> <span class="kt">long</span> <span class="o">*</span><span class="n">callno</span><span class="p">,</span>
+			 <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">args</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">maxargs</span><span class="p">,</span>
+			 <span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">*</span><span class="n">sp</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">*</span><span class="n">pc</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">long</span> <span class="n">state</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">ncsw</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">maxargs</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">))</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">target</span> <span class="o">==</span> <span class="n">current</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">collect_syscall</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">callno</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">maxargs</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="n">pc</span><span class="p">);</span>
+
+	<span class="n">state</span> <span class="o">=</span> <span class="n">target</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">state</span><span class="p">))</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EAGAIN</span><span class="p">;</span>
+
+	<span class="n">ncsw</span> <span class="o">=</span> <span class="n">wait_task_inactive</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">state</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">ncsw</span><span class="p">)</span> <span class="o">||</span>
+	    <span class="n">unlikely</span><span class="p">(</span><span class="n">collect_syscall</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">callno</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">maxargs</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="n">pc</span><span class="p">))</span> <span class="o">||</span>
+	    <span class="n">unlikely</span><span class="p">(</span><span class="n">wait_task_inactive</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ncsw</span><span class="p">))</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EAGAIN</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

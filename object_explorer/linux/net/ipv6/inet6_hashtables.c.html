@@ -1,0 +1,652 @@
+net/ipv6/inet6_hashtables.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv6/inet6_hashtables.c#L321">321</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * INET		An implementation of the TCP/IP protocol suite for the LINUX</span>
+<span class="cm"> *		operating system.  INET is implemented using the BSD Socket</span>
+<span class="cm"> *		interface as the means of communication with the user level.</span>
+<span class="cm"> *</span>
+<span class="cm"> *		Generic INET6 transport hashtables</span>
+<span class="cm"> *</span>
+<span class="cm"> * Authors:	Lotsa people, from code originally in tcp, generalised here</span>
+<span class="cm"> *		by Arnaldo Carvalho de Melo &lt;acme@mandriva.com&gt;</span>
+<span class="cm"> *</span>
+<span class="cm"> *	This program is free software; you can redistribute it and/or</span>
+<span class="cm"> *      modify it under the terms of the GNU General Public License</span>
+<span class="cm"> *      as published by the Free Software Foundation; either version</span>
+<span class="cm"> *      2 of the License, or (at your option) any later version.</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/module.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/random.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;net/addrconf.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;net/inet_connection_sock.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;net/inet_hashtables.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;net/inet6_hashtables.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;net/secure_seq.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;net/ip.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;net/sock_reuseport.h&gt;</span><span class="cp"></span>
+
+<span class="n">u32</span> <span class="nf">inet6_ehashfn</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span><span class="p">,</span>
+		  <span class="k">const</span> <span class="k">struct</span> <span class="n">in6_addr</span> <span class="o">*</span><span class="n">laddr</span><span class="p">,</span> <span class="k">const</span> <span class="n">u16</span> <span class="n">lport</span><span class="p">,</span>
+		  <span class="k">const</span> <span class="k">struct</span> <span class="n">in6_addr</span> <span class="o">*</span><span class="n">faddr</span><span class="p">,</span> <span class="k">const</span> <span class="n">__be16</span> <span class="n">fport</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">static</span> <span class="n">u32</span> <span class="n">inet6_ehash_secret</span> <span class="n">__read_mostly</span><span class="p">;</span>
+	<span class="k">static</span> <span class="n">u32</span> <span class="n">ipv6_hash_secret</span> <span class="n">__read_mostly</span><span class="p">;</span>
+
+	<span class="n">u32</span> <span class="n">lhash</span><span class="p">,</span> <span class="n">fhash</span><span class="p">;</span>
+
+	<span class="n">net_get_random_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">inet6_ehash_secret</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">inet6_ehash_secret</span><span class="p">));</span>
+	<span class="n">net_get_random_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ipv6_hash_secret</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">ipv6_hash_secret</span><span class="p">));</span>
+
+	<span class="n">lhash</span> <span class="o">=</span> <span class="p">(</span><span class="n">__force</span> <span class="n">u32</span><span class="p">)</span><span class="n">laddr</span><span class="o">-&gt;</span><span class="n">s6_addr32</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+	<span class="n">fhash</span> <span class="o">=</span> <span class="n">__ipv6_addr_jhash</span><span class="p">(</span><span class="n">faddr</span><span class="p">,</span> <span class="n">ipv6_hash_secret</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">__inet6_ehashfn</span><span class="p">(</span><span class="n">lhash</span><span class="p">,</span> <span class="n">lport</span><span class="p">,</span> <span class="n">fhash</span><span class="p">,</span> <span class="n">fport</span><span class="p">,</span>
+			       <span class="n">inet6_ehash_secret</span> <span class="o">+</span> <span class="n">net_hash_mix</span><span class="p">(</span><span class="n">net</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Sockets in TCP_CLOSE state are _always_ taken out of the hash, so</span>
+<span class="cm"> * we need not check it for TCP lookups anymore, thanks Alexey. -DaveM</span>
+<span class="cm"> *</span>
+<span class="cm"> * The sockhash lock must be held as a reader here.</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="nf">__inet6_lookup_established</span><span class="p">(</span><span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span><span class="p">,</span>
+					<span class="k">struct</span> <span class="n">inet_hashinfo</span> <span class="o">*</span><span class="n">hashinfo</span><span class="p">,</span>
+					   <span class="k">const</span> <span class="k">struct</span> <span class="n">in6_addr</span> <span class="o">*</span><span class="n">saddr</span><span class="p">,</span>
+					   <span class="k">const</span> <span class="n">__be16</span> <span class="n">sport</span><span class="p">,</span>
+					   <span class="k">const</span> <span class="k">struct</span> <span class="n">in6_addr</span> <span class="o">*</span><span class="n">daddr</span><span class="p">,</span>
+					   <span class="k">const</span> <span class="n">u16</span> <span class="n">hnum</span><span class="p">,</span>
+					   <span class="k">const</span> <span class="kt">int</span> <span class="n">dif</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">;</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">hlist_nulls_node</span> <span class="o">*</span><span class="n">node</span><span class="p">;</span>
+	<span class="k">const</span> <span class="n">__portpair</span> <span class="n">ports</span> <span class="o">=</span> <span class="n">INET_COMBINED_PORTS</span><span class="p">(</span><span class="n">sport</span><span class="p">,</span> <span class="n">hnum</span><span class="p">);</span>
+	<span class="cm">/* Optimize here for direct hit, only listening connections can</span>
+<span class="cm">	 * have wildcards anyways.</span>
+<span class="cm">	 */</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">inet6_ehashfn</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">daddr</span><span class="p">,</span> <span class="n">hnum</span><span class="p">,</span> <span class="n">saddr</span><span class="p">,</span> <span class="n">sport</span><span class="p">);</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">slot</span> <span class="o">=</span> <span class="n">hash</span> <span class="o">&amp;</span> <span class="n">hashinfo</span><span class="o">-&gt;</span><span class="n">ehash_mask</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">inet_ehash_bucket</span> <span class="o">*</span><span class="n">head</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">hashinfo</span><span class="o">-&gt;</span><span class="n">ehash</span><span class="p">[</span><span class="n">slot</span><span class="p">];</span>
+
+
+<span class="nl">begin</span><span class="p">:</span>
+	<span class="n">sk_nulls_for_each_rcu</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">chain</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_hash</span> <span class="o">!=</span> <span class="n">hash</span><span class="p">)</span>
+			<span class="k">continue</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">INET6_MATCH</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">saddr</span><span class="p">,</span> <span class="n">daddr</span><span class="p">,</span> <span class="n">ports</span><span class="p">,</span> <span class="n">dif</span><span class="p">))</span>
+			<span class="k">continue</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">atomic_inc_not_zero</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_refcnt</span><span class="p">)))</span>
+			<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">INET6_MATCH</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">saddr</span><span class="p">,</span> <span class="n">daddr</span><span class="p">,</span> <span class="n">ports</span><span class="p">,</span> <span class="n">dif</span><span class="p">)))</span> <span class="p">{</span>
+			<span class="n">sock_gen_put</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+			<span class="k">goto</span> <span class="n">begin</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">goto</span> <span class="n">found</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">get_nulls_value</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">!=</span> <span class="n">slot</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">begin</span><span class="p">;</span>
+<span class="nl">out</span><span class="p">:</span>
+	<span class="n">sk</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="nl">found</span><span class="p">:</span>
+	<span class="k">return</span> <span class="n">sk</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">__inet6_lookup_established</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">compute_score</span><span class="p">(</span><span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">,</span> <span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span><span class="p">,</span>
+				<span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">hnum</span><span class="p">,</span>
+				<span class="k">const</span> <span class="k">struct</span> <span class="n">in6_addr</span> <span class="o">*</span><span class="n">daddr</span><span class="p">,</span>
+				<span class="k">const</span> <span class="kt">int</span> <span class="n">dif</span><span class="p">,</span> <span class="n">bool</span> <span class="n">exact_dif</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">net_eq</span><span class="p">(</span><span class="n">sock_net</span><span class="p">(</span><span class="n">sk</span><span class="p">),</span> <span class="n">net</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">inet_sk</span><span class="p">(</span><span class="n">sk</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">inet_num</span> <span class="o">==</span> <span class="n">hnum</span> <span class="o">&amp;&amp;</span>
+	    <span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_family</span> <span class="o">==</span> <span class="n">PF_INET6</span><span class="p">)</span> <span class="p">{</span>
+
+		<span class="n">score</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ipv6_addr_any</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_v6_rcv_saddr</span><span class="p">))</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ipv6_addr_equal</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_v6_rcv_saddr</span><span class="p">,</span> <span class="n">daddr</span><span class="p">))</span>
+				<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+			<span class="n">score</span><span class="o">++</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_bound_dev_if</span> <span class="o">||</span> <span class="n">exact_dif</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_bound_dev_if</span> <span class="o">!=</span> <span class="n">dif</span><span class="p">)</span>
+				<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+			<span class="n">score</span><span class="o">++</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_incoming_cpu</span> <span class="o">==</span> <span class="n">raw_smp_processor_id</span><span class="p">())</span>
+			<span class="n">score</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">score</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* called with rcu_read_lock() */</span>
+<span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="nf">inet6_lookup_listener</span><span class="p">(</span><span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span><span class="p">,</span>
+		<span class="k">struct</span> <span class="n">inet_hashinfo</span> <span class="o">*</span><span class="n">hashinfo</span><span class="p">,</span>
+		<span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb</span><span class="p">,</span> <span class="kt">int</span> <span class="n">doff</span><span class="p">,</span>
+		<span class="k">const</span> <span class="k">struct</span> <span class="n">in6_addr</span> <span class="o">*</span><span class="n">saddr</span><span class="p">,</span>
+		<span class="k">const</span> <span class="n">__be16</span> <span class="n">sport</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">in6_addr</span> <span class="o">*</span><span class="n">daddr</span><span class="p">,</span>
+		<span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">hnum</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">dif</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">inet_lhashfn</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">hnum</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">inet_listen_hashbucket</span> <span class="o">*</span><span class="n">ilb</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">hashinfo</span><span class="o">-&gt;</span><span class="n">listening_hash</span><span class="p">[</span><span class="n">hash</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">score</span><span class="p">,</span> <span class="n">hiscore</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">matches</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">reuseport</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">exact_dif</span> <span class="o">=</span> <span class="n">inet6_exact_dif_match</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">skb</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">,</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">u32</span> <span class="n">phash</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">sk_for_each</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ilb</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">score</span> <span class="o">=</span> <span class="n">compute_score</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">hnum</span><span class="p">,</span> <span class="n">daddr</span><span class="p">,</span> <span class="n">dif</span><span class="p">,</span> <span class="n">exact_dif</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">score</span> <span class="o">&gt;</span> <span class="n">hiscore</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">reuseport</span> <span class="o">=</span> <span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_reuseport</span><span class="p">;</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">reuseport</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">phash</span> <span class="o">=</span> <span class="n">inet6_ehashfn</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">daddr</span><span class="p">,</span> <span class="n">hnum</span><span class="p">,</span>
+						      <span class="n">saddr</span><span class="p">,</span> <span class="n">sport</span><span class="p">);</span>
+				<span class="n">result</span> <span class="o">=</span> <span class="n">reuseport_select_sock</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">phash</span><span class="p">,</span>
+							       <span class="n">skb</span><span class="p">,</span> <span class="n">doff</span><span class="p">);</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
+					<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+				<span class="n">matches</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">result</span> <span class="o">=</span> <span class="n">sk</span><span class="p">;</span>
+			<span class="n">hiscore</span> <span class="o">=</span> <span class="n">score</span><span class="p">;</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">score</span> <span class="o">==</span> <span class="n">hiscore</span> <span class="o">&amp;&amp;</span> <span class="n">reuseport</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">matches</span><span class="o">++</span><span class="p">;</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">reciprocal_scale</span><span class="p">(</span><span class="n">phash</span><span class="p">,</span> <span class="n">matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+				<span class="n">result</span> <span class="o">=</span> <span class="n">sk</span><span class="p">;</span>
+			<span class="n">phash</span> <span class="o">=</span> <span class="n">next_pseudo_random32</span><span class="p">(</span><span class="n">phash</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">inet6_lookup_listener</span><span class="p">);</span>
+
+<span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="nf">inet6_lookup</span><span class="p">(</span><span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span><span class="p">,</span> <span class="k">struct</span> <span class="n">inet_hashinfo</span> <span class="o">*</span><span class="n">hashinfo</span><span class="p">,</span>
+			  <span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb</span><span class="p">,</span> <span class="kt">int</span> <span class="n">doff</span><span class="p">,</span>
+			  <span class="k">const</span> <span class="k">struct</span> <span class="n">in6_addr</span> <span class="o">*</span><span class="n">saddr</span><span class="p">,</span> <span class="k">const</span> <span class="n">__be16</span> <span class="n">sport</span><span class="p">,</span>
+			  <span class="k">const</span> <span class="k">struct</span> <span class="n">in6_addr</span> <span class="o">*</span><span class="n">daddr</span><span class="p">,</span> <span class="k">const</span> <span class="n">__be16</span> <span class="n">dport</span><span class="p">,</span>
+			  <span class="k">const</span> <span class="kt">int</span> <span class="n">dif</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">refcounted</span><span class="p">;</span>
+
+	<span class="n">sk</span> <span class="o">=</span> <span class="n">__inet6_lookup</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">hashinfo</span><span class="p">,</span> <span class="n">skb</span><span class="p">,</span> <span class="n">doff</span><span class="p">,</span> <span class="n">saddr</span><span class="p">,</span> <span class="n">sport</span><span class="p">,</span> <span class="n">daddr</span><span class="p">,</span>
+			    <span class="n">ntohs</span><span class="p">(</span><span class="n">dport</span><span class="p">),</span> <span class="n">dif</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">refcounted</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">sk</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">refcounted</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">atomic_inc_not_zero</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_refcnt</span><span class="p">))</span>
+		<span class="n">sk</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">sk</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">inet6_lookup</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">__inet6_check_established</span><span class="p">(</span><span class="k">struct</span> <span class="n">inet_timewait_death_row</span> <span class="o">*</span><span class="n">death_row</span><span class="p">,</span>
+				     <span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">,</span> <span class="k">const</span> <span class="n">__u16</span> <span class="n">lport</span><span class="p">,</span>
+				     <span class="k">struct</span> <span class="n">inet_timewait_sock</span> <span class="o">**</span><span class="n">twp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inet_hashinfo</span> <span class="o">*</span><span class="n">hinfo</span> <span class="o">=</span> <span class="n">death_row</span><span class="o">-&gt;</span><span class="n">hashinfo</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">inet_sock</span> <span class="o">*</span><span class="n">inet</span> <span class="o">=</span> <span class="n">inet_sk</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">in6_addr</span> <span class="o">*</span><span class="n">daddr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_v6_rcv_saddr</span><span class="p">;</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">in6_addr</span> <span class="o">*</span><span class="n">saddr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_v6_daddr</span><span class="p">;</span>
+	<span class="k">const</span> <span class="kt">int</span> <span class="n">dif</span> <span class="o">=</span> <span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_bound_dev_if</span><span class="p">;</span>
+	<span class="k">const</span> <span class="n">__portpair</span> <span class="n">ports</span> <span class="o">=</span> <span class="n">INET_COMBINED_PORTS</span><span class="p">(</span><span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_dport</span><span class="p">,</span> <span class="n">lport</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span> <span class="o">=</span> <span class="n">sock_net</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+	<span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">inet6_ehashfn</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">daddr</span><span class="p">,</span> <span class="n">lport</span><span class="p">,</span> <span class="n">saddr</span><span class="p">,</span>
+						<span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_dport</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">inet_ehash_bucket</span> <span class="o">*</span><span class="n">head</span> <span class="o">=</span> <span class="n">inet_ehash_bucket</span><span class="p">(</span><span class="n">hinfo</span><span class="p">,</span> <span class="n">hash</span><span class="p">);</span>
+	<span class="n">spinlock_t</span> <span class="o">*</span><span class="n">lock</span> <span class="o">=</span> <span class="n">inet_ehash_lockp</span><span class="p">(</span><span class="n">hinfo</span><span class="p">,</span> <span class="n">hash</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk2</span><span class="p">;</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">hlist_nulls_node</span> <span class="o">*</span><span class="n">node</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">inet_timewait_sock</span> <span class="o">*</span><span class="n">tw</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">spin_lock</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
+
+	<span class="n">sk_nulls_for_each</span><span class="p">(</span><span class="n">sk2</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">chain</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">sk2</span><span class="o">-&gt;</span><span class="n">sk_hash</span> <span class="o">!=</span> <span class="n">hash</span><span class="p">)</span>
+			<span class="k">continue</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">likely</span><span class="p">(</span><span class="n">INET6_MATCH</span><span class="p">(</span><span class="n">sk2</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">saddr</span><span class="p">,</span> <span class="n">daddr</span><span class="p">,</span> <span class="n">ports</span><span class="p">,</span> <span class="n">dif</span><span class="p">)))</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">sk2</span><span class="o">-&gt;</span><span class="n">sk_state</span> <span class="o">==</span> <span class="n">TCP_TIME_WAIT</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">tw</span> <span class="o">=</span> <span class="n">inet_twsk</span><span class="p">(</span><span class="n">sk2</span><span class="p">);</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">twsk_unique</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">sk2</span><span class="p">,</span> <span class="n">twp</span><span class="p">))</span>
+					<span class="k">break</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="k">goto</span> <span class="n">not_unique</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* Must record num and sport now. Otherwise we will see</span>
+<span class="cm">	 * in hash table socket with a funny identity.</span>
+<span class="cm">	 */</span>
+	<span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_num</span> <span class="o">=</span> <span class="n">lport</span><span class="p">;</span>
+	<span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_sport</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="n">lport</span><span class="p">);</span>
+	<span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_hash</span> <span class="o">=</span> <span class="n">hash</span><span class="p">;</span>
+	<span class="n">WARN_ON</span><span class="p">(</span><span class="o">!</span><span class="n">sk_unhashed</span><span class="p">(</span><span class="n">sk</span><span class="p">));</span>
+	<span class="n">__sk_nulls_add_node_rcu</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">chain</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">tw</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">sk_nulls_del_node_init_rcu</span><span class="p">((</span><span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="p">)</span><span class="n">tw</span><span class="p">);</span>
+		<span class="n">__NET_INC_STATS</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">LINUX_MIB_TIMEWAITRECYCLED</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">spin_unlock</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
+	<span class="n">sock_prot_inuse_add</span><span class="p">(</span><span class="n">sock_net</span><span class="p">(</span><span class="n">sk</span><span class="p">),</span> <span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_prot</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">twp</span><span class="p">)</span> <span class="p">{</span>
+		<span class="o">*</span><span class="n">twp</span> <span class="o">=</span> <span class="n">tw</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">tw</span><span class="p">)</span> <span class="p">{</span>
+		<span class="cm">/* Silly. Should hash-dance instead... */</span>
+		<span class="n">inet_twsk_deschedule_put</span><span class="p">(</span><span class="n">tw</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="nl">not_unique</span><span class="p">:</span>
+	<span class="n">spin_unlock</span><span class="p">(</span><span class="n">lock</span><span class="p">);</span>
+	<span class="k">return</span> <span class="o">-</span><span class="n">EADDRNOTAVAIL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">u32</span> <span class="nf">inet6_sk_port_offset</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">inet_sock</span> <span class="o">*</span><span class="n">inet</span> <span class="o">=</span> <span class="n">inet_sk</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">secure_ipv6_port_ephemeral</span><span class="p">(</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_v6_rcv_saddr</span><span class="p">.</span><span class="n">s6_addr32</span><span class="p">,</span>
+					  <span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_v6_daddr</span><span class="p">.</span><span class="n">s6_addr32</span><span class="p">,</span>
+					  <span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_dport</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">inet6_hash_connect</span><span class="p">(</span><span class="k">struct</span> <span class="n">inet_timewait_death_row</span> <span class="o">*</span><span class="n">death_row</span><span class="p">,</span>
+		       <span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">u32</span> <span class="n">port_offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">inet_sk</span><span class="p">(</span><span class="n">sk</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">inet_num</span><span class="p">)</span>
+		<span class="n">port_offset</span> <span class="o">=</span> <span class="n">inet6_sk_port_offset</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">__inet_hash_connect</span><span class="p">(</span><span class="n">death_row</span><span class="p">,</span> <span class="n">sk</span><span class="p">,</span> <span class="n">port_offset</span><span class="p">,</span>
+				   <span class="n">__inet6_check_established</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">inet6_hash_connect</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">inet6_hash</span><span class="p">(</span><span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">err</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_state</span> <span class="o">!=</span> <span class="n">TCP_CLOSE</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">local_bh_disable</span><span class="p">();</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="n">__inet_hash</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">ipv6_rcv_saddr_equal</span><span class="p">);</span>
+		<span class="n">local_bh_enable</span><span class="p">();</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">inet6_hash</span><span class="p">);</span>
+
+<span class="cm">/* match_wildcard == true:  IPV6_ADDR_ANY equals to any IPv6 addresses if IPv6</span>
+<span class="cm"> *                          only, and any IPv4 addresses if not IPv6 only</span>
+<span class="cm"> * match_wildcard == false: addresses must be exactly the same, i.e.</span>
+<span class="cm"> *                          IPV6_ADDR_ANY only equals to IPV6_ADDR_ANY,</span>
+<span class="cm"> *                          and 0.0.0.0 equals to 0.0.0.0 only</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">ipv6_rcv_saddr_equal</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk2</span><span class="p">,</span>
+			 <span class="n">bool</span> <span class="n">match_wildcard</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">in6_addr</span> <span class="o">*</span><span class="n">sk2_rcv_saddr6</span> <span class="o">=</span> <span class="n">inet6_rcv_saddr</span><span class="p">(</span><span class="n">sk2</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">sk2_ipv6only</span> <span class="o">=</span> <span class="n">inet_v6_ipv6only</span><span class="p">(</span><span class="n">sk2</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">addr_type</span> <span class="o">=</span> <span class="n">ipv6_addr_type</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_v6_rcv_saddr</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">addr_type2</span> <span class="o">=</span> <span class="n">sk2_rcv_saddr6</span> <span class="o">?</span> <span class="n">ipv6_addr_type</span><span class="p">(</span><span class="n">sk2_rcv_saddr6</span><span class="p">)</span> <span class="o">:</span> <span class="n">IPV6_ADDR_MAPPED</span><span class="p">;</span>
+
+	<span class="cm">/* if both are mapped, treat as IPv4 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">addr_type</span> <span class="o">==</span> <span class="n">IPV6_ADDR_MAPPED</span> <span class="o">&amp;&amp;</span> <span class="n">addr_type2</span> <span class="o">==</span> <span class="n">IPV6_ADDR_MAPPED</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">sk2_ipv6only</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_rcv_saddr</span> <span class="o">==</span> <span class="n">sk2</span><span class="o">-&gt;</span><span class="n">sk_rcv_saddr</span><span class="p">)</span>
+				<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_rcv_saddr</span> <span class="o">||</span> <span class="o">!</span><span class="n">sk2</span><span class="o">-&gt;</span><span class="n">sk_rcv_saddr</span><span class="p">)</span>
+				<span class="k">return</span> <span class="n">match_wildcard</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">addr_type</span> <span class="o">==</span> <span class="n">IPV6_ADDR_ANY</span> <span class="o">&amp;&amp;</span> <span class="n">addr_type2</span> <span class="o">==</span> <span class="n">IPV6_ADDR_ANY</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">addr_type2</span> <span class="o">==</span> <span class="n">IPV6_ADDR_ANY</span> <span class="o">&amp;&amp;</span> <span class="n">match_wildcard</span> <span class="o">&amp;&amp;</span>
+	    <span class="o">!</span><span class="p">(</span><span class="n">sk2_ipv6only</span> <span class="o">&amp;&amp;</span> <span class="n">addr_type</span> <span class="o">==</span> <span class="n">IPV6_ADDR_MAPPED</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">addr_type</span> <span class="o">==</span> <span class="n">IPV6_ADDR_ANY</span> <span class="o">&amp;&amp;</span> <span class="n">match_wildcard</span> <span class="o">&amp;&amp;</span>
+	    <span class="o">!</span><span class="p">(</span><span class="n">ipv6_only_sock</span><span class="p">(</span><span class="n">sk</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">addr_type2</span> <span class="o">==</span> <span class="n">IPV6_ADDR_MAPPED</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">sk2_rcv_saddr6</span> <span class="o">&amp;&amp;</span>
+	    <span class="n">ipv6_addr_equal</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_v6_rcv_saddr</span><span class="p">,</span> <span class="n">sk2_rcv_saddr6</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">ipv6_rcv_saddr_equal</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

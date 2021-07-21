@@ -1,0 +1,1540 @@
+fs/ext4/file.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L390">390</a>
+<a name="L391" id="L391" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L391">391</a>
+<a name="L392" id="L392" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L392">392</a>
+<a name="L393" id="L393" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L393">393</a>
+<a name="L394" id="L394" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L394">394</a>
+<a name="L395" id="L395" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L395">395</a>
+<a name="L396" id="L396" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L396">396</a>
+<a name="L397" id="L397" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L397">397</a>
+<a name="L398" id="L398" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L398">398</a>
+<a name="L399" id="L399" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L399">399</a>
+<a name="L400" id="L400" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L400">400</a>
+<a name="L401" id="L401" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L401">401</a>
+<a name="L402" id="L402" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L402">402</a>
+<a name="L403" id="L403" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L403">403</a>
+<a name="L404" id="L404" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L404">404</a>
+<a name="L405" id="L405" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L405">405</a>
+<a name="L406" id="L406" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L406">406</a>
+<a name="L407" id="L407" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L407">407</a>
+<a name="L408" id="L408" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L408">408</a>
+<a name="L409" id="L409" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L409">409</a>
+<a name="L410" id="L410" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L410">410</a>
+<a name="L411" id="L411" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L411">411</a>
+<a name="L412" id="L412" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L412">412</a>
+<a name="L413" id="L413" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L413">413</a>
+<a name="L414" id="L414" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L414">414</a>
+<a name="L415" id="L415" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L415">415</a>
+<a name="L416" id="L416" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L416">416</a>
+<a name="L417" id="L417" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L417">417</a>
+<a name="L418" id="L418" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L418">418</a>
+<a name="L419" id="L419" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L419">419</a>
+<a name="L420" id="L420" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L420">420</a>
+<a name="L421" id="L421" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L421">421</a>
+<a name="L422" id="L422" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L422">422</a>
+<a name="L423" id="L423" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L423">423</a>
+<a name="L424" id="L424" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L424">424</a>
+<a name="L425" id="L425" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L425">425</a>
+<a name="L426" id="L426" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L426">426</a>
+<a name="L427" id="L427" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L427">427</a>
+<a name="L428" id="L428" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L428">428</a>
+<a name="L429" id="L429" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L429">429</a>
+<a name="L430" id="L430" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L430">430</a>
+<a name="L431" id="L431" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L431">431</a>
+<a name="L432" id="L432" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L432">432</a>
+<a name="L433" id="L433" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L433">433</a>
+<a name="L434" id="L434" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L434">434</a>
+<a name="L435" id="L435" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L435">435</a>
+<a name="L436" id="L436" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L436">436</a>
+<a name="L437" id="L437" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L437">437</a>
+<a name="L438" id="L438" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L438">438</a>
+<a name="L439" id="L439" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L439">439</a>
+<a name="L440" id="L440" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L440">440</a>
+<a name="L441" id="L441" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L441">441</a>
+<a name="L442" id="L442" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L442">442</a>
+<a name="L443" id="L443" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L443">443</a>
+<a name="L444" id="L444" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L444">444</a>
+<a name="L445" id="L445" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L445">445</a>
+<a name="L446" id="L446" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L446">446</a>
+<a name="L447" id="L447" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L447">447</a>
+<a name="L448" id="L448" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L448">448</a>
+<a name="L449" id="L449" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L449">449</a>
+<a name="L450" id="L450" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L450">450</a>
+<a name="L451" id="L451" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L451">451</a>
+<a name="L452" id="L452" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L452">452</a>
+<a name="L453" id="L453" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L453">453</a>
+<a name="L454" id="L454" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L454">454</a>
+<a name="L455" id="L455" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L455">455</a>
+<a name="L456" id="L456" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L456">456</a>
+<a name="L457" id="L457" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L457">457</a>
+<a name="L458" id="L458" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L458">458</a>
+<a name="L459" id="L459" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L459">459</a>
+<a name="L460" id="L460" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L460">460</a>
+<a name="L461" id="L461" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L461">461</a>
+<a name="L462" id="L462" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L462">462</a>
+<a name="L463" id="L463" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L463">463</a>
+<a name="L464" id="L464" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L464">464</a>
+<a name="L465" id="L465" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L465">465</a>
+<a name="L466" id="L466" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L466">466</a>
+<a name="L467" id="L467" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L467">467</a>
+<a name="L468" id="L468" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L468">468</a>
+<a name="L469" id="L469" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L469">469</a>
+<a name="L470" id="L470" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L470">470</a>
+<a name="L471" id="L471" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L471">471</a>
+<a name="L472" id="L472" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L472">472</a>
+<a name="L473" id="L473" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L473">473</a>
+<a name="L474" id="L474" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L474">474</a>
+<a name="L475" id="L475" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L475">475</a>
+<a name="L476" id="L476" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L476">476</a>
+<a name="L477" id="L477" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L477">477</a>
+<a name="L478" id="L478" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L478">478</a>
+<a name="L479" id="L479" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L479">479</a>
+<a name="L480" id="L480" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L480">480</a>
+<a name="L481" id="L481" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L481">481</a>
+<a name="L482" id="L482" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L482">482</a>
+<a name="L483" id="L483" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L483">483</a>
+<a name="L484" id="L484" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L484">484</a>
+<a name="L485" id="L485" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L485">485</a>
+<a name="L486" id="L486" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L486">486</a>
+<a name="L487" id="L487" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L487">487</a>
+<a name="L488" id="L488" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L488">488</a>
+<a name="L489" id="L489" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L489">489</a>
+<a name="L490" id="L490" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L490">490</a>
+<a name="L491" id="L491" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L491">491</a>
+<a name="L492" id="L492" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L492">492</a>
+<a name="L493" id="L493" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L493">493</a>
+<a name="L494" id="L494" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L494">494</a>
+<a name="L495" id="L495" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L495">495</a>
+<a name="L496" id="L496" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L496">496</a>
+<a name="L497" id="L497" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L497">497</a>
+<a name="L498" id="L498" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L498">498</a>
+<a name="L499" id="L499" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L499">499</a>
+<a name="L500" id="L500" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L500">500</a>
+<a name="L501" id="L501" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L501">501</a>
+<a name="L502" id="L502" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L502">502</a>
+<a name="L503" id="L503" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L503">503</a>
+<a name="L504" id="L504" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L504">504</a>
+<a name="L505" id="L505" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L505">505</a>
+<a name="L506" id="L506" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L506">506</a>
+<a name="L507" id="L507" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L507">507</a>
+<a name="L508" id="L508" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L508">508</a>
+<a name="L509" id="L509" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L509">509</a>
+<a name="L510" id="L510" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L510">510</a>
+<a name="L511" id="L511" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L511">511</a>
+<a name="L512" id="L512" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L512">512</a>
+<a name="L513" id="L513" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L513">513</a>
+<a name="L514" id="L514" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L514">514</a>
+<a name="L515" id="L515" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L515">515</a>
+<a name="L516" id="L516" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L516">516</a>
+<a name="L517" id="L517" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L517">517</a>
+<a name="L518" id="L518" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L518">518</a>
+<a name="L519" id="L519" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L519">519</a>
+<a name="L520" id="L520" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L520">520</a>
+<a name="L521" id="L521" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L521">521</a>
+<a name="L522" id="L522" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L522">522</a>
+<a name="L523" id="L523" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L523">523</a>
+<a name="L524" id="L524" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L524">524</a>
+<a name="L525" id="L525" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L525">525</a>
+<a name="L526" id="L526" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L526">526</a>
+<a name="L527" id="L527" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L527">527</a>
+<a name="L528" id="L528" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L528">528</a>
+<a name="L529" id="L529" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L529">529</a>
+<a name="L530" id="L530" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L530">530</a>
+<a name="L531" id="L531" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L531">531</a>
+<a name="L532" id="L532" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L532">532</a>
+<a name="L533" id="L533" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L533">533</a>
+<a name="L534" id="L534" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L534">534</a>
+<a name="L535" id="L535" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L535">535</a>
+<a name="L536" id="L536" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L536">536</a>
+<a name="L537" id="L537" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L537">537</a>
+<a name="L538" id="L538" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L538">538</a>
+<a name="L539" id="L539" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L539">539</a>
+<a name="L540" id="L540" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L540">540</a>
+<a name="L541" id="L541" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L541">541</a>
+<a name="L542" id="L542" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L542">542</a>
+<a name="L543" id="L543" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L543">543</a>
+<a name="L544" id="L544" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L544">544</a>
+<a name="L545" id="L545" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L545">545</a>
+<a name="L546" id="L546" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L546">546</a>
+<a name="L547" id="L547" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L547">547</a>
+<a name="L548" id="L548" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L548">548</a>
+<a name="L549" id="L549" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L549">549</a>
+<a name="L550" id="L550" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L550">550</a>
+<a name="L551" id="L551" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L551">551</a>
+<a name="L552" id="L552" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L552">552</a>
+<a name="L553" id="L553" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L553">553</a>
+<a name="L554" id="L554" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L554">554</a>
+<a name="L555" id="L555" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L555">555</a>
+<a name="L556" id="L556" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L556">556</a>
+<a name="L557" id="L557" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L557">557</a>
+<a name="L558" id="L558" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L558">558</a>
+<a name="L559" id="L559" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L559">559</a>
+<a name="L560" id="L560" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L560">560</a>
+<a name="L561" id="L561" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L561">561</a>
+<a name="L562" id="L562" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L562">562</a>
+<a name="L563" id="L563" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L563">563</a>
+<a name="L564" id="L564" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L564">564</a>
+<a name="L565" id="L565" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L565">565</a>
+<a name="L566" id="L566" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L566">566</a>
+<a name="L567" id="L567" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L567">567</a>
+<a name="L568" id="L568" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L568">568</a>
+<a name="L569" id="L569" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L569">569</a>
+<a name="L570" id="L570" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L570">570</a>
+<a name="L571" id="L571" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L571">571</a>
+<a name="L572" id="L572" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L572">572</a>
+<a name="L573" id="L573" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L573">573</a>
+<a name="L574" id="L574" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L574">574</a>
+<a name="L575" id="L575" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L575">575</a>
+<a name="L576" id="L576" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L576">576</a>
+<a name="L577" id="L577" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L577">577</a>
+<a name="L578" id="L578" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L578">578</a>
+<a name="L579" id="L579" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L579">579</a>
+<a name="L580" id="L580" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L580">580</a>
+<a name="L581" id="L581" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L581">581</a>
+<a name="L582" id="L582" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L582">582</a>
+<a name="L583" id="L583" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L583">583</a>
+<a name="L584" id="L584" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L584">584</a>
+<a name="L585" id="L585" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L585">585</a>
+<a name="L586" id="L586" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L586">586</a>
+<a name="L587" id="L587" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L587">587</a>
+<a name="L588" id="L588" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L588">588</a>
+<a name="L589" id="L589" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L589">589</a>
+<a name="L590" id="L590" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L590">590</a>
+<a name="L591" id="L591" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L591">591</a>
+<a name="L592" id="L592" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L592">592</a>
+<a name="L593" id="L593" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L593">593</a>
+<a name="L594" id="L594" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L594">594</a>
+<a name="L595" id="L595" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L595">595</a>
+<a name="L596" id="L596" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L596">596</a>
+<a name="L597" id="L597" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L597">597</a>
+<a name="L598" id="L598" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L598">598</a>
+<a name="L599" id="L599" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L599">599</a>
+<a name="L600" id="L600" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L600">600</a>
+<a name="L601" id="L601" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L601">601</a>
+<a name="L602" id="L602" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L602">602</a>
+<a name="L603" id="L603" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L603">603</a>
+<a name="L604" id="L604" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L604">604</a>
+<a name="L605" id="L605" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L605">605</a>
+<a name="L606" id="L606" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L606">606</a>
+<a name="L607" id="L607" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L607">607</a>
+<a name="L608" id="L608" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L608">608</a>
+<a name="L609" id="L609" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L609">609</a>
+<a name="L610" id="L610" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L610">610</a>
+<a name="L611" id="L611" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L611">611</a>
+<a name="L612" id="L612" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L612">612</a>
+<a name="L613" id="L613" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L613">613</a>
+<a name="L614" id="L614" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L614">614</a>
+<a name="L615" id="L615" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L615">615</a>
+<a name="L616" id="L616" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L616">616</a>
+<a name="L617" id="L617" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L617">617</a>
+<a name="L618" id="L618" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L618">618</a>
+<a name="L619" id="L619" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L619">619</a>
+<a name="L620" id="L620" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L620">620</a>
+<a name="L621" id="L621" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L621">621</a>
+<a name="L622" id="L622" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L622">622</a>
+<a name="L623" id="L623" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L623">623</a>
+<a name="L624" id="L624" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L624">624</a>
+<a name="L625" id="L625" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L625">625</a>
+<a name="L626" id="L626" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L626">626</a>
+<a name="L627" id="L627" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L627">627</a>
+<a name="L628" id="L628" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L628">628</a>
+<a name="L629" id="L629" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L629">629</a>
+<a name="L630" id="L630" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L630">630</a>
+<a name="L631" id="L631" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L631">631</a>
+<a name="L632" id="L632" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L632">632</a>
+<a name="L633" id="L633" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L633">633</a>
+<a name="L634" id="L634" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L634">634</a>
+<a name="L635" id="L635" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L635">635</a>
+<a name="L636" id="L636" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L636">636</a>
+<a name="L637" id="L637" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L637">637</a>
+<a name="L638" id="L638" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L638">638</a>
+<a name="L639" id="L639" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L639">639</a>
+<a name="L640" id="L640" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L640">640</a>
+<a name="L641" id="L641" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L641">641</a>
+<a name="L642" id="L642" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L642">642</a>
+<a name="L643" id="L643" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L643">643</a>
+<a name="L644" id="L644" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L644">644</a>
+<a name="L645" id="L645" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L645">645</a>
+<a name="L646" id="L646" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L646">646</a>
+<a name="L647" id="L647" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L647">647</a>
+<a name="L648" id="L648" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L648">648</a>
+<a name="L649" id="L649" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L649">649</a>
+<a name="L650" id="L650" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L650">650</a>
+<a name="L651" id="L651" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L651">651</a>
+<a name="L652" id="L652" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L652">652</a>
+<a name="L653" id="L653" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L653">653</a>
+<a name="L654" id="L654" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L654">654</a>
+<a name="L655" id="L655" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L655">655</a>
+<a name="L656" id="L656" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L656">656</a>
+<a name="L657" id="L657" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L657">657</a>
+<a name="L658" id="L658" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L658">658</a>
+<a name="L659" id="L659" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L659">659</a>
+<a name="L660" id="L660" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L660">660</a>
+<a name="L661" id="L661" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L661">661</a>
+<a name="L662" id="L662" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L662">662</a>
+<a name="L663" id="L663" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L663">663</a>
+<a name="L664" id="L664" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L664">664</a>
+<a name="L665" id="L665" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L665">665</a>
+<a name="L666" id="L666" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L666">666</a>
+<a name="L667" id="L667" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L667">667</a>
+<a name="L668" id="L668" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L668">668</a>
+<a name="L669" id="L669" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L669">669</a>
+<a name="L670" id="L670" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L670">670</a>
+<a name="L671" id="L671" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L671">671</a>
+<a name="L672" id="L672" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L672">672</a>
+<a name="L673" id="L673" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L673">673</a>
+<a name="L674" id="L674" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L674">674</a>
+<a name="L675" id="L675" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L675">675</a>
+<a name="L676" id="L676" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L676">676</a>
+<a name="L677" id="L677" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L677">677</a>
+<a name="L678" id="L678" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L678">678</a>
+<a name="L679" id="L679" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L679">679</a>
+<a name="L680" id="L680" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L680">680</a>
+<a name="L681" id="L681" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L681">681</a>
+<a name="L682" id="L682" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L682">682</a>
+<a name="L683" id="L683" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L683">683</a>
+<a name="L684" id="L684" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L684">684</a>
+<a name="L685" id="L685" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L685">685</a>
+<a name="L686" id="L686" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L686">686</a>
+<a name="L687" id="L687" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L687">687</a>
+<a name="L688" id="L688" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L688">688</a>
+<a name="L689" id="L689" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L689">689</a>
+<a name="L690" id="L690" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L690">690</a>
+<a name="L691" id="L691" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L691">691</a>
+<a name="L692" id="L692" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L692">692</a>
+<a name="L693" id="L693" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L693">693</a>
+<a name="L694" id="L694" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L694">694</a>
+<a name="L695" id="L695" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L695">695</a>
+<a name="L696" id="L696" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L696">696</a>
+<a name="L697" id="L697" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L697">697</a>
+<a name="L698" id="L698" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L698">698</a>
+<a name="L699" id="L699" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L699">699</a>
+<a name="L700" id="L700" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L700">700</a>
+<a name="L701" id="L701" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L701">701</a>
+<a name="L702" id="L702" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L702">702</a>
+<a name="L703" id="L703" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L703">703</a>
+<a name="L704" id="L704" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L704">704</a>
+<a name="L705" id="L705" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L705">705</a>
+<a name="L706" id="L706" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L706">706</a>
+<a name="L707" id="L707" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L707">707</a>
+<a name="L708" id="L708" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L708">708</a>
+<a name="L709" id="L709" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L709">709</a>
+<a name="L710" id="L710" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L710">710</a>
+<a name="L711" id="L711" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L711">711</a>
+<a name="L712" id="L712" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L712">712</a>
+<a name="L713" id="L713" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L713">713</a>
+<a name="L714" id="L714" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L714">714</a>
+<a name="L715" id="L715" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L715">715</a>
+<a name="L716" id="L716" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L716">716</a>
+<a name="L717" id="L717" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L717">717</a>
+<a name="L718" id="L718" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L718">718</a>
+<a name="L719" id="L719" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L719">719</a>
+<a name="L720" id="L720" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L720">720</a>
+<a name="L721" id="L721" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L721">721</a>
+<a name="L722" id="L722" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L722">722</a>
+<a name="L723" id="L723" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L723">723</a>
+<a name="L724" id="L724" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L724">724</a>
+<a name="L725" id="L725" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L725">725</a>
+<a name="L726" id="L726" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L726">726</a>
+<a name="L727" id="L727" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L727">727</a>
+<a name="L728" id="L728" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L728">728</a>
+<a name="L729" id="L729" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L729">729</a>
+<a name="L730" id="L730" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L730">730</a>
+<a name="L731" id="L731" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L731">731</a>
+<a name="L732" id="L732" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L732">732</a>
+<a name="L733" id="L733" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L733">733</a>
+<a name="L734" id="L734" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L734">734</a>
+<a name="L735" id="L735" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L735">735</a>
+<a name="L736" id="L736" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L736">736</a>
+<a name="L737" id="L737" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L737">737</a>
+<a name="L738" id="L738" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L738">738</a>
+<a name="L739" id="L739" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L739">739</a>
+<a name="L740" id="L740" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L740">740</a>
+<a name="L741" id="L741" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L741">741</a>
+<a name="L742" id="L742" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L742">742</a>
+<a name="L743" id="L743" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L743">743</a>
+<a name="L744" id="L744" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L744">744</a>
+<a name="L745" id="L745" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L745">745</a>
+<a name="L746" id="L746" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L746">746</a>
+<a name="L747" id="L747" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L747">747</a>
+<a name="L748" id="L748" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L748">748</a>
+<a name="L749" id="L749" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L749">749</a>
+<a name="L750" id="L750" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L750">750</a>
+<a name="L751" id="L751" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L751">751</a>
+<a name="L752" id="L752" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L752">752</a>
+<a name="L753" id="L753" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L753">753</a>
+<a name="L754" id="L754" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L754">754</a>
+<a name="L755" id="L755" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L755">755</a>
+<a name="L756" id="L756" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L756">756</a>
+<a name="L757" id="L757" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L757">757</a>
+<a name="L758" id="L758" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L758">758</a>
+<a name="L759" id="L759" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L759">759</a>
+<a name="L760" id="L760" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L760">760</a>
+<a name="L761" id="L761" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L761">761</a>
+<a name="L762" id="L762" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L762">762</a>
+<a name="L763" id="L763" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L763">763</a>
+<a name="L764" id="L764" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L764">764</a>
+<a name="L765" id="L765" href="https://uscope-linux.github.io/object_explorer/linux/fs/ext4/file.c#L765">765</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> *  linux/fs/ext4/file.c</span>
+<span class="cm"> *</span>
+<span class="cm"> * Copyright (C) 1992, 1993, 1994, 1995</span>
+<span class="cm"> * Remy Card (card@masi.ibp.fr)</span>
+<span class="cm"> * Laboratoire MASI - Institut Blaise Pascal</span>
+<span class="cm"> * Universite Pierre et Marie Curie (Paris VI)</span>
+<span class="cm"> *</span>
+<span class="cm"> *  from</span>
+<span class="cm"> *</span>
+<span class="cm"> *  linux/fs/minix/file.c</span>
+<span class="cm"> *</span>
+<span class="cm"> *  Copyright (C) 1991, 1992  Linus Torvalds</span>
+<span class="cm"> *</span>
+<span class="cm"> *  ext4 fs regular file handling primitives</span>
+<span class="cm"> *</span>
+<span class="cm"> *  64-bit file support on 64-bit platforms by Jakub Jelinek</span>
+<span class="cm"> *	(jj@sunsite.ms.mff.cuni.cz)</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/time.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/fs.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/mount.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/path.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/dax.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/quotaops.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/pagevec.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/uio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;ext4.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;ext4_jbd2.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;xattr.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;acl.h&quot;</span><span class="cp"></span>
+
+<span class="cp">#ifdef CONFIG_FS_DAX</span>
+<span class="k">static</span> <span class="n">ssize_t</span> <span class="nf">ext4_dax_read_iter</span><span class="p">(</span><span class="k">struct</span> <span class="n">kiocb</span> <span class="o">*</span><span class="n">iocb</span><span class="p">,</span> <span class="k">struct</span> <span class="n">iov_iter</span> <span class="o">*</span><span class="n">to</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file_inode</span><span class="p">(</span><span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_filp</span><span class="p">);</span>
+	<span class="n">ssize_t</span> <span class="n">ret</span><span class="p">;</span>
+
+	<span class="n">inode_lock_shared</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * Recheck under inode lock - at this point we are sure it cannot</span>
+<span class="cm">	 * change anymore</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">IS_DAX</span><span class="p">(</span><span class="n">inode</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">inode_unlock_shared</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+		<span class="cm">/* Fallback to buffered IO in case we cannot support DAX */</span>
+		<span class="k">return</span> <span class="n">generic_file_read_iter</span><span class="p">(</span><span class="n">iocb</span><span class="p">,</span> <span class="n">to</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">dax_iomap_rw</span><span class="p">(</span><span class="n">iocb</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ext4_iomap_ops</span><span class="p">);</span>
+	<span class="n">inode_unlock_shared</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+
+	<span class="n">file_accessed</span><span class="p">(</span><span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_filp</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="k">static</span> <span class="n">ssize_t</span> <span class="nf">ext4_file_read_iter</span><span class="p">(</span><span class="k">struct</span> <span class="n">kiocb</span> <span class="o">*</span><span class="n">iocb</span><span class="p">,</span> <span class="k">struct</span> <span class="n">iov_iter</span> <span class="o">*</span><span class="n">to</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">iov_iter_count</span><span class="p">(</span><span class="n">to</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="cm">/* skip atime */</span>
+
+<span class="cp">#ifdef CONFIG_FS_DAX</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">IS_DAX</span><span class="p">(</span><span class="n">file_inode</span><span class="p">(</span><span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_filp</span><span class="p">)))</span>
+		<span class="k">return</span> <span class="n">ext4_dax_read_iter</span><span class="p">(</span><span class="n">iocb</span><span class="p">,</span> <span class="n">to</span><span class="p">);</span>
+<span class="cp">#endif</span>
+	<span class="k">return</span> <span class="n">generic_file_read_iter</span><span class="p">(</span><span class="n">iocb</span><span class="p">,</span> <span class="n">to</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Called when an inode is released. Note that this is different</span>
+<span class="cm"> * from ext4_file_open: open gets called at every open, but release</span>
+<span class="cm"> * gets called only when /all/ the files are closed.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">ext4_release_file</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">filp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ext4_test_inode_state</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">EXT4_STATE_DA_ALLOC_CLOSE</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">ext4_alloc_da_blocks</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+		<span class="n">ext4_clear_inode_state</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">EXT4_STATE_DA_ALLOC_CLOSE</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="cm">/* if we are the last writer on the inode, drop the block reservation */</span>
+	<span class="k">if</span> <span class="p">((</span><span class="n">filp</span><span class="o">-&gt;</span><span class="n">f_mode</span> <span class="o">&amp;</span> <span class="n">FMODE_WRITE</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+			<span class="p">(</span><span class="n">atomic_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_writecount</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+		        <span class="o">!</span><span class="n">EXT4_I</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">i_reserved_data_blocks</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">down_write</span><span class="p">(</span><span class="o">&amp;</span><span class="n">EXT4_I</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">i_data_sem</span><span class="p">);</span>
+		<span class="n">ext4_discard_preallocations</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+		<span class="n">up_write</span><span class="p">(</span><span class="o">&amp;</span><span class="n">EXT4_I</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">i_data_sem</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">is_dx</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">filp</span><span class="o">-&gt;</span><span class="n">private_data</span><span class="p">)</span>
+		<span class="n">ext4_htree_free_dir_info</span><span class="p">(</span><span class="n">filp</span><span class="o">-&gt;</span><span class="n">private_data</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">ext4_unwritten_wait</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">wait_queue_head_t</span> <span class="o">*</span><span class="n">wq</span> <span class="o">=</span> <span class="n">ext4_ioend_wq</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+
+	<span class="n">wait_event</span><span class="p">(</span><span class="o">*</span><span class="n">wq</span><span class="p">,</span> <span class="p">(</span><span class="n">atomic_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">EXT4_I</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">i_unwritten</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * This tests whether the IO in question is block-aligned or not.</span>
+<span class="cm"> * Ext4 utilizes unwritten extents when hole-filling during direct IO, and they</span>
+<span class="cm"> * are converted to written only after the IO is complete.  Until they are</span>
+<span class="cm"> * mapped, these blocks appear as holes, so dio_zero_block() will assume that</span>
+<span class="cm"> * it needs to zero out portions of the start and/or end block.  If 2 AIO</span>
+<span class="cm"> * threads are at work on the same unwritten block, they must be synchronized</span>
+<span class="cm"> * or one thread will zero the other&#39;s data, causing corruption.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">int</span>
+<span class="nf">ext4_unaligned_aio</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">iov_iter</span> <span class="o">*</span><span class="n">from</span><span class="p">,</span> <span class="n">loff_t</span> <span class="n">pos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">super_block</span> <span class="o">*</span><span class="n">sb</span> <span class="o">=</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">blockmask</span> <span class="o">=</span> <span class="n">sb</span><span class="o">-&gt;</span><span class="n">s_blocksize</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">&gt;=</span> <span class="n">i_size_read</span><span class="p">(</span><span class="n">inode</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">pos</span> <span class="o">|</span> <span class="n">iov_iter_alignment</span><span class="p">(</span><span class="n">from</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">blockmask</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Is IO overwriting allocated and initialized blocks? */</span>
+<span class="k">static</span> <span class="n">bool</span> <span class="nf">ext4_overwrite_io</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="n">loff_t</span> <span class="n">pos</span><span class="p">,</span> <span class="n">loff_t</span> <span class="n">len</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">ext4_map_blocks</span> <span class="n">map</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">blkbits</span> <span class="o">=</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_blkbits</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">err</span><span class="p">,</span> <span class="n">blklen</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="n">len</span> <span class="o">&gt;</span> <span class="n">i_size_read</span><span class="p">(</span><span class="n">inode</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="n">map</span><span class="p">.</span><span class="n">m_lblk</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">&gt;&gt;</span> <span class="n">blkbits</span><span class="p">;</span>
+	<span class="n">map</span><span class="p">.</span><span class="n">m_len</span> <span class="o">=</span> <span class="n">EXT4_MAX_BLOCKS</span><span class="p">(</span><span class="n">len</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">blkbits</span><span class="p">);</span>
+	<span class="n">blklen</span> <span class="o">=</span> <span class="n">map</span><span class="p">.</span><span class="n">m_len</span><span class="p">;</span>
+
+	<span class="n">err</span> <span class="o">=</span> <span class="n">ext4_map_blocks</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">inode</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">map</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * &#39;err==len&#39; means that all of the blocks have been preallocated,</span>
+<span class="cm">	 * regardless of whether they have been initialized or not. To exclude</span>
+<span class="cm">	 * unwritten extents, we need to check m_flags.</span>
+<span class="cm">	 */</span>
+	<span class="k">return</span> <span class="n">err</span> <span class="o">==</span> <span class="n">blklen</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">map</span><span class="p">.</span><span class="n">m_flags</span> <span class="o">&amp;</span> <span class="n">EXT4_MAP_MAPPED</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">ssize_t</span> <span class="nf">ext4_write_checks</span><span class="p">(</span><span class="k">struct</span> <span class="n">kiocb</span> <span class="o">*</span><span class="n">iocb</span><span class="p">,</span> <span class="k">struct</span> <span class="n">iov_iter</span> <span class="o">*</span><span class="n">from</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file_inode</span><span class="p">(</span><span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_filp</span><span class="p">);</span>
+	<span class="n">ssize_t</span> <span class="n">ret</span><span class="p">;</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">generic_write_checks</span><span class="p">(</span><span class="n">iocb</span><span class="p">,</span> <span class="n">from</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * If we have encountered a bitmap-format file, the size limit</span>
+<span class="cm">	 * is smaller than s_maxbytes, which is for extent-mapped files.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">ext4_test_inode_flag</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">EXT4_INODE_EXTENTS</span><span class="p">)))</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">ext4_sb_info</span> <span class="o">*</span><span class="n">sbi</span> <span class="o">=</span> <span class="n">EXT4_SB</span><span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="p">);</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_pos</span> <span class="o">&gt;=</span> <span class="n">sbi</span><span class="o">-&gt;</span><span class="n">s_bitmap_maxbytes</span><span class="p">)</span>
+			<span class="k">return</span> <span class="o">-</span><span class="n">EFBIG</span><span class="p">;</span>
+		<span class="n">iov_iter_truncate</span><span class="p">(</span><span class="n">from</span><span class="p">,</span> <span class="n">sbi</span><span class="o">-&gt;</span><span class="n">s_bitmap_maxbytes</span> <span class="o">-</span> <span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_pos</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">iov_iter_count</span><span class="p">(</span><span class="n">from</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cp">#ifdef CONFIG_FS_DAX</span>
+<span class="k">static</span> <span class="n">ssize_t</span>
+<span class="nf">ext4_dax_write_iter</span><span class="p">(</span><span class="k">struct</span> <span class="n">kiocb</span> <span class="o">*</span><span class="n">iocb</span><span class="p">,</span> <span class="k">struct</span> <span class="n">iov_iter</span> <span class="o">*</span><span class="n">from</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file_inode</span><span class="p">(</span><span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_filp</span><span class="p">);</span>
+	<span class="n">ssize_t</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">overwrite</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="n">inode_lock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">ext4_write_checks</span><span class="p">(</span><span class="n">iocb</span><span class="p">,</span> <span class="n">from</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">file_remove_privs</span><span class="p">(</span><span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_filp</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">file_update_time</span><span class="p">(</span><span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_filp</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">ext4_overwrite_io</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_pos</span><span class="p">,</span> <span class="n">iov_iter_count</span><span class="p">(</span><span class="n">from</span><span class="p">)))</span> <span class="p">{</span>
+		<span class="n">overwrite</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+		<span class="n">downgrade_write</span><span class="p">(</span><span class="o">&amp;</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_rwsem</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">dax_iomap_rw</span><span class="p">(</span><span class="n">iocb</span><span class="p">,</span> <span class="n">from</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ext4_iomap_ops</span><span class="p">);</span>
+<span class="nl">out</span><span class="p">:</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">overwrite</span><span class="p">)</span>
+		<span class="n">inode_unlock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">inode_unlock_shared</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">generic_write_sync</span><span class="p">(</span><span class="n">iocb</span><span class="p">,</span> <span class="n">ret</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="k">static</span> <span class="n">ssize_t</span>
+<span class="nf">ext4_file_write_iter</span><span class="p">(</span><span class="k">struct</span> <span class="n">kiocb</span> <span class="o">*</span><span class="n">iocb</span><span class="p">,</span> <span class="k">struct</span> <span class="n">iov_iter</span> <span class="o">*</span><span class="n">from</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file_inode</span><span class="p">(</span><span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_filp</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">o_direct</span> <span class="o">=</span> <span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_flags</span> <span class="o">&amp;</span> <span class="n">IOCB_DIRECT</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">unaligned_aio</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">overwrite</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">ssize_t</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="cp">#ifdef CONFIG_FS_DAX</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">IS_DAX</span><span class="p">(</span><span class="n">inode</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">ext4_dax_write_iter</span><span class="p">(</span><span class="n">iocb</span><span class="p">,</span> <span class="n">from</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+	<span class="n">inode_lock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">ext4_write_checks</span><span class="p">(</span><span class="n">iocb</span><span class="p">,</span> <span class="n">from</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * Unaligned direct AIO must be serialized among each other as zeroing</span>
+<span class="cm">	 * of partial blocks of two competing unaligned AIOs can result in data</span>
+<span class="cm">	 * corruption.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">o_direct</span> <span class="o">&amp;&amp;</span> <span class="n">ext4_test_inode_flag</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">EXT4_INODE_EXTENTS</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+	    <span class="o">!</span><span class="n">is_sync_kiocb</span><span class="p">(</span><span class="n">iocb</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+	    <span class="n">ext4_unaligned_aio</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">from</span><span class="p">,</span> <span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_pos</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">unaligned_aio</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="n">ext4_unwritten_wait</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">iocb</span><span class="o">-&gt;</span><span class="n">private</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">overwrite</span><span class="p">;</span>
+	<span class="cm">/* Check whether we do a DIO overwrite or not */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">o_direct</span> <span class="o">&amp;&amp;</span> <span class="n">ext4_should_dioread_nolock</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">unaligned_aio</span> <span class="o">&amp;&amp;</span>
+	    <span class="n">ext4_overwrite_io</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">iocb</span><span class="o">-&gt;</span><span class="n">ki_pos</span><span class="p">,</span> <span class="n">iov_iter_count</span><span class="p">(</span><span class="n">from</span><span class="p">)))</span>
+		<span class="n">overwrite</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">__generic_file_write_iter</span><span class="p">(</span><span class="n">iocb</span><span class="p">,</span> <span class="n">from</span><span class="p">);</span>
+	<span class="n">inode_unlock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">generic_write_sync</span><span class="p">(</span><span class="n">iocb</span><span class="p">,</span> <span class="n">ret</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="nl">out</span><span class="p">:</span>
+	<span class="n">inode_unlock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#ifdef CONFIG_FS_DAX</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">ext4_dax_fault</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span> <span class="k">struct</span> <span class="n">vm_fault</span> <span class="o">*</span><span class="n">vmf</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">result</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file_inode</span><span class="p">(</span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_file</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">super_block</span> <span class="o">*</span><span class="n">sb</span> <span class="o">=</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">write</span> <span class="o">=</span> <span class="n">vmf</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">FAULT_FLAG_WRITE</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">write</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">sb_start_pagefault</span><span class="p">(</span><span class="n">sb</span><span class="p">);</span>
+		<span class="n">file_update_time</span><span class="p">(</span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_file</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">down_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">EXT4_I</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">i_mmap_sem</span><span class="p">);</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="n">dax_iomap_fault</span><span class="p">(</span><span class="n">vma</span><span class="p">,</span> <span class="n">vmf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ext4_iomap_ops</span><span class="p">);</span>
+	<span class="n">up_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">EXT4_I</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">i_mmap_sem</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">write</span><span class="p">)</span>
+		<span class="n">sb_end_pagefault</span><span class="p">(</span><span class="n">sb</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">ext4_dax_pmd_fault</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span>
+						<span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmd</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">result</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file_inode</span><span class="p">(</span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_file</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">super_block</span> <span class="o">*</span><span class="n">sb</span> <span class="o">=</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">write</span> <span class="o">=</span> <span class="n">flags</span> <span class="o">&amp;</span> <span class="n">FAULT_FLAG_WRITE</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">write</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">sb_start_pagefault</span><span class="p">(</span><span class="n">sb</span><span class="p">);</span>
+		<span class="n">file_update_time</span><span class="p">(</span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_file</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">down_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">EXT4_I</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">i_mmap_sem</span><span class="p">);</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="n">dax_iomap_pmd_fault</span><span class="p">(</span><span class="n">vma</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">pmd</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span>
+				     <span class="o">&amp;</span><span class="n">ext4_iomap_ops</span><span class="p">);</span>
+	<span class="n">up_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">EXT4_I</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">i_mmap_sem</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">write</span><span class="p">)</span>
+		<span class="n">sb_end_pagefault</span><span class="p">(</span><span class="n">sb</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Handle write fault for VM_MIXEDMAP mappings. Similarly to ext4_dax_fault()</span>
+<span class="cm"> * handler we check for races agaist truncate. Note that since we cycle through</span>
+<span class="cm"> * i_mmap_sem, we are sure that also any hole punching that began before we</span>
+<span class="cm"> * were called is finished by now and so if it included part of the file we</span>
+<span class="cm"> * are working on, our pte will get unmapped and the check for pte_same() in</span>
+<span class="cm"> * wp_pfn_shared() fails. Thus fault gets retried and things work out as</span>
+<span class="cm"> * desired.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">ext4_dax_pfn_mkwrite</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+				<span class="k">struct</span> <span class="n">vm_fault</span> <span class="o">*</span><span class="n">vmf</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file_inode</span><span class="p">(</span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_file</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">super_block</span> <span class="o">*</span><span class="n">sb</span> <span class="o">=</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="p">;</span>
+	<span class="n">loff_t</span> <span class="n">size</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+
+	<span class="n">sb_start_pagefault</span><span class="p">(</span><span class="n">sb</span><span class="p">);</span>
+	<span class="n">file_update_time</span><span class="p">(</span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_file</span><span class="p">);</span>
+	<span class="n">down_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">EXT4_I</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">i_mmap_sem</span><span class="p">);</span>
+	<span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">i_size_read</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span> <span class="o">+</span> <span class="n">PAGE_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">vmf</span><span class="o">-&gt;</span><span class="n">pgoff</span> <span class="o">&gt;=</span> <span class="n">size</span><span class="p">)</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">VM_FAULT_SIGBUS</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">dax_pfn_mkwrite</span><span class="p">(</span><span class="n">vma</span><span class="p">,</span> <span class="n">vmf</span><span class="p">);</span>
+	<span class="n">up_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">EXT4_I</span><span class="p">(</span><span class="n">inode</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">i_mmap_sem</span><span class="p">);</span>
+	<span class="n">sb_end_pagefault</span><span class="p">(</span><span class="n">sb</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">vm_operations_struct</span> <span class="n">ext4_dax_vm_ops</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">fault</span>		<span class="o">=</span> <span class="n">ext4_dax_fault</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">pmd_fault</span>	<span class="o">=</span> <span class="n">ext4_dax_pmd_fault</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">page_mkwrite</span>	<span class="o">=</span> <span class="n">ext4_dax_fault</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">pfn_mkwrite</span>	<span class="o">=</span> <span class="n">ext4_dax_pfn_mkwrite</span><span class="p">,</span>
+<span class="p">};</span>
+<span class="cp">#else</span>
+<span class="cp">#define ext4_dax_vm_ops	ext4_file_vm_ops</span>
+<span class="cp">#endif</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">vm_operations_struct</span> <span class="n">ext4_file_vm_ops</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">fault</span>		<span class="o">=</span> <span class="n">ext4_filemap_fault</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">map_pages</span>	<span class="o">=</span> <span class="n">filemap_map_pages</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">page_mkwrite</span>   <span class="o">=</span> <span class="n">ext4_page_mkwrite</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">ext4_file_mmap</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file</span><span class="o">-&gt;</span><span class="n">f_mapping</span><span class="o">-&gt;</span><span class="n">host</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">ext4_encrypted_inode</span><span class="p">(</span><span class="n">inode</span><span class="p">))</span> <span class="p">{</span>
+		<span class="kt">int</span> <span class="n">err</span> <span class="o">=</span> <span class="n">fscrypt_get_encryption_info</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">err</span><span class="p">)</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">fscrypt_has_encryption_key</span><span class="p">(</span><span class="n">inode</span><span class="p">))</span>
+			<span class="k">return</span> <span class="o">-</span><span class="n">ENOKEY</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">file_accessed</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">IS_DAX</span><span class="p">(</span><span class="n">file_inode</span><span class="p">(</span><span class="n">file</span><span class="p">)))</span> <span class="p">{</span>
+		<span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_ops</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ext4_dax_vm_ops</span><span class="p">;</span>
+		<span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_flags</span> <span class="o">|=</span> <span class="n">VM_MIXEDMAP</span> <span class="o">|</span> <span class="n">VM_HUGEPAGE</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_ops</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ext4_file_vm_ops</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">ext4_file_open</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span> <span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span> <span class="n">filp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">super_block</span> <span class="o">*</span><span class="n">sb</span> <span class="o">=</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ext4_sb_info</span> <span class="o">*</span><span class="n">sbi</span> <span class="o">=</span> <span class="n">EXT4_SB</span><span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">mnt</span> <span class="o">=</span> <span class="n">filp</span><span class="o">-&gt;</span><span class="n">f_path</span><span class="p">.</span><span class="n">mnt</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dir</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">path</span> <span class="n">path</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">64</span><span class="p">],</span> <span class="o">*</span><span class="n">cp</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">sbi</span><span class="o">-&gt;</span><span class="n">s_mount_flags</span> <span class="o">&amp;</span> <span class="n">EXT4_MF_MNTDIR_SAMPLED</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+		     <span class="o">!</span><span class="p">(</span><span class="n">sb</span><span class="o">-&gt;</span><span class="n">s_flags</span> <span class="o">&amp;</span> <span class="n">MS_RDONLY</span><span class="p">)))</span> <span class="p">{</span>
+		<span class="n">sbi</span><span class="o">-&gt;</span><span class="n">s_mount_flags</span> <span class="o">|=</span> <span class="n">EXT4_MF_MNTDIR_SAMPLED</span><span class="p">;</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * Sample where the filesystem has been mounted and</span>
+<span class="cm">		 * store it in the superblock for sysadmin convenience</span>
+<span class="cm">		 * when trying to sort through large numbers of block</span>
+<span class="cm">		 * devices or filesystem images.</span>
+<span class="cm">		 */</span>
+		<span class="n">memset</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">));</span>
+		<span class="n">path</span><span class="p">.</span><span class="n">mnt</span> <span class="o">=</span> <span class="n">mnt</span><span class="p">;</span>
+		<span class="n">path</span><span class="p">.</span><span class="n">dentry</span> <span class="o">=</span> <span class="n">mnt</span><span class="o">-&gt;</span><span class="n">mnt_root</span><span class="p">;</span>
+		<span class="n">cp</span> <span class="o">=</span> <span class="n">d_path</span><span class="p">(</span><span class="o">&amp;</span><span class="n">path</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">));</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">IS_ERR</span><span class="p">(</span><span class="n">cp</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">handle_t</span> <span class="o">*</span><span class="n">handle</span><span class="p">;</span>
+			<span class="kt">int</span> <span class="n">err</span><span class="p">;</span>
+
+			<span class="n">handle</span> <span class="o">=</span> <span class="n">ext4_journal_start_sb</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">EXT4_HT_MISC</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">IS_ERR</span><span class="p">(</span><span class="n">handle</span><span class="p">))</span>
+				<span class="k">return</span> <span class="n">PTR_ERR</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span>
+			<span class="n">BUFFER_TRACE</span><span class="p">(</span><span class="n">sbi</span><span class="o">-&gt;</span><span class="n">s_sbh</span><span class="p">,</span> <span class="s">&quot;get_write_access&quot;</span><span class="p">);</span>
+			<span class="n">err</span> <span class="o">=</span> <span class="n">ext4_journal_get_write_access</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">sbi</span><span class="o">-&gt;</span><span class="n">s_sbh</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">ext4_journal_stop</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span>
+				<span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">strlcpy</span><span class="p">(</span><span class="n">sbi</span><span class="o">-&gt;</span><span class="n">s_es</span><span class="o">-&gt;</span><span class="n">s_last_mounted</span><span class="p">,</span> <span class="n">cp</span><span class="p">,</span>
+				<span class="k">sizeof</span><span class="p">(</span><span class="n">sbi</span><span class="o">-&gt;</span><span class="n">s_es</span><span class="o">-&gt;</span><span class="n">s_last_mounted</span><span class="p">));</span>
+			<span class="n">ext4_handle_dirty_super</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">sb</span><span class="p">);</span>
+			<span class="n">ext4_journal_stop</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ext4_encrypted_inode</span><span class="p">(</span><span class="n">inode</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">fscrypt_get_encryption_info</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+			<span class="k">return</span> <span class="o">-</span><span class="n">EACCES</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">fscrypt_has_encryption_key</span><span class="p">(</span><span class="n">inode</span><span class="p">))</span>
+			<span class="k">return</span> <span class="o">-</span><span class="n">ENOKEY</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">dir</span> <span class="o">=</span> <span class="n">dget_parent</span><span class="p">(</span><span class="n">file_dentry</span><span class="p">(</span><span class="n">filp</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ext4_encrypted_inode</span><span class="p">(</span><span class="n">d_inode</span><span class="p">(</span><span class="n">dir</span><span class="p">))</span> <span class="o">&amp;&amp;</span>
+			<span class="o">!</span><span class="n">fscrypt_has_permitted_context</span><span class="p">(</span><span class="n">d_inode</span><span class="p">(</span><span class="n">dir</span><span class="p">),</span> <span class="n">inode</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">ext4_warning</span><span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="p">,</span>
+			     <span class="s">&quot;Inconsistent encryption contexts: %lu/%lu&quot;</span><span class="p">,</span>
+			     <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span> <span class="n">d_inode</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">i_ino</span><span class="p">,</span>
+			     <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_ino</span><span class="p">);</span>
+		<span class="n">dput</span><span class="p">(</span><span class="n">dir</span><span class="p">);</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EPERM</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">dput</span><span class="p">(</span><span class="n">dir</span><span class="p">);</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * Set up the jbd2_inode if we are opening the inode for</span>
+<span class="cm">	 * writing and the journal is present</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">filp</span><span class="o">-&gt;</span><span class="n">f_mode</span> <span class="o">&amp;</span> <span class="n">FMODE_WRITE</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">ext4_inode_attach_jinode</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+			<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">dquot_file_open</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">filp</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Here we use ext4_map_blocks() to get a block mapping for a extent-based</span>
+<span class="cm"> * file rather than ext4_ext_walk_space() because we can introduce</span>
+<span class="cm"> * SEEK_DATA/SEEK_HOLE for block-mapped and extent-mapped file at the same</span>
+<span class="cm"> * function.  When extent status tree has been fully implemented, it will</span>
+<span class="cm"> * track all extent status for a file and we can directly use it to</span>
+<span class="cm"> * retrieve the offset for SEEK_DATA/SEEK_HOLE.</span>
+<span class="cm"> */</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * When we retrieve the offset for SEEK_DATA/SEEK_HOLE, we would need to</span>
+<span class="cm"> * lookup page cache to check whether or not there has some data between</span>
+<span class="cm"> * [startoff, endoff] because, if this range contains an unwritten extent,</span>
+<span class="cm"> * we determine this extent as a data or a hole according to whether the</span>
+<span class="cm"> * page cache has data or not.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">ext4_find_unwritten_pgoff</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span>
+				     <span class="kt">int</span> <span class="n">whence</span><span class="p">,</span>
+				     <span class="n">ext4_lblk_t</span> <span class="n">end_blk</span><span class="p">,</span>
+				     <span class="n">loff_t</span> <span class="o">*</span><span class="n">offset</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">pagevec</span> <span class="n">pvec</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">blkbits</span><span class="p">;</span>
+	<span class="n">pgoff_t</span> <span class="n">index</span><span class="p">;</span>
+	<span class="n">pgoff_t</span> <span class="n">end</span><span class="p">;</span>
+	<span class="n">loff_t</span> <span class="n">endoff</span><span class="p">;</span>
+	<span class="n">loff_t</span> <span class="n">startoff</span><span class="p">;</span>
+	<span class="n">loff_t</span> <span class="n">lastoff</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">found</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">blkbits</span> <span class="o">=</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="o">-&gt;</span><span class="n">s_blocksize_bits</span><span class="p">;</span>
+	<span class="n">startoff</span> <span class="o">=</span> <span class="o">*</span><span class="n">offset</span><span class="p">;</span>
+	<span class="n">lastoff</span> <span class="o">=</span> <span class="n">startoff</span><span class="p">;</span>
+	<span class="n">endoff</span> <span class="o">=</span> <span class="p">(</span><span class="n">loff_t</span><span class="p">)</span><span class="n">end_blk</span> <span class="o">&lt;&lt;</span> <span class="n">blkbits</span><span class="p">;</span>
+
+	<span class="n">index</span> <span class="o">=</span> <span class="n">startoff</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+	<span class="n">end</span> <span class="o">=</span> <span class="n">endoff</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+
+	<span class="n">pagevec_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pvec</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">num</span><span class="p">;</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">nr_pages</span><span class="p">;</span>
+
+		<span class="n">num</span> <span class="o">=</span> <span class="n">min_t</span><span class="p">(</span><span class="n">pgoff_t</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">index</span><span class="p">,</span> <span class="n">PAGEVEC_SIZE</span><span class="p">);</span>
+		<span class="n">nr_pages</span> <span class="o">=</span> <span class="n">pagevec_lookup</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pvec</span><span class="p">,</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_mapping</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span>
+					  <span class="p">(</span><span class="n">pgoff_t</span><span class="p">)</span><span class="n">num</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">nr_pages</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">whence</span> <span class="o">==</span> <span class="n">SEEK_DATA</span><span class="p">)</span>
+				<span class="k">break</span><span class="p">;</span>
+
+			<span class="n">BUG_ON</span><span class="p">(</span><span class="n">whence</span> <span class="o">!=</span> <span class="n">SEEK_HOLE</span><span class="p">);</span>
+			<span class="cm">/*</span>
+<span class="cm">			 * If this is the first time to go into the loop and</span>
+<span class="cm">			 * offset is not beyond the end offset, it will be a</span>
+<span class="cm">			 * hole at this offset</span>
+<span class="cm">			 */</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">lastoff</span> <span class="o">==</span> <span class="n">startoff</span> <span class="o">||</span> <span class="n">lastoff</span> <span class="o">&lt;</span> <span class="n">endoff</span><span class="p">)</span>
+				<span class="n">found</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="cm">/*</span>
+<span class="cm">		 * If this is the first time to go into the loop and</span>
+<span class="cm">		 * offset is smaller than the first page offset, it will be a</span>
+<span class="cm">		 * hole at this offset.</span>
+<span class="cm">		 */</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">lastoff</span> <span class="o">==</span> <span class="n">startoff</span> <span class="o">&amp;&amp;</span> <span class="n">whence</span> <span class="o">==</span> <span class="n">SEEK_HOLE</span> <span class="o">&amp;&amp;</span>
+		    <span class="n">lastoff</span> <span class="o">&lt;</span> <span class="n">page_offset</span><span class="p">(</span><span class="n">pvec</span><span class="p">.</span><span class="n">pages</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="p">{</span>
+			<span class="n">found</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nr_pages</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="n">page</span> <span class="o">=</span> <span class="n">pvec</span><span class="p">.</span><span class="n">pages</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="k">struct</span> <span class="n">buffer_head</span> <span class="o">*</span><span class="n">bh</span><span class="p">,</span> <span class="o">*</span><span class="n">head</span><span class="p">;</span>
+
+			<span class="cm">/*</span>
+<span class="cm">			 * If the current offset is not beyond the end of given</span>
+<span class="cm">			 * range, it will be a hole.</span>
+<span class="cm">			 */</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">lastoff</span> <span class="o">&lt;</span> <span class="n">endoff</span> <span class="o">&amp;&amp;</span> <span class="n">whence</span> <span class="o">==</span> <span class="n">SEEK_HOLE</span> <span class="o">&amp;&amp;</span>
+			    <span class="n">page</span><span class="o">-&gt;</span><span class="n">index</span> <span class="o">&gt;</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">found</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+				<span class="o">*</span><span class="n">offset</span> <span class="o">=</span> <span class="n">lastoff</span><span class="p">;</span>
+				<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+			<span class="p">}</span>
+
+			<span class="n">lock_page</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">page</span><span class="o">-&gt;</span><span class="n">mapping</span> <span class="o">!=</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_mapping</span><span class="p">))</span> <span class="p">{</span>
+				<span class="n">unlock_page</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+				<span class="k">continue</span><span class="p">;</span>
+			<span class="p">}</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">page_has_buffers</span><span class="p">(</span><span class="n">page</span><span class="p">))</span> <span class="p">{</span>
+				<span class="n">unlock_page</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+				<span class="k">continue</span><span class="p">;</span>
+			<span class="p">}</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">page_has_buffers</span><span class="p">(</span><span class="n">page</span><span class="p">))</span> <span class="p">{</span>
+				<span class="n">lastoff</span> <span class="o">=</span> <span class="n">page_offset</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+				<span class="n">bh</span> <span class="o">=</span> <span class="n">head</span> <span class="o">=</span> <span class="n">page_buffers</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+				<span class="k">do</span> <span class="p">{</span>
+					<span class="k">if</span> <span class="p">(</span><span class="n">buffer_uptodate</span><span class="p">(</span><span class="n">bh</span><span class="p">)</span> <span class="o">||</span>
+					    <span class="n">buffer_unwritten</span><span class="p">(</span><span class="n">bh</span><span class="p">))</span> <span class="p">{</span>
+						<span class="k">if</span> <span class="p">(</span><span class="n">whence</span> <span class="o">==</span> <span class="n">SEEK_DATA</span><span class="p">)</span>
+							<span class="n">found</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+					<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+						<span class="k">if</span> <span class="p">(</span><span class="n">whence</span> <span class="o">==</span> <span class="n">SEEK_HOLE</span><span class="p">)</span>
+							<span class="n">found</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+					<span class="p">}</span>
+					<span class="k">if</span> <span class="p">(</span><span class="n">found</span><span class="p">)</span> <span class="p">{</span>
+						<span class="o">*</span><span class="n">offset</span> <span class="o">=</span> <span class="n">max_t</span><span class="p">(</span><span class="n">loff_t</span><span class="p">,</span>
+							<span class="n">startoff</span><span class="p">,</span> <span class="n">lastoff</span><span class="p">);</span>
+						<span class="n">unlock_page</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+						<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+					<span class="p">}</span>
+					<span class="n">lastoff</span> <span class="o">+=</span> <span class="n">bh</span><span class="o">-&gt;</span><span class="n">b_size</span><span class="p">;</span>
+					<span class="n">bh</span> <span class="o">=</span> <span class="n">bh</span><span class="o">-&gt;</span><span class="n">b_this_page</span><span class="p">;</span>
+				<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">bh</span> <span class="o">!=</span> <span class="n">head</span><span class="p">);</span>
+			<span class="p">}</span>
+
+			<span class="n">lastoff</span> <span class="o">=</span> <span class="n">page_offset</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="o">+</span> <span class="n">PAGE_SIZE</span><span class="p">;</span>
+			<span class="n">unlock_page</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+		<span class="p">}</span>
+
+		<span class="cm">/*</span>
+<span class="cm">		 * The no. of pages is less than our desired, that would be a</span>
+<span class="cm">		 * hole in there.</span>
+<span class="cm">		 */</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">nr_pages</span> <span class="o">&lt;</span> <span class="n">num</span> <span class="o">&amp;&amp;</span> <span class="n">whence</span> <span class="o">==</span> <span class="n">SEEK_HOLE</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">found</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+			<span class="o">*</span><span class="n">offset</span> <span class="o">=</span> <span class="n">lastoff</span><span class="p">;</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="n">index</span> <span class="o">=</span> <span class="n">pvec</span><span class="p">.</span><span class="n">pages</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="n">pagevec_release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pvec</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">);</span>
+
+<span class="nl">out</span><span class="p">:</span>
+	<span class="n">pagevec_release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pvec</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">found</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * ext4_seek_data() retrieves the offset for SEEK_DATA.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="n">loff_t</span> <span class="nf">ext4_seek_data</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="n">loff_t</span> <span class="n">offset</span><span class="p">,</span> <span class="n">loff_t</span> <span class="n">maxsize</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file</span><span class="o">-&gt;</span><span class="n">f_mapping</span><span class="o">-&gt;</span><span class="n">host</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">extent_status</span> <span class="n">es</span><span class="p">;</span>
+	<span class="n">ext4_lblk_t</span> <span class="n">start</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="n">end</span><span class="p">;</span>
+	<span class="n">loff_t</span> <span class="n">dataoff</span><span class="p">,</span> <span class="n">isize</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">blkbits</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+
+	<span class="n">inode_lock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+
+	<span class="n">isize</span> <span class="o">=</span> <span class="n">i_size_read</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">offset</span> <span class="o">&gt;=</span> <span class="n">isize</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">inode_unlock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENXIO</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">blkbits</span> <span class="o">=</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="o">-&gt;</span><span class="n">s_blocksize_bits</span><span class="p">;</span>
+	<span class="n">start</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">&gt;&gt;</span> <span class="n">blkbits</span><span class="p">;</span>
+	<span class="n">last</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span>
+	<span class="n">end</span> <span class="o">=</span> <span class="n">isize</span> <span class="o">&gt;&gt;</span> <span class="n">blkbits</span><span class="p">;</span>
+	<span class="n">dataoff</span> <span class="o">=</span> <span class="n">offset</span><span class="p">;</span>
+
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">ext4_get_next_extent</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">last</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">es</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="cm">/* No extent found -&gt; no data */</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+				<span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENXIO</span><span class="p">;</span>
+			<span class="n">inode_unlock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+			<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="n">last</span> <span class="o">=</span> <span class="n">es</span><span class="p">.</span><span class="n">es_lblk</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">last</span> <span class="o">!=</span> <span class="n">start</span><span class="p">)</span>
+			<span class="n">dataoff</span> <span class="o">=</span> <span class="p">(</span><span class="n">loff_t</span><span class="p">)</span><span class="n">last</span> <span class="o">&lt;&lt;</span> <span class="n">blkbits</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ext4_es_is_unwritten</span><span class="p">(</span><span class="o">&amp;</span><span class="n">es</span><span class="p">))</span>
+			<span class="k">break</span><span class="p">;</span>
+
+		<span class="cm">/*</span>
+<span class="cm">		 * If there is a unwritten extent at this offset,</span>
+<span class="cm">		 * it will be as a data or a hole according to page</span>
+<span class="cm">		 * cache that has data or not.</span>
+<span class="cm">		 */</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ext4_find_unwritten_pgoff</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">SEEK_DATA</span><span class="p">,</span>
+					      <span class="n">es</span><span class="p">.</span><span class="n">es_lblk</span> <span class="o">+</span> <span class="n">es</span><span class="p">.</span><span class="n">es_len</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dataoff</span><span class="p">))</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="n">last</span> <span class="o">+=</span> <span class="n">es</span><span class="p">.</span><span class="n">es_len</span><span class="p">;</span>
+		<span class="n">dataoff</span> <span class="o">=</span> <span class="p">(</span><span class="n">loff_t</span><span class="p">)</span><span class="n">last</span> <span class="o">&lt;&lt;</span> <span class="n">blkbits</span><span class="p">;</span>
+		<span class="n">cond_resched</span><span class="p">();</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">last</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">);</span>
+
+	<span class="n">inode_unlock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">dataoff</span> <span class="o">&gt;</span> <span class="n">isize</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENXIO</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">vfs_setpos</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">dataoff</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * ext4_seek_hole() retrieves the offset for SEEK_HOLE.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="n">loff_t</span> <span class="nf">ext4_seek_hole</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="n">loff_t</span> <span class="n">offset</span><span class="p">,</span> <span class="n">loff_t</span> <span class="n">maxsize</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file</span><span class="o">-&gt;</span><span class="n">f_mapping</span><span class="o">-&gt;</span><span class="n">host</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">extent_status</span> <span class="n">es</span><span class="p">;</span>
+	<span class="n">ext4_lblk_t</span> <span class="n">start</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="n">end</span><span class="p">;</span>
+	<span class="n">loff_t</span> <span class="n">holeoff</span><span class="p">,</span> <span class="n">isize</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">blkbits</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+
+	<span class="n">inode_lock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+
+	<span class="n">isize</span> <span class="o">=</span> <span class="n">i_size_read</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">offset</span> <span class="o">&gt;=</span> <span class="n">isize</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">inode_unlock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENXIO</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">blkbits</span> <span class="o">=</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="o">-&gt;</span><span class="n">s_blocksize_bits</span><span class="p">;</span>
+	<span class="n">start</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">&gt;&gt;</span> <span class="n">blkbits</span><span class="p">;</span>
+	<span class="n">last</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span>
+	<span class="n">end</span> <span class="o">=</span> <span class="n">isize</span> <span class="o">&gt;&gt;</span> <span class="n">blkbits</span><span class="p">;</span>
+	<span class="n">holeoff</span> <span class="o">=</span> <span class="n">offset</span><span class="p">;</span>
+
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">ext4_get_next_extent</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">last</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">es</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">inode_unlock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+			<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="cm">/* Found a hole? */</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">es</span><span class="p">.</span><span class="n">es_lblk</span> <span class="o">&gt;</span> <span class="n">last</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">last</span> <span class="o">!=</span> <span class="n">start</span><span class="p">)</span>
+				<span class="n">holeoff</span> <span class="o">=</span> <span class="p">(</span><span class="n">loff_t</span><span class="p">)</span><span class="n">last</span> <span class="o">&lt;&lt;</span> <span class="n">blkbits</span><span class="p">;</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * If there is a unwritten extent at this offset,</span>
+<span class="cm">		 * it will be as a data or a hole according to page</span>
+<span class="cm">		 * cache that has data or not.</span>
+<span class="cm">		 */</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ext4_es_is_unwritten</span><span class="p">(</span><span class="o">&amp;</span><span class="n">es</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+		    <span class="n">ext4_find_unwritten_pgoff</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">SEEK_HOLE</span><span class="p">,</span>
+					      <span class="n">last</span> <span class="o">+</span> <span class="n">es</span><span class="p">.</span><span class="n">es_len</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">holeoff</span><span class="p">))</span>
+			<span class="k">break</span><span class="p">;</span>
+
+		<span class="n">last</span> <span class="o">+=</span> <span class="n">es</span><span class="p">.</span><span class="n">es_len</span><span class="p">;</span>
+		<span class="n">holeoff</span> <span class="o">=</span> <span class="p">(</span><span class="n">loff_t</span><span class="p">)</span><span class="n">last</span> <span class="o">&lt;&lt;</span> <span class="n">blkbits</span><span class="p">;</span>
+		<span class="n">cond_resched</span><span class="p">();</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">last</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">);</span>
+
+	<span class="n">inode_unlock</span><span class="p">(</span><span class="n">inode</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">holeoff</span> <span class="o">&gt;</span> <span class="n">isize</span><span class="p">)</span>
+		<span class="n">holeoff</span> <span class="o">=</span> <span class="n">isize</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">vfs_setpos</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">holeoff</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * ext4_llseek() handles both block-mapped and extent-mapped maxbytes values</span>
+<span class="cm"> * by calling generic_file_llseek_size() with the appropriate maxbytes</span>
+<span class="cm"> * value for each.</span>
+<span class="cm"> */</span>
+<span class="n">loff_t</span> <span class="nf">ext4_llseek</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="n">loff_t</span> <span class="n">offset</span><span class="p">,</span> <span class="kt">int</span> <span class="n">whence</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span> <span class="o">=</span> <span class="n">file</span><span class="o">-&gt;</span><span class="n">f_mapping</span><span class="o">-&gt;</span><span class="n">host</span><span class="p">;</span>
+	<span class="n">loff_t</span> <span class="n">maxbytes</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">ext4_test_inode_flag</span><span class="p">(</span><span class="n">inode</span><span class="p">,</span> <span class="n">EXT4_INODE_EXTENTS</span><span class="p">)))</span>
+		<span class="n">maxbytes</span> <span class="o">=</span> <span class="n">EXT4_SB</span><span class="p">(</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">s_bitmap_maxbytes</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">maxbytes</span> <span class="o">=</span> <span class="n">inode</span><span class="o">-&gt;</span><span class="n">i_sb</span><span class="o">-&gt;</span><span class="n">s_maxbytes</span><span class="p">;</span>
+
+	<span class="k">switch</span> <span class="p">(</span><span class="n">whence</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="nl">SEEK_SET</span><span class="p">:</span>
+	<span class="k">case</span> <span class="nl">SEEK_CUR</span><span class="p">:</span>
+	<span class="k">case</span> <span class="nl">SEEK_END</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">generic_file_llseek_size</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">whence</span><span class="p">,</span>
+						<span class="n">maxbytes</span><span class="p">,</span> <span class="n">i_size_read</span><span class="p">(</span><span class="n">inode</span><span class="p">));</span>
+	<span class="k">case</span> <span class="nl">SEEK_DATA</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">ext4_seek_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">maxbytes</span><span class="p">);</span>
+	<span class="k">case</span> <span class="nl">SEEK_HOLE</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">ext4_seek_hole</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">maxbytes</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">const</span> <span class="k">struct</span> <span class="n">file_operations</span> <span class="n">ext4_file_operations</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">llseek</span>		<span class="o">=</span> <span class="n">ext4_llseek</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">read_iter</span>	<span class="o">=</span> <span class="n">ext4_file_read_iter</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">write_iter</span>	<span class="o">=</span> <span class="n">ext4_file_write_iter</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">unlocked_ioctl</span> <span class="o">=</span> <span class="n">ext4_ioctl</span><span class="p">,</span>
+<span class="cp">#ifdef CONFIG_COMPAT</span>
+	<span class="p">.</span><span class="n">compat_ioctl</span>	<span class="o">=</span> <span class="n">ext4_compat_ioctl</span><span class="p">,</span>
+<span class="cp">#endif</span>
+	<span class="p">.</span><span class="n">mmap</span>		<span class="o">=</span> <span class="n">ext4_file_mmap</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">open</span>		<span class="o">=</span> <span class="n">ext4_file_open</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">release</span>	<span class="o">=</span> <span class="n">ext4_release_file</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">fsync</span>		<span class="o">=</span> <span class="n">ext4_sync_file</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">get_unmapped_area</span> <span class="o">=</span> <span class="n">thp_get_unmapped_area</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">splice_read</span>	<span class="o">=</span> <span class="n">generic_file_splice_read</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">splice_write</span>	<span class="o">=</span> <span class="n">iter_file_splice_write</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">fallocate</span>	<span class="o">=</span> <span class="n">ext4_fallocate</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">const</span> <span class="k">struct</span> <span class="n">inode_operations</span> <span class="n">ext4_file_inode_operations</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">setattr</span>	<span class="o">=</span> <span class="n">ext4_setattr</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">getattr</span>	<span class="o">=</span> <span class="n">ext4_getattr</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">listxattr</span>	<span class="o">=</span> <span class="n">ext4_listxattr</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">get_acl</span>	<span class="o">=</span> <span class="n">ext4_get_acl</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">set_acl</span>	<span class="o">=</span> <span class="n">ext4_set_acl</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">fiemap</span>		<span class="o">=</span> <span class="n">ext4_fiemap</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

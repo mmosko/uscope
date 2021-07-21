@@ -1,0 +1,35 @@
+<html>
+Compartment 1<br />
+ Prev<a href='A5e-07_2.html'> Next</a>
+<br /><br />
+<strong> Compartment 1 is 2736 bytes and has 9 functions:</strong><br />
+1. <a href='javascript:void(0)' onclick="parent.setColors(18,[1,2,8,9,10,14],[[],[],[1,2,3,9,10,14],[1,2,3,4,7,8,9,10,13,14,17,18],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/namei.c.html#L2929'">fs/ext4/namei.c:ext4_rmdir</a> (656 bytes)<br />
+2. <a href='javascript:void(0)' onclick="parent.setColors(18,[1,2,8,9,10,14],[[],[],[1,2,3,9,10,14],[1,2,3,4,7,8,9,10,13,14,17,18],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/namei.c.html#L3002'">fs/ext4/namei.c:ext4_unlink</a> (704 bytes)<br />
+3. <a href='javascript:void(0)' onclick="parent.setColors(18,[9,11,18],[[],[],[1,2,3,9,10,14],[1,2,3,4,7,8,9,10,13,14,17,18],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/inode.c.html#L296'">fs/inode.c:clear_nlink</a> (48 bytes)<br />
+4. <a href='javascript:void(0)' onclick="parent.setColors(18,[9,12,15,18],[[],[],[1,2,3,9,10,14],[1,2,3,4,7,8,9,10,13,14,17,18],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/inode.c.html#L279'">fs/inode.c:drop_nlink</a> (80 bytes)<br />
+5. <a href='javascript:void(0)' onclick="parent.setColors(18,[8,9,12,15,16,17,18],[[],[],[1,2,3,9,10,14],[1,2,3,4,7,8,9,10,13,14,17,18],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/namei.c.html#L2734'">fs/namei.c:may_delete</a> (384 bytes)<br />
+6. <a href='javascript:void(0)' onclick="parent.setColors(18,[3,4,7,8,9,12,18],[[],[],[1,2,3,9,10,14],[1,2,3,4,7,8,9,10,13,14,17,18],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/namei.c.html#L3774'">fs/namei.c:vfs_rmdir</a> (288 bytes)<br />
+7. <a href='javascript:void(0)' onclick="parent.setColors(18,[3,5,6,7,8,9,12,13,15,18],[[],[],[1,2,3,9,10,14],[1,2,3,4,7,8,9,10,13,14,17,18],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/namei.c.html#L3895'">fs/namei.c:vfs_unlink</a> (384 bytes)<br />
+8. <a href='javascript:void(0)' onclick="parent.setColors(18,[8,9,12,18],[[],[],[1,2,3,9,10,14],[1,2,3,4,7,8,9,10,13,14,17,18],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/security/security.c.html#L556'">security/security.c:security_inode_rmdir</a> (96 bytes)<br />
+9. <a href='javascript:void(0)' onclick="parent.setColors(18,[8,9,12,15,18],[[],[],[1,2,3,9,10,14],[1,2,3,4,7,8,9,10,13,14,17,18],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/security/security.c.html#L533'">security/security.c:security_inode_unlink</a> (96 bytes)<br />
+<br /><br />
+<strong> Compartment 1 accesses 18 objects:</strong><br />
+<span id='obj1'>1. ALLOC_PAGES alloc from fs/buffer.c:__find_get_block <br /></span>
+<span id='obj2'>2. ALLOC_PAGES alloc from mm/filemap.c:generic_file_read_iter <br /></span>
+<span id='obj3'>3. Global var ext4_dir_inode_operations <br /></span>
+<span id='obj4'>4. Global var kernfs_dir_iops <br /></span>
+<span id='obj5'>5. Global var mqueue_dir_inode_operations <br /></span>
+<span id='obj6'>6. Global var ovl_dir_inode_operations <br /></span>
+<span id='obj7'>7. Global var shmem_dir_inode_operations <br /></span>
+<span id='obj8'>8. KMEM_CACHE alloc from fs/dcache.c:__d_alloc <br /></span>
+<span id='obj9'>9. KMEM_CACHE alloc from fs/ext4/super.c:ext4_alloc_inode <br /></span>
+<span id='obj10'>10. KMEM_CACHE alloc from fs/ext4/super.c:ext4_fill_super <br /></span>
+<span id='obj11'>11. KMEM_CACHE alloc from fs/hugetlbfs/inode.c:hugetlbfs_alloc_inode <br /></span>
+<span id='obj12'>12. KMEM_CACHE alloc from fs/inode.c:alloc_inode <br /></span>
+<span id='obj13'>13. KMEM_CACHE alloc from fs/locks.c:locks_get_lock_context <br /></span>
+<span id='obj14'>14. KMEM_CACHE alloc from fs/super.c:sget_userns <br /></span>
+<span id='obj15'>15. KMEM_CACHE alloc from ipc/mqueue.c:mqueue_alloc_inode <br /></span>
+<span id='obj16'>16. KMEM_CACHE alloc from kernel/cred.c:prepare_creds <br /></span>
+<span id='obj17'>17. KMEM_CACHE alloc from kernel/fork.c:copy_process <br /></span>
+<span id='obj18'>18. KMEM_CACHE alloc from mm/shmem.c:shmem_alloc_inode <br /></span>
+</body></html>

@@ -1,0 +1,1266 @@
+lib/string_helpers.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L390">390</a>
+<a name="L391" id="L391" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L391">391</a>
+<a name="L392" id="L392" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L392">392</a>
+<a name="L393" id="L393" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L393">393</a>
+<a name="L394" id="L394" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L394">394</a>
+<a name="L395" id="L395" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L395">395</a>
+<a name="L396" id="L396" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L396">396</a>
+<a name="L397" id="L397" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L397">397</a>
+<a name="L398" id="L398" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L398">398</a>
+<a name="L399" id="L399" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L399">399</a>
+<a name="L400" id="L400" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L400">400</a>
+<a name="L401" id="L401" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L401">401</a>
+<a name="L402" id="L402" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L402">402</a>
+<a name="L403" id="L403" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L403">403</a>
+<a name="L404" id="L404" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L404">404</a>
+<a name="L405" id="L405" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L405">405</a>
+<a name="L406" id="L406" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L406">406</a>
+<a name="L407" id="L407" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L407">407</a>
+<a name="L408" id="L408" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L408">408</a>
+<a name="L409" id="L409" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L409">409</a>
+<a name="L410" id="L410" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L410">410</a>
+<a name="L411" id="L411" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L411">411</a>
+<a name="L412" id="L412" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L412">412</a>
+<a name="L413" id="L413" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L413">413</a>
+<a name="L414" id="L414" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L414">414</a>
+<a name="L415" id="L415" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L415">415</a>
+<a name="L416" id="L416" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L416">416</a>
+<a name="L417" id="L417" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L417">417</a>
+<a name="L418" id="L418" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L418">418</a>
+<a name="L419" id="L419" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L419">419</a>
+<a name="L420" id="L420" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L420">420</a>
+<a name="L421" id="L421" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L421">421</a>
+<a name="L422" id="L422" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L422">422</a>
+<a name="L423" id="L423" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L423">423</a>
+<a name="L424" id="L424" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L424">424</a>
+<a name="L425" id="L425" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L425">425</a>
+<a name="L426" id="L426" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L426">426</a>
+<a name="L427" id="L427" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L427">427</a>
+<a name="L428" id="L428" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L428">428</a>
+<a name="L429" id="L429" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L429">429</a>
+<a name="L430" id="L430" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L430">430</a>
+<a name="L431" id="L431" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L431">431</a>
+<a name="L432" id="L432" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L432">432</a>
+<a name="L433" id="L433" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L433">433</a>
+<a name="L434" id="L434" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L434">434</a>
+<a name="L435" id="L435" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L435">435</a>
+<a name="L436" id="L436" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L436">436</a>
+<a name="L437" id="L437" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L437">437</a>
+<a name="L438" id="L438" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L438">438</a>
+<a name="L439" id="L439" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L439">439</a>
+<a name="L440" id="L440" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L440">440</a>
+<a name="L441" id="L441" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L441">441</a>
+<a name="L442" id="L442" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L442">442</a>
+<a name="L443" id="L443" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L443">443</a>
+<a name="L444" id="L444" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L444">444</a>
+<a name="L445" id="L445" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L445">445</a>
+<a name="L446" id="L446" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L446">446</a>
+<a name="L447" id="L447" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L447">447</a>
+<a name="L448" id="L448" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L448">448</a>
+<a name="L449" id="L449" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L449">449</a>
+<a name="L450" id="L450" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L450">450</a>
+<a name="L451" id="L451" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L451">451</a>
+<a name="L452" id="L452" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L452">452</a>
+<a name="L453" id="L453" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L453">453</a>
+<a name="L454" id="L454" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L454">454</a>
+<a name="L455" id="L455" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L455">455</a>
+<a name="L456" id="L456" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L456">456</a>
+<a name="L457" id="L457" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L457">457</a>
+<a name="L458" id="L458" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L458">458</a>
+<a name="L459" id="L459" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L459">459</a>
+<a name="L460" id="L460" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L460">460</a>
+<a name="L461" id="L461" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L461">461</a>
+<a name="L462" id="L462" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L462">462</a>
+<a name="L463" id="L463" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L463">463</a>
+<a name="L464" id="L464" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L464">464</a>
+<a name="L465" id="L465" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L465">465</a>
+<a name="L466" id="L466" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L466">466</a>
+<a name="L467" id="L467" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L467">467</a>
+<a name="L468" id="L468" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L468">468</a>
+<a name="L469" id="L469" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L469">469</a>
+<a name="L470" id="L470" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L470">470</a>
+<a name="L471" id="L471" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L471">471</a>
+<a name="L472" id="L472" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L472">472</a>
+<a name="L473" id="L473" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L473">473</a>
+<a name="L474" id="L474" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L474">474</a>
+<a name="L475" id="L475" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L475">475</a>
+<a name="L476" id="L476" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L476">476</a>
+<a name="L477" id="L477" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L477">477</a>
+<a name="L478" id="L478" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L478">478</a>
+<a name="L479" id="L479" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L479">479</a>
+<a name="L480" id="L480" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L480">480</a>
+<a name="L481" id="L481" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L481">481</a>
+<a name="L482" id="L482" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L482">482</a>
+<a name="L483" id="L483" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L483">483</a>
+<a name="L484" id="L484" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L484">484</a>
+<a name="L485" id="L485" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L485">485</a>
+<a name="L486" id="L486" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L486">486</a>
+<a name="L487" id="L487" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L487">487</a>
+<a name="L488" id="L488" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L488">488</a>
+<a name="L489" id="L489" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L489">489</a>
+<a name="L490" id="L490" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L490">490</a>
+<a name="L491" id="L491" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L491">491</a>
+<a name="L492" id="L492" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L492">492</a>
+<a name="L493" id="L493" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L493">493</a>
+<a name="L494" id="L494" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L494">494</a>
+<a name="L495" id="L495" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L495">495</a>
+<a name="L496" id="L496" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L496">496</a>
+<a name="L497" id="L497" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L497">497</a>
+<a name="L498" id="L498" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L498">498</a>
+<a name="L499" id="L499" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L499">499</a>
+<a name="L500" id="L500" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L500">500</a>
+<a name="L501" id="L501" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L501">501</a>
+<a name="L502" id="L502" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L502">502</a>
+<a name="L503" id="L503" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L503">503</a>
+<a name="L504" id="L504" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L504">504</a>
+<a name="L505" id="L505" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L505">505</a>
+<a name="L506" id="L506" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L506">506</a>
+<a name="L507" id="L507" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L507">507</a>
+<a name="L508" id="L508" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L508">508</a>
+<a name="L509" id="L509" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L509">509</a>
+<a name="L510" id="L510" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L510">510</a>
+<a name="L511" id="L511" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L511">511</a>
+<a name="L512" id="L512" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L512">512</a>
+<a name="L513" id="L513" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L513">513</a>
+<a name="L514" id="L514" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L514">514</a>
+<a name="L515" id="L515" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L515">515</a>
+<a name="L516" id="L516" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L516">516</a>
+<a name="L517" id="L517" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L517">517</a>
+<a name="L518" id="L518" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L518">518</a>
+<a name="L519" id="L519" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L519">519</a>
+<a name="L520" id="L520" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L520">520</a>
+<a name="L521" id="L521" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L521">521</a>
+<a name="L522" id="L522" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L522">522</a>
+<a name="L523" id="L523" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L523">523</a>
+<a name="L524" id="L524" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L524">524</a>
+<a name="L525" id="L525" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L525">525</a>
+<a name="L526" id="L526" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L526">526</a>
+<a name="L527" id="L527" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L527">527</a>
+<a name="L528" id="L528" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L528">528</a>
+<a name="L529" id="L529" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L529">529</a>
+<a name="L530" id="L530" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L530">530</a>
+<a name="L531" id="L531" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L531">531</a>
+<a name="L532" id="L532" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L532">532</a>
+<a name="L533" id="L533" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L533">533</a>
+<a name="L534" id="L534" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L534">534</a>
+<a name="L535" id="L535" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L535">535</a>
+<a name="L536" id="L536" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L536">536</a>
+<a name="L537" id="L537" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L537">537</a>
+<a name="L538" id="L538" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L538">538</a>
+<a name="L539" id="L539" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L539">539</a>
+<a name="L540" id="L540" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L540">540</a>
+<a name="L541" id="L541" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L541">541</a>
+<a name="L542" id="L542" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L542">542</a>
+<a name="L543" id="L543" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L543">543</a>
+<a name="L544" id="L544" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L544">544</a>
+<a name="L545" id="L545" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L545">545</a>
+<a name="L546" id="L546" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L546">546</a>
+<a name="L547" id="L547" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L547">547</a>
+<a name="L548" id="L548" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L548">548</a>
+<a name="L549" id="L549" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L549">549</a>
+<a name="L550" id="L550" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L550">550</a>
+<a name="L551" id="L551" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L551">551</a>
+<a name="L552" id="L552" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L552">552</a>
+<a name="L553" id="L553" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L553">553</a>
+<a name="L554" id="L554" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L554">554</a>
+<a name="L555" id="L555" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L555">555</a>
+<a name="L556" id="L556" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L556">556</a>
+<a name="L557" id="L557" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L557">557</a>
+<a name="L558" id="L558" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L558">558</a>
+<a name="L559" id="L559" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L559">559</a>
+<a name="L560" id="L560" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L560">560</a>
+<a name="L561" id="L561" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L561">561</a>
+<a name="L562" id="L562" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L562">562</a>
+<a name="L563" id="L563" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L563">563</a>
+<a name="L564" id="L564" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L564">564</a>
+<a name="L565" id="L565" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L565">565</a>
+<a name="L566" id="L566" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L566">566</a>
+<a name="L567" id="L567" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L567">567</a>
+<a name="L568" id="L568" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L568">568</a>
+<a name="L569" id="L569" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L569">569</a>
+<a name="L570" id="L570" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L570">570</a>
+<a name="L571" id="L571" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L571">571</a>
+<a name="L572" id="L572" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L572">572</a>
+<a name="L573" id="L573" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L573">573</a>
+<a name="L574" id="L574" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L574">574</a>
+<a name="L575" id="L575" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L575">575</a>
+<a name="L576" id="L576" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L576">576</a>
+<a name="L577" id="L577" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L577">577</a>
+<a name="L578" id="L578" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L578">578</a>
+<a name="L579" id="L579" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L579">579</a>
+<a name="L580" id="L580" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L580">580</a>
+<a name="L581" id="L581" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L581">581</a>
+<a name="L582" id="L582" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L582">582</a>
+<a name="L583" id="L583" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L583">583</a>
+<a name="L584" id="L584" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L584">584</a>
+<a name="L585" id="L585" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L585">585</a>
+<a name="L586" id="L586" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L586">586</a>
+<a name="L587" id="L587" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L587">587</a>
+<a name="L588" id="L588" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L588">588</a>
+<a name="L589" id="L589" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L589">589</a>
+<a name="L590" id="L590" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L590">590</a>
+<a name="L591" id="L591" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L591">591</a>
+<a name="L592" id="L592" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L592">592</a>
+<a name="L593" id="L593" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L593">593</a>
+<a name="L594" id="L594" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L594">594</a>
+<a name="L595" id="L595" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L595">595</a>
+<a name="L596" id="L596" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L596">596</a>
+<a name="L597" id="L597" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L597">597</a>
+<a name="L598" id="L598" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L598">598</a>
+<a name="L599" id="L599" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L599">599</a>
+<a name="L600" id="L600" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L600">600</a>
+<a name="L601" id="L601" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L601">601</a>
+<a name="L602" id="L602" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L602">602</a>
+<a name="L603" id="L603" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L603">603</a>
+<a name="L604" id="L604" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L604">604</a>
+<a name="L605" id="L605" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L605">605</a>
+<a name="L606" id="L606" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L606">606</a>
+<a name="L607" id="L607" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L607">607</a>
+<a name="L608" id="L608" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L608">608</a>
+<a name="L609" id="L609" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L609">609</a>
+<a name="L610" id="L610" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L610">610</a>
+<a name="L611" id="L611" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L611">611</a>
+<a name="L612" id="L612" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L612">612</a>
+<a name="L613" id="L613" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L613">613</a>
+<a name="L614" id="L614" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L614">614</a>
+<a name="L615" id="L615" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L615">615</a>
+<a name="L616" id="L616" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L616">616</a>
+<a name="L617" id="L617" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L617">617</a>
+<a name="L618" id="L618" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L618">618</a>
+<a name="L619" id="L619" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L619">619</a>
+<a name="L620" id="L620" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L620">620</a>
+<a name="L621" id="L621" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L621">621</a>
+<a name="L622" id="L622" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L622">622</a>
+<a name="L623" id="L623" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L623">623</a>
+<a name="L624" id="L624" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L624">624</a>
+<a name="L625" id="L625" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L625">625</a>
+<a name="L626" id="L626" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L626">626</a>
+<a name="L627" id="L627" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L627">627</a>
+<a name="L628" id="L628" href="https://uscope-linux.github.io/object_explorer/linux/lib/string_helpers.c#L628">628</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Helpers for formatting and printing strings</span>
+<span class="cm"> *</span>
+<span class="cm"> * Copyright 31 August 2008 James Bottomley</span>
+<span class="cm"> * Copyright (C) 2013, Intel Corporation</span>
+<span class="cm"> */</span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/bug.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/kernel.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/math64.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/export.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/ctype.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/errno.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/fs.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/limits.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/mm.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/slab.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/string.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/string_helpers.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/**</span>
+<span class="cm"> * string_get_size - get the size in the specified units</span>
+<span class="cm"> * @size:	The size to be converted in blocks</span>
+<span class="cm"> * @blk_size:	Size of the block (use 1 for size in bytes)</span>
+<span class="cm"> * @units:	units to use (powers of 1000 or 1024)</span>
+<span class="cm"> * @buf:	buffer to format to</span>
+<span class="cm"> * @len:	length of buffer</span>
+<span class="cm"> *</span>
+<span class="cm"> * This function returns a string formatted to 3 significant figures</span>
+<span class="cm"> * giving the size in the required units.  @buf should have room for</span>
+<span class="cm"> * at least 9 bytes and will always be zero terminated.</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">string_get_size</span><span class="p">(</span><span class="n">u64</span> <span class="n">size</span><span class="p">,</span> <span class="n">u64</span> <span class="n">blk_size</span><span class="p">,</span> <span class="k">const</span> <span class="k">enum</span> <span class="n">string_size_units</span> <span class="n">units</span><span class="p">,</span>
+		     <span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">units_10</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="s">&quot;B&quot;</span><span class="p">,</span> <span class="s">&quot;kB&quot;</span><span class="p">,</span> <span class="s">&quot;MB&quot;</span><span class="p">,</span> <span class="s">&quot;GB&quot;</span><span class="p">,</span> <span class="s">&quot;TB&quot;</span><span class="p">,</span> <span class="s">&quot;PB&quot;</span><span class="p">,</span> <span class="s">&quot;EB&quot;</span><span class="p">,</span> <span class="s">&quot;ZB&quot;</span><span class="p">,</span> <span class="s">&quot;YB&quot;</span>
+	<span class="p">};</span>
+	<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">units_2</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="s">&quot;B&quot;</span><span class="p">,</span> <span class="s">&quot;KiB&quot;</span><span class="p">,</span> <span class="s">&quot;MiB&quot;</span><span class="p">,</span> <span class="s">&quot;GiB&quot;</span><span class="p">,</span> <span class="s">&quot;TiB&quot;</span><span class="p">,</span> <span class="s">&quot;PiB&quot;</span><span class="p">,</span> <span class="s">&quot;EiB&quot;</span><span class="p">,</span> <span class="s">&quot;ZiB&quot;</span><span class="p">,</span> <span class="s">&quot;YiB&quot;</span>
+	<span class="p">};</span>
+	<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="o">*</span><span class="k">const</span> <span class="n">units_str</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="p">[</span><span class="n">STRING_UNITS_10</span><span class="p">]</span> <span class="o">=</span> <span class="n">units_10</span><span class="p">,</span>
+		<span class="p">[</span><span class="n">STRING_UNITS_2</span><span class="p">]</span> <span class="o">=</span> <span class="n">units_2</span><span class="p">,</span>
+	<span class="p">};</span>
+	<span class="k">static</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">divisor</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="p">[</span><span class="n">STRING_UNITS_10</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+		<span class="p">[</span><span class="n">STRING_UNITS_2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span>
+	<span class="p">};</span>
+	<span class="k">static</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">rounding</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">5</span> <span class="p">};</span>
+	<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">;</span>
+	<span class="n">u32</span> <span class="n">remainder</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sf_cap</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
+	<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">unit</span><span class="p">;</span>
+
+	<span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">blk_size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+
+	<span class="cm">/* This is Napier&#39;s algorithm.  Reduce the original block size to</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * coefficient * divisor[units]^i</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * we do the reduction so both coefficients are just under 32 bits so</span>
+<span class="cm">	 * that multiplying them together won&#39;t overflow 64 bits and we keep</span>
+<span class="cm">	 * as much precision as possible in the numbers.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * Note: it&#39;s safe to throw away the remainders here because all the</span>
+<span class="cm">	 * precision is in the coefficients.</span>
+<span class="cm">	 */</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">blk_size</span> <span class="o">&gt;&gt;</span> <span class="mi">32</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">do_div</span><span class="p">(</span><span class="n">blk_size</span><span class="p">,</span> <span class="n">divisor</span><span class="p">[</span><span class="n">units</span><span class="p">]);</span>
+		<span class="n">i</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">size</span> <span class="o">&gt;&gt;</span> <span class="mi">32</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">do_div</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">divisor</span><span class="p">[</span><span class="n">units</span><span class="p">]);</span>
+		<span class="n">i</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* now perform the actual multiplication keeping i as the sum of the</span>
+<span class="cm">	 * two logarithms */</span>
+	<span class="n">size</span> <span class="o">*=</span> <span class="n">blk_size</span><span class="p">;</span>
+
+	<span class="cm">/* and logarithmically reduce it until it&#39;s just under the divisor */</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">size</span> <span class="o">&gt;=</span> <span class="n">divisor</span><span class="p">[</span><span class="n">units</span><span class="p">])</span> <span class="p">{</span>
+		<span class="n">remainder</span> <span class="o">=</span> <span class="n">do_div</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">divisor</span><span class="p">[</span><span class="n">units</span><span class="p">]);</span>
+		<span class="n">i</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* work out in j how many digits of precision we need from the</span>
+<span class="cm">	 * remainder */</span>
+	<span class="n">sf_cap</span> <span class="o">=</span> <span class="n">size</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">sf_cap</span><span class="o">*</span><span class="mi">10</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">sf_cap</span> <span class="o">*=</span> <span class="mi">10</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">units</span> <span class="o">==</span> <span class="n">STRING_UNITS_2</span><span class="p">)</span> <span class="p">{</span>
+		<span class="cm">/* express the remainder as a decimal.  It&#39;s currently the</span>
+<span class="cm">		 * numerator of a fraction whose denominator is</span>
+<span class="cm">		 * divisor[units], which is 1 &lt;&lt; 10 for STRING_UNITS_2 */</span>
+		<span class="n">remainder</span> <span class="o">*=</span> <span class="mi">1000</span><span class="p">;</span>
+		<span class="n">remainder</span> <span class="o">&gt;&gt;=</span> <span class="mi">10</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* add a 5 to the digit below what will be printed to ensure</span>
+<span class="cm">	 * an arithmetical round up and carry it through to size */</span>
+	<span class="n">remainder</span> <span class="o">+=</span> <span class="n">rounding</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">remainder</span> <span class="o">&gt;=</span> <span class="mi">1000</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">remainder</span> <span class="o">-=</span> <span class="mi">1000</span><span class="p">;</span>
+		<span class="n">size</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">snprintf</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">tmp</span><span class="p">),</span> <span class="s">&quot;.%03u&quot;</span><span class="p">,</span> <span class="n">remainder</span><span class="p">);</span>
+		<span class="n">tmp</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+	<span class="p">}</span>
+
+ <span class="nl">out</span><span class="p">:</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="n">ARRAY_SIZE</span><span class="p">(</span><span class="n">units_2</span><span class="p">))</span>
+		<span class="n">unit</span> <span class="o">=</span> <span class="s">&quot;UNK&quot;</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">unit</span> <span class="o">=</span> <span class="n">units_str</span><span class="p">[</span><span class="n">units</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
+
+	<span class="n">snprintf</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="s">&quot;%u%s %s&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">u32</span><span class="p">)</span><span class="n">size</span><span class="p">,</span>
+		 <span class="n">tmp</span><span class="p">,</span> <span class="n">unit</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">string_get_size</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="n">bool</span> <span class="nf">unescape_space</span><span class="p">(</span><span class="kt">char</span> <span class="o">**</span><span class="n">src</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">dst</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="o">*</span><span class="n">q</span> <span class="o">=</span> <span class="o">*</span><span class="n">src</span><span class="p">;</span>
+
+	<span class="k">switch</span> <span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="sc">&#39;n&#39;</span><span class="o">:</span>
+		<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;r&#39;</span><span class="o">:</span>
+		<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="sc">&#39;\r&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;t&#39;</span><span class="o">:</span>
+		<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="sc">&#39;\t&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;v&#39;</span><span class="o">:</span>
+		<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="sc">&#39;\v&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;f&#39;</span><span class="o">:</span>
+		<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="sc">&#39;\f&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">default</span><span class="o">:</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="o">*</span><span class="n">dst</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">src</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">bool</span> <span class="nf">unescape_octal</span><span class="p">(</span><span class="kt">char</span> <span class="o">**</span><span class="n">src</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">dst</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="o">*</span><span class="n">q</span> <span class="o">=</span> <span class="o">*</span><span class="n">src</span><span class="p">;</span>
+	<span class="n">u8</span> <span class="n">num</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">isodigit</span><span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="o">++</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">7</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">num</span> <span class="o">&lt;</span> <span class="mi">32</span> <span class="o">&amp;&amp;</span> <span class="n">isodigit</span><span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">q</span> <span class="o">-</span> <span class="o">*</span><span class="n">src</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">num</span> <span class="o">&lt;&lt;=</span> <span class="mi">3</span><span class="p">;</span>
+		<span class="n">num</span> <span class="o">+=</span> <span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="o">++</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">7</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">dst</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="n">q</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">bool</span> <span class="nf">unescape_hex</span><span class="p">(</span><span class="kt">char</span> <span class="o">**</span><span class="n">src</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">dst</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="o">*</span><span class="n">q</span> <span class="o">=</span> <span class="o">*</span><span class="n">src</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">digit</span><span class="p">;</span>
+	<span class="n">u8</span> <span class="n">num</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="o">++</span> <span class="o">!=</span> <span class="sc">&#39;x&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="n">num</span> <span class="o">=</span> <span class="n">digit</span> <span class="o">=</span> <span class="n">hex_to_bin</span><span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="o">++</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">digit</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="n">digit</span> <span class="o">=</span> <span class="n">hex_to_bin</span><span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">digit</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">q</span><span class="o">++</span><span class="p">;</span>
+		<span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">num</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">|</span> <span class="n">digit</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">dst</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="n">q</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">bool</span> <span class="nf">unescape_special</span><span class="p">(</span><span class="kt">char</span> <span class="o">**</span><span class="n">src</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">dst</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="o">*</span><span class="n">q</span> <span class="o">=</span> <span class="o">*</span><span class="n">src</span><span class="p">;</span>
+
+	<span class="k">switch</span> <span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="sc">&#39;\&quot;&#39;</span><span class="o">:</span>
+		<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="sc">&#39;\&quot;&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;\\&#39;</span><span class="o">:</span>
+		<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="sc">&#39;\\&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;a&#39;</span><span class="o">:</span>
+		<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="sc">&#39;\a&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;e&#39;</span><span class="o">:</span>
+		<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="sc">&#39;\e&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">default</span><span class="o">:</span>
+		<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="o">*</span><span class="n">dst</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">src</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * string_unescape - unquote characters in the given string</span>
+<span class="cm"> * @src:	source buffer (escaped)</span>
+<span class="cm"> * @dst:	destination buffer (unescaped)</span>
+<span class="cm"> * @size:	size of the destination buffer (0 to unlimit)</span>
+<span class="cm"> * @flags:	combination of the flags (bitwise OR):</span>
+<span class="cm"> *	%UNESCAPE_SPACE:</span>
+<span class="cm"> *		&#39;\f&#39; - form feed</span>
+<span class="cm"> *		&#39;\n&#39; - new line</span>
+<span class="cm"> *		&#39;\r&#39; - carriage return</span>
+<span class="cm"> *		&#39;\t&#39; - horizontal tab</span>
+<span class="cm"> *		&#39;\v&#39; - vertical tab</span>
+<span class="cm"> *	%UNESCAPE_OCTAL:</span>
+<span class="cm"> *		&#39;\NNN&#39; - byte with octal value NNN (1 to 3 digits)</span>
+<span class="cm"> *	%UNESCAPE_HEX:</span>
+<span class="cm"> *		&#39;\xHH&#39; - byte with hexadecimal value HH (1 to 2 digits)</span>
+<span class="cm"> *	%UNESCAPE_SPECIAL:</span>
+<span class="cm"> *		&#39;\&quot;&#39; - double quote</span>
+<span class="cm"> *		&#39;\\&#39; - backslash</span>
+<span class="cm"> *		&#39;\a&#39; - alert (BEL)</span>
+<span class="cm"> *		&#39;\e&#39; - escape</span>
+<span class="cm"> *	%UNESCAPE_ANY:</span>
+<span class="cm"> *		all previous together</span>
+<span class="cm"> *</span>
+<span class="cm"> * Description:</span>
+<span class="cm"> * The function unquotes characters in the given string.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Because the size of the output will be the same as or less than the size of</span>
+<span class="cm"> * the input, the transformation may be performed in place.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Caller must provide valid source and destination pointers. Be aware that</span>
+<span class="cm"> * destination buffer will always be NULL-terminated. Source string must be</span>
+<span class="cm"> * NULL-terminated as well.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Return:</span>
+<span class="cm"> * The amount of the characters processed to the destination buffer excluding</span>
+<span class="cm"> * trailing &#39;\0&#39; is returned.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">string_unescape</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="n">dst</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">src</span> <span class="o">&amp;&amp;</span> <span class="o">--</span><span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">src</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;\\&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">src</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">&#39;\0&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">src</span><span class="o">++</span><span class="p">;</span>
+			<span class="n">size</span><span class="o">--</span><span class="p">;</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">UNESCAPE_SPACE</span> <span class="o">&amp;&amp;</span>
+					<span class="n">unescape_space</span><span class="p">(</span><span class="o">&amp;</span><span class="n">src</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">out</span><span class="p">))</span>
+				<span class="k">continue</span><span class="p">;</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">UNESCAPE_OCTAL</span> <span class="o">&amp;&amp;</span>
+					<span class="n">unescape_octal</span><span class="p">(</span><span class="o">&amp;</span><span class="n">src</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">out</span><span class="p">))</span>
+				<span class="k">continue</span><span class="p">;</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">UNESCAPE_HEX</span> <span class="o">&amp;&amp;</span>
+					<span class="n">unescape_hex</span><span class="p">(</span><span class="o">&amp;</span><span class="n">src</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">out</span><span class="p">))</span>
+				<span class="k">continue</span><span class="p">;</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">UNESCAPE_SPECIAL</span> <span class="o">&amp;&amp;</span>
+					<span class="n">unescape_special</span><span class="p">(</span><span class="o">&amp;</span><span class="n">src</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">out</span><span class="p">))</span>
+				<span class="k">continue</span><span class="p">;</span>
+
+			<span class="o">*</span><span class="n">out</span><span class="o">++</span> <span class="o">=</span> <span class="sc">&#39;\\&#39;</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="o">*</span><span class="n">out</span><span class="o">++</span> <span class="o">=</span> <span class="o">*</span><span class="n">src</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">out</span> <span class="o">-</span> <span class="n">dst</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">string_unescape</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="nf">escape_passthrough</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">c</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">dst</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="o">*</span><span class="n">dst</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">dst</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="nf">escape_space</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">c</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">dst</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="o">*</span><span class="n">dst</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">to</span><span class="p">;</span>
+
+	<span class="k">switch</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="sc">&#39;\n&#39;</span><span class="o">:</span>
+		<span class="n">to</span> <span class="o">=</span> <span class="sc">&#39;n&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;\r&#39;</span><span class="o">:</span>
+		<span class="n">to</span> <span class="o">=</span> <span class="sc">&#39;r&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;\t&#39;</span><span class="o">:</span>
+		<span class="n">to</span> <span class="o">=</span> <span class="sc">&#39;t&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;\v&#39;</span><span class="o">:</span>
+		<span class="n">to</span> <span class="o">=</span> <span class="sc">&#39;v&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;\f&#39;</span><span class="o">:</span>
+		<span class="n">to</span> <span class="o">=</span> <span class="sc">&#39;f&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">default</span><span class="o">:</span>
+		<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="sc">&#39;\\&#39;</span><span class="p">;</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="n">to</span><span class="p">;</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+
+	<span class="o">*</span><span class="n">dst</span> <span class="o">=</span> <span class="n">out</span><span class="p">;</span>
+	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="nf">escape_special</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">c</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">dst</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="o">*</span><span class="n">dst</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">to</span><span class="p">;</span>
+
+	<span class="k">switch</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="sc">&#39;\\&#39;</span><span class="o">:</span>
+		<span class="n">to</span> <span class="o">=</span> <span class="sc">&#39;\\&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;\a&#39;</span><span class="o">:</span>
+		<span class="n">to</span> <span class="o">=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">&#39;\e&#39;</span><span class="o">:</span>
+		<span class="n">to</span> <span class="o">=</span> <span class="sc">&#39;e&#39;</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">default</span><span class="o">:</span>
+		<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="sc">&#39;\\&#39;</span><span class="p">;</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="n">to</span><span class="p">;</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+
+	<span class="o">*</span><span class="n">dst</span> <span class="o">=</span> <span class="n">out</span><span class="p">;</span>
+	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="nf">escape_null</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">c</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">dst</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="o">*</span><span class="n">dst</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="sc">&#39;\\&#39;</span><span class="p">;</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="sc">&#39;0&#39;</span><span class="p">;</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+
+	<span class="o">*</span><span class="n">dst</span> <span class="o">=</span> <span class="n">out</span><span class="p">;</span>
+	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="nf">escape_octal</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">c</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">dst</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="o">*</span><span class="n">dst</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="sc">&#39;\\&#39;</span><span class="p">;</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span> <span class="o">&gt;&gt;</span> <span class="mi">6</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x07</span><span class="p">)</span> <span class="o">+</span> <span class="sc">&#39;0&#39;</span><span class="p">;</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span> <span class="o">&gt;&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x07</span><span class="p">)</span> <span class="o">+</span> <span class="sc">&#39;0&#39;</span><span class="p">;</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span> <span class="o">&gt;&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x07</span><span class="p">)</span> <span class="o">+</span> <span class="sc">&#39;0&#39;</span><span class="p">;</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+
+	<span class="o">*</span><span class="n">dst</span> <span class="o">=</span> <span class="n">out</span><span class="p">;</span>
+	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="nf">escape_hex</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">c</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">dst</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="o">*</span><span class="n">dst</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="sc">&#39;\\&#39;</span><span class="p">;</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="sc">&#39;x&#39;</span><span class="p">;</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="n">hex_asc_hi</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">out</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">out</span> <span class="o">=</span> <span class="n">hex_asc_lo</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+	<span class="o">++</span><span class="n">out</span><span class="p">;</span>
+
+	<span class="o">*</span><span class="n">dst</span> <span class="o">=</span> <span class="n">out</span><span class="p">;</span>
+	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * string_escape_mem - quote characters in the given memory buffer</span>
+<span class="cm"> * @src:	source buffer (unescaped)</span>
+<span class="cm"> * @isz:	source buffer size</span>
+<span class="cm"> * @dst:	destination buffer (escaped)</span>
+<span class="cm"> * @osz:	destination buffer size</span>
+<span class="cm"> * @flags:	combination of the flags (bitwise OR):</span>
+<span class="cm"> *	%ESCAPE_SPACE: (special white space, not space itself)</span>
+<span class="cm"> *		&#39;\f&#39; - form feed</span>
+<span class="cm"> *		&#39;\n&#39; - new line</span>
+<span class="cm"> *		&#39;\r&#39; - carriage return</span>
+<span class="cm"> *		&#39;\t&#39; - horizontal tab</span>
+<span class="cm"> *		&#39;\v&#39; - vertical tab</span>
+<span class="cm"> *	%ESCAPE_SPECIAL:</span>
+<span class="cm"> *		&#39;\\&#39; - backslash</span>
+<span class="cm"> *		&#39;\a&#39; - alert (BEL)</span>
+<span class="cm"> *		&#39;\e&#39; - escape</span>
+<span class="cm"> *	%ESCAPE_NULL:</span>
+<span class="cm"> *		&#39;\0&#39; - null</span>
+<span class="cm"> *	%ESCAPE_OCTAL:</span>
+<span class="cm"> *		&#39;\NNN&#39; - byte with octal value NNN (3 digits)</span>
+<span class="cm"> *	%ESCAPE_ANY:</span>
+<span class="cm"> *		all previous together</span>
+<span class="cm"> *	%ESCAPE_NP:</span>
+<span class="cm"> *		escape only non-printable characters (checked by isprint)</span>
+<span class="cm"> *	%ESCAPE_ANY_NP:</span>
+<span class="cm"> *		all previous together</span>
+<span class="cm"> *	%ESCAPE_HEX:</span>
+<span class="cm"> *		&#39;\xHH&#39; - byte with hexadecimal value HH (2 digits)</span>
+<span class="cm"> * @only:	NULL-terminated string containing characters used to limit</span>
+<span class="cm"> *		the selected escape class. If characters are included in @only</span>
+<span class="cm"> *		that would not normally be escaped by the classes selected</span>
+<span class="cm"> *		in @flags, they will be copied to @dst unescaped.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Description:</span>
+<span class="cm"> * The process of escaping byte buffer includes several parts. They are applied</span>
+<span class="cm"> * in the following sequence.</span>
+<span class="cm"> *	1. The character is matched to the printable class, if asked, and in</span>
+<span class="cm"> *	   case of match it passes through to the output.</span>
+<span class="cm"> *	2. The character is not matched to the one from @only string and thus</span>
+<span class="cm"> *	   must go as-is to the output.</span>
+<span class="cm"> *	3. The character is checked if it falls into the class given by @flags.</span>
+<span class="cm"> *	   %ESCAPE_OCTAL and %ESCAPE_HEX are going last since they cover any</span>
+<span class="cm"> *	   character. Note that they actually can&#39;t go together, otherwise</span>
+<span class="cm"> *	   %ESCAPE_HEX will be ignored.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Caller must provide valid source and destination pointers. Be aware that</span>
+<span class="cm"> * destination buffer will not be NULL-terminated, thus caller have to append</span>
+<span class="cm"> * it if needs.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Return:</span>
+<span class="cm"> * The total size of the escaped output that would be generated for</span>
+<span class="cm"> * the given input and flags. To check whether the output was</span>
+<span class="cm"> * truncated, compare the return value to osz. There is room left in</span>
+<span class="cm"> * dst for a &#39;\0&#39; terminator if and only if ret &lt; osz.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">string_escape_mem</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">isz</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">osz</span><span class="p">,</span>
+		      <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">only</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">dst</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">end</span> <span class="o">=</span> <span class="n">p</span> <span class="o">+</span> <span class="n">osz</span><span class="p">;</span>
+	<span class="kt">bool</span> <span class="n">is_dict</span> <span class="o">=</span> <span class="n">only</span> <span class="o">&amp;&amp;</span> <span class="o">*</span><span class="n">only</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">isz</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="o">*</span><span class="n">src</span><span class="o">++</span><span class="p">;</span>
+
+		<span class="cm">/*</span>
+<span class="cm">		 * Apply rules in the following sequence:</span>
+<span class="cm">		 *	- the character is printable, when @flags has</span>
+<span class="cm">		 *	  %ESCAPE_NP bit set</span>
+<span class="cm">		 *	- the @only string is supplied and does not contain a</span>
+<span class="cm">		 *	  character under question</span>
+<span class="cm">		 *	- the character doesn&#39;t fall into a class of symbols</span>
+<span class="cm">		 *	  defined by given @flags</span>
+<span class="cm">		 * In these cases we just pass through a character to the</span>
+<span class="cm">		 * output buffer.</span>
+<span class="cm">		 */</span>
+		<span class="k">if</span> <span class="p">((</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">ESCAPE_NP</span> <span class="o">&amp;&amp;</span> <span class="n">isprint</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="o">||</span>
+		    <span class="p">(</span><span class="n">is_dict</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">strchr</span><span class="p">(</span><span class="n">only</span><span class="p">,</span> <span class="n">c</span><span class="p">)))</span> <span class="p">{</span>
+			<span class="cm">/* do nothing */</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">ESCAPE_SPACE</span> <span class="o">&amp;&amp;</span> <span class="n">escape_space</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
+				<span class="k">continue</span><span class="p">;</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">ESCAPE_SPECIAL</span> <span class="o">&amp;&amp;</span> <span class="n">escape_special</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
+				<span class="k">continue</span><span class="p">;</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">ESCAPE_NULL</span> <span class="o">&amp;&amp;</span> <span class="n">escape_null</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
+				<span class="k">continue</span><span class="p">;</span>
+
+			<span class="cm">/* ESCAPE_OCTAL and ESCAPE_HEX always go last */</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">ESCAPE_OCTAL</span> <span class="o">&amp;&amp;</span> <span class="n">escape_octal</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
+				<span class="k">continue</span><span class="p">;</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">ESCAPE_HEX</span> <span class="o">&amp;&amp;</span> <span class="n">escape_hex</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
+				<span class="k">continue</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="n">escape_passthrough</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">p</span> <span class="o">-</span> <span class="n">dst</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">string_escape_mem</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Return an allocated string that has been escaped of special characters</span>
+<span class="cm"> * and double quotes, making it safe to log in quotes.</span>
+<span class="cm"> */</span>
+<span class="kt">char</span> <span class="o">*</span><span class="nf">kstrdup_quotable</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span> <span class="n">gfp_t</span> <span class="n">gfp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">slen</span><span class="p">,</span> <span class="n">dlen</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">dst</span><span class="p">;</span>
+	<span class="k">const</span> <span class="kt">int</span> <span class="n">flags</span> <span class="o">=</span> <span class="n">ESCAPE_HEX</span><span class="p">;</span>
+	<span class="k">const</span> <span class="kt">char</span> <span class="n">esc</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\f\n\r\t\v\a</span><span class="s">\e</span><span class="se">\\\&quot;</span><span class="s">&quot;</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">src</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">slen</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">);</span>
+
+	<span class="n">dlen</span> <span class="o">=</span> <span class="n">string_escape_mem</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">slen</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">esc</span><span class="p">);</span>
+	<span class="n">dst</span> <span class="o">=</span> <span class="n">kmalloc</span><span class="p">(</span><span class="n">dlen</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">gfp</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">dst</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">WARN_ON</span><span class="p">(</span><span class="n">string_escape_mem</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">slen</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">dlen</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">esc</span><span class="p">)</span> <span class="o">!=</span> <span class="n">dlen</span><span class="p">);</span>
+	<span class="n">dst</span><span class="p">[</span><span class="n">dlen</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">dst</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">kstrdup_quotable</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Returns allocated NULL-terminated string containing process</span>
+<span class="cm"> * command line, with inter-argument NULLs replaced with spaces,</span>
+<span class="cm"> * and other special characters escaped.</span>
+<span class="cm"> */</span>
+<span class="kt">char</span> <span class="o">*</span><span class="nf">kstrdup_quotable_cmdline</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">task</span><span class="p">,</span> <span class="n">gfp_t</span> <span class="n">gfp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">buffer</span><span class="p">,</span> <span class="o">*</span><span class="n">quoted</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">res</span><span class="p">;</span>
+
+	<span class="n">buffer</span> <span class="o">=</span> <span class="n">kmalloc</span><span class="p">(</span><span class="n">PAGE_SIZE</span><span class="p">,</span> <span class="n">GFP_TEMPORARY</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">buffer</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">res</span> <span class="o">=</span> <span class="n">get_cmdline</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">PAGE_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="n">buffer</span><span class="p">[</span><span class="n">res</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+
+	<span class="cm">/* Collapse trailing NULLs, leave res pointing to last non-NULL. */</span>
+	<span class="k">while</span> <span class="p">(</span><span class="o">--</span><span class="n">res</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">buffer</span><span class="p">[</span><span class="n">res</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;\0&#39;</span><span class="p">)</span>
+		<span class="p">;</span>
+
+	<span class="cm">/* Replace inter-argument NULLs. */</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">res</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;\0&#39;</span><span class="p">)</span>
+			<span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39; &#39;</span><span class="p">;</span>
+
+	<span class="cm">/* Make sure result is printable. */</span>
+	<span class="n">quoted</span> <span class="o">=</span> <span class="n">kstrdup_quotable</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">gfp</span><span class="p">);</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">quoted</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">kstrdup_quotable_cmdline</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Returns allocated NULL-terminated string containing pathname,</span>
+<span class="cm"> * with special characters escaped, able to be safely logged. If</span>
+<span class="cm"> * there is an error, the leading character will be &quot;&lt;&quot;.</span>
+<span class="cm"> */</span>
+<span class="kt">char</span> <span class="o">*</span><span class="nf">kstrdup_quotable_file</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="n">gfp_t</span> <span class="n">gfp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">temp</span><span class="p">,</span> <span class="o">*</span><span class="n">pathname</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">file</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">kstrdup</span><span class="p">(</span><span class="s">&quot;&lt;unknown&gt;&quot;</span><span class="p">,</span> <span class="n">gfp</span><span class="p">);</span>
+
+	<span class="cm">/* We add 11 spaces for &#39; (deleted)&#39; to be appended */</span>
+	<span class="n">temp</span> <span class="o">=</span> <span class="n">kmalloc</span><span class="p">(</span><span class="n">PATH_MAX</span> <span class="o">+</span> <span class="mi">11</span><span class="p">,</span> <span class="n">GFP_TEMPORARY</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">temp</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">kstrdup</span><span class="p">(</span><span class="s">&quot;&lt;no_memory&gt;&quot;</span><span class="p">,</span> <span class="n">gfp</span><span class="p">);</span>
+
+	<span class="n">pathname</span> <span class="o">=</span> <span class="n">file_path</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="n">PATH_MAX</span> <span class="o">+</span> <span class="mi">11</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">IS_ERR</span><span class="p">(</span><span class="n">pathname</span><span class="p">))</span>
+		<span class="n">pathname</span> <span class="o">=</span> <span class="n">kstrdup</span><span class="p">(</span><span class="s">&quot;&lt;too_long&gt;&quot;</span><span class="p">,</span> <span class="n">gfp</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">pathname</span> <span class="o">=</span> <span class="n">kstrdup_quotable</span><span class="p">(</span><span class="n">pathname</span><span class="p">,</span> <span class="n">gfp</span><span class="p">);</span>
+
+	<span class="n">kfree</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">pathname</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">kstrdup_quotable_file</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

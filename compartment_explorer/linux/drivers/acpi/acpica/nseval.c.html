@@ -1,0 +1,1000 @@
+drivers/acpi/acpica/nseval.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L390">390</a>
+<a name="L391" id="L391" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L391">391</a>
+<a name="L392" id="L392" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L392">392</a>
+<a name="L393" id="L393" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L393">393</a>
+<a name="L394" id="L394" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L394">394</a>
+<a name="L395" id="L395" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L395">395</a>
+<a name="L396" id="L396" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L396">396</a>
+<a name="L397" id="L397" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L397">397</a>
+<a name="L398" id="L398" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L398">398</a>
+<a name="L399" id="L399" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L399">399</a>
+<a name="L400" id="L400" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L400">400</a>
+<a name="L401" id="L401" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L401">401</a>
+<a name="L402" id="L402" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L402">402</a>
+<a name="L403" id="L403" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L403">403</a>
+<a name="L404" id="L404" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L404">404</a>
+<a name="L405" id="L405" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L405">405</a>
+<a name="L406" id="L406" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L406">406</a>
+<a name="L407" id="L407" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L407">407</a>
+<a name="L408" id="L408" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L408">408</a>
+<a name="L409" id="L409" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L409">409</a>
+<a name="L410" id="L410" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L410">410</a>
+<a name="L411" id="L411" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L411">411</a>
+<a name="L412" id="L412" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L412">412</a>
+<a name="L413" id="L413" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L413">413</a>
+<a name="L414" id="L414" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L414">414</a>
+<a name="L415" id="L415" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L415">415</a>
+<a name="L416" id="L416" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L416">416</a>
+<a name="L417" id="L417" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L417">417</a>
+<a name="L418" id="L418" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L418">418</a>
+<a name="L419" id="L419" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L419">419</a>
+<a name="L420" id="L420" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L420">420</a>
+<a name="L421" id="L421" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L421">421</a>
+<a name="L422" id="L422" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L422">422</a>
+<a name="L423" id="L423" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L423">423</a>
+<a name="L424" id="L424" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L424">424</a>
+<a name="L425" id="L425" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L425">425</a>
+<a name="L426" id="L426" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L426">426</a>
+<a name="L427" id="L427" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L427">427</a>
+<a name="L428" id="L428" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L428">428</a>
+<a name="L429" id="L429" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L429">429</a>
+<a name="L430" id="L430" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L430">430</a>
+<a name="L431" id="L431" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L431">431</a>
+<a name="L432" id="L432" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L432">432</a>
+<a name="L433" id="L433" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L433">433</a>
+<a name="L434" id="L434" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L434">434</a>
+<a name="L435" id="L435" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L435">435</a>
+<a name="L436" id="L436" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L436">436</a>
+<a name="L437" id="L437" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L437">437</a>
+<a name="L438" id="L438" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L438">438</a>
+<a name="L439" id="L439" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L439">439</a>
+<a name="L440" id="L440" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L440">440</a>
+<a name="L441" id="L441" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L441">441</a>
+<a name="L442" id="L442" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L442">442</a>
+<a name="L443" id="L443" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L443">443</a>
+<a name="L444" id="L444" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L444">444</a>
+<a name="L445" id="L445" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L445">445</a>
+<a name="L446" id="L446" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L446">446</a>
+<a name="L447" id="L447" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L447">447</a>
+<a name="L448" id="L448" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L448">448</a>
+<a name="L449" id="L449" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L449">449</a>
+<a name="L450" id="L450" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L450">450</a>
+<a name="L451" id="L451" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L451">451</a>
+<a name="L452" id="L452" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L452">452</a>
+<a name="L453" id="L453" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L453">453</a>
+<a name="L454" id="L454" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L454">454</a>
+<a name="L455" id="L455" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L455">455</a>
+<a name="L456" id="L456" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L456">456</a>
+<a name="L457" id="L457" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L457">457</a>
+<a name="L458" id="L458" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L458">458</a>
+<a name="L459" id="L459" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L459">459</a>
+<a name="L460" id="L460" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L460">460</a>
+<a name="L461" id="L461" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L461">461</a>
+<a name="L462" id="L462" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L462">462</a>
+<a name="L463" id="L463" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L463">463</a>
+<a name="L464" id="L464" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L464">464</a>
+<a name="L465" id="L465" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L465">465</a>
+<a name="L466" id="L466" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L466">466</a>
+<a name="L467" id="L467" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L467">467</a>
+<a name="L468" id="L468" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L468">468</a>
+<a name="L469" id="L469" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L469">469</a>
+<a name="L470" id="L470" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L470">470</a>
+<a name="L471" id="L471" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L471">471</a>
+<a name="L472" id="L472" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L472">472</a>
+<a name="L473" id="L473" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L473">473</a>
+<a name="L474" id="L474" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L474">474</a>
+<a name="L475" id="L475" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L475">475</a>
+<a name="L476" id="L476" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L476">476</a>
+<a name="L477" id="L477" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L477">477</a>
+<a name="L478" id="L478" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L478">478</a>
+<a name="L479" id="L479" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L479">479</a>
+<a name="L480" id="L480" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L480">480</a>
+<a name="L481" id="L481" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L481">481</a>
+<a name="L482" id="L482" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L482">482</a>
+<a name="L483" id="L483" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L483">483</a>
+<a name="L484" id="L484" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L484">484</a>
+<a name="L485" id="L485" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L485">485</a>
+<a name="L486" id="L486" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L486">486</a>
+<a name="L487" id="L487" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L487">487</a>
+<a name="L488" id="L488" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L488">488</a>
+<a name="L489" id="L489" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L489">489</a>
+<a name="L490" id="L490" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L490">490</a>
+<a name="L491" id="L491" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L491">491</a>
+<a name="L492" id="L492" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L492">492</a>
+<a name="L493" id="L493" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L493">493</a>
+<a name="L494" id="L494" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L494">494</a>
+<a name="L495" id="L495" href="https://uscope-linux.github.io/compartment_explorer/linux/drivers/acpi/acpica/nseval.c#L495">495</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
+<span class="cm"> *</span>
+<span class="cm"> * Module Name: nseval - Object evaluation, includes control method execution</span>
+<span class="cm"> *</span>
+<span class="cm"> ******************************************************************************/</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Copyright (C) 2000 - 2016, Intel Corp.</span>
+<span class="cm"> * All rights reserved.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Redistribution and use in source and binary forms, with or without</span>
+<span class="cm"> * modification, are permitted provided that the following conditions</span>
+<span class="cm"> * are met:</span>
+<span class="cm"> * 1. Redistributions of source code must retain the above copyright</span>
+<span class="cm"> *    notice, this list of conditions, and the following disclaimer,</span>
+<span class="cm"> *    without modification.</span>
+<span class="cm"> * 2. Redistributions in binary form must reproduce at minimum a disclaimer</span>
+<span class="cm"> *    substantially similar to the &quot;NO WARRANTY&quot; disclaimer below</span>
+<span class="cm"> *    (&quot;Disclaimer&quot;) and any redistribution must be conditioned upon</span>
+<span class="cm"> *    including a substantially similar Disclaimer requirement for further</span>
+<span class="cm"> *    binary redistribution.</span>
+<span class="cm"> * 3. Neither the names of the above-listed copyright holders nor the names</span>
+<span class="cm"> *    of any contributors may be used to endorse or promote products derived</span>
+<span class="cm"> *    from this software without specific prior written permission.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Alternatively, this software may be distributed under the terms of the</span>
+<span class="cm"> * GNU General Public License (&quot;GPL&quot;) version 2 as published by the Free</span>
+<span class="cm"> * Software Foundation.</span>
+<span class="cm"> *</span>
+<span class="cm"> * NO WARRANTY</span>
+<span class="cm"> * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS</span>
+<span class="cm"> * &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT</span>
+<span class="cm"> * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR</span>
+<span class="cm"> * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT</span>
+<span class="cm"> * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span>
+<span class="cm"> * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS</span>
+<span class="cm"> * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)</span>
+<span class="cm"> * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,</span>
+<span class="cm"> * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING</span>
+<span class="cm"> * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE</span>
+<span class="cm"> * POSSIBILITY OF SUCH DAMAGES.</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;acpi/acpi.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;accommon.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;acparser.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;acinterp.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;acnamesp.h&quot;</span><span class="cp"></span>
+
+<span class="cp">#define _COMPONENT          ACPI_NAMESPACE</span>
+<span class="n">ACPI_MODULE_NAME</span><span class="p">(</span><span class="s">&quot;nseval&quot;</span><span class="p">)</span>
+
+<span class="cm">/* Local prototypes */</span>
+<span class="k">static</span> <span class="kt">void</span>
+<span class="n">acpi_ns_exec_module_code</span><span class="p">(</span><span class="k">union</span> <span class="n">acpi_operand_object</span> <span class="o">*</span><span class="n">method_obj</span><span class="p">,</span>
+			 <span class="k">struct</span> <span class="n">acpi_evaluate_info</span> <span class="o">*</span><span class="n">info</span><span class="p">);</span>
+
+<span class="cm">/*******************************************************************************</span>
+<span class="cm"> *</span>
+<span class="cm"> * FUNCTION:    acpi_ns_evaluate</span>
+<span class="cm"> *</span>
+<span class="cm"> * PARAMETERS:  info            - Evaluation info block, contains these fields</span>
+<span class="cm"> *                                and more:</span>
+<span class="cm"> *                  prefix_node     - Prefix or Method/Object Node to execute</span>
+<span class="cm"> *                  relative_path   - Name of method to execute, If NULL, the</span>
+<span class="cm"> *                                    Node is the object to execute</span>
+<span class="cm"> *                  parameters      - List of parameters to pass to the method,</span>
+<span class="cm"> *                                    terminated by NULL. Params itself may be</span>
+<span class="cm"> *                                    NULL if no parameters are being passed.</span>
+<span class="cm"> *                  parameter_type  - Type of Parameter list</span>
+<span class="cm"> *                  return_object   - Where to put method&#39;s return value (if</span>
+<span class="cm"> *                                    any). If NULL, no value is returned.</span>
+<span class="cm"> *                  flags           - ACPI_IGNORE_RETURN_VALUE to delete return</span>
+<span class="cm"> *</span>
+<span class="cm"> * RETURN:      Status</span>
+<span class="cm"> *</span>
+<span class="cm"> * DESCRIPTION: Execute a control method or return the current value of an</span>
+<span class="cm"> *              ACPI namespace object.</span>
+<span class="cm"> *</span>
+<span class="cm"> * MUTEX:       Locks interpreter</span>
+<span class="cm"> *</span>
+<span class="cm"> ******************************************************************************/</span>
+
+<span class="n">acpi_status</span> <span class="nf">acpi_ns_evaluate</span><span class="p">(</span><span class="k">struct</span> <span class="n">acpi_evaluate_info</span> <span class="o">*</span><span class="n">info</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">acpi_status</span> <span class="n">status</span><span class="p">;</span>
+
+	<span class="n">ACPI_FUNCTION_TRACE</span><span class="p">(</span><span class="n">ns_evaluate</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">info</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">return_ACPI_STATUS</span><span class="p">(</span><span class="n">AE_BAD_PARAMETER</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * Get the actual namespace node for the target object if we</span>
+<span class="cm">		 * need to. Handles these cases:</span>
+<span class="cm">		 *</span>
+<span class="cm">		 * 1) Null node, valid pathname from root (absolute path)</span>
+<span class="cm">		 * 2) Node and valid pathname (path relative to Node)</span>
+<span class="cm">		 * 3) Node, Null pathname</span>
+<span class="cm">		 */</span>
+		<span class="n">status</span> <span class="o">=</span>
+		    <span class="n">acpi_ns_get_node</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">prefix_node</span><span class="p">,</span> <span class="n">info</span><span class="o">-&gt;</span><span class="n">relative_pathname</span><span class="p">,</span>
+				     <span class="n">ACPI_NS_NO_UPSEARCH</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">ACPI_FAILURE</span><span class="p">(</span><span class="n">status</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">return_ACPI_STATUS</span><span class="p">(</span><span class="n">status</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * For a method alias, we must grab the actual method node so that</span>
+<span class="cm">	 * proper scoping context will be established before execution.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">acpi_ns_get_type</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="n">ACPI_TYPE_LOCAL_METHOD_ALIAS</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span> <span class="o">=</span>
+		    <span class="n">ACPI_CAST_PTR</span><span class="p">(</span><span class="k">struct</span> <span class="n">acpi_namespace_node</span><span class="p">,</span>
+				  <span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">object</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* Complete the info block initialization */</span>
+
+	<span class="n">info</span><span class="o">-&gt;</span><span class="n">return_object</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">info</span><span class="o">-&gt;</span><span class="n">node_flags</span> <span class="o">=</span> <span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">flags</span><span class="p">;</span>
+	<span class="n">info</span><span class="o">-&gt;</span><span class="n">obj_desc</span> <span class="o">=</span> <span class="n">acpi_ns_get_attached_object</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">);</span>
+
+	<span class="n">ACPI_DEBUG_PRINT</span><span class="p">((</span><span class="n">ACPI_DB_NAMES</span><span class="p">,</span> <span class="s">&quot;%s [%p] Value %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+			  <span class="n">info</span><span class="o">-&gt;</span><span class="n">relative_pathname</span><span class="p">,</span> <span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">,</span>
+			  <span class="n">acpi_ns_get_attached_object</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">)));</span>
+
+	<span class="cm">/* Get info if we have a predefined name (_HID, etc.) */</span>
+
+	<span class="n">info</span><span class="o">-&gt;</span><span class="n">predefined</span> <span class="o">=</span>
+	    <span class="n">acpi_ut_match_predefined_method</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">.</span><span class="n">ascii</span><span class="p">);</span>
+
+	<span class="cm">/* Get the full pathname to the object, for use in warning messages */</span>
+
+	<span class="n">info</span><span class="o">-&gt;</span><span class="n">full_pathname</span> <span class="o">=</span> <span class="n">acpi_ns_get_normalized_pathname</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">full_pathname</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">return_ACPI_STATUS</span><span class="p">(</span><span class="n">AE_NO_MEMORY</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* Count the number of arguments being passed in */</span>
+
+	<span class="n">info</span><span class="o">-&gt;</span><span class="n">param_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">parameters</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">while</span> <span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">parameters</span><span class="p">[</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">param_count</span><span class="p">])</span> <span class="p">{</span>
+			<span class="n">info</span><span class="o">-&gt;</span><span class="n">param_count</span><span class="o">++</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="cm">/* Warn on impossible argument count */</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">param_count</span> <span class="o">&gt;</span> <span class="n">ACPI_METHOD_NUM_ARGS</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">ACPI_WARN_PREDEFINED</span><span class="p">((</span><span class="n">AE_INFO</span><span class="p">,</span> <span class="n">info</span><span class="o">-&gt;</span><span class="n">full_pathname</span><span class="p">,</span>
+					      <span class="n">ACPI_WARN_ALWAYS</span><span class="p">,</span>
+					      <span class="s">&quot;Excess arguments (%u) - using only %u&quot;</span><span class="p">,</span>
+					      <span class="n">info</span><span class="o">-&gt;</span><span class="n">param_count</span><span class="p">,</span>
+					      <span class="n">ACPI_METHOD_NUM_ARGS</span><span class="p">));</span>
+
+			<span class="n">info</span><span class="o">-&gt;</span><span class="n">param_count</span> <span class="o">=</span> <span class="n">ACPI_METHOD_NUM_ARGS</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * For predefined names: Check that the declared argument count</span>
+<span class="cm">	 * matches the ACPI spec -- otherwise this is a BIOS error.</span>
+<span class="cm">	 */</span>
+	<span class="n">acpi_ns_check_acpi_compliance</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">full_pathname</span><span class="p">,</span> <span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">,</span>
+				      <span class="n">info</span><span class="o">-&gt;</span><span class="n">predefined</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * For all names: Check that the incoming argument count for</span>
+<span class="cm">	 * this method/object matches the actual ASL/AML definition.</span>
+<span class="cm">	 */</span>
+	<span class="n">acpi_ns_check_argument_count</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">full_pathname</span><span class="p">,</span> <span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">,</span>
+				     <span class="n">info</span><span class="o">-&gt;</span><span class="n">param_count</span><span class="p">,</span> <span class="n">info</span><span class="o">-&gt;</span><span class="n">predefined</span><span class="p">);</span>
+
+	<span class="cm">/* For predefined names: Typecheck all incoming arguments */</span>
+
+	<span class="n">acpi_ns_check_argument_types</span><span class="p">(</span><span class="n">info</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * Three major evaluation cases:</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * 1) Object types that cannot be evaluated by definition</span>
+<span class="cm">	 * 2) The object is a control method -- execute it</span>
+<span class="cm">	 * 3) The object is not a method -- just return it&#39;s current value</span>
+<span class="cm">	 */</span>
+	<span class="k">switch</span> <span class="p">(</span><span class="n">acpi_ns_get_type</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">))</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="nl">ACPI_TYPE_DEVICE</span><span class="p">:</span>
+	<span class="k">case</span> <span class="nl">ACPI_TYPE_EVENT</span><span class="p">:</span>
+	<span class="k">case</span> <span class="nl">ACPI_TYPE_MUTEX</span><span class="p">:</span>
+	<span class="k">case</span> <span class="nl">ACPI_TYPE_REGION</span><span class="p">:</span>
+	<span class="k">case</span> <span class="nl">ACPI_TYPE_THERMAL</span><span class="p">:</span>
+	<span class="k">case</span> <span class="nl">ACPI_TYPE_LOCAL_SCOPE</span><span class="p">:</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * 1) Disallow evaluation of certain object types. For these,</span>
+<span class="cm">		 *    object evaluation is undefined and not supported.</span>
+<span class="cm">		 */</span>
+		<span class="n">ACPI_ERROR</span><span class="p">((</span><span class="n">AE_INFO</span><span class="p">,</span>
+			    <span class="s">&quot;%s: Evaluation of object type [%s] is not supported&quot;</span><span class="p">,</span>
+			    <span class="n">info</span><span class="o">-&gt;</span><span class="n">full_pathname</span><span class="p">,</span>
+			    <span class="n">acpi_ut_get_type_name</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)));</span>
+
+		<span class="n">status</span> <span class="o">=</span> <span class="n">AE_TYPE</span><span class="p">;</span>
+		<span class="k">goto</span> <span class="n">cleanup</span><span class="p">;</span>
+
+	<span class="k">case</span> <span class="nl">ACPI_TYPE_METHOD</span><span class="p">:</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * 2) Object is a control method - execute it</span>
+<span class="cm">		 */</span>
+
+		<span class="cm">/* Verify that there is a method object associated with this node */</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">obj_desc</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">ACPI_ERROR</span><span class="p">((</span><span class="n">AE_INFO</span><span class="p">,</span>
+				    <span class="s">&quot;%s: Method has no attached sub-object&quot;</span><span class="p">,</span>
+				    <span class="n">info</span><span class="o">-&gt;</span><span class="n">full_pathname</span><span class="p">));</span>
+			<span class="n">status</span> <span class="o">=</span> <span class="n">AE_NULL_OBJECT</span><span class="p">;</span>
+			<span class="k">goto</span> <span class="n">cleanup</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="n">ACPI_DEBUG_PRINT</span><span class="p">((</span><span class="n">ACPI_DB_EXEC</span><span class="p">,</span>
+				  <span class="s">&quot;**** Execute method [%s] at AML address %p length %X</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+				  <span class="n">info</span><span class="o">-&gt;</span><span class="n">full_pathname</span><span class="p">,</span>
+				  <span class="n">info</span><span class="o">-&gt;</span><span class="n">obj_desc</span><span class="o">-&gt;</span><span class="n">method</span><span class="p">.</span><span class="n">aml_start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+				  <span class="n">info</span><span class="o">-&gt;</span><span class="n">obj_desc</span><span class="o">-&gt;</span><span class="n">method</span><span class="p">.</span><span class="n">aml_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
+
+		<span class="cm">/*</span>
+<span class="cm">		 * Any namespace deletion must acquire both the namespace and</span>
+<span class="cm">		 * interpreter locks to ensure that no thread is using the portion of</span>
+<span class="cm">		 * the namespace that is being deleted.</span>
+<span class="cm">		 *</span>
+<span class="cm">		 * Execute the method via the interpreter. The interpreter is locked</span>
+<span class="cm">		 * here before calling into the AML parser</span>
+<span class="cm">		 */</span>
+		<span class="n">acpi_ex_enter_interpreter</span><span class="p">();</span>
+		<span class="n">status</span> <span class="o">=</span> <span class="n">acpi_ps_execute_method</span><span class="p">(</span><span class="n">info</span><span class="p">);</span>
+		<span class="n">acpi_ex_exit_interpreter</span><span class="p">();</span>
+		<span class="k">break</span><span class="p">;</span>
+
+	<span class="k">default</span><span class="o">:</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * 3) All other non-method objects -- get the current object value</span>
+<span class="cm">		 */</span>
+
+		<span class="cm">/*</span>
+<span class="cm">		 * Some objects require additional resolution steps (e.g., the Node</span>
+<span class="cm">		 * may be a field that must be read, etc.) -- we can&#39;t just grab</span>
+<span class="cm">		 * the object out of the node.</span>
+<span class="cm">		 *</span>
+<span class="cm">		 * Use resolve_node_to_value() to get the associated value.</span>
+<span class="cm">		 *</span>
+<span class="cm">		 * NOTE: we can get away with passing in NULL for a walk state because</span>
+<span class="cm">		 * the Node is guaranteed to not be a reference to either a method</span>
+<span class="cm">		 * local or a method argument (because this interface is never called</span>
+<span class="cm">		 * from a running method.)</span>
+<span class="cm">		 *</span>
+<span class="cm">		 * Even though we do not directly invoke the interpreter for object</span>
+<span class="cm">		 * resolution, we must lock it because we could access an op_region.</span>
+<span class="cm">		 * The op_region access code assumes that the interpreter is locked.</span>
+<span class="cm">		 */</span>
+		<span class="n">acpi_ex_enter_interpreter</span><span class="p">();</span>
+
+		<span class="cm">/* TBD: resolve_node_to_value has a strange interface, fix */</span>
+
+		<span class="n">info</span><span class="o">-&gt;</span><span class="n">return_object</span> <span class="o">=</span>
+		    <span class="n">ACPI_CAST_PTR</span><span class="p">(</span><span class="k">union</span> <span class="n">acpi_operand_object</span><span class="p">,</span> <span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">);</span>
+
+		<span class="n">status</span> <span class="o">=</span>
+		    <span class="n">acpi_ex_resolve_node_to_value</span><span class="p">(</span><span class="n">ACPI_CAST_INDIRECT_PTR</span>
+						  <span class="p">(</span><span class="k">struct</span> <span class="n">acpi_namespace_node</span><span class="p">,</span>
+						   <span class="o">&amp;</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">return_object</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
+		<span class="n">acpi_ex_exit_interpreter</span><span class="p">();</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">ACPI_FAILURE</span><span class="p">(</span><span class="n">status</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">info</span><span class="o">-&gt;</span><span class="n">return_object</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+			<span class="k">goto</span> <span class="n">cleanup</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="n">ACPI_DEBUG_PRINT</span><span class="p">((</span><span class="n">ACPI_DB_NAMES</span><span class="p">,</span> <span class="s">&quot;Returned object %p [%s]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+				  <span class="n">info</span><span class="o">-&gt;</span><span class="n">return_object</span><span class="p">,</span>
+				  <span class="n">acpi_ut_get_object_type_name</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span>
+							       <span class="n">return_object</span><span class="p">)));</span>
+
+		<span class="n">status</span> <span class="o">=</span> <span class="n">AE_CTRL_RETURN_VALUE</span><span class="p">;</span>	<span class="cm">/* Always has a &quot;return value&quot; */</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * For predefined names, check the return value against the ACPI</span>
+<span class="cm">	 * specification. Some incorrect return value types are repaired.</span>
+<span class="cm">	 */</span>
+	<span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">acpi_ns_check_return_value</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">info</span><span class="o">-&gt;</span><span class="n">param_count</span><span class="p">,</span>
+					 <span class="n">status</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">return_object</span><span class="p">);</span>
+
+	<span class="cm">/* Check if there is a return value that must be dealt with */</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="n">AE_CTRL_RETURN_VALUE</span><span class="p">)</span> <span class="p">{</span>
+
+		<span class="cm">/* If caller does not want the return value, delete it */</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">ACPI_IGNORE_RETURN_VALUE</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">acpi_ut_remove_reference</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">return_object</span><span class="p">);</span>
+			<span class="n">info</span><span class="o">-&gt;</span><span class="n">return_object</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="cm">/* Map AE_CTRL_RETURN_VALUE to AE_OK, we are done with it */</span>
+
+		<span class="n">status</span> <span class="o">=</span> <span class="n">AE_OK</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">ACPI_DEBUG_PRINT</span><span class="p">((</span><span class="n">ACPI_DB_NAMES</span><span class="p">,</span>
+			  <span class="s">&quot;*** Completed evaluation of object %s ***</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+			  <span class="n">info</span><span class="o">-&gt;</span><span class="n">relative_pathname</span><span class="p">));</span>
+
+<span class="nl">cleanup</span><span class="p">:</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * Namespace was unlocked by the handling acpi_ns* function, so we</span>
+<span class="cm">	 * just free the pathname and return</span>
+<span class="cm">	 */</span>
+	<span class="n">ACPI_FREE</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">full_pathname</span><span class="p">);</span>
+	<span class="n">info</span><span class="o">-&gt;</span><span class="n">full_pathname</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">return_ACPI_STATUS</span><span class="p">(</span><span class="n">status</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*******************************************************************************</span>
+<span class="cm"> *</span>
+<span class="cm"> * FUNCTION:    acpi_ns_exec_module_code_list</span>
+<span class="cm"> *</span>
+<span class="cm"> * PARAMETERS:  None</span>
+<span class="cm"> *</span>
+<span class="cm"> * RETURN:      None. Exceptions during method execution are ignored, since</span>
+<span class="cm"> *              we cannot abort a table load.</span>
+<span class="cm"> *</span>
+<span class="cm"> * DESCRIPTION: Execute all elements of the global module-level code list.</span>
+<span class="cm"> *              Each element is executed as a single control method.</span>
+<span class="cm"> *</span>
+<span class="cm"> ******************************************************************************/</span>
+
+<span class="kt">void</span> <span class="nf">acpi_ns_exec_module_code_list</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">union</span> <span class="n">acpi_operand_object</span> <span class="o">*</span><span class="n">prev</span><span class="p">;</span>
+	<span class="k">union</span> <span class="n">acpi_operand_object</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">acpi_evaluate_info</span> <span class="o">*</span><span class="n">info</span><span class="p">;</span>
+	<span class="n">u32</span> <span class="n">method_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">ACPI_FUNCTION_TRACE</span><span class="p">(</span><span class="n">ns_exec_module_code_list</span><span class="p">);</span>
+
+	<span class="cm">/* Exit now if the list is empty */</span>
+
+	<span class="n">next</span> <span class="o">=</span> <span class="n">acpi_gbl_module_code_list</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">next</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">return_VOID</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* Allocate the evaluation information block */</span>
+
+	<span class="n">info</span> <span class="o">=</span> <span class="n">ACPI_ALLOCATE</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">acpi_evaluate_info</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">info</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">return_VOID</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* Walk the list, executing each &quot;method&quot; */</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">next</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">prev</span> <span class="o">=</span> <span class="n">next</span><span class="p">;</span>
+		<span class="n">next</span> <span class="o">=</span> <span class="n">next</span><span class="o">-&gt;</span><span class="n">method</span><span class="p">.</span><span class="n">mutex</span><span class="p">;</span>
+
+		<span class="cm">/* Clear the link field and execute the method */</span>
+
+		<span class="n">prev</span><span class="o">-&gt;</span><span class="n">method</span><span class="p">.</span><span class="n">mutex</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+		<span class="n">acpi_ns_exec_module_code</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span> <span class="n">info</span><span class="p">);</span>
+		<span class="n">method_count</span><span class="o">++</span><span class="p">;</span>
+
+		<span class="cm">/* Delete the (temporary) method object */</span>
+
+		<span class="n">acpi_ut_remove_reference</span><span class="p">(</span><span class="n">prev</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">ACPI_INFO</span><span class="p">((</span><span class="s">&quot;Executed %u blocks of module-level executable AML code&quot;</span><span class="p">,</span>
+		   <span class="n">method_count</span><span class="p">));</span>
+
+	<span class="n">ACPI_FREE</span><span class="p">(</span><span class="n">info</span><span class="p">);</span>
+	<span class="n">acpi_gbl_module_code_list</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">return_VOID</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*******************************************************************************</span>
+<span class="cm"> *</span>
+<span class="cm"> * FUNCTION:    acpi_ns_exec_module_code</span>
+<span class="cm"> *</span>
+<span class="cm"> * PARAMETERS:  method_obj          - Object container for the module-level code</span>
+<span class="cm"> *              info                - Info block for method evaluation</span>
+<span class="cm"> *</span>
+<span class="cm"> * RETURN:      None. Exceptions during method execution are ignored, since</span>
+<span class="cm"> *              we cannot abort a table load.</span>
+<span class="cm"> *</span>
+<span class="cm"> * DESCRIPTION: Execute a control method containing a block of module-level</span>
+<span class="cm"> *              executable AML code. The control method is temporarily</span>
+<span class="cm"> *              installed to the root node, then evaluated.</span>
+<span class="cm"> *</span>
+<span class="cm"> ******************************************************************************/</span>
+
+<span class="k">static</span> <span class="kt">void</span>
+<span class="nf">acpi_ns_exec_module_code</span><span class="p">(</span><span class="k">union</span> <span class="n">acpi_operand_object</span> <span class="o">*</span><span class="n">method_obj</span><span class="p">,</span>
+			 <span class="k">struct</span> <span class="n">acpi_evaluate_info</span> <span class="o">*</span><span class="n">info</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">union</span> <span class="n">acpi_operand_object</span> <span class="o">*</span><span class="n">parent_obj</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">acpi_namespace_node</span> <span class="o">*</span><span class="n">parent_node</span><span class="p">;</span>
+	<span class="n">acpi_object_type</span> <span class="n">type</span><span class="p">;</span>
+	<span class="n">acpi_status</span> <span class="n">status</span><span class="p">;</span>
+
+	<span class="n">ACPI_FUNCTION_TRACE</span><span class="p">(</span><span class="n">ns_exec_module_code</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * Get the parent node. We cheat by using the next_object field</span>
+<span class="cm">	 * of the method object descriptor.</span>
+<span class="cm">	 */</span>
+	<span class="n">parent_node</span> <span class="o">=</span>
+	    <span class="n">ACPI_CAST_PTR</span><span class="p">(</span><span class="k">struct</span> <span class="n">acpi_namespace_node</span><span class="p">,</span>
+				    <span class="n">method_obj</span><span class="o">-&gt;</span><span class="n">method</span><span class="p">.</span><span class="n">next_object</span><span class="p">);</span>
+	<span class="n">type</span> <span class="o">=</span> <span class="n">acpi_ns_get_type</span><span class="p">(</span><span class="n">parent_node</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * Get the region handler and save it in the method object. We may need</span>
+<span class="cm">	 * this if an operation region declaration causes a _REG method to be run.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * We can&#39;t do this in acpi_ps_link_module_code because</span>
+<span class="cm">	 * acpi_gbl_root_node-&gt;Object is NULL at PASS1.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">((</span><span class="n">type</span> <span class="o">==</span> <span class="n">ACPI_TYPE_DEVICE</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">parent_node</span><span class="o">-&gt;</span><span class="n">object</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">method_obj</span><span class="o">-&gt;</span><span class="n">method</span><span class="p">.</span><span class="n">dispatch</span><span class="p">.</span><span class="n">handler</span> <span class="o">=</span>
+		    <span class="n">parent_node</span><span class="o">-&gt;</span><span class="n">object</span><span class="o">-&gt;</span><span class="n">device</span><span class="p">.</span><span class="n">handler</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* Must clear next_object (acpi_ns_attach_object needs the field) */</span>
+
+	<span class="n">method_obj</span><span class="o">-&gt;</span><span class="n">method</span><span class="p">.</span><span class="n">next_object</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="cm">/* Initialize the evaluation information block */</span>
+
+	<span class="n">memset</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">acpi_evaluate_info</span><span class="p">));</span>
+	<span class="n">info</span><span class="o">-&gt;</span><span class="n">prefix_node</span> <span class="o">=</span> <span class="n">parent_node</span><span class="p">;</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * Get the currently attached parent object. Add a reference,</span>
+<span class="cm">	 * because the ref count will be decreased when the method object</span>
+<span class="cm">	 * is installed to the parent node.</span>
+<span class="cm">	 */</span>
+	<span class="n">parent_obj</span> <span class="o">=</span> <span class="n">acpi_ns_get_attached_object</span><span class="p">(</span><span class="n">parent_node</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">parent_obj</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">acpi_ut_add_reference</span><span class="p">(</span><span class="n">parent_obj</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* Install the method (module-level code) in the parent node */</span>
+
+	<span class="n">status</span> <span class="o">=</span>
+	    <span class="n">acpi_ns_attach_object</span><span class="p">(</span><span class="n">parent_node</span><span class="p">,</span> <span class="n">method_obj</span><span class="p">,</span> <span class="n">ACPI_TYPE_METHOD</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ACPI_FAILURE</span><span class="p">(</span><span class="n">status</span><span class="p">))</span> <span class="p">{</span>
+		<span class="k">goto</span> <span class="n">exit</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* Execute the parent node as a control method */</span>
+
+	<span class="n">status</span> <span class="o">=</span> <span class="n">acpi_ns_evaluate</span><span class="p">(</span><span class="n">info</span><span class="p">);</span>
+
+	<span class="n">ACPI_DEBUG_PRINT</span><span class="p">((</span><span class="n">ACPI_DB_INIT_NAMES</span><span class="p">,</span>
+			  <span class="s">&quot;Executed module-level code at %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+			  <span class="n">method_obj</span><span class="o">-&gt;</span><span class="n">method</span><span class="p">.</span><span class="n">aml_start</span><span class="p">));</span>
+
+	<span class="cm">/* Delete a possible implicit return value (in slack mode) */</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">return_object</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">acpi_ut_remove_reference</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">return_object</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* Detach the temporary method object */</span>
+
+	<span class="n">acpi_ns_detach_object</span><span class="p">(</span><span class="n">parent_node</span><span class="p">);</span>
+
+	<span class="cm">/* Restore the original parent object */</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">parent_obj</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">status</span> <span class="o">=</span> <span class="n">acpi_ns_attach_object</span><span class="p">(</span><span class="n">parent_node</span><span class="p">,</span> <span class="n">parent_obj</span><span class="p">,</span> <span class="n">type</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">parent_node</span><span class="o">-&gt;</span><span class="n">type</span> <span class="o">=</span> <span class="p">(</span><span class="n">u8</span><span class="p">)</span><span class="n">type</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="nl">exit</span><span class="p">:</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">parent_obj</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">acpi_ut_remove_reference</span><span class="p">(</span><span class="n">parent_obj</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">return_VOID</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

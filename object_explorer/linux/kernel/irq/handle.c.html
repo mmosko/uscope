@@ -1,0 +1,424 @@
+kernel/irq/handle.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/kernel/irq/handle.c#L207">207</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * linux/kernel/irq/handle.c</span>
+<span class="cm"> *</span>
+<span class="cm"> * Copyright (C) 1992, 1998-2006 Linus Torvalds, Ingo Molnar</span>
+<span class="cm"> * Copyright (C) 2005-2006, Thomas Gleixner, Russell King</span>
+<span class="cm"> *</span>
+<span class="cm"> * This file contains the core interrupt handling code.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Detailed information is available in Documentation/DocBook/genericirq</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/irq.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/random.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/sched.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/interrupt.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/kernel_stat.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;trace/events/irq.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;internals.h&quot;</span><span class="cp"></span>
+
+<span class="cm">/**</span>
+<span class="cm"> * handle_bad_irq - handle spurious and unhandled irqs</span>
+<span class="cm"> * @desc:      description of the interrupt</span>
+<span class="cm"> *</span>
+<span class="cm"> * Handles spurious and unhandled IRQ&#39;s. It also prints a debugmessage.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">handle_bad_irq</span><span class="p">(</span><span class="k">struct</span> <span class="n">irq_desc</span> <span class="o">*</span><span class="n">desc</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">irq</span> <span class="o">=</span> <span class="n">irq_desc_get_irq</span><span class="p">(</span><span class="n">desc</span><span class="p">);</span>
+
+	<span class="n">print_irq_desc</span><span class="p">(</span><span class="n">irq</span><span class="p">,</span> <span class="n">desc</span><span class="p">);</span>
+	<span class="n">kstat_incr_irqs_this_cpu</span><span class="p">(</span><span class="n">desc</span><span class="p">);</span>
+	<span class="n">ack_bad_irq</span><span class="p">(</span><span class="n">irq</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">handle_bad_irq</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Special, empty irq handler:</span>
+<span class="cm"> */</span>
+<span class="n">irqreturn_t</span> <span class="nf">no_action</span><span class="p">(</span><span class="kt">int</span> <span class="n">cpl</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">IRQ_NONE</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">no_action</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">warn_no_thread</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">irqaction</span> <span class="o">*</span><span class="n">action</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">test_and_set_bit</span><span class="p">(</span><span class="n">IRQTF_WARNED</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">action</span><span class="o">-&gt;</span><span class="n">thread_flags</span><span class="p">))</span>
+		<span class="k">return</span><span class="p">;</span>
+
+	<span class="n">printk</span><span class="p">(</span><span class="n">KERN_WARNING</span> <span class="s">&quot;IRQ %d device %s returned IRQ_WAKE_THREAD &quot;</span>
+	       <span class="s">&quot;but no thread function available.&quot;</span><span class="p">,</span> <span class="n">irq</span><span class="p">,</span> <span class="n">action</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">__irq_wake_thread</span><span class="p">(</span><span class="k">struct</span> <span class="n">irq_desc</span> <span class="o">*</span><span class="n">desc</span><span class="p">,</span> <span class="k">struct</span> <span class="n">irqaction</span> <span class="o">*</span><span class="n">action</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * In case the thread crashed and was killed we just pretend that</span>
+<span class="cm">	 * we handled the interrupt. The hardirq handler has disabled the</span>
+<span class="cm">	 * device interrupt, so no irq storm is lurking.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">action</span><span class="o">-&gt;</span><span class="n">thread</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">PF_EXITING</span><span class="p">)</span>
+		<span class="k">return</span><span class="p">;</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * Wake up the handler thread for this action. If the</span>
+<span class="cm">	 * RUNTHREAD bit is already set, nothing to do.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">test_and_set_bit</span><span class="p">(</span><span class="n">IRQTF_RUNTHREAD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">action</span><span class="o">-&gt;</span><span class="n">thread_flags</span><span class="p">))</span>
+		<span class="k">return</span><span class="p">;</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * It&#39;s safe to OR the mask lockless here. We have only two</span>
+<span class="cm">	 * places which write to threads_oneshot: This code and the</span>
+<span class="cm">	 * irq thread.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * This code is the hard irq context and can never run on two</span>
+<span class="cm">	 * cpus in parallel. If it ever does we have more serious</span>
+<span class="cm">	 * problems than this bitmask.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * The irq threads of this irq which clear their &quot;running&quot; bit</span>
+<span class="cm">	 * in threads_oneshot are serialized via desc-&gt;lock against</span>
+<span class="cm">	 * each other and they are serialized against this code by</span>
+<span class="cm">	 * IRQS_INPROGRESS.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * Hard irq handler:</span>
+<span class="cm">	 *</span>
+<span class="cm">	 *	spin_lock(desc-&gt;lock);</span>
+<span class="cm">	 *	desc-&gt;state |= IRQS_INPROGRESS;</span>
+<span class="cm">	 *	spin_unlock(desc-&gt;lock);</span>
+<span class="cm">	 *	set_bit(IRQTF_RUNTHREAD, &amp;action-&gt;thread_flags);</span>
+<span class="cm">	 *	desc-&gt;threads_oneshot |= mask;</span>
+<span class="cm">	 *	spin_lock(desc-&gt;lock);</span>
+<span class="cm">	 *	desc-&gt;state &amp;= ~IRQS_INPROGRESS;</span>
+<span class="cm">	 *	spin_unlock(desc-&gt;lock);</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * irq thread:</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * again:</span>
+<span class="cm">	 *	spin_lock(desc-&gt;lock);</span>
+<span class="cm">	 *	if (desc-&gt;state &amp; IRQS_INPROGRESS) {</span>
+<span class="cm">	 *		spin_unlock(desc-&gt;lock);</span>
+<span class="cm">	 *		while(desc-&gt;state &amp; IRQS_INPROGRESS)</span>
+<span class="cm">	 *			cpu_relax();</span>
+<span class="cm">	 *		goto again;</span>
+<span class="cm">	 *	}</span>
+<span class="cm">	 *	if (!test_bit(IRQTF_RUNTHREAD, &amp;action-&gt;thread_flags))</span>
+<span class="cm">	 *		desc-&gt;threads_oneshot &amp;= ~mask;</span>
+<span class="cm">	 *	spin_unlock(desc-&gt;lock);</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * So either the thread waits for us to clear IRQS_INPROGRESS</span>
+<span class="cm">	 * or we are waiting in the flow handler for desc-&gt;lock to be</span>
+<span class="cm">	 * released before we reach this point. The thread also checks</span>
+<span class="cm">	 * IRQTF_RUNTHREAD under desc-&gt;lock. If set it leaves</span>
+<span class="cm">	 * threads_oneshot untouched and runs the thread another time.</span>
+<span class="cm">	 */</span>
+	<span class="n">desc</span><span class="o">-&gt;</span><span class="n">threads_oneshot</span> <span class="o">|=</span> <span class="n">action</span><span class="o">-&gt;</span><span class="n">thread_mask</span><span class="p">;</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * We increment the threads_active counter in case we wake up</span>
+<span class="cm">	 * the irq thread. The irq thread decrements the counter when</span>
+<span class="cm">	 * it returns from the handler or in the exit path and wakes</span>
+<span class="cm">	 * up waiters which are stuck in synchronize_irq() when the</span>
+<span class="cm">	 * active count becomes zero. synchronize_irq() is serialized</span>
+<span class="cm">	 * against this code (hard irq handler) via IRQS_INPROGRESS</span>
+<span class="cm">	 * like the finalize_oneshot() code. See comment above.</span>
+<span class="cm">	 */</span>
+	<span class="n">atomic_inc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">desc</span><span class="o">-&gt;</span><span class="n">threads_active</span><span class="p">);</span>
+
+	<span class="n">wake_up_process</span><span class="p">(</span><span class="n">action</span><span class="o">-&gt;</span><span class="n">thread</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">irqreturn_t</span> <span class="nf">__handle_irq_event_percpu</span><span class="p">(</span><span class="k">struct</span> <span class="n">irq_desc</span> <span class="o">*</span><span class="n">desc</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">irqreturn_t</span> <span class="n">retval</span> <span class="o">=</span> <span class="n">IRQ_NONE</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">irq</span> <span class="o">=</span> <span class="n">desc</span><span class="o">-&gt;</span><span class="n">irq_data</span><span class="p">.</span><span class="n">irq</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">irqaction</span> <span class="o">*</span><span class="n">action</span><span class="p">;</span>
+
+	<span class="n">for_each_action_of_desc</span><span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">irqreturn_t</span> <span class="n">res</span><span class="p">;</span>
+
+		<span class="n">trace_irq_handler_entry</span><span class="p">(</span><span class="n">irq</span><span class="p">,</span> <span class="n">action</span><span class="p">);</span>
+		<span class="n">res</span> <span class="o">=</span> <span class="n">action</span><span class="o">-&gt;</span><span class="n">handler</span><span class="p">(</span><span class="n">irq</span><span class="p">,</span> <span class="n">action</span><span class="o">-&gt;</span><span class="n">dev_id</span><span class="p">);</span>
+		<span class="n">trace_irq_handler_exit</span><span class="p">(</span><span class="n">irq</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">res</span><span class="p">);</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">WARN_ONCE</span><span class="p">(</span><span class="o">!</span><span class="n">irqs_disabled</span><span class="p">(),</span><span class="s">&quot;irq %u handler %pF enabled interrupts</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+			      <span class="n">irq</span><span class="p">,</span> <span class="n">action</span><span class="o">-&gt;</span><span class="n">handler</span><span class="p">))</span>
+			<span class="n">local_irq_disable</span><span class="p">();</span>
+
+		<span class="k">switch</span> <span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="nl">IRQ_WAKE_THREAD</span><span class="p">:</span>
+			<span class="cm">/*</span>
+<span class="cm">			 * Catch drivers which return WAKE_THREAD but</span>
+<span class="cm">			 * did not set up a thread function</span>
+<span class="cm">			 */</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">action</span><span class="o">-&gt;</span><span class="n">thread_fn</span><span class="p">))</span> <span class="p">{</span>
+				<span class="n">warn_no_thread</span><span class="p">(</span><span class="n">irq</span><span class="p">,</span> <span class="n">action</span><span class="p">);</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="p">}</span>
+
+			<span class="n">__irq_wake_thread</span><span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="n">action</span><span class="p">);</span>
+
+			<span class="cm">/* Fall through to add to randomness */</span>
+		<span class="k">case</span> <span class="nl">IRQ_HANDLED</span><span class="p">:</span>
+			<span class="o">*</span><span class="n">flags</span> <span class="o">|=</span> <span class="n">action</span><span class="o">-&gt;</span><span class="n">flags</span><span class="p">;</span>
+			<span class="k">break</span><span class="p">;</span>
+
+		<span class="k">default</span><span class="o">:</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="n">retval</span> <span class="o">|=</span> <span class="n">res</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">retval</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">irqreturn_t</span> <span class="nf">handle_irq_event_percpu</span><span class="p">(</span><span class="k">struct</span> <span class="n">irq_desc</span> <span class="o">*</span><span class="n">desc</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">irqreturn_t</span> <span class="n">retval</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">retval</span> <span class="o">=</span> <span class="n">__handle_irq_event_percpu</span><span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">flags</span><span class="p">);</span>
+
+	<span class="n">add_interrupt_randomness</span><span class="p">(</span><span class="n">desc</span><span class="o">-&gt;</span><span class="n">irq_data</span><span class="p">.</span><span class="n">irq</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">noirqdebug</span><span class="p">)</span>
+		<span class="n">note_interrupt</span><span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="n">retval</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">retval</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">irqreturn_t</span> <span class="nf">handle_irq_event</span><span class="p">(</span><span class="k">struct</span> <span class="n">irq_desc</span> <span class="o">*</span><span class="n">desc</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">irqreturn_t</span> <span class="n">ret</span><span class="p">;</span>
+
+	<span class="n">desc</span><span class="o">-&gt;</span><span class="n">istate</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">IRQS_PENDING</span><span class="p">;</span>
+	<span class="n">irqd_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">desc</span><span class="o">-&gt;</span><span class="n">irq_data</span><span class="p">,</span> <span class="n">IRQD_IRQ_INPROGRESS</span><span class="p">);</span>
+	<span class="n">raw_spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">desc</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">handle_irq_event_percpu</span><span class="p">(</span><span class="n">desc</span><span class="p">);</span>
+
+	<span class="n">raw_spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">desc</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+	<span class="n">irqd_clear</span><span class="p">(</span><span class="o">&amp;</span><span class="n">desc</span><span class="o">-&gt;</span><span class="n">irq_data</span><span class="p">,</span> <span class="n">IRQD_IRQ_INPROGRESS</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

@@ -1,0 +1,110 @@
+fs/notify/fanotify/fanotify.h<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L1"> 1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L2"> 2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L3"> 3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L4"> 4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L5"> 5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L6"> 6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L7"> 7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L8"> 8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L9"> 9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L10">10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L11">11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L12">12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L13">13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L14">14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L15">15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L16">16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L17">17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L18">18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L19">19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L20">20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L21">21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L22">22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L23">23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L24">24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L25">25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L26">26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L27">27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L28">28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L29">29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L30">30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L31">31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L32">32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L33">33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L34">34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L35">35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L36">36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L37">37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L38">38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L39">39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L40">40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L41">41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L42">42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L43">43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L44">44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L45">45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L46">46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L47">47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L48">48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L49">49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/fs/notify/fanotify/fanotify.h#L50">50</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;linux/fsnotify_backend.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/path.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/slab.h&gt;</span><span class="cp"></span>
+
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">kmem_cache</span> <span class="o">*</span><span class="n">fanotify_event_cachep</span><span class="p">;</span>
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">kmem_cache</span> <span class="o">*</span><span class="n">fanotify_perm_event_cachep</span><span class="p">;</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Structure for normal fanotify events. It gets allocated in</span>
+<span class="cm"> * fanotify_handle_event() and freed when the information is retrieved by</span>
+<span class="cm"> * userspace</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="n">fanotify_event_info</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">fsnotify_event</span> <span class="n">fse</span><span class="p">;</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * We hold ref to this path so it may be dereferenced at any point</span>
+<span class="cm">	 * during this object&#39;s lifetime</span>
+<span class="cm">	 */</span>
+	<span class="k">struct</span> <span class="n">path</span> <span class="n">path</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">pid</span> <span class="o">*</span><span class="n">tgid</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cp">#ifdef CONFIG_FANOTIFY_ACCESS_PERMISSIONS</span>
+<span class="cm">/*</span>
+<span class="cm"> * Structure for permission fanotify events. It gets allocated and freed in</span>
+<span class="cm"> * fanotify_handle_event() since we wait there for user response. When the</span>
+<span class="cm"> * information is retrieved by userspace the structure is moved from</span>
+<span class="cm"> * group-&gt;notification_list to group-&gt;fanotify_data.access_list to wait for</span>
+<span class="cm"> * user response.</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="n">fanotify_perm_event_info</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">fanotify_event_info</span> <span class="n">fae</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">response</span><span class="p">;</span>	<span class="cm">/* userspace answer to question */</span>
+	<span class="kt">int</span> <span class="n">fd</span><span class="p">;</span>		<span class="cm">/* fd we passed to userspace for this event */</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="k">struct</span> <span class="n">fanotify_perm_event_info</span> <span class="o">*</span>
+<span class="nf">FANOTIFY_PE</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_event</span> <span class="o">*</span><span class="n">fse</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">container_of</span><span class="p">(</span><span class="n">fse</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fanotify_perm_event_info</span><span class="p">,</span> <span class="n">fae</span><span class="p">.</span><span class="n">fse</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="k">struct</span> <span class="n">fanotify_event_info</span> <span class="o">*</span><span class="nf">FANOTIFY_E</span><span class="p">(</span><span class="k">struct</span> <span class="n">fsnotify_event</span> <span class="o">*</span><span class="n">fse</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">container_of</span><span class="p">(</span><span class="n">fse</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fanotify_event_info</span><span class="p">,</span> <span class="n">fse</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">fanotify_event_info</span> <span class="o">*</span><span class="nf">fanotify_alloc_event</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="n">u32</span> <span class="n">mask</span><span class="p">,</span>
+						 <span class="k">const</span> <span class="k">struct</span> <span class="n">path</span> <span class="o">*</span><span class="n">path</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

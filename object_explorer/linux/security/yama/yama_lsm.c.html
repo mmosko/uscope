@@ -1,0 +1,990 @@
+security/yama/yama_lsm.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L390">390</a>
+<a name="L391" id="L391" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L391">391</a>
+<a name="L392" id="L392" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L392">392</a>
+<a name="L393" id="L393" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L393">393</a>
+<a name="L394" id="L394" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L394">394</a>
+<a name="L395" id="L395" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L395">395</a>
+<a name="L396" id="L396" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L396">396</a>
+<a name="L397" id="L397" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L397">397</a>
+<a name="L398" id="L398" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L398">398</a>
+<a name="L399" id="L399" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L399">399</a>
+<a name="L400" id="L400" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L400">400</a>
+<a name="L401" id="L401" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L401">401</a>
+<a name="L402" id="L402" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L402">402</a>
+<a name="L403" id="L403" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L403">403</a>
+<a name="L404" id="L404" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L404">404</a>
+<a name="L405" id="L405" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L405">405</a>
+<a name="L406" id="L406" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L406">406</a>
+<a name="L407" id="L407" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L407">407</a>
+<a name="L408" id="L408" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L408">408</a>
+<a name="L409" id="L409" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L409">409</a>
+<a name="L410" id="L410" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L410">410</a>
+<a name="L411" id="L411" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L411">411</a>
+<a name="L412" id="L412" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L412">412</a>
+<a name="L413" id="L413" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L413">413</a>
+<a name="L414" id="L414" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L414">414</a>
+<a name="L415" id="L415" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L415">415</a>
+<a name="L416" id="L416" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L416">416</a>
+<a name="L417" id="L417" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L417">417</a>
+<a name="L418" id="L418" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L418">418</a>
+<a name="L419" id="L419" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L419">419</a>
+<a name="L420" id="L420" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L420">420</a>
+<a name="L421" id="L421" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L421">421</a>
+<a name="L422" id="L422" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L422">422</a>
+<a name="L423" id="L423" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L423">423</a>
+<a name="L424" id="L424" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L424">424</a>
+<a name="L425" id="L425" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L425">425</a>
+<a name="L426" id="L426" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L426">426</a>
+<a name="L427" id="L427" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L427">427</a>
+<a name="L428" id="L428" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L428">428</a>
+<a name="L429" id="L429" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L429">429</a>
+<a name="L430" id="L430" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L430">430</a>
+<a name="L431" id="L431" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L431">431</a>
+<a name="L432" id="L432" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L432">432</a>
+<a name="L433" id="L433" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L433">433</a>
+<a name="L434" id="L434" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L434">434</a>
+<a name="L435" id="L435" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L435">435</a>
+<a name="L436" id="L436" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L436">436</a>
+<a name="L437" id="L437" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L437">437</a>
+<a name="L438" id="L438" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L438">438</a>
+<a name="L439" id="L439" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L439">439</a>
+<a name="L440" id="L440" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L440">440</a>
+<a name="L441" id="L441" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L441">441</a>
+<a name="L442" id="L442" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L442">442</a>
+<a name="L443" id="L443" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L443">443</a>
+<a name="L444" id="L444" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L444">444</a>
+<a name="L445" id="L445" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L445">445</a>
+<a name="L446" id="L446" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L446">446</a>
+<a name="L447" id="L447" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L447">447</a>
+<a name="L448" id="L448" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L448">448</a>
+<a name="L449" id="L449" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L449">449</a>
+<a name="L450" id="L450" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L450">450</a>
+<a name="L451" id="L451" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L451">451</a>
+<a name="L452" id="L452" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L452">452</a>
+<a name="L453" id="L453" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L453">453</a>
+<a name="L454" id="L454" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L454">454</a>
+<a name="L455" id="L455" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L455">455</a>
+<a name="L456" id="L456" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L456">456</a>
+<a name="L457" id="L457" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L457">457</a>
+<a name="L458" id="L458" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L458">458</a>
+<a name="L459" id="L459" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L459">459</a>
+<a name="L460" id="L460" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L460">460</a>
+<a name="L461" id="L461" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L461">461</a>
+<a name="L462" id="L462" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L462">462</a>
+<a name="L463" id="L463" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L463">463</a>
+<a name="L464" id="L464" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L464">464</a>
+<a name="L465" id="L465" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L465">465</a>
+<a name="L466" id="L466" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L466">466</a>
+<a name="L467" id="L467" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L467">467</a>
+<a name="L468" id="L468" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L468">468</a>
+<a name="L469" id="L469" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L469">469</a>
+<a name="L470" id="L470" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L470">470</a>
+<a name="L471" id="L471" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L471">471</a>
+<a name="L472" id="L472" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L472">472</a>
+<a name="L473" id="L473" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L473">473</a>
+<a name="L474" id="L474" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L474">474</a>
+<a name="L475" id="L475" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L475">475</a>
+<a name="L476" id="L476" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L476">476</a>
+<a name="L477" id="L477" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L477">477</a>
+<a name="L478" id="L478" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L478">478</a>
+<a name="L479" id="L479" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L479">479</a>
+<a name="L480" id="L480" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L480">480</a>
+<a name="L481" id="L481" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L481">481</a>
+<a name="L482" id="L482" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L482">482</a>
+<a name="L483" id="L483" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L483">483</a>
+<a name="L484" id="L484" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L484">484</a>
+<a name="L485" id="L485" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L485">485</a>
+<a name="L486" id="L486" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L486">486</a>
+<a name="L487" id="L487" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L487">487</a>
+<a name="L488" id="L488" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L488">488</a>
+<a name="L489" id="L489" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L489">489</a>
+<a name="L490" id="L490" href="https://uscope-linux.github.io/object_explorer/linux/security/yama/yama_lsm.c#L490">490</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Yama Linux Security Module</span>
+<span class="cm"> *</span>
+<span class="cm"> * Author: Kees Cook &lt;keescook@chromium.org&gt;</span>
+<span class="cm"> *</span>
+<span class="cm"> * Copyright (C) 2010 Canonical, Ltd.</span>
+<span class="cm"> * Copyright (C) 2011 The Chromium OS Authors.</span>
+<span class="cm"> *</span>
+<span class="cm"> * This program is free software; you can redistribute it and/or modify</span>
+<span class="cm"> * it under the terms of the GNU General Public License version 2, as</span>
+<span class="cm"> * published by the Free Software Foundation.</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/lsm_hooks.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/sysctl.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/ptrace.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/prctl.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/ratelimit.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/workqueue.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/string_helpers.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/task_work.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/sched.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/spinlock.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#define YAMA_SCOPE_DISABLED	0</span>
+<span class="cp">#define YAMA_SCOPE_RELATIONAL	1</span>
+<span class="cp">#define YAMA_SCOPE_CAPABILITY	2</span>
+<span class="cp">#define YAMA_SCOPE_NO_ATTACH	3</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">ptrace_scope</span> <span class="o">=</span> <span class="n">YAMA_SCOPE_RELATIONAL</span><span class="p">;</span>
+
+<span class="cm">/* describe a ptrace relationship for potential exception */</span>
+<span class="k">struct</span> <span class="n">ptrace_relation</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">tracer</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">tracee</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">invalid</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">node</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">rcu_head</span> <span class="n">rcu</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="nf">LIST_HEAD</span><span class="p">(</span><span class="n">ptracer_relations</span><span class="p">);</span>
+<span class="k">static</span> <span class="nf">DEFINE_SPINLOCK</span><span class="p">(</span><span class="n">ptracer_relations_lock</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">yama_relation_cleanup</span><span class="p">(</span><span class="k">struct</span> <span class="n">work_struct</span> <span class="o">*</span><span class="n">work</span><span class="p">);</span>
+<span class="k">static</span> <span class="nf">DECLARE_WORK</span><span class="p">(</span><span class="n">yama_relation_work</span><span class="p">,</span> <span class="n">yama_relation_cleanup</span><span class="p">);</span>
+
+<span class="k">struct</span> <span class="n">access_report_info</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">callback_head</span> <span class="n">work</span><span class="p">;</span>
+	<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">access</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">target</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">agent</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">__report_access</span><span class="p">(</span><span class="k">struct</span> <span class="n">callback_head</span> <span class="o">*</span><span class="n">work</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">access_report_info</span> <span class="o">*</span><span class="n">info</span> <span class="o">=</span>
+		<span class="n">container_of</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="k">struct</span> <span class="n">access_report_info</span><span class="p">,</span> <span class="n">work</span><span class="p">);</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">target_cmd</span><span class="p">,</span> <span class="o">*</span><span class="n">agent_cmd</span><span class="p">;</span>
+
+	<span class="n">target_cmd</span> <span class="o">=</span> <span class="n">kstrdup_quotable_cmdline</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">target</span><span class="p">,</span> <span class="n">GFP_KERNEL</span><span class="p">);</span>
+	<span class="n">agent_cmd</span> <span class="o">=</span> <span class="n">kstrdup_quotable_cmdline</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">agent</span><span class="p">,</span> <span class="n">GFP_KERNEL</span><span class="p">);</span>
+
+	<span class="n">pr_notice_ratelimited</span><span class="p">(</span>
+		<span class="s">&quot;ptrace %s of </span><span class="se">\&quot;</span><span class="s">%s</span><span class="se">\&quot;</span><span class="s">[%d] was attempted by </span><span class="se">\&quot;</span><span class="s">%s</span><span class="se">\&quot;</span><span class="s">[%d]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+		<span class="n">info</span><span class="o">-&gt;</span><span class="n">access</span><span class="p">,</span> <span class="n">target_cmd</span><span class="p">,</span> <span class="n">info</span><span class="o">-&gt;</span><span class="n">target</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">,</span> <span class="n">agent_cmd</span><span class="p">,</span>
+		<span class="n">info</span><span class="o">-&gt;</span><span class="n">agent</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">);</span>
+
+	<span class="n">kfree</span><span class="p">(</span><span class="n">agent_cmd</span><span class="p">);</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">target_cmd</span><span class="p">);</span>
+
+	<span class="n">put_task_struct</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">agent</span><span class="p">);</span>
+	<span class="n">put_task_struct</span><span class="p">(</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">target</span><span class="p">);</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">info</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/* defers execution because cmdline access can sleep */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">report_access</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">access</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">target</span><span class="p">,</span>
+				<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">agent</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">access_report_info</span> <span class="o">*</span><span class="n">info</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">agent_comm</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="n">agent</span><span class="o">-&gt;</span><span class="n">comm</span><span class="p">)];</span>
+
+	<span class="n">assert_spin_locked</span><span class="p">(</span><span class="o">&amp;</span><span class="n">target</span><span class="o">-&gt;</span><span class="n">alloc_lock</span><span class="p">);</span> <span class="cm">/* for target-&gt;comm */</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">current</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">PF_KTHREAD</span><span class="p">)</span> <span class="p">{</span>
+		<span class="cm">/* I don&#39;t think kthreads call task_work_run() before exiting.</span>
+<span class="cm">		 * Imagine angry ranting about procfs here.</span>
+<span class="cm">		 */</span>
+		<span class="n">pr_notice_ratelimited</span><span class="p">(</span>
+		    <span class="s">&quot;ptrace %s of </span><span class="se">\&quot;</span><span class="s">%s</span><span class="se">\&quot;</span><span class="s">[%d] was attempted by </span><span class="se">\&quot;</span><span class="s">%s</span><span class="se">\&quot;</span><span class="s">[%d]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+		    <span class="n">access</span><span class="p">,</span> <span class="n">target</span><span class="o">-&gt;</span><span class="n">comm</span><span class="p">,</span> <span class="n">target</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">,</span>
+		    <span class="n">get_task_comm</span><span class="p">(</span><span class="n">agent_comm</span><span class="p">,</span> <span class="n">agent</span><span class="p">),</span> <span class="n">agent</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">info</span> <span class="o">=</span> <span class="n">kmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">info</span><span class="p">),</span> <span class="n">GFP_ATOMIC</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">info</span><span class="p">)</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="n">init_task_work</span><span class="p">(</span><span class="o">&amp;</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">work</span><span class="p">,</span> <span class="n">__report_access</span><span class="p">);</span>
+	<span class="n">get_task_struct</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+	<span class="n">get_task_struct</span><span class="p">(</span><span class="n">agent</span><span class="p">);</span>
+	<span class="n">info</span><span class="o">-&gt;</span><span class="n">access</span> <span class="o">=</span> <span class="n">access</span><span class="p">;</span>
+	<span class="n">info</span><span class="o">-&gt;</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="p">;</span>
+	<span class="n">info</span><span class="o">-&gt;</span><span class="n">agent</span> <span class="o">=</span> <span class="n">agent</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">task_work_add</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">info</span><span class="o">-&gt;</span><span class="n">work</span><span class="p">,</span> <span class="n">true</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span><span class="p">;</span> <span class="cm">/* success */</span>
+
+	<span class="n">WARN</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;report_access called from exiting task&quot;</span><span class="p">);</span>
+	<span class="n">put_task_struct</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+	<span class="n">put_task_struct</span><span class="p">(</span><span class="n">agent</span><span class="p">);</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">info</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * yama_relation_cleanup - remove invalid entries from the relation list</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">yama_relation_cleanup</span><span class="p">(</span><span class="k">struct</span> <span class="n">work_struct</span> <span class="o">*</span><span class="n">work</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">ptrace_relation</span> <span class="o">*</span><span class="n">relation</span><span class="p">;</span>
+
+	<span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ptracer_relations_lock</span><span class="p">);</span>
+	<span class="n">rcu_read_lock</span><span class="p">();</span>
+	<span class="n">list_for_each_entry_rcu</span><span class="p">(</span><span class="n">relation</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ptracer_relations</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">relation</span><span class="o">-&gt;</span><span class="n">invalid</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">list_del_rcu</span><span class="p">(</span><span class="o">&amp;</span><span class="n">relation</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">);</span>
+			<span class="n">kfree_rcu</span><span class="p">(</span><span class="n">relation</span><span class="p">,</span> <span class="n">rcu</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="n">rcu_read_unlock</span><span class="p">();</span>
+	<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ptracer_relations_lock</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * yama_ptracer_add - add/replace an exception for this tracer/tracee pair</span>
+<span class="cm"> * @tracer: the task_struct of the process doing the ptrace</span>
+<span class="cm"> * @tracee: the task_struct of the process to be ptraced</span>
+<span class="cm"> *</span>
+<span class="cm"> * Each tracee can have, at most, one tracer registered. Each time this</span>
+<span class="cm"> * is called, the prior registered tracer will be replaced for the tracee.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Returns 0 if relationship was added, -ve on error.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">yama_ptracer_add</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">tracer</span><span class="p">,</span>
+			    <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">tracee</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">ptrace_relation</span> <span class="o">*</span><span class="n">relation</span><span class="p">,</span> <span class="o">*</span><span class="n">added</span><span class="p">;</span>
+
+	<span class="n">added</span> <span class="o">=</span> <span class="n">kmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">added</span><span class="p">),</span> <span class="n">GFP_KERNEL</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">added</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+
+	<span class="n">added</span><span class="o">-&gt;</span><span class="n">tracee</span> <span class="o">=</span> <span class="n">tracee</span><span class="p">;</span>
+	<span class="n">added</span><span class="o">-&gt;</span><span class="n">tracer</span> <span class="o">=</span> <span class="n">tracer</span><span class="p">;</span>
+	<span class="n">added</span><span class="o">-&gt;</span><span class="n">invalid</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ptracer_relations_lock</span><span class="p">);</span>
+	<span class="n">rcu_read_lock</span><span class="p">();</span>
+	<span class="n">list_for_each_entry_rcu</span><span class="p">(</span><span class="n">relation</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ptracer_relations</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">relation</span><span class="o">-&gt;</span><span class="n">invalid</span><span class="p">)</span>
+			<span class="k">continue</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">relation</span><span class="o">-&gt;</span><span class="n">tracee</span> <span class="o">==</span> <span class="n">tracee</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">list_replace_rcu</span><span class="p">(</span><span class="o">&amp;</span><span class="n">relation</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">added</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">);</span>
+			<span class="n">kfree_rcu</span><span class="p">(</span><span class="n">relation</span><span class="p">,</span> <span class="n">rcu</span><span class="p">);</span>
+			<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="n">list_add_rcu</span><span class="p">(</span><span class="o">&amp;</span><span class="n">added</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ptracer_relations</span><span class="p">);</span>
+
+<span class="nl">out</span><span class="p">:</span>
+	<span class="n">rcu_read_unlock</span><span class="p">();</span>
+	<span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ptracer_relations_lock</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * yama_ptracer_del - remove exceptions related to the given tasks</span>
+<span class="cm"> * @tracer: remove any relation where tracer task matches</span>
+<span class="cm"> * @tracee: remove any relation where tracee task matches</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">yama_ptracer_del</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">tracer</span><span class="p">,</span>
+			     <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">tracee</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">ptrace_relation</span> <span class="o">*</span><span class="n">relation</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">marked</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="n">rcu_read_lock</span><span class="p">();</span>
+	<span class="n">list_for_each_entry_rcu</span><span class="p">(</span><span class="n">relation</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ptracer_relations</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">relation</span><span class="o">-&gt;</span><span class="n">invalid</span><span class="p">)</span>
+			<span class="k">continue</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">relation</span><span class="o">-&gt;</span><span class="n">tracee</span> <span class="o">==</span> <span class="n">tracee</span> <span class="o">||</span>
+		    <span class="p">(</span><span class="n">tracer</span> <span class="o">&amp;&amp;</span> <span class="n">relation</span><span class="o">-&gt;</span><span class="n">tracer</span> <span class="o">==</span> <span class="n">tracer</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">relation</span><span class="o">-&gt;</span><span class="n">invalid</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+			<span class="n">marked</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="n">rcu_read_unlock</span><span class="p">();</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">marked</span><span class="p">)</span>
+		<span class="n">schedule_work</span><span class="p">(</span><span class="o">&amp;</span><span class="n">yama_relation_work</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * yama_task_free - check for task_pid to remove from exception list</span>
+<span class="cm"> * @task: task being removed</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">yama_task_free</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">task</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">yama_ptracer_del</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">task</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * yama_task_prctl - check for Yama-specific prctl operations</span>
+<span class="cm"> * @option: operation</span>
+<span class="cm"> * @arg2: argument</span>
+<span class="cm"> * @arg3: argument</span>
+<span class="cm"> * @arg4: argument</span>
+<span class="cm"> * @arg5: argument</span>
+<span class="cm"> *</span>
+<span class="cm"> * Return 0 on success, -ve on error.  -ENOSYS is returned when Yama</span>
+<span class="cm"> * does not handle the given option.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">yama_task_prctl</span><span class="p">(</span><span class="kt">int</span> <span class="n">option</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">arg2</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">arg3</span><span class="p">,</span>
+			   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">arg4</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">arg5</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">rc</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENOSYS</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">myself</span> <span class="o">=</span> <span class="n">current</span><span class="p">;</span>
+
+	<span class="k">switch</span> <span class="p">(</span><span class="n">option</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="nl">PR_SET_PTRACER</span><span class="p">:</span>
+		<span class="cm">/* Since a thread can call prctl(), find the group leader</span>
+<span class="cm">		 * before calling _add() or _del() on it, since we want</span>
+<span class="cm">		 * process-level granularity of control. The tracer group</span>
+<span class="cm">		 * leader checking is handled later when walking the ancestry</span>
+<span class="cm">		 * at the time of PTRACE_ATTACH check.</span>
+<span class="cm">		 */</span>
+		<span class="n">rcu_read_lock</span><span class="p">();</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">thread_group_leader</span><span class="p">(</span><span class="n">myself</span><span class="p">))</span>
+			<span class="n">myself</span> <span class="o">=</span> <span class="n">rcu_dereference</span><span class="p">(</span><span class="n">myself</span><span class="o">-&gt;</span><span class="n">group_leader</span><span class="p">);</span>
+		<span class="n">get_task_struct</span><span class="p">(</span><span class="n">myself</span><span class="p">);</span>
+		<span class="n">rcu_read_unlock</span><span class="p">();</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">arg2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">yama_ptracer_del</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">myself</span><span class="p">);</span>
+			<span class="n">rc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">arg2</span> <span class="o">==</span> <span class="n">PR_SET_PTRACER_ANY</span> <span class="o">||</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">arg2</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">rc</span> <span class="o">=</span> <span class="n">yama_ptracer_add</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">myself</span><span class="p">);</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">tracer</span><span class="p">;</span>
+
+			<span class="n">rcu_read_lock</span><span class="p">();</span>
+			<span class="n">tracer</span> <span class="o">=</span> <span class="n">find_task_by_vpid</span><span class="p">(</span><span class="n">arg2</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">tracer</span><span class="p">)</span>
+				<span class="n">get_task_struct</span><span class="p">(</span><span class="n">tracer</span><span class="p">);</span>
+			<span class="k">else</span>
+				<span class="n">rc</span> <span class="o">=</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+			<span class="n">rcu_read_unlock</span><span class="p">();</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">tracer</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">rc</span> <span class="o">=</span> <span class="n">yama_ptracer_add</span><span class="p">(</span><span class="n">tracer</span><span class="p">,</span> <span class="n">myself</span><span class="p">);</span>
+				<span class="n">put_task_struct</span><span class="p">(</span><span class="n">tracer</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="n">put_task_struct</span><span class="p">(</span><span class="n">myself</span><span class="p">);</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">rc</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * task_is_descendant - walk up a process family tree looking for a match</span>
+<span class="cm"> * @parent: the process to compare against while walking up from child</span>
+<span class="cm"> * @child: the process to start from while looking upwards for parent</span>
+<span class="cm"> *</span>
+<span class="cm"> * Returns 1 if child is a descendant of parent, 0 if not.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">task_is_descendant</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">parent</span><span class="p">,</span>
+			      <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">child</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">rc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">walker</span> <span class="o">=</span> <span class="n">child</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">parent</span> <span class="o">||</span> <span class="o">!</span><span class="n">child</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">rcu_read_lock</span><span class="p">();</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">thread_group_leader</span><span class="p">(</span><span class="n">parent</span><span class="p">))</span>
+		<span class="n">parent</span> <span class="o">=</span> <span class="n">rcu_dereference</span><span class="p">(</span><span class="n">parent</span><span class="o">-&gt;</span><span class="n">group_leader</span><span class="p">);</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">walker</span><span class="o">-&gt;</span><span class="n">pid</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">thread_group_leader</span><span class="p">(</span><span class="n">walker</span><span class="p">))</span>
+			<span class="n">walker</span> <span class="o">=</span> <span class="n">rcu_dereference</span><span class="p">(</span><span class="n">walker</span><span class="o">-&gt;</span><span class="n">group_leader</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">walker</span> <span class="o">==</span> <span class="n">parent</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">rc</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">walker</span> <span class="o">=</span> <span class="n">rcu_dereference</span><span class="p">(</span><span class="n">walker</span><span class="o">-&gt;</span><span class="n">real_parent</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">rcu_read_unlock</span><span class="p">();</span>
+
+	<span class="k">return</span> <span class="n">rc</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * ptracer_exception_found - tracer registered as exception for this tracee</span>
+<span class="cm"> * @tracer: the task_struct of the process attempting ptrace</span>
+<span class="cm"> * @tracee: the task_struct of the process to be ptraced</span>
+<span class="cm"> *</span>
+<span class="cm"> * Returns 1 if tracer has a ptracer exception ancestor for tracee.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">ptracer_exception_found</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">tracer</span><span class="p">,</span>
+				   <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">tracee</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">rc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ptrace_relation</span> <span class="o">*</span><span class="n">relation</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">parent</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="n">found</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="n">rcu_read_lock</span><span class="p">();</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * If there&#39;s already an active tracing relationship, then make an</span>
+<span class="cm">	 * exception for the sake of other accesses, like process_vm_rw().</span>
+<span class="cm">	 */</span>
+	<span class="n">parent</span> <span class="o">=</span> <span class="n">ptrace_parent</span><span class="p">(</span><span class="n">tracee</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">parent</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">same_thread_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">tracer</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">rc</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="k">goto</span> <span class="n">unlock</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* Look for a PR_SET_PTRACER relationship. */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">thread_group_leader</span><span class="p">(</span><span class="n">tracee</span><span class="p">))</span>
+		<span class="n">tracee</span> <span class="o">=</span> <span class="n">rcu_dereference</span><span class="p">(</span><span class="n">tracee</span><span class="o">-&gt;</span><span class="n">group_leader</span><span class="p">);</span>
+	<span class="n">list_for_each_entry_rcu</span><span class="p">(</span><span class="n">relation</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ptracer_relations</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">relation</span><span class="o">-&gt;</span><span class="n">invalid</span><span class="p">)</span>
+			<span class="k">continue</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">relation</span><span class="o">-&gt;</span><span class="n">tracee</span> <span class="o">==</span> <span class="n">tracee</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">parent</span> <span class="o">=</span> <span class="n">relation</span><span class="o">-&gt;</span><span class="n">tracer</span><span class="p">;</span>
+			<span class="n">found</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">found</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">parent</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="n">task_is_descendant</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">tracer</span><span class="p">)))</span>
+		<span class="n">rc</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="nl">unlock</span><span class="p">:</span>
+	<span class="n">rcu_read_unlock</span><span class="p">();</span>
+
+	<span class="k">return</span> <span class="n">rc</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * yama_ptrace_access_check - validate PTRACE_ATTACH calls</span>
+<span class="cm"> * @child: task that current task is attempting to ptrace</span>
+<span class="cm"> * @mode: ptrace attach mode</span>
+<span class="cm"> *</span>
+<span class="cm"> * Returns 0 if following the ptrace is allowed, -ve on error.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">yama_ptrace_access_check</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">child</span><span class="p">,</span>
+				    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">mode</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">rc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="cm">/* require ptrace target be a child of ptracer on attach */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">mode</span> <span class="o">&amp;</span> <span class="n">PTRACE_MODE_ATTACH</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">switch</span> <span class="p">(</span><span class="n">ptrace_scope</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="nl">YAMA_SCOPE_DISABLED</span><span class="p">:</span>
+			<span class="cm">/* No additional restrictions. */</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="nl">YAMA_SCOPE_RELATIONAL</span><span class="p">:</span>
+			<span class="n">rcu_read_lock</span><span class="p">();</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">task_is_descendant</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">child</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+			    <span class="o">!</span><span class="n">ptracer_exception_found</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">child</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+			    <span class="o">!</span><span class="n">ns_capable</span><span class="p">(</span><span class="n">__task_cred</span><span class="p">(</span><span class="n">child</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">user_ns</span><span class="p">,</span> <span class="n">CAP_SYS_PTRACE</span><span class="p">))</span>
+				<span class="n">rc</span> <span class="o">=</span> <span class="o">-</span><span class="n">EPERM</span><span class="p">;</span>
+			<span class="n">rcu_read_unlock</span><span class="p">();</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="nl">YAMA_SCOPE_CAPABILITY</span><span class="p">:</span>
+			<span class="n">rcu_read_lock</span><span class="p">();</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ns_capable</span><span class="p">(</span><span class="n">__task_cred</span><span class="p">(</span><span class="n">child</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">user_ns</span><span class="p">,</span> <span class="n">CAP_SYS_PTRACE</span><span class="p">))</span>
+				<span class="n">rc</span> <span class="o">=</span> <span class="o">-</span><span class="n">EPERM</span><span class="p">;</span>
+			<span class="n">rcu_read_unlock</span><span class="p">();</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="nl">YAMA_SCOPE_NO_ATTACH</span><span class="p">:</span>
+		<span class="k">default</span><span class="o">:</span>
+			<span class="n">rc</span> <span class="o">=</span> <span class="o">-</span><span class="n">EPERM</span><span class="p">;</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">rc</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">mode</span> <span class="o">&amp;</span> <span class="n">PTRACE_MODE_NOAUDIT</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">report_access</span><span class="p">(</span><span class="s">&quot;attach&quot;</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">current</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">rc</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * yama_ptrace_traceme - validate PTRACE_TRACEME calls</span>
+<span class="cm"> * @parent: task that will become the ptracer of the current task</span>
+<span class="cm"> *</span>
+<span class="cm"> * Returns 0 if following the ptrace is allowed, -ve on error.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">yama_ptrace_traceme</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">parent</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">rc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="cm">/* Only disallow PTRACE_TRACEME on more aggressive settings. */</span>
+	<span class="k">switch</span> <span class="p">(</span><span class="n">ptrace_scope</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="nl">YAMA_SCOPE_CAPABILITY</span><span class="p">:</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">has_ns_capability</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">current_user_ns</span><span class="p">(),</span> <span class="n">CAP_SYS_PTRACE</span><span class="p">))</span>
+			<span class="n">rc</span> <span class="o">=</span> <span class="o">-</span><span class="n">EPERM</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="nl">YAMA_SCOPE_NO_ATTACH</span><span class="p">:</span>
+		<span class="n">rc</span> <span class="o">=</span> <span class="o">-</span><span class="n">EPERM</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">rc</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">task_lock</span><span class="p">(</span><span class="n">current</span><span class="p">);</span>
+		<span class="n">report_access</span><span class="p">(</span><span class="s">&quot;traceme&quot;</span><span class="p">,</span> <span class="n">current</span><span class="p">,</span> <span class="n">parent</span><span class="p">);</span>
+		<span class="n">task_unlock</span><span class="p">(</span><span class="n">current</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">rc</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">security_hook_list</span> <span class="n">yama_hooks</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="n">LSM_HOOK_INIT</span><span class="p">(</span><span class="n">ptrace_access_check</span><span class="p">,</span> <span class="n">yama_ptrace_access_check</span><span class="p">),</span>
+	<span class="n">LSM_HOOK_INIT</span><span class="p">(</span><span class="n">ptrace_traceme</span><span class="p">,</span> <span class="n">yama_ptrace_traceme</span><span class="p">),</span>
+	<span class="n">LSM_HOOK_INIT</span><span class="p">(</span><span class="n">task_prctl</span><span class="p">,</span> <span class="n">yama_task_prctl</span><span class="p">),</span>
+	<span class="n">LSM_HOOK_INIT</span><span class="p">(</span><span class="n">task_free</span><span class="p">,</span> <span class="n">yama_task_free</span><span class="p">),</span>
+<span class="p">};</span>
+
+<span class="cp">#ifdef CONFIG_SYSCTL</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">yama_dointvec_minmax</span><span class="p">(</span><span class="k">struct</span> <span class="n">ctl_table</span> <span class="o">*</span><span class="n">table</span><span class="p">,</span> <span class="kt">int</span> <span class="n">write</span><span class="p">,</span>
+				<span class="kt">void</span> <span class="n">__user</span> <span class="o">*</span><span class="n">buffer</span><span class="p">,</span> <span class="n">size_t</span> <span class="o">*</span><span class="n">lenp</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="n">ppos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">ctl_table</span> <span class="n">table_copy</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">write</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">capable</span><span class="p">(</span><span class="n">CAP_SYS_PTRACE</span><span class="p">))</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EPERM</span><span class="p">;</span>
+
+	<span class="cm">/* Lock the max value if it ever gets set. */</span>
+	<span class="n">table_copy</span> <span class="o">=</span> <span class="o">*</span><span class="n">table</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="n">table_copy</span><span class="p">.</span><span class="n">data</span> <span class="o">==</span> <span class="o">*</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="n">table_copy</span><span class="p">.</span><span class="n">extra2</span><span class="p">)</span>
+		<span class="n">table_copy</span><span class="p">.</span><span class="n">extra1</span> <span class="o">=</span> <span class="n">table_copy</span><span class="p">.</span><span class="n">extra2</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">proc_dointvec_minmax</span><span class="p">(</span><span class="o">&amp;</span><span class="n">table_copy</span><span class="p">,</span> <span class="n">write</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">lenp</span><span class="p">,</span> <span class="n">ppos</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">zero</span><span class="p">;</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">max_scope</span> <span class="o">=</span> <span class="n">YAMA_SCOPE_NO_ATTACH</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">ctl_path</span> <span class="n">yama_sysctl_path</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">{</span> <span class="p">.</span><span class="n">procname</span> <span class="o">=</span> <span class="s">&quot;kernel&quot;</span><span class="p">,</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="p">.</span><span class="n">procname</span> <span class="o">=</span> <span class="s">&quot;yama&quot;</span><span class="p">,</span> <span class="p">},</span>
+	<span class="p">{</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">ctl_table</span> <span class="n">yama_sysctl_table</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">{</span>
+		<span class="p">.</span><span class="n">procname</span>       <span class="o">=</span> <span class="s">&quot;ptrace_scope&quot;</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">data</span>           <span class="o">=</span> <span class="o">&amp;</span><span class="n">ptrace_scope</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">maxlen</span>         <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span>
+		<span class="p">.</span><span class="n">mode</span>           <span class="o">=</span> <span class="mo">0644</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">proc_handler</span>   <span class="o">=</span> <span class="n">yama_dointvec_minmax</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">extra1</span>         <span class="o">=</span> <span class="o">&amp;</span><span class="n">zero</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">extra2</span>         <span class="o">=</span> <span class="o">&amp;</span><span class="n">max_scope</span><span class="p">,</span>
+	<span class="p">},</span>
+	<span class="p">{</span> <span class="p">}</span>
+<span class="p">};</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__init</span> <span class="nf">yama_init_sysctl</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">register_sysctl_paths</span><span class="p">(</span><span class="n">yama_sysctl_path</span><span class="p">,</span> <span class="n">yama_sysctl_table</span><span class="p">))</span>
+		<span class="n">panic</span><span class="p">(</span><span class="s">&quot;Yama: sysctl registration failed.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#else</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">yama_init_sysctl</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_SYSCTL */</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="n">__init</span> <span class="nf">yama_add_hooks</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pr_info</span><span class="p">(</span><span class="s">&quot;Yama: becoming mindful.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+	<span class="n">security_add_hooks</span><span class="p">(</span><span class="n">yama_hooks</span><span class="p">,</span> <span class="n">ARRAY_SIZE</span><span class="p">(</span><span class="n">yama_hooks</span><span class="p">));</span>
+	<span class="n">yama_init_sysctl</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

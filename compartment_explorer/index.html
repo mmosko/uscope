@@ -1,0 +1,95 @@
+<html>
+
+	<head>
+	<link rel="stylesheet" href="style.css"><body onload='selectComp()'>
+	</head>
+	<h1>uSCOPE Linux Compartment Explorer</h1>
+	<script type='text/javascript'>
+	overheads = new Array();
+	overheads["A0.001"]=[13962.0,6087.0,575.0,234.0,221.0];
+	overheads["A0.0001"]=[13739.0,5703.0,381.0,135.0,125.0];
+	overheads["A1e-05"]=[13602.0,5592.0,262.0,66.0,57.0];
+	overheads["A1e-06"]=[13539.0,6730.0,344.0,32.0,25.0];
+	overheads["A5e-07"]=[13527.0,6710.0,332.0,26.0,19.0];
+	overheads["A1e-07"]=[13504.0,7511.0,320.0,11.0,8.1];
+	overheads["A5e-08"]=[13496.0,8032.0,326.0,6.3,3.9];
+	overheads["A1e-08"]=[13489.0,8471.0,349.0,4.4,0.4];
+	pmrs = new Array();
+	pmrs["A0.001"]=[1.05,1.06,1.23,1.94,5.85];
+	pmrs["A0.0001"]=[1.06,1.07,1.38,2.2,6.02];
+	pmrs["A1e-05"]=[1.13,1.16,1.87,3.14,7.24];
+	pmrs["A1e-06"]=[1.55,1.58,3.46,7.06,12.93];
+	pmrs["A5e-07"]=[1.75,1.79,4.08,8.44,15.81];
+	pmrs["A1e-07"]=[3.1,3.17,6.78,20.99,32.18];
+	pmrs["A5e-08"]=[5.21,5.28,10.44,33.35,48.81];
+	pmrs["A1e-08"]=[9.96,10.04,17.39,51.72,88.06];
+	function selectComp(){
+		comp=document.getElementById('comppick').value;
+		newpage=comp + '_1.html';
+		document.getElementById('comp_panel').src=newpage;
+		document.getElementById('linux_panel').src='blank.html';
+		this_overhead = overheads[comp];
+		this_pmr = pmrs[comp];
+		document.getElementById("mediation").options[0].innerHTML = 'All Mediated (' + this_overhead[0] + '% overhead, ' + this_pmr[0] + 'X overprivilege)';
+		document.getElementById("mediation").options[1].innerHTML = '10.0% Unmediated (' + this_overhead[1] + '% overhead, ' + this_pmr[1] + 'X overprivilege)';
+		document.getElementById("mediation").options[2].innerHTML = '25.0% Unmediated (' + this_overhead[2] + '% overhead, ' + this_pmr[2] + 'X overprivilege)';
+		document.getElementById("mediation").options[3].innerHTML = '50.0% Unmediated (' + this_overhead[3] + '% overhead, ' + this_pmr[3] + 'X overprivilege)';
+		document.getElementById("mediation").options[4].innerHTML = 'All Unmediated (' + this_overhead[4] + '% overhead, ' + this_pmr[4] + 'X overprivilege)';
+	}
+	function setColors(numObjs, minObjs, excessObjs){
+	var medSelect = document.getElementById("mediation");
+	medLevel = medSelect.value;
+	chosenExcess=excessObjs[medLevel];
+	for (i = 1; i <= numObjs; i++){
+		document.getElementById('comp_panel').contentWindow.document.getElementById('obj' + i).style.color='black';
+	}
+	if (medLevel != 0 && medLevel != medSelect.options.length -1){
+		for (i = 0; i < chosenExcess.length; i++){
+			obj_num = chosenExcess[i];
+			document.getElementById('comp_panel').contentWindow.document.getElementById('obj' + obj_num).style.color='red';
+		}
+	}
+	if (medLevel == medSelect.options.length -1){
+		for (i = 1; i <= numObjs; i++){
+			document.getElementById('comp_panel').contentWindow.document.getElementById('obj' + i).style.color='red';
+		}
+	}
+	for (i = 0; i < minObjs.length; i++){
+		obj_num = minObjs[i];
+		document.getElementById('comp_panel').contentWindow.document.getElementById('obj' + obj_num).style.color='blue';
+	}
+	}
+	function clearObjects(){
+		for (i = 1; i < 1000; i++){
+			document.getElementById('comp_panel').contentWindow.document.getElementById('obj' + i).style.color='black';
+		}
+	}
+	</script>
+
+	<form oninput='selectComp()'>
+	<label for='comppick'>Select Subject Domains:</label>
+	<select id='comppick' name='object'>
+		<option value='A0.001'>&alpha;=1e-3</option>
+		<option value='A0.0001'>&alpha;=1e-4</option>
+		<option value='A1e-05'>&alpha;=1e-5</option>
+		<option value='A1e-06'>&alpha;=1e-6</option>
+		<option value='A5e-07'>&alpha;=5e-7</option>
+		<option value='A1e-07'>&alpha;=1e-7</option>
+		<option value='A5e-08'>&alpha;=5e-8</option>
+		<option value='A1e-08'>&alpha;=1e-8</option>
+	</select>
+	</form>
+	The &alpha; parameter to the code clustering algorithm specifies the minimum threshold performance savings per |PS|. <br /> Lower &alpha; values create larger compartments with less overhead but more overprivilege.<br /><br />
+	<form name="mediation" oninput='clearObjects()'>
+	<label for='mediation'>Select a mediation level: </label><select id="mediation">
+	<option value="0" checked="checked"></option>
+	<option value="1"></option>
+	<option value="2"></option>
+	<option value="3"></option>
+	<option value="4"></option></select>
+	</form>
+	Overhead estimates are for kernel time only, which is typically a small fraction of wall clock time.<br />
+	Click on a function to view its source. Objects accessed by that function turn blue, and accessible objects exposed by unmediation (overprivilege) turn red. <br /><br />
+	<iframe src="A0.001_1.html" id='comp_panel' width='49%' height='750'></iframe>
+	<iframe src="blank.html" id='linux_panel' width='49%' height='750'></iframe>
+</html>

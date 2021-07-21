@@ -1,0 +1,274 @@
+kernel/time/tick-oneshot.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/kernel/time/tick-oneshot.c#L132">132</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * linux/kernel/time/tick-oneshot.c</span>
+<span class="cm"> *</span>
+<span class="cm"> * This file contains functions which manage high resolution tick</span>
+<span class="cm"> * related events.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Copyright(C) 2005-2006, Thomas Gleixner &lt;tglx@linutronix.de&gt;</span>
+<span class="cm"> * Copyright(C) 2005-2007, Red Hat, Inc., Ingo Molnar</span>
+<span class="cm"> * Copyright(C) 2006-2007, Timesys Corp., Thomas Gleixner</span>
+<span class="cm"> *</span>
+<span class="cm"> * This code is licenced under the GPL version 2. For details see</span>
+<span class="cm"> * kernel-base/COPYING.</span>
+<span class="cm"> */</span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/cpu.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/err.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/hrtimer.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/interrupt.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/percpu.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/profile.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/sched.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;tick-internal.h&quot;</span><span class="cp"></span>
+
+<span class="cm">/**</span>
+<span class="cm"> * tick_program_event</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">tick_program_event</span><span class="p">(</span><span class="n">ktime_t</span> <span class="n">expires</span><span class="p">,</span> <span class="kt">int</span> <span class="n">force</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">clock_event_device</span> <span class="o">*</span><span class="n">dev</span> <span class="o">=</span> <span class="n">__this_cpu_read</span><span class="p">(</span><span class="n">tick_cpu_device</span><span class="p">.</span><span class="n">evtdev</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">expires</span> <span class="o">==</span> <span class="n">KTIME_MAX</span><span class="p">))</span> <span class="p">{</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * We don&#39;t need the clock event device any more, stop it.</span>
+<span class="cm">		 */</span>
+		<span class="n">clockevents_switch_state</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">CLOCK_EVT_STATE_ONESHOT_STOPPED</span><span class="p">);</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">clockevent_state_oneshot_stopped</span><span class="p">(</span><span class="n">dev</span><span class="p">)))</span> <span class="p">{</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * We need the clock event again, configure it in ONESHOT mode</span>
+<span class="cm">		 * before using it.</span>
+<span class="cm">		 */</span>
+		<span class="n">clockevents_switch_state</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">CLOCK_EVT_STATE_ONESHOT</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">clockevents_program_event</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">expires</span><span class="p">,</span> <span class="n">force</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * tick_resume_onshot - resume oneshot mode</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">tick_resume_oneshot</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">clock_event_device</span> <span class="o">*</span><span class="n">dev</span> <span class="o">=</span> <span class="n">__this_cpu_read</span><span class="p">(</span><span class="n">tick_cpu_device</span><span class="p">.</span><span class="n">evtdev</span><span class="p">);</span>
+
+	<span class="n">clockevents_switch_state</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">CLOCK_EVT_STATE_ONESHOT</span><span class="p">);</span>
+	<span class="n">clockevents_program_event</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">ktime_get</span><span class="p">(),</span> <span class="n">true</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * tick_setup_oneshot - setup the event device for oneshot mode (hres or nohz)</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">tick_setup_oneshot</span><span class="p">(</span><span class="k">struct</span> <span class="n">clock_event_device</span> <span class="o">*</span><span class="n">newdev</span><span class="p">,</span>
+			<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">handler</span><span class="p">)(</span><span class="k">struct</span> <span class="n">clock_event_device</span> <span class="o">*</span><span class="p">),</span>
+			<span class="n">ktime_t</span> <span class="n">next_event</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">newdev</span><span class="o">-&gt;</span><span class="n">event_handler</span> <span class="o">=</span> <span class="n">handler</span><span class="p">;</span>
+	<span class="n">clockevents_switch_state</span><span class="p">(</span><span class="n">newdev</span><span class="p">,</span> <span class="n">CLOCK_EVT_STATE_ONESHOT</span><span class="p">);</span>
+	<span class="n">clockevents_program_event</span><span class="p">(</span><span class="n">newdev</span><span class="p">,</span> <span class="n">next_event</span><span class="p">,</span> <span class="n">true</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * tick_switch_to_oneshot - switch to oneshot mode</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">tick_switch_to_oneshot</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">handler</span><span class="p">)(</span><span class="k">struct</span> <span class="n">clock_event_device</span> <span class="o">*</span><span class="p">))</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">tick_device</span> <span class="o">*</span><span class="n">td</span> <span class="o">=</span> <span class="n">this_cpu_ptr</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tick_cpu_device</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">clock_event_device</span> <span class="o">*</span><span class="n">dev</span> <span class="o">=</span> <span class="n">td</span><span class="o">-&gt;</span><span class="n">evtdev</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">dev</span> <span class="o">||</span> <span class="o">!</span><span class="p">(</span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">features</span> <span class="o">&amp;</span> <span class="n">CLOCK_EVT_FEAT_ONESHOT</span><span class="p">)</span> <span class="o">||</span>
+		    <span class="o">!</span><span class="n">tick_device_is_functional</span><span class="p">(</span><span class="n">dev</span><span class="p">))</span> <span class="p">{</span>
+
+		<span class="n">printk</span><span class="p">(</span><span class="n">KERN_INFO</span> <span class="s">&quot;Clockevents: &quot;</span>
+		       <span class="s">&quot;could not switch to one-shot mode:&quot;</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">dev</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">printk</span><span class="p">(</span><span class="s">&quot; no tick device</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">tick_device_is_functional</span><span class="p">(</span><span class="n">dev</span><span class="p">))</span>
+				<span class="n">printk</span><span class="p">(</span><span class="s">&quot; %s is not functional.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">dev</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+			<span class="k">else</span>
+				<span class="n">printk</span><span class="p">(</span><span class="s">&quot; %s does not support one-shot mode.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+				       <span class="n">dev</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">td</span><span class="o">-&gt;</span><span class="n">mode</span> <span class="o">=</span> <span class="n">TICKDEV_MODE_ONESHOT</span><span class="p">;</span>
+	<span class="n">dev</span><span class="o">-&gt;</span><span class="n">event_handler</span> <span class="o">=</span> <span class="n">handler</span><span class="p">;</span>
+	<span class="n">clockevents_switch_state</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">CLOCK_EVT_STATE_ONESHOT</span><span class="p">);</span>
+	<span class="n">tick_broadcast_switch_to_oneshot</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * tick_check_oneshot_mode - check whether the system is in oneshot mode</span>
+<span class="cm"> *</span>
+<span class="cm"> * returns 1 when either nohz or highres are enabled. otherwise 0.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">tick_oneshot_mode_active</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+
+	<span class="n">local_irq_save</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">__this_cpu_read</span><span class="p">(</span><span class="n">tick_cpu_device</span><span class="p">.</span><span class="n">mode</span><span class="p">)</span> <span class="o">==</span> <span class="n">TICKDEV_MODE_ONESHOT</span><span class="p">;</span>
+	<span class="n">local_irq_restore</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#ifdef CONFIG_HIGH_RES_TIMERS</span>
+<span class="cm">/**</span>
+<span class="cm"> * tick_init_highres - switch to high resolution mode</span>
+<span class="cm"> *</span>
+<span class="cm"> * Called with interrupts disabled.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">tick_init_highres</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">tick_switch_to_oneshot</span><span class="p">(</span><span class="n">hrtimer_interrupt</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

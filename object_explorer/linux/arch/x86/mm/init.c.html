@@ -1,0 +1,1536 @@
+arch/x86/mm/init.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L390">390</a>
+<a name="L391" id="L391" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L391">391</a>
+<a name="L392" id="L392" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L392">392</a>
+<a name="L393" id="L393" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L393">393</a>
+<a name="L394" id="L394" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L394">394</a>
+<a name="L395" id="L395" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L395">395</a>
+<a name="L396" id="L396" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L396">396</a>
+<a name="L397" id="L397" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L397">397</a>
+<a name="L398" id="L398" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L398">398</a>
+<a name="L399" id="L399" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L399">399</a>
+<a name="L400" id="L400" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L400">400</a>
+<a name="L401" id="L401" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L401">401</a>
+<a name="L402" id="L402" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L402">402</a>
+<a name="L403" id="L403" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L403">403</a>
+<a name="L404" id="L404" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L404">404</a>
+<a name="L405" id="L405" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L405">405</a>
+<a name="L406" id="L406" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L406">406</a>
+<a name="L407" id="L407" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L407">407</a>
+<a name="L408" id="L408" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L408">408</a>
+<a name="L409" id="L409" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L409">409</a>
+<a name="L410" id="L410" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L410">410</a>
+<a name="L411" id="L411" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L411">411</a>
+<a name="L412" id="L412" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L412">412</a>
+<a name="L413" id="L413" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L413">413</a>
+<a name="L414" id="L414" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L414">414</a>
+<a name="L415" id="L415" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L415">415</a>
+<a name="L416" id="L416" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L416">416</a>
+<a name="L417" id="L417" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L417">417</a>
+<a name="L418" id="L418" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L418">418</a>
+<a name="L419" id="L419" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L419">419</a>
+<a name="L420" id="L420" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L420">420</a>
+<a name="L421" id="L421" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L421">421</a>
+<a name="L422" id="L422" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L422">422</a>
+<a name="L423" id="L423" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L423">423</a>
+<a name="L424" id="L424" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L424">424</a>
+<a name="L425" id="L425" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L425">425</a>
+<a name="L426" id="L426" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L426">426</a>
+<a name="L427" id="L427" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L427">427</a>
+<a name="L428" id="L428" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L428">428</a>
+<a name="L429" id="L429" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L429">429</a>
+<a name="L430" id="L430" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L430">430</a>
+<a name="L431" id="L431" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L431">431</a>
+<a name="L432" id="L432" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L432">432</a>
+<a name="L433" id="L433" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L433">433</a>
+<a name="L434" id="L434" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L434">434</a>
+<a name="L435" id="L435" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L435">435</a>
+<a name="L436" id="L436" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L436">436</a>
+<a name="L437" id="L437" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L437">437</a>
+<a name="L438" id="L438" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L438">438</a>
+<a name="L439" id="L439" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L439">439</a>
+<a name="L440" id="L440" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L440">440</a>
+<a name="L441" id="L441" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L441">441</a>
+<a name="L442" id="L442" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L442">442</a>
+<a name="L443" id="L443" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L443">443</a>
+<a name="L444" id="L444" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L444">444</a>
+<a name="L445" id="L445" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L445">445</a>
+<a name="L446" id="L446" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L446">446</a>
+<a name="L447" id="L447" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L447">447</a>
+<a name="L448" id="L448" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L448">448</a>
+<a name="L449" id="L449" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L449">449</a>
+<a name="L450" id="L450" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L450">450</a>
+<a name="L451" id="L451" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L451">451</a>
+<a name="L452" id="L452" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L452">452</a>
+<a name="L453" id="L453" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L453">453</a>
+<a name="L454" id="L454" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L454">454</a>
+<a name="L455" id="L455" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L455">455</a>
+<a name="L456" id="L456" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L456">456</a>
+<a name="L457" id="L457" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L457">457</a>
+<a name="L458" id="L458" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L458">458</a>
+<a name="L459" id="L459" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L459">459</a>
+<a name="L460" id="L460" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L460">460</a>
+<a name="L461" id="L461" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L461">461</a>
+<a name="L462" id="L462" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L462">462</a>
+<a name="L463" id="L463" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L463">463</a>
+<a name="L464" id="L464" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L464">464</a>
+<a name="L465" id="L465" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L465">465</a>
+<a name="L466" id="L466" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L466">466</a>
+<a name="L467" id="L467" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L467">467</a>
+<a name="L468" id="L468" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L468">468</a>
+<a name="L469" id="L469" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L469">469</a>
+<a name="L470" id="L470" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L470">470</a>
+<a name="L471" id="L471" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L471">471</a>
+<a name="L472" id="L472" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L472">472</a>
+<a name="L473" id="L473" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L473">473</a>
+<a name="L474" id="L474" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L474">474</a>
+<a name="L475" id="L475" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L475">475</a>
+<a name="L476" id="L476" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L476">476</a>
+<a name="L477" id="L477" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L477">477</a>
+<a name="L478" id="L478" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L478">478</a>
+<a name="L479" id="L479" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L479">479</a>
+<a name="L480" id="L480" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L480">480</a>
+<a name="L481" id="L481" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L481">481</a>
+<a name="L482" id="L482" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L482">482</a>
+<a name="L483" id="L483" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L483">483</a>
+<a name="L484" id="L484" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L484">484</a>
+<a name="L485" id="L485" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L485">485</a>
+<a name="L486" id="L486" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L486">486</a>
+<a name="L487" id="L487" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L487">487</a>
+<a name="L488" id="L488" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L488">488</a>
+<a name="L489" id="L489" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L489">489</a>
+<a name="L490" id="L490" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L490">490</a>
+<a name="L491" id="L491" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L491">491</a>
+<a name="L492" id="L492" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L492">492</a>
+<a name="L493" id="L493" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L493">493</a>
+<a name="L494" id="L494" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L494">494</a>
+<a name="L495" id="L495" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L495">495</a>
+<a name="L496" id="L496" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L496">496</a>
+<a name="L497" id="L497" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L497">497</a>
+<a name="L498" id="L498" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L498">498</a>
+<a name="L499" id="L499" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L499">499</a>
+<a name="L500" id="L500" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L500">500</a>
+<a name="L501" id="L501" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L501">501</a>
+<a name="L502" id="L502" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L502">502</a>
+<a name="L503" id="L503" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L503">503</a>
+<a name="L504" id="L504" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L504">504</a>
+<a name="L505" id="L505" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L505">505</a>
+<a name="L506" id="L506" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L506">506</a>
+<a name="L507" id="L507" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L507">507</a>
+<a name="L508" id="L508" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L508">508</a>
+<a name="L509" id="L509" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L509">509</a>
+<a name="L510" id="L510" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L510">510</a>
+<a name="L511" id="L511" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L511">511</a>
+<a name="L512" id="L512" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L512">512</a>
+<a name="L513" id="L513" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L513">513</a>
+<a name="L514" id="L514" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L514">514</a>
+<a name="L515" id="L515" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L515">515</a>
+<a name="L516" id="L516" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L516">516</a>
+<a name="L517" id="L517" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L517">517</a>
+<a name="L518" id="L518" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L518">518</a>
+<a name="L519" id="L519" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L519">519</a>
+<a name="L520" id="L520" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L520">520</a>
+<a name="L521" id="L521" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L521">521</a>
+<a name="L522" id="L522" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L522">522</a>
+<a name="L523" id="L523" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L523">523</a>
+<a name="L524" id="L524" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L524">524</a>
+<a name="L525" id="L525" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L525">525</a>
+<a name="L526" id="L526" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L526">526</a>
+<a name="L527" id="L527" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L527">527</a>
+<a name="L528" id="L528" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L528">528</a>
+<a name="L529" id="L529" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L529">529</a>
+<a name="L530" id="L530" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L530">530</a>
+<a name="L531" id="L531" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L531">531</a>
+<a name="L532" id="L532" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L532">532</a>
+<a name="L533" id="L533" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L533">533</a>
+<a name="L534" id="L534" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L534">534</a>
+<a name="L535" id="L535" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L535">535</a>
+<a name="L536" id="L536" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L536">536</a>
+<a name="L537" id="L537" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L537">537</a>
+<a name="L538" id="L538" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L538">538</a>
+<a name="L539" id="L539" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L539">539</a>
+<a name="L540" id="L540" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L540">540</a>
+<a name="L541" id="L541" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L541">541</a>
+<a name="L542" id="L542" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L542">542</a>
+<a name="L543" id="L543" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L543">543</a>
+<a name="L544" id="L544" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L544">544</a>
+<a name="L545" id="L545" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L545">545</a>
+<a name="L546" id="L546" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L546">546</a>
+<a name="L547" id="L547" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L547">547</a>
+<a name="L548" id="L548" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L548">548</a>
+<a name="L549" id="L549" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L549">549</a>
+<a name="L550" id="L550" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L550">550</a>
+<a name="L551" id="L551" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L551">551</a>
+<a name="L552" id="L552" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L552">552</a>
+<a name="L553" id="L553" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L553">553</a>
+<a name="L554" id="L554" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L554">554</a>
+<a name="L555" id="L555" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L555">555</a>
+<a name="L556" id="L556" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L556">556</a>
+<a name="L557" id="L557" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L557">557</a>
+<a name="L558" id="L558" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L558">558</a>
+<a name="L559" id="L559" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L559">559</a>
+<a name="L560" id="L560" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L560">560</a>
+<a name="L561" id="L561" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L561">561</a>
+<a name="L562" id="L562" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L562">562</a>
+<a name="L563" id="L563" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L563">563</a>
+<a name="L564" id="L564" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L564">564</a>
+<a name="L565" id="L565" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L565">565</a>
+<a name="L566" id="L566" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L566">566</a>
+<a name="L567" id="L567" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L567">567</a>
+<a name="L568" id="L568" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L568">568</a>
+<a name="L569" id="L569" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L569">569</a>
+<a name="L570" id="L570" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L570">570</a>
+<a name="L571" id="L571" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L571">571</a>
+<a name="L572" id="L572" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L572">572</a>
+<a name="L573" id="L573" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L573">573</a>
+<a name="L574" id="L574" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L574">574</a>
+<a name="L575" id="L575" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L575">575</a>
+<a name="L576" id="L576" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L576">576</a>
+<a name="L577" id="L577" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L577">577</a>
+<a name="L578" id="L578" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L578">578</a>
+<a name="L579" id="L579" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L579">579</a>
+<a name="L580" id="L580" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L580">580</a>
+<a name="L581" id="L581" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L581">581</a>
+<a name="L582" id="L582" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L582">582</a>
+<a name="L583" id="L583" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L583">583</a>
+<a name="L584" id="L584" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L584">584</a>
+<a name="L585" id="L585" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L585">585</a>
+<a name="L586" id="L586" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L586">586</a>
+<a name="L587" id="L587" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L587">587</a>
+<a name="L588" id="L588" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L588">588</a>
+<a name="L589" id="L589" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L589">589</a>
+<a name="L590" id="L590" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L590">590</a>
+<a name="L591" id="L591" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L591">591</a>
+<a name="L592" id="L592" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L592">592</a>
+<a name="L593" id="L593" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L593">593</a>
+<a name="L594" id="L594" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L594">594</a>
+<a name="L595" id="L595" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L595">595</a>
+<a name="L596" id="L596" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L596">596</a>
+<a name="L597" id="L597" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L597">597</a>
+<a name="L598" id="L598" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L598">598</a>
+<a name="L599" id="L599" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L599">599</a>
+<a name="L600" id="L600" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L600">600</a>
+<a name="L601" id="L601" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L601">601</a>
+<a name="L602" id="L602" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L602">602</a>
+<a name="L603" id="L603" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L603">603</a>
+<a name="L604" id="L604" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L604">604</a>
+<a name="L605" id="L605" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L605">605</a>
+<a name="L606" id="L606" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L606">606</a>
+<a name="L607" id="L607" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L607">607</a>
+<a name="L608" id="L608" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L608">608</a>
+<a name="L609" id="L609" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L609">609</a>
+<a name="L610" id="L610" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L610">610</a>
+<a name="L611" id="L611" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L611">611</a>
+<a name="L612" id="L612" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L612">612</a>
+<a name="L613" id="L613" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L613">613</a>
+<a name="L614" id="L614" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L614">614</a>
+<a name="L615" id="L615" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L615">615</a>
+<a name="L616" id="L616" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L616">616</a>
+<a name="L617" id="L617" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L617">617</a>
+<a name="L618" id="L618" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L618">618</a>
+<a name="L619" id="L619" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L619">619</a>
+<a name="L620" id="L620" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L620">620</a>
+<a name="L621" id="L621" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L621">621</a>
+<a name="L622" id="L622" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L622">622</a>
+<a name="L623" id="L623" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L623">623</a>
+<a name="L624" id="L624" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L624">624</a>
+<a name="L625" id="L625" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L625">625</a>
+<a name="L626" id="L626" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L626">626</a>
+<a name="L627" id="L627" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L627">627</a>
+<a name="L628" id="L628" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L628">628</a>
+<a name="L629" id="L629" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L629">629</a>
+<a name="L630" id="L630" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L630">630</a>
+<a name="L631" id="L631" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L631">631</a>
+<a name="L632" id="L632" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L632">632</a>
+<a name="L633" id="L633" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L633">633</a>
+<a name="L634" id="L634" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L634">634</a>
+<a name="L635" id="L635" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L635">635</a>
+<a name="L636" id="L636" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L636">636</a>
+<a name="L637" id="L637" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L637">637</a>
+<a name="L638" id="L638" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L638">638</a>
+<a name="L639" id="L639" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L639">639</a>
+<a name="L640" id="L640" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L640">640</a>
+<a name="L641" id="L641" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L641">641</a>
+<a name="L642" id="L642" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L642">642</a>
+<a name="L643" id="L643" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L643">643</a>
+<a name="L644" id="L644" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L644">644</a>
+<a name="L645" id="L645" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L645">645</a>
+<a name="L646" id="L646" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L646">646</a>
+<a name="L647" id="L647" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L647">647</a>
+<a name="L648" id="L648" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L648">648</a>
+<a name="L649" id="L649" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L649">649</a>
+<a name="L650" id="L650" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L650">650</a>
+<a name="L651" id="L651" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L651">651</a>
+<a name="L652" id="L652" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L652">652</a>
+<a name="L653" id="L653" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L653">653</a>
+<a name="L654" id="L654" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L654">654</a>
+<a name="L655" id="L655" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L655">655</a>
+<a name="L656" id="L656" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L656">656</a>
+<a name="L657" id="L657" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L657">657</a>
+<a name="L658" id="L658" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L658">658</a>
+<a name="L659" id="L659" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L659">659</a>
+<a name="L660" id="L660" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L660">660</a>
+<a name="L661" id="L661" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L661">661</a>
+<a name="L662" id="L662" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L662">662</a>
+<a name="L663" id="L663" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L663">663</a>
+<a name="L664" id="L664" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L664">664</a>
+<a name="L665" id="L665" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L665">665</a>
+<a name="L666" id="L666" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L666">666</a>
+<a name="L667" id="L667" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L667">667</a>
+<a name="L668" id="L668" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L668">668</a>
+<a name="L669" id="L669" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L669">669</a>
+<a name="L670" id="L670" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L670">670</a>
+<a name="L671" id="L671" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L671">671</a>
+<a name="L672" id="L672" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L672">672</a>
+<a name="L673" id="L673" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L673">673</a>
+<a name="L674" id="L674" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L674">674</a>
+<a name="L675" id="L675" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L675">675</a>
+<a name="L676" id="L676" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L676">676</a>
+<a name="L677" id="L677" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L677">677</a>
+<a name="L678" id="L678" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L678">678</a>
+<a name="L679" id="L679" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L679">679</a>
+<a name="L680" id="L680" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L680">680</a>
+<a name="L681" id="L681" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L681">681</a>
+<a name="L682" id="L682" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L682">682</a>
+<a name="L683" id="L683" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L683">683</a>
+<a name="L684" id="L684" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L684">684</a>
+<a name="L685" id="L685" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L685">685</a>
+<a name="L686" id="L686" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L686">686</a>
+<a name="L687" id="L687" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L687">687</a>
+<a name="L688" id="L688" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L688">688</a>
+<a name="L689" id="L689" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L689">689</a>
+<a name="L690" id="L690" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L690">690</a>
+<a name="L691" id="L691" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L691">691</a>
+<a name="L692" id="L692" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L692">692</a>
+<a name="L693" id="L693" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L693">693</a>
+<a name="L694" id="L694" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L694">694</a>
+<a name="L695" id="L695" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L695">695</a>
+<a name="L696" id="L696" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L696">696</a>
+<a name="L697" id="L697" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L697">697</a>
+<a name="L698" id="L698" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L698">698</a>
+<a name="L699" id="L699" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L699">699</a>
+<a name="L700" id="L700" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L700">700</a>
+<a name="L701" id="L701" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L701">701</a>
+<a name="L702" id="L702" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L702">702</a>
+<a name="L703" id="L703" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L703">703</a>
+<a name="L704" id="L704" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L704">704</a>
+<a name="L705" id="L705" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L705">705</a>
+<a name="L706" id="L706" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L706">706</a>
+<a name="L707" id="L707" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L707">707</a>
+<a name="L708" id="L708" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L708">708</a>
+<a name="L709" id="L709" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L709">709</a>
+<a name="L710" id="L710" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L710">710</a>
+<a name="L711" id="L711" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L711">711</a>
+<a name="L712" id="L712" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L712">712</a>
+<a name="L713" id="L713" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L713">713</a>
+<a name="L714" id="L714" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L714">714</a>
+<a name="L715" id="L715" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L715">715</a>
+<a name="L716" id="L716" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L716">716</a>
+<a name="L717" id="L717" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L717">717</a>
+<a name="L718" id="L718" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L718">718</a>
+<a name="L719" id="L719" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L719">719</a>
+<a name="L720" id="L720" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L720">720</a>
+<a name="L721" id="L721" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L721">721</a>
+<a name="L722" id="L722" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L722">722</a>
+<a name="L723" id="L723" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L723">723</a>
+<a name="L724" id="L724" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L724">724</a>
+<a name="L725" id="L725" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L725">725</a>
+<a name="L726" id="L726" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L726">726</a>
+<a name="L727" id="L727" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L727">727</a>
+<a name="L728" id="L728" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L728">728</a>
+<a name="L729" id="L729" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L729">729</a>
+<a name="L730" id="L730" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L730">730</a>
+<a name="L731" id="L731" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L731">731</a>
+<a name="L732" id="L732" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L732">732</a>
+<a name="L733" id="L733" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L733">733</a>
+<a name="L734" id="L734" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L734">734</a>
+<a name="L735" id="L735" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L735">735</a>
+<a name="L736" id="L736" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L736">736</a>
+<a name="L737" id="L737" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L737">737</a>
+<a name="L738" id="L738" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L738">738</a>
+<a name="L739" id="L739" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L739">739</a>
+<a name="L740" id="L740" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L740">740</a>
+<a name="L741" id="L741" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L741">741</a>
+<a name="L742" id="L742" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L742">742</a>
+<a name="L743" id="L743" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L743">743</a>
+<a name="L744" id="L744" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L744">744</a>
+<a name="L745" id="L745" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L745">745</a>
+<a name="L746" id="L746" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L746">746</a>
+<a name="L747" id="L747" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L747">747</a>
+<a name="L748" id="L748" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L748">748</a>
+<a name="L749" id="L749" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L749">749</a>
+<a name="L750" id="L750" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L750">750</a>
+<a name="L751" id="L751" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L751">751</a>
+<a name="L752" id="L752" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L752">752</a>
+<a name="L753" id="L753" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L753">753</a>
+<a name="L754" id="L754" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L754">754</a>
+<a name="L755" id="L755" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L755">755</a>
+<a name="L756" id="L756" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L756">756</a>
+<a name="L757" id="L757" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L757">757</a>
+<a name="L758" id="L758" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L758">758</a>
+<a name="L759" id="L759" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L759">759</a>
+<a name="L760" id="L760" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L760">760</a>
+<a name="L761" id="L761" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L761">761</a>
+<a name="L762" id="L762" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L762">762</a>
+<a name="L763" id="L763" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/init.c#L763">763</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;linux/gfp.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/initrd.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/ioport.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/swap.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/memblock.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/bootmem.h&gt;	/* for max_low_pfn */</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;asm/cacheflush.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/e820.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/init.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/page.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/page_types.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/sections.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/setup.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/tlbflush.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/tlb.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/proto.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/dma.h&gt;		/* for MAX_DMA_PFN */</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/microcode.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/kaslr.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * We need to define the tracepoints somewhere, and tlb.c</span>
+<span class="cm"> * is only compied when SMP=y.</span>
+<span class="cm"> */</span>
+<span class="cp">#define CREATE_TRACE_POINTS</span>
+<span class="cp">#include</span> <span class="cpf">&lt;trace/events/tlb.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;mm_internal.h&quot;</span><span class="cp"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Tables translating between page_cache_type_t and pte encoding.</span>
+<span class="cm"> *</span>
+<span class="cm"> * The default values are defined statically as minimal supported mode;</span>
+<span class="cm"> * WC and WT fall back to UC-.  pat_init() updates these values to support</span>
+<span class="cm"> * more cache modes, WC and WT, when it is safe to do so.  See pat_init()</span>
+<span class="cm"> * for the details.  Note, __early_ioremap() used during early boot-time</span>
+<span class="cm"> * takes pgprot_t (pte encoding) and does not use these tables.</span>
+<span class="cm"> *</span>
+<span class="cm"> *   Index into __cachemode2pte_tbl[] is the cachemode.</span>
+<span class="cm"> *</span>
+<span class="cm"> *   Index into __pte2cachemode_tbl[] are the caching attribute bits of the pte</span>
+<span class="cm"> *   (_PAGE_PWT, _PAGE_PCD, _PAGE_PAT) at index bit positions 0, 1, 2.</span>
+<span class="cm"> */</span>
+<span class="n">uint16_t</span> <span class="n">__cachemode2pte_tbl</span><span class="p">[</span><span class="n">_PAGE_CACHE_MODE_NUM</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">[</span><span class="n">_PAGE_CACHE_MODE_WB</span>      <span class="p">]</span>	<span class="o">=</span> <span class="mi">0</span>         <span class="o">|</span> <span class="mi">0</span>        <span class="p">,</span>
+	<span class="p">[</span><span class="n">_PAGE_CACHE_MODE_WC</span>      <span class="p">]</span>	<span class="o">=</span> <span class="mi">0</span>         <span class="o">|</span> <span class="n">_PAGE_PCD</span><span class="p">,</span>
+	<span class="p">[</span><span class="n">_PAGE_CACHE_MODE_UC_MINUS</span><span class="p">]</span>	<span class="o">=</span> <span class="mi">0</span>         <span class="o">|</span> <span class="n">_PAGE_PCD</span><span class="p">,</span>
+	<span class="p">[</span><span class="n">_PAGE_CACHE_MODE_UC</span>      <span class="p">]</span>	<span class="o">=</span> <span class="n">_PAGE_PWT</span> <span class="o">|</span> <span class="n">_PAGE_PCD</span><span class="p">,</span>
+	<span class="p">[</span><span class="n">_PAGE_CACHE_MODE_WT</span>      <span class="p">]</span>	<span class="o">=</span> <span class="mi">0</span>         <span class="o">|</span> <span class="n">_PAGE_PCD</span><span class="p">,</span>
+	<span class="p">[</span><span class="n">_PAGE_CACHE_MODE_WP</span>      <span class="p">]</span>	<span class="o">=</span> <span class="mi">0</span>         <span class="o">|</span> <span class="n">_PAGE_PCD</span><span class="p">,</span>
+<span class="p">};</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">__cachemode2pte_tbl</span><span class="p">);</span>
+
+<span class="n">uint8_t</span> <span class="n">__pte2cachemode_tbl</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">[</span><span class="n">__pte2cm_idx</span><span class="p">(</span> <span class="mi">0</span>        <span class="o">|</span> <span class="mi">0</span>         <span class="o">|</span> <span class="mi">0</span>        <span class="p">)]</span> <span class="o">=</span> <span class="n">_PAGE_CACHE_MODE_WB</span><span class="p">,</span>
+	<span class="p">[</span><span class="n">__pte2cm_idx</span><span class="p">(</span><span class="n">_PAGE_PWT</span> <span class="o">|</span> <span class="mi">0</span>         <span class="o">|</span> <span class="mi">0</span>        <span class="p">)]</span> <span class="o">=</span> <span class="n">_PAGE_CACHE_MODE_UC_MINUS</span><span class="p">,</span>
+	<span class="p">[</span><span class="n">__pte2cm_idx</span><span class="p">(</span> <span class="mi">0</span>        <span class="o">|</span> <span class="n">_PAGE_PCD</span> <span class="o">|</span> <span class="mi">0</span>        <span class="p">)]</span> <span class="o">=</span> <span class="n">_PAGE_CACHE_MODE_UC_MINUS</span><span class="p">,</span>
+	<span class="p">[</span><span class="n">__pte2cm_idx</span><span class="p">(</span><span class="n">_PAGE_PWT</span> <span class="o">|</span> <span class="n">_PAGE_PCD</span> <span class="o">|</span> <span class="mi">0</span>        <span class="p">)]</span> <span class="o">=</span> <span class="n">_PAGE_CACHE_MODE_UC</span><span class="p">,</span>
+	<span class="p">[</span><span class="n">__pte2cm_idx</span><span class="p">(</span> <span class="mi">0</span>        <span class="o">|</span> <span class="mi">0</span>         <span class="o">|</span> <span class="n">_PAGE_PAT</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_PAGE_CACHE_MODE_WB</span><span class="p">,</span>
+	<span class="p">[</span><span class="n">__pte2cm_idx</span><span class="p">(</span><span class="n">_PAGE_PWT</span> <span class="o">|</span> <span class="mi">0</span>         <span class="o">|</span> <span class="n">_PAGE_PAT</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_PAGE_CACHE_MODE_UC_MINUS</span><span class="p">,</span>
+	<span class="p">[</span><span class="n">__pte2cm_idx</span><span class="p">(</span><span class="mi">0</span>         <span class="o">|</span> <span class="n">_PAGE_PCD</span> <span class="o">|</span> <span class="n">_PAGE_PAT</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_PAGE_CACHE_MODE_UC_MINUS</span><span class="p">,</span>
+	<span class="p">[</span><span class="n">__pte2cm_idx</span><span class="p">(</span><span class="n">_PAGE_PWT</span> <span class="o">|</span> <span class="n">_PAGE_PCD</span> <span class="o">|</span> <span class="n">_PAGE_PAT</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_PAGE_CACHE_MODE_UC</span><span class="p">,</span>
+<span class="p">};</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">__pte2cachemode_tbl</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">__initdata</span> <span class="n">pgt_buf_start</span><span class="p">;</span>
+<span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">__initdata</span> <span class="n">pgt_buf_end</span><span class="p">;</span>
+<span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">__initdata</span> <span class="n">pgt_buf_top</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">min_pfn_mapped</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="n">bool</span> <span class="n">__initdata</span> <span class="n">can_use_brk_pgt</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Pages returned are already directly mapped.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Changing that is likely to break Xen, see commit:</span>
+<span class="cm"> *</span>
+<span class="cm"> *    279b706 x86,xen: introduce x86_init.mapping.pagetable_reserve</span>
+<span class="cm"> *</span>
+<span class="cm"> * for detailed information.</span>
+<span class="cm"> */</span>
+<span class="n">__ref</span> <span class="kt">void</span> <span class="o">*</span><span class="nf">alloc_low_pages</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">num</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pfn</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">after_bootmem</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">order</span><span class="p">;</span>
+
+		<span class="n">order</span> <span class="o">=</span> <span class="n">get_order</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">num</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+		<span class="k">return</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">__get_free_pages</span><span class="p">(</span><span class="n">GFP_ATOMIC</span> <span class="o">|</span> <span class="n">__GFP_NOTRACK</span> <span class="o">|</span>
+						<span class="n">__GFP_ZERO</span><span class="p">,</span> <span class="n">order</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">pgt_buf_end</span> <span class="o">+</span> <span class="n">num</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">pgt_buf_top</span> <span class="o">||</span> <span class="o">!</span><span class="n">can_use_brk_pgt</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">ret</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">min_pfn_mapped</span> <span class="o">&gt;=</span> <span class="n">max_pfn_mapped</span><span class="p">)</span>
+			<span class="n">panic</span><span class="p">(</span><span class="s">&quot;alloc_low_pages: ran out of memory&quot;</span><span class="p">);</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">memblock_find_in_range</span><span class="p">(</span><span class="n">min_pfn_mapped</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">,</span>
+					<span class="n">max_pfn_mapped</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">,</span>
+					<span class="n">PAGE_SIZE</span> <span class="o">*</span> <span class="n">num</span> <span class="p">,</span> <span class="n">PAGE_SIZE</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ret</span><span class="p">)</span>
+			<span class="n">panic</span><span class="p">(</span><span class="s">&quot;alloc_low_pages: can not alloc memory&quot;</span><span class="p">);</span>
+		<span class="n">memblock_reserve</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">PAGE_SIZE</span> <span class="o">*</span> <span class="n">num</span><span class="p">);</span>
+		<span class="n">pfn</span> <span class="o">=</span> <span class="n">ret</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">pfn</span> <span class="o">=</span> <span class="n">pgt_buf_end</span><span class="p">;</span>
+		<span class="n">pgt_buf_end</span> <span class="o">+=</span> <span class="n">num</span><span class="p">;</span>
+		<span class="n">printk</span><span class="p">(</span><span class="n">KERN_DEBUG</span> <span class="s">&quot;BRK [%#010lx, %#010lx] PGTABLE</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+			<span class="n">pfn</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">,</span> <span class="p">(</span><span class="n">pgt_buf_end</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">void</span> <span class="o">*</span><span class="n">adr</span><span class="p">;</span>
+
+		<span class="n">adr</span> <span class="o">=</span> <span class="n">__va</span><span class="p">((</span><span class="n">pfn</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+		<span class="n">clear_page</span><span class="p">(</span><span class="n">adr</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">__va</span><span class="p">(</span><span class="n">pfn</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * By default need 3 4k for initial PMD_SIZE,  3 4k for 0-ISA_END_ADDRESS.</span>
+<span class="cm"> * With KASLR memory randomization, depending on the machine e820 memory</span>
+<span class="cm"> * and the PUD alignment. We may need twice more pages when KASLR memory</span>
+<span class="cm"> * randomization is enabled.</span>
+<span class="cm"> */</span>
+<span class="cp">#ifndef CONFIG_RANDOMIZE_MEMORY</span>
+<span class="cp">#define INIT_PGD_PAGE_COUNT      6</span>
+<span class="cp">#else</span>
+<span class="cp">#define INIT_PGD_PAGE_COUNT      12</span>
+<span class="cp">#endif</span>
+<span class="cp">#define INIT_PGT_BUF_SIZE	(INIT_PGD_PAGE_COUNT * PAGE_SIZE)</span>
+<span class="n">RESERVE_BRK</span><span class="p">(</span><span class="n">early_pgt_alloc</span><span class="p">,</span> <span class="n">INIT_PGT_BUF_SIZE</span><span class="p">);</span>
+<span class="kt">void</span>  <span class="n">__init</span> <span class="nf">early_alloc_pgt_buf</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">tables</span> <span class="o">=</span> <span class="n">INIT_PGT_BUF_SIZE</span><span class="p">;</span>
+	<span class="n">phys_addr_t</span> <span class="n">base</span><span class="p">;</span>
+
+	<span class="n">base</span> <span class="o">=</span> <span class="n">__pa</span><span class="p">(</span><span class="n">extend_brk</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">PAGE_SIZE</span><span class="p">));</span>
+
+	<span class="n">pgt_buf_start</span> <span class="o">=</span> <span class="n">base</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+	<span class="n">pgt_buf_end</span> <span class="o">=</span> <span class="n">pgt_buf_start</span><span class="p">;</span>
+	<span class="n">pgt_buf_top</span> <span class="o">=</span> <span class="n">pgt_buf_start</span> <span class="o">+</span> <span class="p">(</span><span class="n">tables</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">after_bootmem</span><span class="p">;</span>
+
+<span class="n">early_param_on_off</span><span class="p">(</span><span class="s">&quot;gbpages&quot;</span><span class="p">,</span> <span class="s">&quot;nogbpages&quot;</span><span class="p">,</span> <span class="n">direct_gbpages</span><span class="p">,</span> <span class="n">CONFIG_X86_DIRECT_GBPAGES</span><span class="p">);</span>
+
+<span class="k">struct</span> <span class="n">map_range</span> <span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="n">page_size_mask</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">page_size_mask</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__init</span> <span class="nf">probe_page_size_mask</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="cp">#if !defined(CONFIG_KMEMCHECK)</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * For CONFIG_KMEMCHECK or pagealloc debugging, identity mapping will</span>
+<span class="cm">	 * use small pages.</span>
+<span class="cm">	 * This will simplify cpa(), which otherwise needs to support splitting</span>
+<span class="cm">	 * large pages into small in interrupt context, etc.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">boot_cpu_has</span><span class="p">(</span><span class="n">X86_FEATURE_PSE</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">debug_pagealloc_enabled</span><span class="p">())</span>
+		<span class="n">page_size_mask</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">PG_LEVEL_2M</span><span class="p">;</span>
+<span class="cp">#endif</span>
+
+	<span class="cm">/* Enable PSE if available */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">boot_cpu_has</span><span class="p">(</span><span class="n">X86_FEATURE_PSE</span><span class="p">))</span>
+		<span class="n">cr4_set_bits_and_update_boot</span><span class="p">(</span><span class="n">X86_CR4_PSE</span><span class="p">);</span>
+
+	<span class="cm">/* Enable PGE if available */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">boot_cpu_has</span><span class="p">(</span><span class="n">X86_FEATURE_PGE</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">cr4_set_bits_and_update_boot</span><span class="p">(</span><span class="n">X86_CR4_PGE</span><span class="p">);</span>
+		<span class="n">__supported_pte_mask</span> <span class="o">|=</span> <span class="n">_PAGE_GLOBAL</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span>
+		<span class="n">__supported_pte_mask</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">_PAGE_GLOBAL</span><span class="p">;</span>
+
+	<span class="cm">/* Enable 1 GB linear kernel mappings if available: */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">direct_gbpages</span> <span class="o">&amp;&amp;</span> <span class="n">boot_cpu_has</span><span class="p">(</span><span class="n">X86_FEATURE_GBPAGES</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">printk</span><span class="p">(</span><span class="n">KERN_INFO</span> <span class="s">&quot;Using GB pages for direct mapping</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+		<span class="n">page_size_mask</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">PG_LEVEL_1G</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">direct_gbpages</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cp">#ifdef CONFIG_X86_32</span>
+<span class="cp">#define NR_RANGE_MR 3</span>
+<span class="cp">#else </span><span class="cm">/* CONFIG_X86_64 */</span><span class="cp"></span>
+<span class="cp">#define NR_RANGE_MR 5</span>
+<span class="cp">#endif</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">__meminit</span> <span class="nf">save_mr</span><span class="p">(</span><span class="k">struct</span> <span class="n">map_range</span> <span class="o">*</span><span class="n">mr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nr_range</span><span class="p">,</span>
+			     <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start_pfn</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end_pfn</span><span class="p">,</span>
+			     <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">page_size_mask</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">start_pfn</span> <span class="o">&lt;</span> <span class="n">end_pfn</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">nr_range</span> <span class="o">&gt;=</span> <span class="n">NR_RANGE_MR</span><span class="p">)</span>
+			<span class="n">panic</span><span class="p">(</span><span class="s">&quot;run out of range for init_memory_mapping</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+		<span class="n">mr</span><span class="p">[</span><span class="n">nr_range</span><span class="p">].</span><span class="n">start</span> <span class="o">=</span> <span class="n">start_pfn</span><span class="o">&lt;&lt;</span><span class="n">PAGE_SHIFT</span><span class="p">;</span>
+		<span class="n">mr</span><span class="p">[</span><span class="n">nr_range</span><span class="p">].</span><span class="n">end</span>   <span class="o">=</span> <span class="n">end_pfn</span><span class="o">&lt;&lt;</span><span class="n">PAGE_SHIFT</span><span class="p">;</span>
+		<span class="n">mr</span><span class="p">[</span><span class="n">nr_range</span><span class="p">].</span><span class="n">page_size_mask</span> <span class="o">=</span> <span class="n">page_size_mask</span><span class="p">;</span>
+		<span class="n">nr_range</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">nr_range</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * adjust the page_size_mask for small range to go with</span>
+<span class="cm"> *	big page size instead small one if nearby are ram too.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__ref</span> <span class="nf">adjust_range_page_size_mask</span><span class="p">(</span><span class="k">struct</span> <span class="n">map_range</span> <span class="o">*</span><span class="n">mr</span><span class="p">,</span>
+							 <span class="kt">int</span> <span class="n">nr_range</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nr_range</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">((</span><span class="n">page_size_mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_2M</span><span class="p">))</span> <span class="o">&amp;&amp;</span>
+		    <span class="o">!</span><span class="p">(</span><span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">page_size_mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_2M</span><span class="p">)))</span> <span class="p">{</span>
+			<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start</span> <span class="o">=</span> <span class="n">round_down</span><span class="p">(</span><span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">start</span><span class="p">,</span> <span class="n">PMD_SIZE</span><span class="p">);</span>
+			<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span> <span class="o">=</span> <span class="n">round_up</span><span class="p">(</span><span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">,</span> <span class="n">PMD_SIZE</span><span class="p">);</span>
+
+<span class="cp">#ifdef CONFIG_X86_32</span>
+			<span class="k">if</span> <span class="p">((</span><span class="n">end</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_low_pfn</span><span class="p">)</span>
+				<span class="k">continue</span><span class="p">;</span>
+<span class="cp">#endif</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">memblock_is_region_memory</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+				<span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">page_size_mask</span> <span class="o">|=</span> <span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_2M</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="p">((</span><span class="n">page_size_mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_1G</span><span class="p">))</span> <span class="o">&amp;&amp;</span>
+		    <span class="o">!</span><span class="p">(</span><span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">page_size_mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_1G</span><span class="p">)))</span> <span class="p">{</span>
+			<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start</span> <span class="o">=</span> <span class="n">round_down</span><span class="p">(</span><span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">start</span><span class="p">,</span> <span class="n">PUD_SIZE</span><span class="p">);</span>
+			<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span> <span class="o">=</span> <span class="n">round_up</span><span class="p">(</span><span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">,</span> <span class="n">PUD_SIZE</span><span class="p">);</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">memblock_is_region_memory</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+				<span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">page_size_mask</span> <span class="o">|=</span> <span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_1G</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="nf">page_size_string</span><span class="p">(</span><span class="k">struct</span> <span class="n">map_range</span> <span class="o">*</span><span class="n">mr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">str_1g</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;1G&quot;</span><span class="p">;</span>
+	<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">str_2m</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;2M&quot;</span><span class="p">;</span>
+	<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">str_4m</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;4M&quot;</span><span class="p">;</span>
+	<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">str_4k</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;4k&quot;</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">mr</span><span class="o">-&gt;</span><span class="n">page_size_mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_1G</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">str_1g</span><span class="p">;</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * 32-bit without PAE has a 4M large page size.</span>
+<span class="cm">	 * PG_LEVEL_2M is misnamed, but we can at least</span>
+<span class="cm">	 * print out the right size in the string.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">IS_ENABLED</span><span class="p">(</span><span class="n">CONFIG_X86_32</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+	    <span class="o">!</span><span class="n">IS_ENABLED</span><span class="p">(</span><span class="n">CONFIG_X86_PAE</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+	    <span class="n">mr</span><span class="o">-&gt;</span><span class="n">page_size_mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_2M</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">str_4m</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">mr</span><span class="o">-&gt;</span><span class="n">page_size_mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_2M</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">str_2m</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">str_4k</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">__meminit</span> <span class="nf">split_mem_range</span><span class="p">(</span><span class="k">struct</span> <span class="n">map_range</span> <span class="o">*</span><span class="n">mr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nr_range</span><span class="p">,</span>
+				     <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start</span><span class="p">,</span>
+				     <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start_pfn</span><span class="p">,</span> <span class="n">end_pfn</span><span class="p">,</span> <span class="n">limit_pfn</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pfn</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="n">limit_pfn</span> <span class="o">=</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">end</span><span class="p">);</span>
+
+	<span class="cm">/* head if not big page alignment ? */</span>
+	<span class="n">pfn</span> <span class="o">=</span> <span class="n">start_pfn</span> <span class="o">=</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">start</span><span class="p">);</span>
+<span class="cp">#ifdef CONFIG_X86_32</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * Don&#39;t use a large page for the first 2/4MB of memory</span>
+<span class="cm">	 * because there are often fixed size MTRRs in there</span>
+<span class="cm">	 * and overlapping MTRRs into large pages can cause</span>
+<span class="cm">	 * slowdowns.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pfn</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">end_pfn</span> <span class="o">=</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">PMD_SIZE</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">end_pfn</span> <span class="o">=</span> <span class="n">round_up</span><span class="p">(</span><span class="n">pfn</span><span class="p">,</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">PMD_SIZE</span><span class="p">));</span>
+<span class="cp">#else </span><span class="cm">/* CONFIG_X86_64 */</span><span class="cp"></span>
+	<span class="n">end_pfn</span> <span class="o">=</span> <span class="n">round_up</span><span class="p">(</span><span class="n">pfn</span><span class="p">,</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">PMD_SIZE</span><span class="p">));</span>
+<span class="cp">#endif</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">end_pfn</span> <span class="o">&gt;</span> <span class="n">limit_pfn</span><span class="p">)</span>
+		<span class="n">end_pfn</span> <span class="o">=</span> <span class="n">limit_pfn</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">start_pfn</span> <span class="o">&lt;</span> <span class="n">end_pfn</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">nr_range</span> <span class="o">=</span> <span class="n">save_mr</span><span class="p">(</span><span class="n">mr</span><span class="p">,</span> <span class="n">nr_range</span><span class="p">,</span> <span class="n">start_pfn</span><span class="p">,</span> <span class="n">end_pfn</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+		<span class="n">pfn</span> <span class="o">=</span> <span class="n">end_pfn</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* big page (2M) range */</span>
+	<span class="n">start_pfn</span> <span class="o">=</span> <span class="n">round_up</span><span class="p">(</span><span class="n">pfn</span><span class="p">,</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">PMD_SIZE</span><span class="p">));</span>
+<span class="cp">#ifdef CONFIG_X86_32</span>
+	<span class="n">end_pfn</span> <span class="o">=</span> <span class="n">round_down</span><span class="p">(</span><span class="n">limit_pfn</span><span class="p">,</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">PMD_SIZE</span><span class="p">));</span>
+<span class="cp">#else </span><span class="cm">/* CONFIG_X86_64 */</span><span class="cp"></span>
+	<span class="n">end_pfn</span> <span class="o">=</span> <span class="n">round_up</span><span class="p">(</span><span class="n">pfn</span><span class="p">,</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">PUD_SIZE</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">end_pfn</span> <span class="o">&gt;</span> <span class="n">round_down</span><span class="p">(</span><span class="n">limit_pfn</span><span class="p">,</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">PMD_SIZE</span><span class="p">)))</span>
+		<span class="n">end_pfn</span> <span class="o">=</span> <span class="n">round_down</span><span class="p">(</span><span class="n">limit_pfn</span><span class="p">,</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">PMD_SIZE</span><span class="p">));</span>
+<span class="cp">#endif</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">start_pfn</span> <span class="o">&lt;</span> <span class="n">end_pfn</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">nr_range</span> <span class="o">=</span> <span class="n">save_mr</span><span class="p">(</span><span class="n">mr</span><span class="p">,</span> <span class="n">nr_range</span><span class="p">,</span> <span class="n">start_pfn</span><span class="p">,</span> <span class="n">end_pfn</span><span class="p">,</span>
+				<span class="n">page_size_mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_2M</span><span class="p">));</span>
+		<span class="n">pfn</span> <span class="o">=</span> <span class="n">end_pfn</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="cp">#ifdef CONFIG_X86_64</span>
+	<span class="cm">/* big page (1G) range */</span>
+	<span class="n">start_pfn</span> <span class="o">=</span> <span class="n">round_up</span><span class="p">(</span><span class="n">pfn</span><span class="p">,</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">PUD_SIZE</span><span class="p">));</span>
+	<span class="n">end_pfn</span> <span class="o">=</span> <span class="n">round_down</span><span class="p">(</span><span class="n">limit_pfn</span><span class="p">,</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">PUD_SIZE</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">start_pfn</span> <span class="o">&lt;</span> <span class="n">end_pfn</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">nr_range</span> <span class="o">=</span> <span class="n">save_mr</span><span class="p">(</span><span class="n">mr</span><span class="p">,</span> <span class="n">nr_range</span><span class="p">,</span> <span class="n">start_pfn</span><span class="p">,</span> <span class="n">end_pfn</span><span class="p">,</span>
+				<span class="n">page_size_mask</span> <span class="o">&amp;</span>
+				 <span class="p">((</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_2M</span><span class="p">)</span><span class="o">|</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_1G</span><span class="p">)));</span>
+		<span class="n">pfn</span> <span class="o">=</span> <span class="n">end_pfn</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/* tail is not big page (1G) alignment */</span>
+	<span class="n">start_pfn</span> <span class="o">=</span> <span class="n">round_up</span><span class="p">(</span><span class="n">pfn</span><span class="p">,</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">PMD_SIZE</span><span class="p">));</span>
+	<span class="n">end_pfn</span> <span class="o">=</span> <span class="n">round_down</span><span class="p">(</span><span class="n">limit_pfn</span><span class="p">,</span> <span class="n">PFN_DOWN</span><span class="p">(</span><span class="n">PMD_SIZE</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">start_pfn</span> <span class="o">&lt;</span> <span class="n">end_pfn</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">nr_range</span> <span class="o">=</span> <span class="n">save_mr</span><span class="p">(</span><span class="n">mr</span><span class="p">,</span> <span class="n">nr_range</span><span class="p">,</span> <span class="n">start_pfn</span><span class="p">,</span> <span class="n">end_pfn</span><span class="p">,</span>
+				<span class="n">page_size_mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PG_LEVEL_2M</span><span class="p">));</span>
+		<span class="n">pfn</span> <span class="o">=</span> <span class="n">end_pfn</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="cp">#endif</span>
+
+	<span class="cm">/* tail is not big page (2M) alignment */</span>
+	<span class="n">start_pfn</span> <span class="o">=</span> <span class="n">pfn</span><span class="p">;</span>
+	<span class="n">end_pfn</span> <span class="o">=</span> <span class="n">limit_pfn</span><span class="p">;</span>
+	<span class="n">nr_range</span> <span class="o">=</span> <span class="n">save_mr</span><span class="p">(</span><span class="n">mr</span><span class="p">,</span> <span class="n">nr_range</span><span class="p">,</span> <span class="n">start_pfn</span><span class="p">,</span> <span class="n">end_pfn</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">after_bootmem</span><span class="p">)</span>
+		<span class="n">adjust_range_page_size_mask</span><span class="p">(</span><span class="n">mr</span><span class="p">,</span> <span class="n">nr_range</span><span class="p">);</span>
+
+	<span class="cm">/* try to merge same page size and continuous */</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nr_range</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nr_range</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">old_start</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span> <span class="o">!=</span> <span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">].</span><span class="n">start</span> <span class="o">||</span>
+		    <span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">page_size_mask</span> <span class="o">!=</span> <span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">].</span><span class="n">page_size_mask</span><span class="p">)</span>
+			<span class="k">continue</span><span class="p">;</span>
+		<span class="cm">/* move it */</span>
+		<span class="n">old_start</span> <span class="o">=</span> <span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">start</span><span class="p">;</span>
+		<span class="n">memmove</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span>
+			<span class="p">(</span><span class="n">nr_range</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">map_range</span><span class="p">));</span>
+		<span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="o">--</span><span class="p">].</span><span class="n">start</span> <span class="o">=</span> <span class="n">old_start</span><span class="p">;</span>
+		<span class="n">nr_range</span><span class="o">--</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nr_range</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">pr_debug</span><span class="p">(</span><span class="s">&quot; [mem %#010lx-%#010lx] page %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+				<span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">start</span><span class="p">,</span> <span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+				<span class="n">page_size_string</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+
+	<span class="k">return</span> <span class="n">nr_range</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">range</span> <span class="n">pfn_mapped</span><span class="p">[</span><span class="n">E820_X_MAX</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">nr_pfn_mapped</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">add_pfn_range_mapped</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start_pfn</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end_pfn</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">nr_pfn_mapped</span> <span class="o">=</span> <span class="n">add_range_with_merge</span><span class="p">(</span><span class="n">pfn_mapped</span><span class="p">,</span> <span class="n">E820_X_MAX</span><span class="p">,</span>
+					     <span class="n">nr_pfn_mapped</span><span class="p">,</span> <span class="n">start_pfn</span><span class="p">,</span> <span class="n">end_pfn</span><span class="p">);</span>
+	<span class="n">nr_pfn_mapped</span> <span class="o">=</span> <span class="n">clean_sort_range</span><span class="p">(</span><span class="n">pfn_mapped</span><span class="p">,</span> <span class="n">E820_X_MAX</span><span class="p">);</span>
+
+	<span class="n">max_pfn_mapped</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">max_pfn_mapped</span><span class="p">,</span> <span class="n">end_pfn</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">start_pfn</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1UL</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="mi">32</span><span class="o">-</span><span class="n">PAGE_SHIFT</span><span class="p">)))</span>
+		<span class="n">max_low_pfn_mapped</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">max_low_pfn_mapped</span><span class="p">,</span>
+					 <span class="n">min</span><span class="p">(</span><span class="n">end_pfn</span><span class="p">,</span> <span class="mi">1UL</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="mi">32</span><span class="o">-</span><span class="n">PAGE_SHIFT</span><span class="p">)));</span>
+<span class="p">}</span>
+
+<span class="n">bool</span> <span class="nf">pfn_range_is_mapped</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start_pfn</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end_pfn</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nr_pfn_mapped</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">((</span><span class="n">start_pfn</span> <span class="o">&gt;=</span> <span class="n">pfn_mapped</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">start</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+		    <span class="p">(</span><span class="n">end_pfn</span> <span class="o">&lt;=</span> <span class="n">pfn_mapped</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">))</span>
+			<span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Setup the direct mapping of the physical memory at PAGE_OFFSET.</span>
+<span class="cm"> * This runs before bootmem is initialized and gets pages directly from</span>
+<span class="cm"> * the physical memory. To access them they are temporarily mapped.</span>
+<span class="cm"> */</span>
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">__ref</span> <span class="nf">init_memory_mapping</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start</span><span class="p">,</span>
+					       <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">map_range</span> <span class="n">mr</span><span class="p">[</span><span class="n">NR_RANGE_MR</span><span class="p">];</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">nr_range</span><span class="p">,</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="n">pr_debug</span><span class="p">(</span><span class="s">&quot;init_memory_mapping: [mem %#010lx-%#010lx]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+	       <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+
+	<span class="n">memset</span><span class="p">(</span><span class="n">mr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">mr</span><span class="p">));</span>
+	<span class="n">nr_range</span> <span class="o">=</span> <span class="n">split_mem_range</span><span class="p">(</span><span class="n">mr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nr_range</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">kernel_physical_mapping_init</span><span class="p">(</span><span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">start</span><span class="p">,</span> <span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">,</span>
+						   <span class="n">mr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">page_size_mask</span><span class="p">);</span>
+
+	<span class="n">add_pfn_range_mapped</span><span class="p">(</span><span class="n">start</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">,</span> <span class="n">ret</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">ret</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * We need to iterate through the E820 memory map and create direct mappings</span>
+<span class="cm"> * for only E820_RAM and E820_KERN_RESERVED regions. We cannot simply</span>
+<span class="cm"> * create direct mappings for all pfns from [0 to max_low_pfn) and</span>
+<span class="cm"> * [4GB to max_pfn) because of possible memory holes in high addresses</span>
+<span class="cm"> * that cannot be marked as UC by fixed/variable range MTRRs.</span>
+<span class="cm"> * Depending on the alignment of E820 ranges, this may possibly result</span>
+<span class="cm"> * in using smaller size (i.e. 4K instead of 2M or 1G) page tables.</span>
+<span class="cm"> *</span>
+<span class="cm"> * init_mem_mapping() calls init_range_memory_mapping() with big range.</span>
+<span class="cm"> * That range would have hole in the middle or ends, and only ram parts</span>
+<span class="cm"> * will be mapped in init_range_memory_mapping().</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">__init</span> <span class="nf">init_range_memory_mapping</span><span class="p">(</span>
+					   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">r_start</span><span class="p">,</span>
+					   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">r_end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start_pfn</span><span class="p">,</span> <span class="n">end_pfn</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">mapped_ram_size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="n">for_each_mem_pfn_range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">MAX_NUMNODES</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">start_pfn</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">end_pfn</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">u64</span> <span class="n">start</span> <span class="o">=</span> <span class="n">clamp_val</span><span class="p">(</span><span class="n">PFN_PHYS</span><span class="p">(</span><span class="n">start_pfn</span><span class="p">),</span> <span class="n">r_start</span><span class="p">,</span> <span class="n">r_end</span><span class="p">);</span>
+		<span class="n">u64</span> <span class="n">end</span> <span class="o">=</span> <span class="n">clamp_val</span><span class="p">(</span><span class="n">PFN_PHYS</span><span class="p">(</span><span class="n">end_pfn</span><span class="p">),</span> <span class="n">r_start</span><span class="p">,</span> <span class="n">r_end</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="p">)</span>
+			<span class="k">continue</span><span class="p">;</span>
+
+		<span class="cm">/*</span>
+<span class="cm">		 * if it is overlapping with brk pgt, we need to</span>
+<span class="cm">		 * alloc pgt buf from memblock instead.</span>
+<span class="cm">		 */</span>
+		<span class="n">can_use_brk_pgt</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="p">(</span><span class="n">u64</span><span class="p">)</span><span class="n">pgt_buf_end</span><span class="o">&lt;&lt;</span><span class="n">PAGE_SHIFT</span><span class="p">)</span> <span class="o">&gt;=</span>
+				    <span class="n">min</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="p">(</span><span class="n">u64</span><span class="p">)</span><span class="n">pgt_buf_top</span><span class="o">&lt;&lt;</span><span class="n">PAGE_SHIFT</span><span class="p">);</span>
+		<span class="n">init_memory_mapping</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+		<span class="n">mapped_ram_size</span> <span class="o">+=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>
+		<span class="n">can_use_brk_pgt</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">mapped_ram_size</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">__init</span> <span class="nf">get_new_step_size</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">step_size</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * Initial mapped size is PMD_SIZE (2M).</span>
+<span class="cm">	 * We can not set step_size to be PUD_SIZE (1G) yet.</span>
+<span class="cm">	 * In worse case, when we cross the 1G boundary, and</span>
+<span class="cm">	 * PG_LEVEL_2M is not set, we will need 1+1+512 pages (2M + 8k)</span>
+<span class="cm">	 * to map 1G range with PTE. Hence we use one less than the</span>
+<span class="cm">	 * difference of page table level shifts.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * Don&#39;t need to worry about overflow in the top-down case, on 32bit,</span>
+<span class="cm">	 * when step_size is 0, round_down() returns 0 for start, and that</span>
+<span class="cm">	 * turns it into 0x100000000ULL.</span>
+<span class="cm">	 * In the bottom-up case, round_up(x, 0) returns 0 though too, which</span>
+<span class="cm">	 * needs to be taken into consideration by the code below.</span>
+<span class="cm">	 */</span>
+	<span class="k">return</span> <span class="n">step_size</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">PMD_SHIFT</span> <span class="o">-</span> <span class="n">PAGE_SHIFT</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * memory_map_top_down - Map [map_start, map_end) top down</span>
+<span class="cm"> * @map_start: start address of the target memory range</span>
+<span class="cm"> * @map_end: end address of the target memory range</span>
+<span class="cm"> *</span>
+<span class="cm"> * This function will setup direct mapping for memory range</span>
+<span class="cm"> * [map_start, map_end) in top-down. That said, the page tables</span>
+<span class="cm"> * will be allocated at the end of the memory, and we map the</span>
+<span class="cm"> * memory in top-down.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__init</span> <span class="nf">memory_map_top_down</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">map_start</span><span class="p">,</span>
+				       <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">map_end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">real_end</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">last_start</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">step_size</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">mapped_ram_size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="cm">/* xen has big range in reserved near end of ram, skip it at first.*/</span>
+	<span class="n">addr</span> <span class="o">=</span> <span class="n">memblock_find_in_range</span><span class="p">(</span><span class="n">map_start</span><span class="p">,</span> <span class="n">map_end</span><span class="p">,</span> <span class="n">PMD_SIZE</span><span class="p">,</span> <span class="n">PMD_SIZE</span><span class="p">);</span>
+	<span class="n">real_end</span> <span class="o">=</span> <span class="n">addr</span> <span class="o">+</span> <span class="n">PMD_SIZE</span><span class="p">;</span>
+
+	<span class="cm">/* step_size need to be small so pgt_buf from BRK could cover it */</span>
+	<span class="n">step_size</span> <span class="o">=</span> <span class="n">PMD_SIZE</span><span class="p">;</span>
+	<span class="n">max_pfn_mapped</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="cm">/* will get exact value next */</span>
+	<span class="n">min_pfn_mapped</span> <span class="o">=</span> <span class="n">real_end</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+	<span class="n">last_start</span> <span class="o">=</span> <span class="n">start</span> <span class="o">=</span> <span class="n">real_end</span><span class="p">;</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * We start from the top (end of memory) and go to the bottom.</span>
+<span class="cm">	 * The memblock_find_in_range() gets us a block of RAM from the</span>
+<span class="cm">	 * end of RAM in [min_pfn_mapped, max_pfn_mapped) used as new pages</span>
+<span class="cm">	 * for page table.</span>
+<span class="cm">	 */</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">last_start</span> <span class="o">&gt;</span> <span class="n">map_start</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">last_start</span> <span class="o">&gt;</span> <span class="n">step_size</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">start</span> <span class="o">=</span> <span class="n">round_down</span><span class="p">(</span><span class="n">last_start</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">step_size</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">&lt;</span> <span class="n">map_start</span><span class="p">)</span>
+				<span class="n">start</span> <span class="o">=</span> <span class="n">map_start</span><span class="p">;</span>
+		<span class="p">}</span> <span class="k">else</span>
+			<span class="n">start</span> <span class="o">=</span> <span class="n">map_start</span><span class="p">;</span>
+		<span class="n">mapped_ram_size</span> <span class="o">+=</span> <span class="n">init_range_memory_mapping</span><span class="p">(</span><span class="n">start</span><span class="p">,</span>
+							<span class="n">last_start</span><span class="p">);</span>
+		<span class="n">last_start</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span>
+		<span class="n">min_pfn_mapped</span> <span class="o">=</span> <span class="n">last_start</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">mapped_ram_size</span> <span class="o">&gt;=</span> <span class="n">step_size</span><span class="p">)</span>
+			<span class="n">step_size</span> <span class="o">=</span> <span class="n">get_new_step_size</span><span class="p">(</span><span class="n">step_size</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">real_end</span> <span class="o">&lt;</span> <span class="n">map_end</span><span class="p">)</span>
+		<span class="n">init_range_memory_mapping</span><span class="p">(</span><span class="n">real_end</span><span class="p">,</span> <span class="n">map_end</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * memory_map_bottom_up - Map [map_start, map_end) bottom up</span>
+<span class="cm"> * @map_start: start address of the target memory range</span>
+<span class="cm"> * @map_end: end address of the target memory range</span>
+<span class="cm"> *</span>
+<span class="cm"> * This function will setup direct mapping for memory range</span>
+<span class="cm"> * [map_start, map_end) in bottom-up. Since we have limited the</span>
+<span class="cm"> * bottom-up allocation above the kernel, the page tables will</span>
+<span class="cm"> * be allocated just above the kernel and we map the memory</span>
+<span class="cm"> * in [map_start, map_end) in bottom-up.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__init</span> <span class="nf">memory_map_bottom_up</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">map_start</span><span class="p">,</span>
+					<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">map_end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">next</span><span class="p">,</span> <span class="n">start</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">mapped_ram_size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="cm">/* step_size need to be small so pgt_buf from BRK could cover it */</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">step_size</span> <span class="o">=</span> <span class="n">PMD_SIZE</span><span class="p">;</span>
+
+	<span class="n">start</span> <span class="o">=</span> <span class="n">map_start</span><span class="p">;</span>
+	<span class="n">min_pfn_mapped</span> <span class="o">=</span> <span class="n">start</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * We start from the bottom (@map_start) and go to the top (@map_end).</span>
+<span class="cm">	 * The memblock_find_in_range() gets us a block of RAM from the</span>
+<span class="cm">	 * end of RAM in [min_pfn_mapped, max_pfn_mapped) used as new pages</span>
+<span class="cm">	 * for page table.</span>
+<span class="cm">	 */</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">start</span> <span class="o">&lt;</span> <span class="n">map_end</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">step_size</span> <span class="o">&amp;&amp;</span> <span class="n">map_end</span> <span class="o">-</span> <span class="n">start</span> <span class="o">&gt;</span> <span class="n">step_size</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">next</span> <span class="o">=</span> <span class="n">round_up</span><span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">step_size</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">next</span> <span class="o">&gt;</span> <span class="n">map_end</span><span class="p">)</span>
+				<span class="n">next</span> <span class="o">=</span> <span class="n">map_end</span><span class="p">;</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="n">next</span> <span class="o">=</span> <span class="n">map_end</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="n">mapped_ram_size</span> <span class="o">+=</span> <span class="n">init_range_memory_mapping</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">next</span><span class="p">);</span>
+		<span class="n">start</span> <span class="o">=</span> <span class="n">next</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">mapped_ram_size</span> <span class="o">&gt;=</span> <span class="n">step_size</span><span class="p">)</span>
+			<span class="n">step_size</span> <span class="o">=</span> <span class="n">get_new_step_size</span><span class="p">(</span><span class="n">step_size</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">__init</span> <span class="nf">init_mem_mapping</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span><span class="p">;</span>
+
+	<span class="n">probe_page_size_mask</span><span class="p">();</span>
+
+<span class="cp">#ifdef CONFIG_X86_64</span>
+	<span class="n">end</span> <span class="o">=</span> <span class="n">max_pfn</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+<span class="cp">#else</span>
+	<span class="n">end</span> <span class="o">=</span> <span class="n">max_low_pfn</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+<span class="cp">#endif</span>
+
+	<span class="cm">/* the ISA range is always mapped regardless of memory holes */</span>
+	<span class="n">init_memory_mapping</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ISA_END_ADDRESS</span><span class="p">);</span>
+
+	<span class="cm">/* Init the trampoline, possibly with KASLR memory offset */</span>
+	<span class="n">init_trampoline</span><span class="p">();</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * If the allocation is in bottom-up direction, we setup direct mapping</span>
+<span class="cm">	 * in bottom-up, otherwise we setup direct mapping in top-down.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">memblock_bottom_up</span><span class="p">())</span> <span class="p">{</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">kernel_end</span> <span class="o">=</span> <span class="n">__pa_symbol</span><span class="p">(</span><span class="n">_end</span><span class="p">);</span>
+
+		<span class="cm">/*</span>
+<span class="cm">		 * we need two separate calls here. This is because we want to</span>
+<span class="cm">		 * allocate page tables above the kernel. So we first map</span>
+<span class="cm">		 * [kernel_end, end) to make memory above the kernel be mapped</span>
+<span class="cm">		 * as soon as possible. And then use page tables allocated above</span>
+<span class="cm">		 * the kernel to map [ISA_END_ADDRESS, kernel_end).</span>
+<span class="cm">		 */</span>
+		<span class="n">memory_map_bottom_up</span><span class="p">(</span><span class="n">kernel_end</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+		<span class="n">memory_map_bottom_up</span><span class="p">(</span><span class="n">ISA_END_ADDRESS</span><span class="p">,</span> <span class="n">kernel_end</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">memory_map_top_down</span><span class="p">(</span><span class="n">ISA_END_ADDRESS</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+	<span class="p">}</span>
+
+<span class="cp">#ifdef CONFIG_X86_64</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">max_pfn</span> <span class="o">&gt;</span> <span class="n">max_low_pfn</span><span class="p">)</span> <span class="p">{</span>
+		<span class="cm">/* can we preseve max_low_pfn ?*/</span>
+		<span class="n">max_low_pfn</span> <span class="o">=</span> <span class="n">max_pfn</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="cp">#else</span>
+	<span class="n">early_ioremap_page_table_range_init</span><span class="p">();</span>
+<span class="cp">#endif</span>
+
+	<span class="n">load_cr3</span><span class="p">(</span><span class="n">swapper_pg_dir</span><span class="p">);</span>
+	<span class="n">__flush_tlb_all</span><span class="p">();</span>
+
+	<span class="n">early_memtest</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_pfn_mapped</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * devmem_is_allowed() checks to see if /dev/mem access to a certain address</span>
+<span class="cm"> * is valid. The argument is a physical page number.</span>
+<span class="cm"> *</span>
+<span class="cm"> *</span>
+<span class="cm"> * On x86, access has to be given to the first megabyte of ram because that area</span>
+<span class="cm"> * contains BIOS code and data regions used by X and dosemu and similar apps.</span>
+<span class="cm"> * Access has to be given to non-kernel-ram areas as well, these contain the PCI</span>
+<span class="cm"> * mmio resources as well as potential bios/acpi data regions.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">devmem_is_allowed</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pagenr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pagenr</span> <span class="o">&lt;</span> <span class="mi">256</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">iomem_is_exclusive</span><span class="p">(</span><span class="n">pagenr</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">page_is_ram</span><span class="p">(</span><span class="n">pagenr</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">free_init_pages</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">what</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">begin</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">begin_aligned</span><span class="p">,</span> <span class="n">end_aligned</span><span class="p">;</span>
+
+	<span class="cm">/* Make sure boundaries are page aligned */</span>
+	<span class="n">begin_aligned</span> <span class="o">=</span> <span class="n">PAGE_ALIGN</span><span class="p">(</span><span class="n">begin</span><span class="p">);</span>
+	<span class="n">end_aligned</span>   <span class="o">=</span> <span class="n">end</span> <span class="o">&amp;</span> <span class="n">PAGE_MASK</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">WARN_ON</span><span class="p">(</span><span class="n">begin_aligned</span> <span class="o">!=</span> <span class="n">begin</span> <span class="o">||</span> <span class="n">end_aligned</span> <span class="o">!=</span> <span class="n">end</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">begin</span> <span class="o">=</span> <span class="n">begin_aligned</span><span class="p">;</span>
+		<span class="n">end</span>   <span class="o">=</span> <span class="n">end_aligned</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">begin</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="p">)</span>
+		<span class="k">return</span><span class="p">;</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * If debugging page accesses then do not free this memory but</span>
+<span class="cm">	 * mark them not present - any buggy init-section access will</span>
+<span class="cm">	 * create a kernel page fault:</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">debug_pagealloc_enabled</span><span class="p">())</span> <span class="p">{</span>
+		<span class="n">pr_info</span><span class="p">(</span><span class="s">&quot;debug: unmapping init [mem %#010lx-%#010lx]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+			<span class="n">begin</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="n">set_memory_np</span><span class="p">(</span><span class="n">begin</span><span class="p">,</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">begin</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="cm">/*</span>
+<span class="cm">		 * We just marked the kernel text read only above, now that</span>
+<span class="cm">		 * we are going to free part of that, we need to make that</span>
+<span class="cm">		 * writeable and non-executable first.</span>
+<span class="cm">		 */</span>
+		<span class="n">set_memory_nx</span><span class="p">(</span><span class="n">begin</span><span class="p">,</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">begin</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+		<span class="n">set_memory_rw</span><span class="p">(</span><span class="n">begin</span><span class="p">,</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">begin</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+
+		<span class="n">free_reserved_area</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">begin</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">end</span><span class="p">,</span>
+				   <span class="n">POISON_FREE_INITMEM</span><span class="p">,</span> <span class="n">what</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">__ref</span> <span class="nf">free_initmem</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">e820_reallocate_tables</span><span class="p">();</span>
+
+	<span class="n">free_init_pages</span><span class="p">(</span><span class="s">&quot;unused kernel&quot;</span><span class="p">,</span>
+			<span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">__init_begin</span><span class="p">),</span>
+			<span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">__init_end</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="cp">#ifdef CONFIG_BLK_DEV_INITRD</span>
+<span class="kt">void</span> <span class="n">__init</span> <span class="nf">free_initrd_mem</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * end could be not aligned, and We can not align that,</span>
+<span class="cm">	 * decompresser could be confused by aligned initrd_end</span>
+<span class="cm">	 * We already reserve the end partial page before in</span>
+<span class="cm">	 *   - i386_start_kernel()</span>
+<span class="cm">	 *   - x86_64_start_kernel()</span>
+<span class="cm">	 *   - relocate_initrd()</span>
+<span class="cm">	 * So here We can do PAGE_ALIGN() safely to get partial page to be freed</span>
+<span class="cm">	 */</span>
+	<span class="n">free_init_pages</span><span class="p">(</span><span class="s">&quot;initrd&quot;</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">PAGE_ALIGN</span><span class="p">(</span><span class="n">end</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="kt">void</span> <span class="n">__init</span> <span class="nf">zone_sizes_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">max_zone_pfns</span><span class="p">[</span><span class="n">MAX_NR_ZONES</span><span class="p">];</span>
+
+	<span class="n">memset</span><span class="p">(</span><span class="n">max_zone_pfns</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">max_zone_pfns</span><span class="p">));</span>
+
+<span class="cp">#ifdef CONFIG_ZONE_DMA</span>
+	<span class="n">max_zone_pfns</span><span class="p">[</span><span class="n">ZONE_DMA</span><span class="p">]</span>		<span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">MAX_DMA_PFN</span><span class="p">,</span> <span class="n">max_low_pfn</span><span class="p">);</span>
+<span class="cp">#endif</span>
+<span class="cp">#ifdef CONFIG_ZONE_DMA32</span>
+	<span class="n">max_zone_pfns</span><span class="p">[</span><span class="n">ZONE_DMA32</span><span class="p">]</span>	<span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">MAX_DMA32_PFN</span><span class="p">,</span> <span class="n">max_low_pfn</span><span class="p">);</span>
+<span class="cp">#endif</span>
+	<span class="n">max_zone_pfns</span><span class="p">[</span><span class="n">ZONE_NORMAL</span><span class="p">]</span>	<span class="o">=</span> <span class="n">max_low_pfn</span><span class="p">;</span>
+<span class="cp">#ifdef CONFIG_HIGHMEM</span>
+	<span class="n">max_zone_pfns</span><span class="p">[</span><span class="n">ZONE_HIGHMEM</span><span class="p">]</span>	<span class="o">=</span> <span class="n">max_pfn</span><span class="p">;</span>
+<span class="cp">#endif</span>
+
+	<span class="n">free_area_init_nodes</span><span class="p">(</span><span class="n">max_zone_pfns</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">DEFINE_PER_CPU_SHARED_ALIGNED</span><span class="p">(</span><span class="k">struct</span> <span class="n">tlb_state</span><span class="p">,</span> <span class="n">cpu_tlbstate</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span>
+<span class="cp">#ifdef CONFIG_SMP</span>
+	<span class="p">.</span><span class="n">active_mm</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">init_mm</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="cp">#endif</span>
+	<span class="p">.</span><span class="n">cr4</span> <span class="o">=</span> <span class="o">~</span><span class="mi">0UL</span><span class="p">,</span>	<span class="cm">/* fail hard if we screw up cr4 shadow initialization */</span>
+<span class="p">};</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">cpu_tlbstate</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">update_cache_mode_entry</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">entry</span><span class="p">,</span> <span class="k">enum</span> <span class="n">page_cache_mode</span> <span class="n">cache</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/* entry 0 MUST be WB (hardwired to speed up translations) */</span>
+	<span class="n">BUG_ON</span><span class="p">(</span><span class="o">!</span><span class="n">entry</span> <span class="o">&amp;&amp;</span> <span class="n">cache</span> <span class="o">!=</span> <span class="n">_PAGE_CACHE_MODE_WB</span><span class="p">);</span>
+
+	<span class="n">__cachemode2pte_tbl</span><span class="p">[</span><span class="n">cache</span><span class="p">]</span> <span class="o">=</span> <span class="n">__cm_idx2pte</span><span class="p">(</span><span class="n">entry</span><span class="p">);</span>
+	<span class="n">__pte2cachemode_tbl</span><span class="p">[</span><span class="n">entry</span><span class="p">]</span> <span class="o">=</span> <span class="n">cache</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

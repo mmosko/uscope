@@ -1,0 +1,554 @@
+lib/flex_proportions.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/lib/flex_proportions.c#L272">272</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> *  Floating proportions with flexible aging period</span>
+<span class="cm"> *</span>
+<span class="cm"> *   Copyright (C) 2011, SUSE, Jan Kara &lt;jack@suse.cz&gt;</span>
+<span class="cm"> *</span>
+<span class="cm"> * The goal of this code is: Given different types of event, measure proportion</span>
+<span class="cm"> * of each type of event over time. The proportions are measured with</span>
+<span class="cm"> * exponentially decaying history to give smooth transitions. A formula</span>
+<span class="cm"> * expressing proportion of event of type &#39;j&#39; is:</span>
+<span class="cm"> *</span>
+<span class="cm"> *   p_{j} = (\Sum_{i&gt;=0} x_{i,j}/2^{i+1})/(\Sum_{i&gt;=0} x_i/2^{i+1})</span>
+<span class="cm"> *</span>
+<span class="cm"> * Where x_{i,j} is j&#39;s number of events in i-th last time period and x_i is</span>
+<span class="cm"> * total number of events in i-th last time period.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Note that p_{j}&#39;s are normalised, i.e.</span>
+<span class="cm"> *</span>
+<span class="cm"> *   \Sum_{j} p_{j} = 1,</span>
+<span class="cm"> *</span>
+<span class="cm"> * This formula can be straightforwardly computed by maintaining denominator</span>
+<span class="cm"> * (let&#39;s call it &#39;d&#39;) and for each event type its numerator (let&#39;s call it</span>
+<span class="cm"> * &#39;n_j&#39;). When an event of type &#39;j&#39; happens, we simply need to do:</span>
+<span class="cm"> *   n_j++; d++;</span>
+<span class="cm"> *</span>
+<span class="cm"> * When a new period is declared, we could do:</span>
+<span class="cm"> *   d /= 2</span>
+<span class="cm"> *   for each j</span>
+<span class="cm"> *     n_j /= 2</span>
+<span class="cm"> *</span>
+<span class="cm"> * To avoid iteration over all event types, we instead shift numerator of event</span>
+<span class="cm"> * j lazily when someone asks for a proportion of event j or when event j</span>
+<span class="cm"> * occurs. This can bit trivially implemented by remembering last period in</span>
+<span class="cm"> * which something happened with proportion of type j.</span>
+<span class="cm"> */</span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/flex_proportions.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">fprop_global_init</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_global</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">gfp_t</span> <span class="n">gfp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">err</span><span class="p">;</span>
+
+	<span class="n">p</span><span class="o">-&gt;</span><span class="n">period</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="cm">/* Use 1 to avoid dealing with periods with 0 events... */</span>
+	<span class="n">err</span> <span class="o">=</span> <span class="n">percpu_counter_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">gfp</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">err</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+	<span class="n">seqcount_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">fprop_global_destroy</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_global</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">percpu_counter_destroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Declare @periods new periods. It is upto the caller to make sure period</span>
+<span class="cm"> * transitions cannot happen in parallel.</span>
+<span class="cm"> *</span>
+<span class="cm"> * The function returns true if the proportions are still defined and false</span>
+<span class="cm"> * if aging zeroed out all events. This can be used to detect whether declaring</span>
+<span class="cm"> * further periods has any effect.</span>
+<span class="cm"> */</span>
+<span class="n">bool</span> <span class="nf">fprop_new_period</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_global</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">periods</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">s64</span> <span class="n">events</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">;</span>
+
+	<span class="n">local_irq_save</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
+	<span class="n">events</span> <span class="o">=</span> <span class="n">percpu_counter_sum</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">);</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * Don&#39;t do anything if there are no events.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">events</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">local_irq_restore</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">write_seqcount_begin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">periods</span> <span class="o">&lt;</span> <span class="mi">64</span><span class="p">)</span>
+		<span class="n">events</span> <span class="o">-=</span> <span class="n">events</span> <span class="o">&gt;&gt;</span> <span class="n">periods</span><span class="p">;</span>
+	<span class="cm">/* Use addition to avoid losing events happening between sum and set */</span>
+	<span class="n">percpu_counter_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">,</span> <span class="o">-</span><span class="n">events</span><span class="p">);</span>
+	<span class="n">p</span><span class="o">-&gt;</span><span class="n">period</span> <span class="o">+=</span> <span class="n">periods</span><span class="p">;</span>
+	<span class="n">write_seqcount_end</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="p">);</span>
+	<span class="n">local_irq_restore</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * ---- SINGLE ----</span>
+<span class="cm"> */</span>
+
+<span class="kt">int</span> <span class="nf">fprop_local_init_single</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_local_single</span> <span class="o">*</span><span class="n">pl</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">pl</span><span class="o">-&gt;</span><span class="n">period</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">raw_spin_lock_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">fprop_local_destroy_single</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_local_single</span> <span class="o">*</span><span class="n">pl</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">fprop_reflect_period_single</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_global</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span>
+					<span class="k">struct</span> <span class="n">fprop_local_single</span> <span class="o">*</span><span class="n">pl</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">period</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">period</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">;</span>
+
+	<span class="cm">/* Fast path - period didn&#39;t change */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">period</span> <span class="o">==</span> <span class="n">period</span><span class="p">)</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="n">raw_spin_lock_irqsave</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+	<span class="cm">/* Someone updated pl-&gt;period while we were spinning? */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">period</span> <span class="o">&gt;=</span> <span class="n">period</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">raw_spin_unlock_irqrestore</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="cm">/* Aging zeroed our fraction? */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">period</span> <span class="o">-</span> <span class="n">pl</span><span class="o">-&gt;</span><span class="n">period</span> <span class="o">&lt;</span> <span class="n">BITS_PER_LONG</span><span class="p">)</span>
+		<span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span> <span class="o">&gt;&gt;=</span> <span class="n">period</span> <span class="o">-</span> <span class="n">pl</span><span class="o">-&gt;</span><span class="n">period</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">pl</span><span class="o">-&gt;</span><span class="n">period</span> <span class="o">=</span> <span class="n">period</span><span class="p">;</span>
+	<span class="n">raw_spin_unlock_irqrestore</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/* Event of type pl happened */</span>
+<span class="kt">void</span> <span class="nf">__fprop_inc_single</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_global</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fprop_local_single</span> <span class="o">*</span><span class="n">pl</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">fprop_reflect_period_single</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">pl</span><span class="p">);</span>
+	<span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span><span class="o">++</span><span class="p">;</span>
+	<span class="n">percpu_counter_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/* Return fraction of events of type pl */</span>
+<span class="kt">void</span> <span class="nf">fprop_fraction_single</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_global</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span>
+			   <span class="k">struct</span> <span class="n">fprop_local_single</span> <span class="o">*</span><span class="n">pl</span><span class="p">,</span>
+			   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">*</span><span class="n">numerator</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">*</span><span class="n">denominator</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">seq</span><span class="p">;</span>
+	<span class="n">s64</span> <span class="n">num</span><span class="p">,</span> <span class="n">den</span><span class="p">;</span>
+
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">seq</span> <span class="o">=</span> <span class="n">read_seqcount_begin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="p">);</span>
+		<span class="n">fprop_reflect_period_single</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">pl</span><span class="p">);</span>
+		<span class="n">num</span> <span class="o">=</span> <span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">;</span>
+		<span class="n">den</span> <span class="o">=</span> <span class="n">percpu_counter_read_positive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">read_seqcount_retry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="p">,</span> <span class="n">seq</span><span class="p">));</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * Make fraction &lt;= 1 and denominator &gt; 0 even in presence of percpu</span>
+<span class="cm">	 * counter errors</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">den</span> <span class="o">&lt;=</span> <span class="n">num</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">num</span><span class="p">)</span>
+			<span class="n">den</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+		<span class="k">else</span>
+			<span class="n">den</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="o">*</span><span class="n">denominator</span> <span class="o">=</span> <span class="n">den</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">numerator</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * ---- PERCPU ----</span>
+<span class="cm"> */</span>
+<span class="cp">#define PROP_BATCH (8*(1+ilog2(nr_cpu_ids)))</span>
+
+<span class="kt">int</span> <span class="nf">fprop_local_init_percpu</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_local_percpu</span> <span class="o">*</span><span class="n">pl</span><span class="p">,</span> <span class="n">gfp_t</span> <span class="n">gfp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">err</span><span class="p">;</span>
+
+	<span class="n">err</span> <span class="o">=</span> <span class="n">percpu_counter_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">gfp</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">err</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+	<span class="n">pl</span><span class="o">-&gt;</span><span class="n">period</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">raw_spin_lock_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">fprop_local_destroy_percpu</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_local_percpu</span> <span class="o">*</span><span class="n">pl</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">percpu_counter_destroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">fprop_reflect_period_percpu</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_global</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span>
+					<span class="k">struct</span> <span class="n">fprop_local_percpu</span> <span class="o">*</span><span class="n">pl</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">period</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">period</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">;</span>
+
+	<span class="cm">/* Fast path - period didn&#39;t change */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">period</span> <span class="o">==</span> <span class="n">period</span><span class="p">)</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="n">raw_spin_lock_irqsave</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+	<span class="cm">/* Someone updated pl-&gt;period while we were spinning? */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">period</span> <span class="o">&gt;=</span> <span class="n">period</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">raw_spin_unlock_irqrestore</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="cm">/* Aging zeroed our fraction? */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">period</span> <span class="o">-</span> <span class="n">pl</span><span class="o">-&gt;</span><span class="n">period</span> <span class="o">&lt;</span> <span class="n">BITS_PER_LONG</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">s64</span> <span class="n">val</span> <span class="o">=</span> <span class="n">percpu_counter_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">);</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">nr_cpu_ids</span> <span class="o">*</span> <span class="n">PROP_BATCH</span><span class="p">))</span>
+			<span class="n">val</span> <span class="o">=</span> <span class="n">percpu_counter_sum</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">);</span>
+
+		<span class="n">__percpu_counter_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">,</span>
+			<span class="o">-</span><span class="n">val</span> <span class="o">+</span> <span class="p">(</span><span class="n">val</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="n">period</span><span class="o">-</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">period</span><span class="p">)),</span> <span class="n">PROP_BATCH</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span>
+		<span class="n">percpu_counter_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="n">pl</span><span class="o">-&gt;</span><span class="n">period</span> <span class="o">=</span> <span class="n">period</span><span class="p">;</span>
+	<span class="n">raw_spin_unlock_irqrestore</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/* Event of type pl happened */</span>
+<span class="kt">void</span> <span class="nf">__fprop_inc_percpu</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_global</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fprop_local_percpu</span> <span class="o">*</span><span class="n">pl</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">fprop_reflect_period_percpu</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">pl</span><span class="p">);</span>
+	<span class="n">__percpu_counter_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">PROP_BATCH</span><span class="p">);</span>
+	<span class="n">percpu_counter_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">fprop_fraction_percpu</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_global</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span>
+			   <span class="k">struct</span> <span class="n">fprop_local_percpu</span> <span class="o">*</span><span class="n">pl</span><span class="p">,</span>
+			   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">*</span><span class="n">numerator</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">*</span><span class="n">denominator</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">seq</span><span class="p">;</span>
+	<span class="n">s64</span> <span class="n">num</span><span class="p">,</span> <span class="n">den</span><span class="p">;</span>
+
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">seq</span> <span class="o">=</span> <span class="n">read_seqcount_begin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="p">);</span>
+		<span class="n">fprop_reflect_period_percpu</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">pl</span><span class="p">);</span>
+		<span class="n">num</span> <span class="o">=</span> <span class="n">percpu_counter_read_positive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">);</span>
+		<span class="n">den</span> <span class="o">=</span> <span class="n">percpu_counter_read_positive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">read_seqcount_retry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="p">,</span> <span class="n">seq</span><span class="p">));</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * Make fraction &lt;= 1 and denominator &gt; 0 even in presence of percpu</span>
+<span class="cm">	 * counter errors</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">den</span> <span class="o">&lt;=</span> <span class="n">num</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">num</span><span class="p">)</span>
+			<span class="n">den</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+		<span class="k">else</span>
+			<span class="n">den</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="o">*</span><span class="n">denominator</span> <span class="o">=</span> <span class="n">den</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">numerator</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Like __fprop_inc_percpu() except that event is counted only if the given</span>
+<span class="cm"> * type has fraction smaller than @max_frac/FPROP_FRAC_BASE</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">__fprop_inc_percpu_max</span><span class="p">(</span><span class="k">struct</span> <span class="n">fprop_global</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span>
+			    <span class="k">struct</span> <span class="n">fprop_local_percpu</span> <span class="o">*</span><span class="n">pl</span><span class="p">,</span> <span class="kt">int</span> <span class="n">max_frac</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">max_frac</span> <span class="o">&lt;</span> <span class="n">FPROP_FRAC_BASE</span><span class="p">))</span> <span class="p">{</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">;</span>
+
+		<span class="n">fprop_fraction_percpu</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">pl</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">numerator</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">denominator</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">numerator</span> <span class="o">&gt;</span>
+		    <span class="p">(((</span><span class="n">u64</span><span class="p">)</span><span class="n">denominator</span><span class="p">)</span> <span class="o">*</span> <span class="n">max_frac</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">FPROP_FRAC_SHIFT</span><span class="p">)</span>
+			<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span>
+		<span class="n">fprop_reflect_period_percpu</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">pl</span><span class="p">);</span>
+	<span class="n">__percpu_counter_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pl</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">PROP_BATCH</span><span class="p">);</span>
+	<span class="n">percpu_counter_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">events</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

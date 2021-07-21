@@ -1,0 +1,910 @@
+arch/x86/mm/gup.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L390">390</a>
+<a name="L391" id="L391" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L391">391</a>
+<a name="L392" id="L392" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L392">392</a>
+<a name="L393" id="L393" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L393">393</a>
+<a name="L394" id="L394" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L394">394</a>
+<a name="L395" id="L395" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L395">395</a>
+<a name="L396" id="L396" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L396">396</a>
+<a name="L397" id="L397" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L397">397</a>
+<a name="L398" id="L398" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L398">398</a>
+<a name="L399" id="L399" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L399">399</a>
+<a name="L400" id="L400" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L400">400</a>
+<a name="L401" id="L401" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L401">401</a>
+<a name="L402" id="L402" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L402">402</a>
+<a name="L403" id="L403" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L403">403</a>
+<a name="L404" id="L404" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L404">404</a>
+<a name="L405" id="L405" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L405">405</a>
+<a name="L406" id="L406" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L406">406</a>
+<a name="L407" id="L407" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L407">407</a>
+<a name="L408" id="L408" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L408">408</a>
+<a name="L409" id="L409" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L409">409</a>
+<a name="L410" id="L410" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L410">410</a>
+<a name="L411" id="L411" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L411">411</a>
+<a name="L412" id="L412" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L412">412</a>
+<a name="L413" id="L413" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L413">413</a>
+<a name="L414" id="L414" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L414">414</a>
+<a name="L415" id="L415" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L415">415</a>
+<a name="L416" id="L416" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L416">416</a>
+<a name="L417" id="L417" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L417">417</a>
+<a name="L418" id="L418" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L418">418</a>
+<a name="L419" id="L419" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L419">419</a>
+<a name="L420" id="L420" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L420">420</a>
+<a name="L421" id="L421" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L421">421</a>
+<a name="L422" id="L422" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L422">422</a>
+<a name="L423" id="L423" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L423">423</a>
+<a name="L424" id="L424" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L424">424</a>
+<a name="L425" id="L425" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L425">425</a>
+<a name="L426" id="L426" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L426">426</a>
+<a name="L427" id="L427" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L427">427</a>
+<a name="L428" id="L428" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L428">428</a>
+<a name="L429" id="L429" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L429">429</a>
+<a name="L430" id="L430" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L430">430</a>
+<a name="L431" id="L431" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L431">431</a>
+<a name="L432" id="L432" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L432">432</a>
+<a name="L433" id="L433" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L433">433</a>
+<a name="L434" id="L434" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L434">434</a>
+<a name="L435" id="L435" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L435">435</a>
+<a name="L436" id="L436" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L436">436</a>
+<a name="L437" id="L437" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L437">437</a>
+<a name="L438" id="L438" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L438">438</a>
+<a name="L439" id="L439" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L439">439</a>
+<a name="L440" id="L440" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L440">440</a>
+<a name="L441" id="L441" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L441">441</a>
+<a name="L442" id="L442" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L442">442</a>
+<a name="L443" id="L443" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L443">443</a>
+<a name="L444" id="L444" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L444">444</a>
+<a name="L445" id="L445" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L445">445</a>
+<a name="L446" id="L446" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L446">446</a>
+<a name="L447" id="L447" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L447">447</a>
+<a name="L448" id="L448" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L448">448</a>
+<a name="L449" id="L449" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L449">449</a>
+<a name="L450" id="L450" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/gup.c#L450">450</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Lockless get_user_pages_fast for x86</span>
+<span class="cm"> *</span>
+<span class="cm"> * Copyright (C) 2008 Nick Piggin</span>
+<span class="cm"> * Copyright (C) 2008 Novell Inc.</span>
+<span class="cm"> */</span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/sched.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/mm.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/vmstat.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/highmem.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/swap.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/memremap.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;asm/mmu_context.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/pgtable.h&gt;</span><span class="cp"></span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pte_t</span> <span class="nf">gup_get_pte</span><span class="p">(</span><span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="cp">#ifndef CONFIG_X86_PAE</span>
+	<span class="k">return</span> <span class="n">READ_ONCE</span><span class="p">(</span><span class="o">*</span><span class="n">ptep</span><span class="p">);</span>
+<span class="cp">#else</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * With get_user_pages_fast, we walk down the pagetables without taking</span>
+<span class="cm">	 * any locks.  For this we would like to load the pointers atomically,</span>
+<span class="cm">	 * but that is not possible (without expensive cmpxchg8b) on PAE.  What</span>
+<span class="cm">	 * we do have is the guarantee that a pte will only either go from not</span>
+<span class="cm">	 * present to present, or present to not present or both -- it will not</span>
+<span class="cm">	 * switch to a completely different present page without a TLB flush in</span>
+<span class="cm">	 * between; something that we are blocking by holding interrupts off.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * Setting ptes from not present to present goes:</span>
+<span class="cm">	 * ptep-&gt;pte_high = h;</span>
+<span class="cm">	 * smp_wmb();</span>
+<span class="cm">	 * ptep-&gt;pte_low = l;</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * And present to not present goes:</span>
+<span class="cm">	 * ptep-&gt;pte_low = 0;</span>
+<span class="cm">	 * smp_wmb();</span>
+<span class="cm">	 * ptep-&gt;pte_high = 0;</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * We must ensure here that the load of pte_low sees l iff pte_high</span>
+<span class="cm">	 * sees h. We load pte_high *after* loading pte_low, which ensures we</span>
+<span class="cm">	 * don&#39;t see an older value of pte_high.  *Then* we recheck pte_low,</span>
+<span class="cm">	 * which ensures that we haven&#39;t picked up a changed pte high. We might</span>
+<span class="cm">	 * have got rubbish values from pte_low and pte_high, but we are</span>
+<span class="cm">	 * guaranteed that pte_low will not have the present bit set *unless*</span>
+<span class="cm">	 * it is &#39;l&#39;. And get_user_pages_fast only operates on present ptes, so</span>
+<span class="cm">	 * we&#39;re safe.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * gup_get_pte should not be used or copied outside gup.c without being</span>
+<span class="cm">	 * very careful -- it does not atomically load the pte or anything that</span>
+<span class="cm">	 * is likely to be useful for you.</span>
+<span class="cm">	 */</span>
+	<span class="n">pte_t</span> <span class="n">pte</span><span class="p">;</span>
+
+<span class="nl">retry</span><span class="p">:</span>
+	<span class="n">pte</span><span class="p">.</span><span class="n">pte_low</span> <span class="o">=</span> <span class="n">ptep</span><span class="o">-&gt;</span><span class="n">pte_low</span><span class="p">;</span>
+	<span class="n">smp_rmb</span><span class="p">();</span>
+	<span class="n">pte</span><span class="p">.</span><span class="n">pte_high</span> <span class="o">=</span> <span class="n">ptep</span><span class="o">-&gt;</span><span class="n">pte_high</span><span class="p">;</span>
+	<span class="n">smp_rmb</span><span class="p">();</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">pte</span><span class="p">.</span><span class="n">pte_low</span> <span class="o">!=</span> <span class="n">ptep</span><span class="o">-&gt;</span><span class="n">pte_low</span><span class="p">))</span>
+		<span class="k">goto</span> <span class="n">retry</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">pte</span><span class="p">;</span>
+<span class="cp">#endif</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">undo_dev_pagemap</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">nr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nr_start</span><span class="p">,</span> <span class="k">struct</span> <span class="n">page</span> <span class="o">**</span><span class="n">pages</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">while</span> <span class="p">((</span><span class="o">*</span><span class="n">nr</span><span class="p">)</span> <span class="o">-</span> <span class="n">nr_start</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="n">page</span> <span class="o">=</span> <span class="n">pages</span><span class="p">[</span><span class="o">--</span><span class="p">(</span><span class="o">*</span><span class="n">nr</span><span class="p">)];</span>
+
+		<span class="n">ClearPageReferenced</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+		<span class="n">put_page</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * &#39;pteval&#39; can come from a pte, pmd or pud.  We only check</span>
+<span class="cm"> * _PAGE_PRESENT, _PAGE_USER, and _PAGE_RW in here which are the</span>
+<span class="cm"> * same value on all 3 types.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pte_allows_gup</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pteval</span><span class="p">,</span> <span class="kt">int</span> <span class="n">write</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">need_pte_bits</span> <span class="o">=</span> <span class="n">_PAGE_PRESENT</span><span class="o">|</span><span class="n">_PAGE_USER</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">write</span><span class="p">)</span>
+		<span class="n">need_pte_bits</span> <span class="o">|=</span> <span class="n">_PAGE_RW</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">pteval</span> <span class="o">&amp;</span> <span class="n">need_pte_bits</span><span class="p">)</span> <span class="o">!=</span> <span class="n">need_pte_bits</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="cm">/* Check memory protection keys permissions. */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">__pkru_allows_pkey</span><span class="p">(</span><span class="n">pte_flags_pkey</span><span class="p">(</span><span class="n">pteval</span><span class="p">),</span> <span class="n">write</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * The performance critical leaf functions are made noinline otherwise gcc</span>
+<span class="cm"> * inlines everything into a single function which results in too much</span>
+<span class="cm"> * register pressure.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="n">noinline</span> <span class="kt">int</span> <span class="nf">gup_pte_range</span><span class="p">(</span><span class="n">pmd_t</span> <span class="n">pmd</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span><span class="p">,</span> <span class="kt">int</span> <span class="n">write</span><span class="p">,</span> <span class="k">struct</span> <span class="n">page</span> <span class="o">**</span><span class="n">pages</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">nr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">dev_pagemap</span> <span class="o">*</span><span class="n">pgmap</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">nr_start</span> <span class="o">=</span> <span class="o">*</span><span class="n">nr</span><span class="p">;</span>
+	<span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">;</span>
+
+	<span class="n">ptep</span> <span class="o">=</span> <span class="n">pte_offset_map</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pmd</span><span class="p">,</span> <span class="n">addr</span><span class="p">);</span>
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">pte_t</span> <span class="n">pte</span> <span class="o">=</span> <span class="n">gup_get_pte</span><span class="p">(</span><span class="n">ptep</span><span class="p">);</span>
+		<span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="n">page</span><span class="p">;</span>
+
+		<span class="cm">/* Similar to the PMD case, NUMA hinting must take slow path */</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">pte_protnone</span><span class="p">(</span><span class="n">pte</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">pte_unmap</span><span class="p">(</span><span class="n">ptep</span><span class="p">);</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">pte_devmap</span><span class="p">(</span><span class="n">pte</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">pgmap</span> <span class="o">=</span> <span class="n">get_dev_pagemap</span><span class="p">(</span><span class="n">pte_pfn</span><span class="p">(</span><span class="n">pte</span><span class="p">),</span> <span class="n">pgmap</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">pgmap</span><span class="p">))</span> <span class="p">{</span>
+				<span class="n">undo_dev_pagemap</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nr_start</span><span class="p">,</span> <span class="n">pages</span><span class="p">);</span>
+				<span class="n">pte_unmap</span><span class="p">(</span><span class="n">ptep</span><span class="p">);</span>
+				<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">pte_allows_gup</span><span class="p">(</span><span class="n">pte_val</span><span class="p">(</span><span class="n">pte</span><span class="p">),</span> <span class="n">write</span><span class="p">)</span> <span class="o">||</span>
+			   <span class="n">pte_special</span><span class="p">(</span><span class="n">pte</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">pte_unmap</span><span class="p">(</span><span class="n">ptep</span><span class="p">);</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">VM_BUG_ON</span><span class="p">(</span><span class="o">!</span><span class="n">pfn_valid</span><span class="p">(</span><span class="n">pte_pfn</span><span class="p">(</span><span class="n">pte</span><span class="p">)));</span>
+		<span class="n">page</span> <span class="o">=</span> <span class="n">pte_page</span><span class="p">(</span><span class="n">pte</span><span class="p">);</span>
+		<span class="n">get_page</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+		<span class="n">put_dev_pagemap</span><span class="p">(</span><span class="n">pgmap</span><span class="p">);</span>
+		<span class="n">SetPageReferenced</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+		<span class="n">pages</span><span class="p">[</span><span class="o">*</span><span class="n">nr</span><span class="p">]</span> <span class="o">=</span> <span class="n">page</span><span class="p">;</span>
+		<span class="p">(</span><span class="o">*</span><span class="n">nr</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">ptep</span><span class="o">++</span><span class="p">,</span> <span class="n">addr</span> <span class="o">+=</span> <span class="n">PAGE_SIZE</span><span class="p">,</span> <span class="n">addr</span> <span class="o">!=</span> <span class="n">end</span><span class="p">);</span>
+	<span class="n">pte_unmap</span><span class="p">(</span><span class="n">ptep</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">get_head_page_multiple</span><span class="p">(</span><span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="n">page</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">VM_BUG_ON_PAGE</span><span class="p">(</span><span class="n">page</span> <span class="o">!=</span> <span class="n">compound_head</span><span class="p">(</span><span class="n">page</span><span class="p">),</span> <span class="n">page</span><span class="p">);</span>
+	<span class="n">VM_BUG_ON_PAGE</span><span class="p">(</span><span class="n">page_count</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">page</span><span class="p">);</span>
+	<span class="n">page_ref_add</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">nr</span><span class="p">);</span>
+	<span class="n">SetPageReferenced</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">__gup_device_huge_pmd</span><span class="p">(</span><span class="n">pmd_t</span> <span class="n">pmd</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span><span class="p">,</span> <span class="k">struct</span> <span class="n">page</span> <span class="o">**</span><span class="n">pages</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">nr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">nr_start</span> <span class="o">=</span> <span class="o">*</span><span class="n">nr</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pfn</span> <span class="o">=</span> <span class="n">pmd_pfn</span><span class="p">(</span><span class="n">pmd</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">dev_pagemap</span> <span class="o">*</span><span class="n">pgmap</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">pfn</span> <span class="o">+=</span> <span class="p">(</span><span class="n">addr</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">PMD_MASK</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="n">page</span> <span class="o">=</span> <span class="n">pfn_to_page</span><span class="p">(</span><span class="n">pfn</span><span class="p">);</span>
+
+		<span class="n">pgmap</span> <span class="o">=</span> <span class="n">get_dev_pagemap</span><span class="p">(</span><span class="n">pfn</span><span class="p">,</span> <span class="n">pgmap</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">pgmap</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">undo_dev_pagemap</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nr_start</span><span class="p">,</span> <span class="n">pages</span><span class="p">);</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">SetPageReferenced</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+		<span class="n">pages</span><span class="p">[</span><span class="o">*</span><span class="n">nr</span><span class="p">]</span> <span class="o">=</span> <span class="n">page</span><span class="p">;</span>
+		<span class="n">get_page</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+		<span class="n">put_dev_pagemap</span><span class="p">(</span><span class="n">pgmap</span><span class="p">);</span>
+		<span class="p">(</span><span class="o">*</span><span class="n">nr</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+		<span class="n">pfn</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">addr</span> <span class="o">+=</span> <span class="n">PAGE_SIZE</span><span class="p">,</span> <span class="n">addr</span> <span class="o">!=</span> <span class="n">end</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">noinline</span> <span class="kt">int</span> <span class="nf">gup_huge_pmd</span><span class="p">(</span><span class="n">pmd_t</span> <span class="n">pmd</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span><span class="p">,</span> <span class="kt">int</span> <span class="n">write</span><span class="p">,</span> <span class="k">struct</span> <span class="n">page</span> <span class="o">**</span><span class="n">pages</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">nr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="o">*</span><span class="n">page</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">refs</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">pte_allows_gup</span><span class="p">(</span><span class="n">pmd_val</span><span class="p">(</span><span class="n">pmd</span><span class="p">),</span> <span class="n">write</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">VM_BUG_ON</span><span class="p">(</span><span class="o">!</span><span class="n">pfn_valid</span><span class="p">(</span><span class="n">pmd_pfn</span><span class="p">(</span><span class="n">pmd</span><span class="p">)));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pmd_devmap</span><span class="p">(</span><span class="n">pmd</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">__gup_device_huge_pmd</span><span class="p">(</span><span class="n">pmd</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">pages</span><span class="p">,</span> <span class="n">nr</span><span class="p">);</span>
+
+	<span class="cm">/* hugepages are never &quot;special&quot; */</span>
+	<span class="n">VM_BUG_ON</span><span class="p">(</span><span class="n">pmd_flags</span><span class="p">(</span><span class="n">pmd</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">_PAGE_SPECIAL</span><span class="p">);</span>
+
+	<span class="n">refs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">head</span> <span class="o">=</span> <span class="n">pmd_page</span><span class="p">(</span><span class="n">pmd</span><span class="p">);</span>
+	<span class="n">page</span> <span class="o">=</span> <span class="n">head</span> <span class="o">+</span> <span class="p">((</span><span class="n">addr</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">PMD_MASK</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">VM_BUG_ON_PAGE</span><span class="p">(</span><span class="n">compound_head</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="o">!=</span> <span class="n">head</span><span class="p">,</span> <span class="n">page</span><span class="p">);</span>
+		<span class="n">pages</span><span class="p">[</span><span class="o">*</span><span class="n">nr</span><span class="p">]</span> <span class="o">=</span> <span class="n">page</span><span class="p">;</span>
+		<span class="p">(</span><span class="o">*</span><span class="n">nr</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+		<span class="n">page</span><span class="o">++</span><span class="p">;</span>
+		<span class="n">refs</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">addr</span> <span class="o">+=</span> <span class="n">PAGE_SIZE</span><span class="p">,</span> <span class="n">addr</span> <span class="o">!=</span> <span class="n">end</span><span class="p">);</span>
+	<span class="n">get_head_page_multiple</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">refs</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">gup_pmd_range</span><span class="p">(</span><span class="n">pud_t</span> <span class="n">pud</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span><span class="p">,</span>
+		<span class="kt">int</span> <span class="n">write</span><span class="p">,</span> <span class="k">struct</span> <span class="n">page</span> <span class="o">**</span><span class="n">pages</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">nr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">next</span><span class="p">;</span>
+	<span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">;</span>
+
+	<span class="n">pmdp</span> <span class="o">=</span> <span class="n">pmd_offset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pud</span><span class="p">,</span> <span class="n">addr</span><span class="p">);</span>
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">pmd_t</span> <span class="n">pmd</span> <span class="o">=</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">;</span>
+
+		<span class="n">next</span> <span class="o">=</span> <span class="n">pmd_addr_end</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">pmd_none</span><span class="p">(</span><span class="n">pmd</span><span class="p">))</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">pmd_large</span><span class="p">(</span><span class="n">pmd</span><span class="p">)</span> <span class="o">||</span> <span class="o">!</span><span class="n">pmd_present</span><span class="p">(</span><span class="n">pmd</span><span class="p">)))</span> <span class="p">{</span>
+			<span class="cm">/*</span>
+<span class="cm">			 * NUMA hinting faults need to be handled in the GUP</span>
+<span class="cm">			 * slowpath for accounting purposes and so that they</span>
+<span class="cm">			 * can be serialised against THP migration.</span>
+<span class="cm">			 */</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">pmd_protnone</span><span class="p">(</span><span class="n">pmd</span><span class="p">))</span>
+				<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">gup_huge_pmd</span><span class="p">(</span><span class="n">pmd</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="n">write</span><span class="p">,</span> <span class="n">pages</span><span class="p">,</span> <span class="n">nr</span><span class="p">))</span>
+				<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">gup_pte_range</span><span class="p">(</span><span class="n">pmd</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="n">write</span><span class="p">,</span> <span class="n">pages</span><span class="p">,</span> <span class="n">nr</span><span class="p">))</span>
+				<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">pmdp</span><span class="o">++</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">next</span><span class="p">,</span> <span class="n">addr</span> <span class="o">!=</span> <span class="n">end</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">noinline</span> <span class="kt">int</span> <span class="nf">gup_huge_pud</span><span class="p">(</span><span class="n">pud_t</span> <span class="n">pud</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span><span class="p">,</span> <span class="kt">int</span> <span class="n">write</span><span class="p">,</span> <span class="k">struct</span> <span class="n">page</span> <span class="o">**</span><span class="n">pages</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">nr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="o">*</span><span class="n">page</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">refs</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">pte_allows_gup</span><span class="p">(</span><span class="n">pud_val</span><span class="p">(</span><span class="n">pud</span><span class="p">),</span> <span class="n">write</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="cm">/* hugepages are never &quot;special&quot; */</span>
+	<span class="n">VM_BUG_ON</span><span class="p">(</span><span class="n">pud_flags</span><span class="p">(</span><span class="n">pud</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">_PAGE_SPECIAL</span><span class="p">);</span>
+	<span class="n">VM_BUG_ON</span><span class="p">(</span><span class="o">!</span><span class="n">pfn_valid</span><span class="p">(</span><span class="n">pud_pfn</span><span class="p">(</span><span class="n">pud</span><span class="p">)));</span>
+
+	<span class="n">refs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">head</span> <span class="o">=</span> <span class="n">pud_page</span><span class="p">(</span><span class="n">pud</span><span class="p">);</span>
+	<span class="n">page</span> <span class="o">=</span> <span class="n">head</span> <span class="o">+</span> <span class="p">((</span><span class="n">addr</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">PUD_MASK</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">VM_BUG_ON_PAGE</span><span class="p">(</span><span class="n">compound_head</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="o">!=</span> <span class="n">head</span><span class="p">,</span> <span class="n">page</span><span class="p">);</span>
+		<span class="n">pages</span><span class="p">[</span><span class="o">*</span><span class="n">nr</span><span class="p">]</span> <span class="o">=</span> <span class="n">page</span><span class="p">;</span>
+		<span class="p">(</span><span class="o">*</span><span class="n">nr</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+		<span class="n">page</span><span class="o">++</span><span class="p">;</span>
+		<span class="n">refs</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">addr</span> <span class="o">+=</span> <span class="n">PAGE_SIZE</span><span class="p">,</span> <span class="n">addr</span> <span class="o">!=</span> <span class="n">end</span><span class="p">);</span>
+	<span class="n">get_head_page_multiple</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">refs</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">gup_pud_range</span><span class="p">(</span><span class="n">pgd_t</span> <span class="n">pgd</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">end</span><span class="p">,</span>
+			<span class="kt">int</span> <span class="n">write</span><span class="p">,</span> <span class="k">struct</span> <span class="n">page</span> <span class="o">**</span><span class="n">pages</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">nr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">next</span><span class="p">;</span>
+	<span class="n">pud_t</span> <span class="o">*</span><span class="n">pudp</span><span class="p">;</span>
+
+	<span class="n">pudp</span> <span class="o">=</span> <span class="n">pud_offset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pgd</span><span class="p">,</span> <span class="n">addr</span><span class="p">);</span>
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">pud_t</span> <span class="n">pud</span> <span class="o">=</span> <span class="o">*</span><span class="n">pudp</span><span class="p">;</span>
+
+		<span class="n">next</span> <span class="o">=</span> <span class="n">pud_addr_end</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">pud_none</span><span class="p">(</span><span class="n">pud</span><span class="p">))</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">pud_large</span><span class="p">(</span><span class="n">pud</span><span class="p">)))</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">gup_huge_pud</span><span class="p">(</span><span class="n">pud</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="n">write</span><span class="p">,</span> <span class="n">pages</span><span class="p">,</span> <span class="n">nr</span><span class="p">))</span>
+				<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">gup_pmd_range</span><span class="p">(</span><span class="n">pud</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="n">write</span><span class="p">,</span> <span class="n">pages</span><span class="p">,</span> <span class="n">nr</span><span class="p">))</span>
+				<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">pudp</span><span class="o">++</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">next</span><span class="p">,</span> <span class="n">addr</span> <span class="o">!=</span> <span class="n">end</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Like get_user_pages_fast() except its IRQ-safe in that it won&#39;t fall</span>
+<span class="cm"> * back to the regular GUP.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">__get_user_pages_fast</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nr_pages</span><span class="p">,</span> <span class="kt">int</span> <span class="n">write</span><span class="p">,</span>
+			  <span class="k">struct</span> <span class="n">page</span> <span class="o">**</span><span class="n">pages</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span> <span class="o">=</span> <span class="n">current</span><span class="o">-&gt;</span><span class="n">mm</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="n">end</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">next</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">;</span>
+	<span class="n">pgd_t</span> <span class="o">*</span><span class="n">pgdp</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">nr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">start</span> <span class="o">&amp;=</span> <span class="n">PAGE_MASK</span><span class="p">;</span>
+	<span class="n">addr</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span>
+	<span class="n">len</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span> <span class="n">nr_pages</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+	<span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">len</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">access_ok</span><span class="p">(</span><span class="n">write</span> <span class="o">?</span> <span class="nl">VERIFY_WRITE</span> <span class="p">:</span> <span class="n">VERIFY_READ</span><span class="p">,</span>
+					<span class="p">(</span><span class="kt">void</span> <span class="n">__user</span> <span class="o">*</span><span class="p">)</span><span class="n">start</span><span class="p">,</span> <span class="n">len</span><span class="p">)))</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * XXX: batch / limit &#39;nr&#39;, to avoid large irq off latency</span>
+<span class="cm">	 * needs some instrumenting to determine the common sizes used by</span>
+<span class="cm">	 * important workloads (eg. DB2), and whether limiting the batch size</span>
+<span class="cm">	 * will decrease performance.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * It seems like we&#39;re in the clear for the moment. Direct-IO is</span>
+<span class="cm">	 * the main guy that batches up lots of get_user_pages, and even</span>
+<span class="cm">	 * they are limited to 64-at-a-time which is not so many.</span>
+<span class="cm">	 */</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * This doesn&#39;t prevent pagetable teardown, but does prevent</span>
+<span class="cm">	 * the pagetables and pages from being freed on x86.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * So long as we atomically load page table pointers versus teardown</span>
+<span class="cm">	 * (which we do on x86, with the above PAE exception), we can follow the</span>
+<span class="cm">	 * address down to the the page and take a ref on it.</span>
+<span class="cm">	 */</span>
+	<span class="n">local_irq_save</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
+	<span class="n">pgdp</span> <span class="o">=</span> <span class="n">pgd_offset</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">addr</span><span class="p">);</span>
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">pgd_t</span> <span class="n">pgd</span> <span class="o">=</span> <span class="o">*</span><span class="n">pgdp</span><span class="p">;</span>
+
+		<span class="n">next</span> <span class="o">=</span> <span class="n">pgd_addr_end</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">pgd_none</span><span class="p">(</span><span class="n">pgd</span><span class="p">))</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">gup_pud_range</span><span class="p">(</span><span class="n">pgd</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="n">write</span><span class="p">,</span> <span class="n">pages</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nr</span><span class="p">))</span>
+			<span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">pgdp</span><span class="o">++</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">next</span><span class="p">,</span> <span class="n">addr</span> <span class="o">!=</span> <span class="n">end</span><span class="p">);</span>
+	<span class="n">local_irq_restore</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">nr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * get_user_pages_fast() - pin user pages in memory</span>
+<span class="cm"> * @start:	starting user address</span>
+<span class="cm"> * @nr_pages:	number of pages from start to pin</span>
+<span class="cm"> * @write:	whether pages will be written to</span>
+<span class="cm"> * @pages:	array that receives pointers to the pages pinned.</span>
+<span class="cm"> * 		Should be at least nr_pages long.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Attempt to pin user pages in memory without taking mm-&gt;mmap_sem.</span>
+<span class="cm"> * If not successful, it will fall back to taking the lock and</span>
+<span class="cm"> * calling get_user_pages().</span>
+<span class="cm"> *</span>
+<span class="cm"> * Returns number of pages pinned. This may be fewer than the number</span>
+<span class="cm"> * requested. If nr_pages is 0 or negative, returns 0. If no pages</span>
+<span class="cm"> * were pinned, returns -errno.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">get_user_pages_fast</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nr_pages</span><span class="p">,</span> <span class="kt">int</span> <span class="n">write</span><span class="p">,</span>
+			<span class="k">struct</span> <span class="n">page</span> <span class="o">**</span><span class="n">pages</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span> <span class="o">=</span> <span class="n">current</span><span class="o">-&gt;</span><span class="n">mm</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="n">end</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">next</span><span class="p">;</span>
+	<span class="n">pgd_t</span> <span class="o">*</span><span class="n">pgdp</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">nr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">start</span> <span class="o">&amp;=</span> <span class="n">PAGE_MASK</span><span class="p">;</span>
+	<span class="n">addr</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span>
+	<span class="n">len</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span> <span class="n">nr_pages</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+
+	<span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">len</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">end</span> <span class="o">&lt;</span> <span class="n">start</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">slow_irqon</span><span class="p">;</span>
+
+<span class="cp">#ifdef CONFIG_X86_64</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">end</span> <span class="o">&gt;&gt;</span> <span class="n">__VIRTUAL_MASK_SHIFT</span><span class="p">)</span>
+		<span class="k">goto</span> <span class="n">slow_irqon</span><span class="p">;</span>
+<span class="cp">#endif</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * XXX: batch / limit &#39;nr&#39;, to avoid large irq off latency</span>
+<span class="cm">	 * needs some instrumenting to determine the common sizes used by</span>
+<span class="cm">	 * important workloads (eg. DB2), and whether limiting the batch size</span>
+<span class="cm">	 * will decrease performance.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * It seems like we&#39;re in the clear for the moment. Direct-IO is</span>
+<span class="cm">	 * the main guy that batches up lots of get_user_pages, and even</span>
+<span class="cm">	 * they are limited to 64-at-a-time which is not so many.</span>
+<span class="cm">	 */</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * This doesn&#39;t prevent pagetable teardown, but does prevent</span>
+<span class="cm">	 * the pagetables and pages from being freed on x86.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * So long as we atomically load page table pointers versus teardown</span>
+<span class="cm">	 * (which we do on x86, with the above PAE exception), we can follow the</span>
+<span class="cm">	 * address down to the the page and take a ref on it.</span>
+<span class="cm">	 */</span>
+	<span class="n">local_irq_disable</span><span class="p">();</span>
+	<span class="n">pgdp</span> <span class="o">=</span> <span class="n">pgd_offset</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">addr</span><span class="p">);</span>
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">pgd_t</span> <span class="n">pgd</span> <span class="o">=</span> <span class="o">*</span><span class="n">pgdp</span><span class="p">;</span>
+
+		<span class="n">next</span> <span class="o">=</span> <span class="n">pgd_addr_end</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">pgd_none</span><span class="p">(</span><span class="n">pgd</span><span class="p">))</span>
+			<span class="k">goto</span> <span class="n">slow</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">gup_pud_range</span><span class="p">(</span><span class="n">pgd</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="n">write</span><span class="p">,</span> <span class="n">pages</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nr</span><span class="p">))</span>
+			<span class="k">goto</span> <span class="n">slow</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">pgdp</span><span class="o">++</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">next</span><span class="p">,</span> <span class="n">addr</span> <span class="o">!=</span> <span class="n">end</span><span class="p">);</span>
+	<span class="n">local_irq_enable</span><span class="p">();</span>
+
+	<span class="n">VM_BUG_ON</span><span class="p">(</span><span class="n">nr</span> <span class="o">!=</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">nr</span><span class="p">;</span>
+
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="nl">slow</span><span class="p">:</span>
+		<span class="n">local_irq_enable</span><span class="p">();</span>
+<span class="nl">slow_irqon</span><span class="p">:</span>
+		<span class="cm">/* Try to get the remaining pages with get_user_pages */</span>
+		<span class="n">start</span> <span class="o">+=</span> <span class="n">nr</span> <span class="o">&lt;&lt;</span> <span class="n">PAGE_SHIFT</span><span class="p">;</span>
+		<span class="n">pages</span> <span class="o">+=</span> <span class="n">nr</span><span class="p">;</span>
+
+		<span class="n">ret</span> <span class="o">=</span> <span class="n">get_user_pages_unlocked</span><span class="p">(</span><span class="n">start</span><span class="p">,</span>
+					      <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">,</span>
+					      <span class="n">pages</span><span class="p">,</span> <span class="n">write</span> <span class="o">?</span> <span class="nl">FOLL_WRITE</span> <span class="p">:</span> <span class="mi">0</span><span class="p">);</span>
+
+		<span class="cm">/* Have to be a bit careful with return values */</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">nr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+				<span class="n">ret</span> <span class="o">=</span> <span class="n">nr</span><span class="p">;</span>
+			<span class="k">else</span>
+				<span class="n">ret</span> <span class="o">+=</span> <span class="n">nr</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

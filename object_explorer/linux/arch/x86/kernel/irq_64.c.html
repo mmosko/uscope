@@ -1,0 +1,164 @@
+arch/x86/kernel/irq_64.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L1"> 1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L2"> 2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L3"> 3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L4"> 4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L5"> 5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L6"> 6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L7"> 7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L8"> 8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L9"> 9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L10">10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L11">11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L12">12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L13">13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L14">14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L15">15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L16">16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L17">17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L18">18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L19">19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L20">20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L21">21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L22">22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L23">23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L24">24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L25">25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L26">26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L27">27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L28">28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L29">29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L30">30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L31">31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L32">32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L33">33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L34">34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L35">35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L36">36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L37">37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L38">38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L39">39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L40">40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L41">41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L42">42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L43">43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L44">44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L45">45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L46">46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L47">47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L48">48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L49">49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L50">50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L51">51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L52">52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L53">53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L54">54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L55">55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L56">56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L57">57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L58">58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L59">59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L60">60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L61">61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L62">62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L63">63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L64">64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L65">65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L66">66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L67">67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L68">68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L69">69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L70">70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L71">71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L72">72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L73">73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L74">74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L75">75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L76">76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/kernel/irq_64.c#L77">77</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> *	Copyright (C) 1992, 1998 Linus Torvalds, Ingo Molnar</span>
+<span class="cm"> *</span>
+<span class="cm"> * This file contains the lowest level x86_64-specific interrupt</span>
+<span class="cm"> * entry and irq statistics code. All the remaining irq logic is</span>
+<span class="cm"> * done by the generic kernel/irq/ code and in the</span>
+<span class="cm"> * x86_64-specific irq controller code. (e.g. i8259.c and</span>
+<span class="cm"> * io_apic.c.)</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/kernel_stat.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/interrupt.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/seq_file.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/delay.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/ftrace.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/uaccess.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/smp.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/io_apic.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/apic.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="n">sysctl_panic_on_stackoverflow</span><span class="p">;</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Probabilistic stack overflow check:</span>
+<span class="cm"> *</span>
+<span class="cm"> * Only check the stack in process context, because everything else</span>
+<span class="cm"> * runs on the big interrupt stacks. Checking reliably is too expensive,</span>
+<span class="cm"> * so we just check from interrupts.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">stack_overflow_check</span><span class="p">(</span><span class="k">struct</span> <span class="n">pt_regs</span> <span class="o">*</span><span class="n">regs</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="cp">#ifdef CONFIG_DEBUG_STACKOVERFLOW</span>
+<span class="cp">#define STACK_TOP_MARGIN	128</span>
+	<span class="k">struct</span> <span class="n">orig_ist</span> <span class="o">*</span><span class="n">oist</span><span class="p">;</span>
+	<span class="n">u64</span> <span class="n">irq_stack_top</span><span class="p">,</span> <span class="n">irq_stack_bottom</span><span class="p">;</span>
+	<span class="n">u64</span> <span class="n">estack_top</span><span class="p">,</span> <span class="n">estack_bottom</span><span class="p">;</span>
+	<span class="n">u64</span> <span class="n">curbase</span> <span class="o">=</span> <span class="p">(</span><span class="n">u64</span><span class="p">)</span><span class="n">task_stack_page</span><span class="p">(</span><span class="n">current</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">user_mode</span><span class="p">(</span><span class="n">regs</span><span class="p">))</span>
+		<span class="k">return</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">sp</span> <span class="o">&gt;=</span> <span class="n">curbase</span> <span class="o">+</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">pt_regs</span><span class="p">)</span> <span class="o">+</span> <span class="n">STACK_TOP_MARGIN</span> <span class="o">&amp;&amp;</span>
+	    <span class="n">regs</span><span class="o">-&gt;</span><span class="n">sp</span> <span class="o">&lt;=</span> <span class="n">curbase</span> <span class="o">+</span> <span class="n">THREAD_SIZE</span><span class="p">)</span>
+		<span class="k">return</span><span class="p">;</span>
+
+	<span class="n">irq_stack_top</span> <span class="o">=</span> <span class="p">(</span><span class="n">u64</span><span class="p">)</span><span class="n">this_cpu_ptr</span><span class="p">(</span><span class="n">irq_stack_union</span><span class="p">.</span><span class="n">irq_stack</span><span class="p">)</span> <span class="o">+</span>
+			<span class="n">STACK_TOP_MARGIN</span><span class="p">;</span>
+	<span class="n">irq_stack_bottom</span> <span class="o">=</span> <span class="p">(</span><span class="n">u64</span><span class="p">)</span><span class="n">__this_cpu_read</span><span class="p">(</span><span class="n">irq_stack_ptr</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">sp</span> <span class="o">&gt;=</span> <span class="n">irq_stack_top</span> <span class="o">&amp;&amp;</span> <span class="n">regs</span><span class="o">-&gt;</span><span class="n">sp</span> <span class="o">&lt;=</span> <span class="n">irq_stack_bottom</span><span class="p">)</span>
+		<span class="k">return</span><span class="p">;</span>
+
+	<span class="n">oist</span> <span class="o">=</span> <span class="n">this_cpu_ptr</span><span class="p">(</span><span class="o">&amp;</span><span class="n">orig_ist</span><span class="p">);</span>
+	<span class="n">estack_top</span> <span class="o">=</span> <span class="p">(</span><span class="n">u64</span><span class="p">)</span><span class="n">oist</span><span class="o">-&gt;</span><span class="n">ist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">EXCEPTION_STKSZ</span> <span class="o">+</span> <span class="n">STACK_TOP_MARGIN</span><span class="p">;</span>
+	<span class="n">estack_bottom</span> <span class="o">=</span> <span class="p">(</span><span class="n">u64</span><span class="p">)</span><span class="n">oist</span><span class="o">-&gt;</span><span class="n">ist</span><span class="p">[</span><span class="n">N_EXCEPTION_STACKS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">regs</span><span class="o">-&gt;</span><span class="n">sp</span> <span class="o">&gt;=</span> <span class="n">estack_top</span> <span class="o">&amp;&amp;</span> <span class="n">regs</span><span class="o">-&gt;</span><span class="n">sp</span> <span class="o">&lt;=</span> <span class="n">estack_bottom</span><span class="p">)</span>
+		<span class="k">return</span><span class="p">;</span>
+
+	<span class="n">WARN_ONCE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;do_IRQ(): %s has overflown the kernel stack (cur:%Lx,sp:%lx,irq stk top-bottom:%Lx-%Lx,exception stk top-bottom:%Lx-%Lx)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+		<span class="n">current</span><span class="o">-&gt;</span><span class="n">comm</span><span class="p">,</span> <span class="n">curbase</span><span class="p">,</span> <span class="n">regs</span><span class="o">-&gt;</span><span class="n">sp</span><span class="p">,</span>
+		<span class="n">irq_stack_top</span><span class="p">,</span> <span class="n">irq_stack_bottom</span><span class="p">,</span>
+		<span class="n">estack_top</span><span class="p">,</span> <span class="n">estack_bottom</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">sysctl_panic_on_stackoverflow</span><span class="p">)</span>
+		<span class="n">panic</span><span class="p">(</span><span class="s">&quot;low stack detected by irq handler - check messages</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="cp">#endif</span>
+<span class="p">}</span>
+
+<span class="n">bool</span> <span class="nf">handle_irq</span><span class="p">(</span><span class="k">struct</span> <span class="n">irq_desc</span> <span class="o">*</span><span class="n">desc</span><span class="p">,</span> <span class="k">struct</span> <span class="n">pt_regs</span> <span class="o">*</span><span class="n">regs</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">stack_overflow_check</span><span class="p">(</span><span class="n">regs</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">IS_ERR_OR_NULL</span><span class="p">(</span><span class="n">desc</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="n">generic_handle_irq_desc</span><span class="p">(</span><span class="n">desc</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

@@ -1,0 +1,304 @@
+fs/mount.h<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/fs/mount.h#L147">147</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;linux/mount.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/seq_file.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/poll.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/ns_common.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/fs_pin.h&gt;</span><span class="cp"></span>
+
+<span class="k">struct</span> <span class="n">mnt_namespace</span> <span class="p">{</span>
+	<span class="n">atomic_t</span>		<span class="n">count</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ns_common</span>	<span class="n">ns</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">mount</span> <span class="o">*</span>	<span class="n">root</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">list</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">user_namespace</span>	<span class="o">*</span><span class="n">user_ns</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ucounts</span>		<span class="o">*</span><span class="n">ucounts</span><span class="p">;</span>
+	<span class="n">u64</span>			<span class="n">seq</span><span class="p">;</span>	<span class="cm">/* Sequence number to prevent loops */</span>
+	<span class="n">wait_queue_head_t</span> <span class="n">poll</span><span class="p">;</span>
+	<span class="n">u64</span> <span class="n">event</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">mounts</span><span class="p">;</span> <span class="cm">/* # of mounts in the namespace */</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">pending_mounts</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">mnt_pcp</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">mnt_count</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">mnt_writers</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">mountpoint</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">hlist_node</span> <span class="n">m_hash</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">m_dentry</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">hlist_head</span> <span class="n">m_list</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">m_count</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">mount</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">hlist_node</span> <span class="n">mnt_hash</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">mount</span> <span class="o">*</span><span class="n">mnt_parent</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">mnt_mountpoint</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">vfsmount</span> <span class="n">mnt</span><span class="p">;</span>
+	<span class="k">union</span> <span class="p">{</span>
+		<span class="k">struct</span> <span class="n">rcu_head</span> <span class="n">mnt_rcu</span><span class="p">;</span>
+		<span class="k">struct</span> <span class="n">llist_node</span> <span class="n">mnt_llist</span><span class="p">;</span>
+	<span class="p">};</span>
+<span class="cp">#ifdef CONFIG_SMP</span>
+	<span class="k">struct</span> <span class="n">mnt_pcp</span> <span class="n">__percpu</span> <span class="o">*</span><span class="n">mnt_pcp</span><span class="p">;</span>
+<span class="cp">#else</span>
+	<span class="kt">int</span> <span class="n">mnt_count</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">mnt_writers</span><span class="p">;</span>
+<span class="cp">#endif</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">mnt_mounts</span><span class="p">;</span>	<span class="cm">/* list of children, anchored here */</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">mnt_child</span><span class="p">;</span>	<span class="cm">/* and going through their mnt_child */</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">mnt_instance</span><span class="p">;</span>	<span class="cm">/* mount instance on sb-&gt;s_mounts */</span>
+	<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">mnt_devname</span><span class="p">;</span>	<span class="cm">/* Name of device e.g. /dev/dsk/hda1 */</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">mnt_list</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">mnt_expire</span><span class="p">;</span>	<span class="cm">/* link in fs-specific expiry list */</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">mnt_share</span><span class="p">;</span>	<span class="cm">/* circular list of shared mounts */</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">mnt_slave_list</span><span class="p">;</span><span class="cm">/* list of slave mounts */</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">mnt_slave</span><span class="p">;</span>	<span class="cm">/* slave list entry */</span>
+	<span class="k">struct</span> <span class="n">mount</span> <span class="o">*</span><span class="n">mnt_master</span><span class="p">;</span>	<span class="cm">/* slave is on master-&gt;mnt_slave_list */</span>
+	<span class="k">struct</span> <span class="n">mnt_namespace</span> <span class="o">*</span><span class="n">mnt_ns</span><span class="p">;</span>	<span class="cm">/* containing namespace */</span>
+	<span class="k">struct</span> <span class="n">mountpoint</span> <span class="o">*</span><span class="n">mnt_mp</span><span class="p">;</span>	<span class="cm">/* where is it mounted */</span>
+	<span class="k">struct</span> <span class="n">hlist_node</span> <span class="n">mnt_mp_list</span><span class="p">;</span>	<span class="cm">/* list mounts with the same mountpoint */</span>
+<span class="cp">#ifdef CONFIG_FSNOTIFY</span>
+	<span class="k">struct</span> <span class="n">hlist_head</span> <span class="n">mnt_fsnotify_marks</span><span class="p">;</span>
+	<span class="n">__u32</span> <span class="n">mnt_fsnotify_mask</span><span class="p">;</span>
+<span class="cp">#endif</span>
+	<span class="kt">int</span> <span class="n">mnt_id</span><span class="p">;</span>			<span class="cm">/* mount identifier */</span>
+	<span class="kt">int</span> <span class="n">mnt_group_id</span><span class="p">;</span>		<span class="cm">/* peer group identifier */</span>
+	<span class="kt">int</span> <span class="n">mnt_expiry_mark</span><span class="p">;</span>		<span class="cm">/* true if marked for expiry */</span>
+	<span class="k">struct</span> <span class="n">hlist_head</span> <span class="n">mnt_pins</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">fs_pin</span> <span class="n">mnt_umount</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">mnt_ex_mountpoint</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cp">#define MNT_NS_INTERNAL ERR_PTR(-EINVAL) </span><span class="cm">/* distinct from any mnt_namespace */</span><span class="cp"></span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="k">struct</span> <span class="n">mount</span> <span class="o">*</span><span class="nf">real_mount</span><span class="p">(</span><span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">mnt</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">container_of</span><span class="p">(</span><span class="n">mnt</span><span class="p">,</span> <span class="k">struct</span> <span class="n">mount</span><span class="p">,</span> <span class="n">mnt</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">mnt_has_parent</span><span class="p">(</span><span class="k">struct</span> <span class="n">mount</span> <span class="o">*</span><span class="n">mnt</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">mnt</span> <span class="o">!=</span> <span class="n">mnt</span><span class="o">-&gt;</span><span class="n">mnt_parent</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">is_mounted</span><span class="p">(</span><span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="n">mnt</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/* neither detached nor internal? */</span>
+	<span class="k">return</span> <span class="o">!</span><span class="n">IS_ERR_OR_NULL</span><span class="p">(</span><span class="n">real_mount</span><span class="p">(</span><span class="n">mnt</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">mnt_ns</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">mount</span> <span class="o">*</span><span class="nf">__lookup_mnt</span><span class="p">(</span><span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="p">);</span>
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">mount</span> <span class="o">*</span><span class="nf">__lookup_mnt_last</span><span class="p">(</span><span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="p">);</span>
+
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">__legitimize_mnt</span><span class="p">(</span><span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="p">,</span> <span class="kt">unsigned</span><span class="p">);</span>
+<span class="k">extern</span> <span class="n">bool</span> <span class="nf">legitimize_mnt</span><span class="p">(</span><span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="p">,</span> <span class="kt">unsigned</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">bool</span> <span class="nf">__path_is_mountpoint</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">path</span> <span class="o">*</span><span class="n">path</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">mount</span> <span class="o">*</span><span class="n">m</span> <span class="o">=</span> <span class="n">__lookup_mnt</span><span class="p">(</span><span class="n">path</span><span class="o">-&gt;</span><span class="n">mnt</span><span class="p">,</span> <span class="n">path</span><span class="o">-&gt;</span><span class="n">dentry</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">m</span> <span class="o">&amp;&amp;</span> <span class="n">likely</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">m</span><span class="o">-&gt;</span><span class="n">mnt</span><span class="p">.</span><span class="n">mnt_flags</span> <span class="o">&amp;</span> <span class="n">MNT_SYNC_UMOUNT</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">__detach_mounts</span><span class="p">(</span><span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">detach_mounts</span><span class="p">(</span><span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">d_mountpoint</span><span class="p">(</span><span class="n">dentry</span><span class="p">))</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="n">__detach_mounts</span><span class="p">(</span><span class="n">dentry</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">get_mnt_ns</span><span class="p">(</span><span class="k">struct</span> <span class="n">mnt_namespace</span> <span class="o">*</span><span class="n">ns</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">atomic_inc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ns</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">extern</span> <span class="n">seqlock_t</span> <span class="n">mount_lock</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">lock_mount_hash</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">write_seqlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mount_lock</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">unlock_mount_hash</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">write_sequnlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mount_lock</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">proc_mounts</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">mnt_namespace</span> <span class="o">*</span><span class="n">ns</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">path</span> <span class="n">root</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">show</span><span class="p">)(</span><span class="k">struct</span> <span class="n">seq_file</span> <span class="o">*</span><span class="p">,</span> <span class="k">struct</span> <span class="n">vfsmount</span> <span class="o">*</span><span class="p">);</span>
+	<span class="kt">void</span> <span class="o">*</span><span class="n">cached_mount</span><span class="p">;</span>
+	<span class="n">u64</span> <span class="n">cached_event</span><span class="p">;</span>
+	<span class="n">loff_t</span> <span class="n">cached_index</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">extern</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">seq_operations</span> <span class="n">mounts_op</span><span class="p">;</span>
+
+<span class="k">extern</span> <span class="n">bool</span> <span class="nf">__is_local_mountpoint</span><span class="p">(</span><span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">);</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">bool</span> <span class="nf">is_local_mountpoint</span><span class="p">(</span><span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">dentry</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">d_mountpoint</span><span class="p">(</span><span class="n">dentry</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">__is_local_mountpoint</span><span class="p">(</span><span class="n">dentry</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

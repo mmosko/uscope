@@ -1,0 +1,298 @@
+arch/x86/lib/rwsem.S<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/lib/rwsem.S#L144">144</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="o">/*</span>
+ <span class="o">*</span> <span class="n">x86</span> <span class="n">semaphore</span> <span class="n">implementation.</span>
+ <span class="o">*</span>
+ <span class="o">*</span> <span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="n">Copyright</span> <span class="m">1999</span> <span class="n">Linus</span> <span class="n">Torvalds</span>
+ <span class="o">*</span>
+ <span class="o">*</span> <span class="n">Portions</span> <span class="n">Copyright</span> <span class="m">1999</span> <span class="n">Red</span> <span class="n">Hat</span><span class="p">,</span> <span class="n">Inc.</span>
+ <span class="o">*</span>
+ <span class="o">*</span>	<span class="n">This</span> <span class="n">program</span> <span class="n">is</span> <span class="n">free</span> <span class="n">software</span><span class="p">;</span> <span class="n">you</span> <span class="n">can</span> <span class="n">redistribute</span> <span class="n">it</span> <span class="n">and</span><span class="o">/</span><span class="n">or</span>
+ <span class="o">*</span>	<span class="n">modify</span> <span class="n">it</span> <span class="n">under</span> <span class="n">the</span> <span class="n">terms</span> <span class="n">of</span> <span class="n">the</span> <span class="n">GNU</span> <span class="n">General</span> <span class="n">Public</span> <span class="n">License</span>
+ <span class="o">*</span>	<span class="n">as</span> <span class="n">published</span> <span class="n">by</span> <span class="n">the</span> <span class="n">Free</span> <span class="n">Software</span> <span class="n">Foundation</span><span class="p">;</span> <span class="n">either</span> <span class="n">version</span>
+ <span class="o">*</span>	<span class="m">2</span> <span class="n">of</span> <span class="n">the</span> <span class="n">License</span><span class="p">,</span> <span class="nf">or </span><span class="p">(</span><span class="n">at</span> <span class="n">your</span> <span class="n">option</span><span class="p">)</span> <span class="n">any</span> <span class="n">later</span> <span class="n">version.</span>
+ <span class="o">*</span>
+ <span class="o">*</span> <span class="n">rw</span> <span class="n">semaphores</span> <span class="n">implemented</span> <span class="n">November</span> <span class="m">1999</span> <span class="n">by</span> <span class="n">Benjamin</span> <span class="n">LaHaise</span> <span class="o">&lt;</span><span class="n">bcrl</span><span class="o">@</span><span class="n">kvack.org</span><span class="o">&gt;</span>
+ <span class="o">*/</span>
+
+<span class="c1">#include &lt;linux/linkage.h&gt;</span>
+<span class="c1">#include &lt;asm/alternative-asm.h&gt;</span>
+<span class="c1">#include &lt;asm/frame.h&gt;</span>
+
+<span class="c1">#define __ASM_HALF_REG(reg)	__ASM_SEL(reg, e##reg)</span>
+<span class="c1">#define __ASM_HALF_SIZE(inst)	__ASM_SEL(inst##w, inst##l)</span>
+
+<span class="c1">#ifdef CONFIG_X86_32</span>
+
+<span class="o">/*</span>
+ <span class="o">*</span> <span class="n">The</span> <span class="n">semaphore</span> <span class="n">operations</span> <span class="n">have</span> <span class="n">a</span> <span class="n">special</span> <span class="n">calling</span> <span class="n">sequence</span> <span class="n">that</span>
+ <span class="o">*</span> <span class="n">allow</span> <span class="n">us</span> <span class="n">to</span> <span class="n">do</span> <span class="n">a</span> <span class="n">simpler</span> <span class="n">in</span><span class="o">-</span><span class="n">line</span> <span class="n">version</span> <span class="n">of</span> <span class="n">them.</span> <span class="n">These</span> <span class="n">routines</span>
+ <span class="o">*</span> <span class="n">need</span> <span class="n">to</span> <span class="n">convert</span> <span class="n">that</span> <span class="n">sequence</span> <span class="n">back</span> <span class="n">into</span> <span class="n">the</span> <span class="n">C</span> <span class="n">sequence</span> <span class="n">when</span>
+ <span class="o">*</span> <span class="n">there</span> <span class="n">is</span> <span class="n">contention</span> <span class="n">on</span> <span class="n">the</span> <span class="n">semaphore.</span>
+ <span class="o">*</span>
+ <span class="o">*</span> <span class="o">%eax contains the semaphore pointer on entry. Save the C-clobbered</span>
+<span class="o"> * registers (%</span><span class="n">eax</span><span class="p">,</span> <span class="o">%edx and %</span><span class="n">ecx</span><span class="p">)</span> <span class="n">except</span> <span class="o">%eax which is either a return</span>
+<span class="o"> * value or just gets clobbered. Same is true for %</span><span class="n">edx</span> <span class="n">so</span> <span class="n">make</span> <span class="n">sure</span> <span class="n">GCC</span>
+ <span class="o">*</span> <span class="n">reloads</span> <span class="n">it</span> <span class="n">after</span> <span class="n">the</span> <span class="n">slow</span> <span class="n">path</span><span class="p">,</span> <span class="n">by</span> <span class="n">making</span> <span class="n">it</span> <span class="n">hold</span> <span class="n">a</span> <span class="n">temporary</span><span class="p">,</span> <span class="n">for</span>
+ <span class="o">*</span> <span class="n">example</span> <span class="n">see</span> <span class="nf">____down_write</span><span class="p">()</span><span class="n">.</span>
+ <span class="o">*/</span>
+
+<span class="c1">#define save_common_regs \</span>
+	<span class="n">pushl</span> <span class="o">%ecx</span>
+
+<span class="o">#define restore_common_regs \</span>
+<span class="o">	popl %</span><span class="n">ecx</span>
+
+	<span class="o">/*</span> <span class="n">Avoid</span> <span class="n">uglifying</span> <span class="n">the</span> <span class="n">argument</span> <span class="n">copying</span> <span class="n">x86</span><span class="m">-64</span> <span class="n">needs</span> <span class="n">to</span> <span class="n">do.</span> <span class="o">*/</span>
+	<span class="n">.macro</span> <span class="n">movq</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span>
+	<span class="n">.endm</span>
+
+<span class="c1">#else</span>
+
+<span class="o">/*</span>
+ <span class="o">*</span> <span class="n">x86</span><span class="m">-64</span> <span class="n">rwsem</span> <span class="n">wrappers</span>
+ <span class="o">*</span>
+ <span class="o">*</span> <span class="n">This</span> <span class="n">interfaces</span> <span class="n">the</span> <span class="n">inline</span> <span class="n">asm</span> <span class="n">code</span> <span class="n">to</span> <span class="n">the</span> <span class="n">slow</span><span class="o">-</span><span class="n">path</span>
+ <span class="o">*</span> <span class="n">C</span> <span class="n">routines.</span> <span class="n">We</span> <span class="n">need</span> <span class="n">to</span> <span class="n">save</span> <span class="n">the</span> <span class="n">call</span><span class="o">-</span><span class="n">clobbered</span> <span class="n">regs</span>
+ <span class="o">*</span> <span class="n">that</span> <span class="n">the</span> <span class="n">asm</span> <span class="n">does</span> <span class="n">not</span> <span class="n">mark</span> <span class="n">as</span> <span class="n">clobbered</span><span class="p">,</span> <span class="n">and</span> <span class="n">move</span> <span class="n">the</span>
+ <span class="o">*</span> <span class="n">argument</span> <span class="n">from</span> <span class="o">%rax to %</span><span class="n">rdi.</span>
+ <span class="o">*</span>
+ <span class="o">*</span> <span class="n">NOTE</span><span class="o">!</span> <span class="n">We</span> <span class="n">don</span><span class="s">&#39;</span><span class="err">t need to save %rax, because the functions</span>
+ <span class="o">*</span> <span class="n">will</span> <span class="n">always</span> <span class="n">return</span> <span class="n">the</span> <span class="n">semaphore</span> <span class="n">pointer</span> <span class="n">in</span> <span class="o">%rax (which</span>
+<span class="o"> * is also the input argument to these helpers)</span>
+<span class="o"> *</span>
+<span class="o"> * The following can clobber %</span><span class="n">rdx</span> <span class="n">because</span> <span class="n">the</span> <span class="n">asm</span> <span class="n">clobbers</span> <span class="n">it</span><span class="o">:</span>
+ <span class="o">*</span>   <span class="n">call_rwsem_down_write_failed</span>
+ <span class="o">*</span>   <span class="n">call_rwsem_wake</span>
+ <span class="o">*</span> <span class="n">but</span> <span class="o">%rdi, %</span><span class="n">rsi</span><span class="p">,</span> <span class="o">%rcx, %</span><span class="n">r8</span><span class="o">-</span><span class="n">r11</span> <span class="n">always</span> <span class="n">need</span> <span class="n">saving.</span>
+ <span class="o">*/</span>
+
+<span class="c1">#define save_common_regs \</span>
+	<span class="n">pushq</span> <span class="o">%rdi; \</span>
+<span class="o">	pushq %</span><span class="n">rsi</span><span class="p">;</span> <span class="n">\</span>
+	<span class="n">pushq</span> <span class="o">%rcx; \</span>
+<span class="o">	pushq %</span><span class="n">r8</span><span class="p">;</span>  <span class="n">\</span>
+	<span class="n">pushq</span> <span class="o">%r9;  \</span>
+<span class="o">	pushq %</span><span class="n">r10</span><span class="p">;</span> <span class="n">\</span>
+	<span class="n">pushq</span> <span class="o">%r11</span>
+
+<span class="o">#define restore_common_regs \</span>
+<span class="o">	popq %</span><span class="n">r11</span><span class="p">;</span> <span class="n">\</span>
+	<span class="n">popq</span> <span class="o">%r10; \</span>
+<span class="o">	popq %</span><span class="n">r9</span><span class="p">;</span> <span class="n">\</span>
+	<span class="n">popq</span> <span class="o">%r8; \</span>
+<span class="o">	popq %</span><span class="n">rcx</span><span class="p">;</span> <span class="n">\</span>
+	<span class="n">popq</span> <span class="o">%rsi; \</span>
+<span class="o">	popq %</span><span class="n">rdi</span>
+
+<span class="c1">#endif</span>
+
+<span class="o">/*</span> <span class="n">Fix</span> <span class="n">up</span> <span class="n">special</span> <span class="n">calling</span> <span class="n">conventions</span> <span class="o">*/</span>
+<span class="nf">ENTRY</span><span class="p">(</span><span class="n">call_rwsem_down_read_failed</span><span class="p">)</span>
+	<span class="n">FRAME_BEGIN</span>
+	<span class="n">save_common_regs</span>
+	<span class="nf">__ASM_SIZE</span><span class="p">(</span><span class="n">push</span><span class="p">,)</span> <span class="o">%__ASM_REG(dx)</span>
+<span class="o">	movq %</span><span class="n">rax</span><span class="p">,</span><span class="o">%rdi</span>
+<span class="o">	call rwsem_down_read_failed</span>
+<span class="o">	__ASM_SIZE(pop,) %</span><span class="nf">__ASM_REG</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span>
+	<span class="n">restore_common_regs</span>
+	<span class="n">FRAME_END</span>
+	<span class="n">ret</span>
+<span class="nf">ENDPROC</span><span class="p">(</span><span class="n">call_rwsem_down_read_failed</span><span class="p">)</span>
+
+<span class="nf">ENTRY</span><span class="p">(</span><span class="n">call_rwsem_down_write_failed</span><span class="p">)</span>
+	<span class="n">FRAME_BEGIN</span>
+	<span class="n">save_common_regs</span>
+	<span class="n">movq</span> <span class="o">%rax,%</span><span class="n">rdi</span>
+	<span class="n">call</span> <span class="n">rwsem_down_write_failed</span>
+	<span class="n">restore_common_regs</span>
+	<span class="n">FRAME_END</span>
+	<span class="n">ret</span>
+<span class="nf">ENDPROC</span><span class="p">(</span><span class="n">call_rwsem_down_write_failed</span><span class="p">)</span>
+
+<span class="nf">ENTRY</span><span class="p">(</span><span class="n">call_rwsem_down_write_failed_killable</span><span class="p">)</span>
+	<span class="n">FRAME_BEGIN</span>
+	<span class="n">save_common_regs</span>
+	<span class="n">movq</span> <span class="o">%rax,%</span><span class="n">rdi</span>
+	<span class="n">call</span> <span class="n">rwsem_down_write_failed_killable</span>
+	<span class="n">restore_common_regs</span>
+	<span class="n">FRAME_END</span>
+	<span class="n">ret</span>
+<span class="nf">ENDPROC</span><span class="p">(</span><span class="n">call_rwsem_down_write_failed_killable</span><span class="p">)</span>
+
+<span class="nf">ENTRY</span><span class="p">(</span><span class="n">call_rwsem_wake</span><span class="p">)</span>
+	<span class="n">FRAME_BEGIN</span>
+	<span class="o">/*</span> <span class="n">do</span> <span class="n">nothing</span> <span class="n">if</span> <span class="n">still</span> <span class="n">outstanding</span> <span class="n">active</span> <span class="n">readers</span> <span class="o">*/</span>
+	<span class="nf">__ASM_HALF_SIZE</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span> <span class="o">%__ASM_HALF_REG(dx)</span>
+<span class="o">	jnz 1f</span>
+<span class="o">	save_common_regs</span>
+<span class="o">	movq %</span><span class="n">rax</span><span class="p">,</span><span class="o">%rdi</span>
+<span class="o">	call rwsem_wake</span>
+<span class="o">	restore_common_regs</span>
+<span class="o">1:	FRAME_END</span>
+<span class="o">	ret</span>
+<span class="o">ENDPROC(call_rwsem_wake)</span>
+
+<span class="o">ENTRY(call_rwsem_downgrade_wake)</span>
+<span class="o">	FRAME_BEGIN</span>
+<span class="o">	save_common_regs</span>
+<span class="o">	__ASM_SIZE(push,) %</span><span class="nf">__ASM_REG</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span>
+	<span class="n">movq</span> <span class="o">%rax,%</span><span class="n">rdi</span>
+	<span class="n">call</span> <span class="n">rwsem_downgrade_wake</span>
+	<span class="nf">__ASM_SIZE</span><span class="p">(</span><span class="n">pop</span><span class="p">,)</span> %<span class="nf">__ASM_REG</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span>
+	<span class="n">restore_common_regs</span>
+	<span class="n">FRAME_END</span>
+	<span class="n">ret</span>
+<span class="nf">ENDPROC</span><span class="p">(</span><span class="n">call_rwsem_downgrade_wake</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

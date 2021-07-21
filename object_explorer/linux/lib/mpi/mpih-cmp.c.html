@@ -1,0 +1,122 @@
+lib/mpi/mpih-cmp.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L1"> 1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L2"> 2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L3"> 3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L4"> 4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L5"> 5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L6"> 6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L7"> 7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L8"> 8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L9"> 9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L10">10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L11">11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L12">12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L13">13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L14">14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L15">15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L16">16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L17">17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L18">18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L19">19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L20">20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L21">21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L22">22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L23">23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L24">24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L25">25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L26">26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L27">27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L28">28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L29">29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L30">30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L31">31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L32">32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L33">33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L34">34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L35">35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L36">36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L37">37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L38">38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L39">39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L40">40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L41">41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L42">42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L43">43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L44">44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L45">45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L46">46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L47">47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L48">48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L49">49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L50">50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L51">51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L52">52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L53">53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L54">54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L55">55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/lib/mpi/mpih-cmp.c#L56">56</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/* mpihelp-sub.c  -  MPI helper functions</span>
+<span class="cm"> *	Copyright (C) 1994, 1996 Free Software Foundation, Inc.</span>
+<span class="cm"> *	Copyright (C) 1998, 1999, 2000, 2001 Free Software Foundation, Inc.</span>
+<span class="cm"> *</span>
+<span class="cm"> * This file is part of GnuPG.</span>
+<span class="cm"> *</span>
+<span class="cm"> * GnuPG is free software; you can redistribute it and/or modify</span>
+<span class="cm"> * it under the terms of the GNU General Public License as published by</span>
+<span class="cm"> * the Free Software Foundation; either version 2 of the License, or</span>
+<span class="cm"> * (at your option) any later version.</span>
+<span class="cm"> *</span>
+<span class="cm"> * GnuPG is distributed in the hope that it will be useful,</span>
+<span class="cm"> * but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="cm"> * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="cm"> * GNU General Public License for more details.</span>
+<span class="cm"> *</span>
+<span class="cm"> * You should have received a copy of the GNU General Public License</span>
+<span class="cm"> * along with this program; if not, write to the Free Software</span>
+<span class="cm"> * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA</span>
+<span class="cm"> *</span>
+<span class="cm"> * Note: This code is heavily based on the GNU MP Library.</span>
+<span class="cm"> *	 Actually it&#39;s the same code with only minor changes in the</span>
+<span class="cm"> *	 way the data is stored; this is to support the abstraction</span>
+<span class="cm"> *	 of an optional secure memory allocation which may be used</span>
+<span class="cm"> *	 to avoid revealing of sensitive data due to paging etc.</span>
+<span class="cm"> *	 The GNU MP Library itself is published under the LGPL;</span>
+<span class="cm"> *	 however I decided to publish this code under the plain GPL.</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;mpi-internal.h&quot;</span><span class="cp"></span>
+
+<span class="cm">/****************</span>
+<span class="cm"> * Compare OP1_PTR/OP1_SIZE with OP2_PTR/OP2_SIZE.</span>
+<span class="cm"> * There are no restrictions on the relative sizes of</span>
+<span class="cm"> * the two arguments.</span>
+<span class="cm"> * Return 1 if OP1 &gt; OP2, 0 if they are equal, and -1 if OP1 &lt; OP2.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">mpihelp_cmp</span><span class="p">(</span><span class="n">mpi_ptr_t</span> <span class="n">op1_ptr</span><span class="p">,</span> <span class="n">mpi_ptr_t</span> <span class="n">op2_ptr</span><span class="p">,</span> <span class="n">mpi_size_t</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">mpi_size_t</span> <span class="n">i</span><span class="p">;</span>
+	<span class="n">mpi_limb_t</span> <span class="n">op1_word</span><span class="p">,</span> <span class="n">op2_word</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">op1_word</span> <span class="o">=</span> <span class="n">op1_ptr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="n">op2_word</span> <span class="o">=</span> <span class="n">op2_ptr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">op1_word</span> <span class="o">!=</span> <span class="n">op2_word</span><span class="p">)</span>
+			<span class="k">goto</span> <span class="n">diff</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="nl">diff</span><span class="p">:</span>
+	<span class="cm">/* This can *not* be simplified to</span>
+<span class="cm">	 *   op2_word - op2_word</span>
+<span class="cm">	 * since that expression might give signed overflow.  */</span>
+	<span class="k">return</span> <span class="p">(</span><span class="n">op1_word</span> <span class="o">&gt;</span> <span class="n">op2_word</span><span class="p">)</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

@@ -1,0 +1,73 @@
+<html>
+
+	<head>
+	<link rel="stylesheet" href="style.css">
+	</head>
+	<h1>uSCOPE Linux Object Explorer</h1>
+	<script type='text/javascript'>
+	function selectObject(){
+	newpage=document.getElementById('objpick').value + '.html';
+	document.getElementById('obj_panel').src=newpage;
+	document.getElementById('linux_panel').src='blank.html';
+	}
+	</script>
+
+	<form oninput='selectObject()'>
+	<label for='object'>Select an object:</label>
+	<select id='objpick' name='object'>
+		<option value='anon_vma'>anon_vma</option>
+		<option value='anon_vma_chain'>anon_vma_chain</option>
+		<option value='bdev_inode'>bdev_inode</option>
+		<option value='buffer_head'>buffer_head</option>
+		<option value='cfq_io_cq'>cfq_io_cq</option>
+		<option value='cfq_queue'>cfq_queue</option>
+		<option value='cred' selected >cred</option>
+		<option value='dentry'>dentry</option>
+		<option value='dio'>dio</option>
+		<option value='eventpoll_epi'>eventpoll_epi</option>
+		<option value='eventpoll_pwq'>eventpoll_pwq</option>
+		<option value='ext4_inode'>ext4_inode</option>
+		<option value='fanotify_event_info'>fanotify_event_info</option>
+		<option value='fanotify_perm_event_info'>fanotify_perm_event_info</option>
+		<option value='fasync'>fasync</option>
+		<option value='fib6_nodes'>fib6_nodes</option>
+		<option value='file'>file</option>
+		<option value='file_lock'>file_lock</option>
+		<option value='file_lock_ctx'>file_lock_ctx</option>
+		<option value='fsnotify_mark'>fsnotify_mark</option>
+		<option value='idr_layer'>idr_layer</option>
+		<option value='inode'>inode</option>
+		<option value='ip_fib_alias'>ip_fib_alias</option>
+		<option value='ip_fib_trie'>ip_fib_trie</option>
+		<option value='jbd2_inode'>jbd2_inode</option>
+		<option value='kernfs_node'>kernfs_node</option>
+		<option value='key'>key</option>
+		<option value='kioctx'>kioctx</option>
+		<option value='mb_cache_entry'>mb_cache_entry</option>
+		<option value='mm_struct'>mm_struct</option>
+		<option value='mount'>mount</option>
+		<option value='names_cache'>names_cache</option>
+		<option value='net_namespace'>net_namespace</option>
+		<option value='nsproxy'>nsproxy</option>
+		<option value='pool_workqueue'>pool_workqueue</option>
+		<option value='posix_timer'>posix_timer</option>
+		<option value='radix_tree_node'>radix_tree_node</option>
+		<option value='request_queue'>request_queue</option>
+		<option value='scsi_cmd'>scsi_cmd</option>
+		<option value='sighand_struct'>sighand_struct</option>
+		<option value='signal_struct'>signal_struct</option>
+		<option value='sk_buff'>sk_buff</option>
+		<option value='sock_inode'>sock_inode</option>
+		<option value='task_delay_info'>task_delay_info</option>
+		<option value='task_group'>task_group</option>
+		<option value='task_struct'>task_struct</option>
+		<option value='tcp_bind_bucket'>tcp_bind_bucket</option>
+		<option value='user_namespace'>user_namespace</option>
+		<option value='user_struct'>user_struct</option>
+		<option value='vm_area_struct'>vm_area_struct</option>
+	</select>
+	</form>
+
+	<iframe src="cred.html" id='obj_panel' width='550' height='750'></iframe>
+	<iframe src="blank.html" id='linux_panel' width='550' height='750'></iframe>
+</html>

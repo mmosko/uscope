@@ -1,0 +1,25 @@
+<html>
+Compartment 91<br />
+<a href='A1e-08_90.html'> Prev</a>
+<a href='A1e-08_92.html'> Next</a>
+<br /><br />
+<strong> Compartment 91 is 1520 bytes and has 9 functions:</strong><br />
+1. <a href='javascript:void(0)' onclick="parent.setColors(7,[3,7],[[],[],[],[3,5,7],[1,2,3,5,6,7]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/block_dev.c.html#L101'">fs/block_dev.c:invalidate_bdev</a> (96 bytes)<br />
+2. <a href='javascript:void(0)' onclick="parent.setColors(7,[4,5,7],[[],[],[],[3,5,7],[1,2,3,5,6,7]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/block_validity.c.html#L179'">fs/ext4/block_validity.c:ext4_release_system_zone</a> (112 bytes)<br />
+3. <a href='javascript:void(0)' onclick="parent.setColors(7,[],[[],[],[],[3,5,7],[1,2,3,5,6,7]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/extents.c.html#L3104'">fs/ext4/extents.c:ext4_ext_release</a> (16 bytes)<br />
+4. <a href='javascript:void(0)' onclick="parent.setColors(7,[1,2,5,6,7],[[],[],[],[3,5,7],[1,2,3,5,6,7]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/super.c.html#L823'">fs/ext4/super.c:ext4_put_super</a> (800 bytes)<br />
+5. <a href='javascript:void(0)' onclick="parent.setColors(7,[],[[],[],[],[3,5,7],[1,2,3,5,6,7]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/ext4/super.c.html#L2815'">fs/ext4/super.c:ext4_unregister_li_request</a> (96 bytes)<br />
+6. <a href='javascript:void(0)' onclick="parent.setColors(7,[7],[[],[],[],[3,5,7],[1,2,3,5,6,7]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/fs/super.c.html#L138'">fs/super.c:destroy_super_work</a> (64 bytes)<br />
+7. <a href='javascript:void(0)' onclick="parent.setColors(7,[5,7],[[],[],[],[3,5,7],[1,2,3,5,6,7]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/kernel/locking/percpu-rwsem.c.html#L26'">kernel/locking/percpu-rwsem.c:percpu_free_rwsem</a> (48 bytes)<br />
+8. <a href='javascript:void(0)' onclick="parent.setColors(7,[5,7],[[],[],[],[3,5,7],[1,2,3,5,6,7]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/kernel/rcu/sync.c.html#L220'">kernel/rcu/sync.c:rcu_sync_dtor</a> (96 bytes)<br />
+9. <a href='javascript:void(0)' onclick="parent.setColors(7,[],[[],[],[],[3,5,7],[1,2,3,5,6,7]]); parent.document.getElementById('linux_panel').src='https://uscope-linux.github.io/compartment_explorer/linux/mm/swap.c.html#L689'">mm/swap.c:lru_add_drain_all</a> (192 bytes)<br />
+<br /><br />
+<strong> Compartment 91 accesses 7 objects:</strong><br />
+<span id='obj1'>1. ALLOC_PAGES alloc from fs/buffer.c:__find_get_block <br /></span>
+<span id='obj2'>2. ALLOC_PAGES alloc from mm/filemap.c:generic_file_read_iter <br /></span>
+<span id='obj3'>3. KMEM_CACHE alloc from fs/block_dev.c:bdev_alloc_inode <br /></span>
+<span id='obj4'>4. KMEM_CACHE alloc from fs/ext4/block_validity.c:add_system_zone <br /></span>
+<span id='obj5'>5. KMEM_CACHE alloc from fs/ext4/super.c:ext4_fill_super <br /></span>
+<span id='obj6'>6. KMEM_CACHE alloc from fs/ext4/super.c:ext4_kvmalloc <br /></span>
+<span id='obj7'>7. KMEM_CACHE alloc from fs/super.c:sget_userns <br /></span>
+</body></html>

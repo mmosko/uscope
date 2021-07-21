@@ -1,0 +1,238 @@
+mm/mmzone.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/mm/mmzone.c#L114">114</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * linux/mm/mmzone.c</span>
+<span class="cm"> *</span>
+<span class="cm"> * management codes for pgdats, zones and page flags</span>
+<span class="cm"> */</span>
+
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/stddef.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/mm.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/mmzone.h&gt;</span><span class="cp"></span>
+
+<span class="k">struct</span> <span class="n">pglist_data</span> <span class="o">*</span><span class="nf">first_online_pgdat</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">NODE_DATA</span><span class="p">(</span><span class="n">first_online_node</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">pglist_data</span> <span class="o">*</span><span class="nf">next_online_pgdat</span><span class="p">(</span><span class="k">struct</span> <span class="n">pglist_data</span> <span class="o">*</span><span class="n">pgdat</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">nid</span> <span class="o">=</span> <span class="n">next_online_node</span><span class="p">(</span><span class="n">pgdat</span><span class="o">-&gt;</span><span class="n">node_id</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">nid</span> <span class="o">==</span> <span class="n">MAX_NUMNODES</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">NODE_DATA</span><span class="p">(</span><span class="n">nid</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * next_zone - helper magic for for_each_zone()</span>
+<span class="cm"> */</span>
+<span class="k">struct</span> <span class="n">zone</span> <span class="o">*</span><span class="nf">next_zone</span><span class="p">(</span><span class="k">struct</span> <span class="n">zone</span> <span class="o">*</span><span class="n">zone</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pg_data_t</span> <span class="o">*</span><span class="n">pgdat</span> <span class="o">=</span> <span class="n">zone</span><span class="o">-&gt;</span><span class="n">zone_pgdat</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">zone</span> <span class="o">&lt;</span> <span class="n">pgdat</span><span class="o">-&gt;</span><span class="n">node_zones</span> <span class="o">+</span> <span class="n">MAX_NR_ZONES</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="n">zone</span><span class="o">++</span><span class="p">;</span>
+	<span class="k">else</span> <span class="p">{</span>
+		<span class="n">pgdat</span> <span class="o">=</span> <span class="n">next_online_pgdat</span><span class="p">(</span><span class="n">pgdat</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">pgdat</span><span class="p">)</span>
+			<span class="n">zone</span> <span class="o">=</span> <span class="n">pgdat</span><span class="o">-&gt;</span><span class="n">node_zones</span><span class="p">;</span>
+		<span class="k">else</span>
+			<span class="n">zone</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">zone</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">zref_in_nodemask</span><span class="p">(</span><span class="k">struct</span> <span class="n">zoneref</span> <span class="o">*</span><span class="n">zref</span><span class="p">,</span> <span class="n">nodemask_t</span> <span class="o">*</span><span class="n">nodes</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="cp">#ifdef CONFIG_NUMA</span>
+	<span class="k">return</span> <span class="n">node_isset</span><span class="p">(</span><span class="n">zonelist_node_idx</span><span class="p">(</span><span class="n">zref</span><span class="p">),</span> <span class="o">*</span><span class="n">nodes</span><span class="p">);</span>
+<span class="cp">#else</span>
+	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_NUMA */</span><span class="cp"></span>
+<span class="p">}</span>
+
+<span class="cm">/* Returns the next zone at or below highest_zoneidx in a zonelist */</span>
+<span class="k">struct</span> <span class="n">zoneref</span> <span class="o">*</span><span class="nf">__next_zones_zonelist</span><span class="p">(</span><span class="k">struct</span> <span class="n">zoneref</span> <span class="o">*</span><span class="n">z</span><span class="p">,</span>
+					<span class="k">enum</span> <span class="n">zone_type</span> <span class="n">highest_zoneidx</span><span class="p">,</span>
+					<span class="n">nodemask_t</span> <span class="o">*</span><span class="n">nodes</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * Find the next suitable zone to use for the allocation.</span>
+<span class="cm">	 * Only filter based on nodemask if it&#39;s set</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">likely</span><span class="p">(</span><span class="n">nodes</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">))</span>
+		<span class="k">while</span> <span class="p">(</span><span class="n">zonelist_zone_idx</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">highest_zoneidx</span><span class="p">)</span>
+			<span class="n">z</span><span class="o">++</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="k">while</span> <span class="p">(</span><span class="n">zonelist_zone_idx</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">highest_zoneidx</span> <span class="o">||</span>
+				<span class="p">(</span><span class="n">z</span><span class="o">-&gt;</span><span class="n">zone</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">zref_in_nodemask</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)))</span>
+			<span class="n">z</span><span class="o">++</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">z</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#ifdef CONFIG_ARCH_HAS_HOLES_MEMORYMODEL</span>
+<span class="n">bool</span> <span class="nf">memmap_valid_within</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pfn</span><span class="p">,</span>
+					<span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="n">page</span><span class="p">,</span> <span class="k">struct</span> <span class="n">zone</span> <span class="o">*</span><span class="n">zone</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">page_to_pfn</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="o">!=</span> <span class="n">pfn</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">page_zone</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="o">!=</span> <span class="n">zone</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_ARCH_HAS_HOLES_MEMORYMODEL */</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">lruvec_init</span><span class="p">(</span><span class="k">struct</span> <span class="n">lruvec</span> <span class="o">*</span><span class="n">lruvec</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">enum</span> <span class="n">lru_list</span> <span class="n">lru</span><span class="p">;</span>
+
+	<span class="n">memset</span><span class="p">(</span><span class="n">lruvec</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">lruvec</span><span class="p">));</span>
+
+	<span class="n">for_each_lru</span><span class="p">(</span><span class="n">lru</span><span class="p">)</span>
+		<span class="n">INIT_LIST_HEAD</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lruvec</span><span class="o">-&gt;</span><span class="n">lists</span><span class="p">[</span><span class="n">lru</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="cp">#if defined(CONFIG_NUMA_BALANCING) &amp;&amp; !defined(LAST_CPUPID_NOT_IN_PAGE_FLAGS)</span>
+<span class="kt">int</span> <span class="nf">page_cpupid_xchg_last</span><span class="p">(</span><span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="n">page</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cpupid</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">old_flags</span><span class="p">,</span> <span class="n">flags</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">last_cpupid</span><span class="p">;</span>
+
+	<span class="k">do</span> <span class="p">{</span>
+		<span class="n">old_flags</span> <span class="o">=</span> <span class="n">flags</span> <span class="o">=</span> <span class="n">page</span><span class="o">-&gt;</span><span class="n">flags</span><span class="p">;</span>
+		<span class="n">last_cpupid</span> <span class="o">=</span> <span class="n">page_cpupid_last</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
+
+		<span class="n">flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="n">LAST_CPUPID_MASK</span> <span class="o">&lt;&lt;</span> <span class="n">LAST_CPUPID_PGSHIFT</span><span class="p">);</span>
+		<span class="n">flags</span> <span class="o">|=</span> <span class="p">(</span><span class="n">cpupid</span> <span class="o">&amp;</span> <span class="n">LAST_CPUPID_MASK</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">LAST_CPUPID_PGSHIFT</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">cmpxchg</span><span class="p">(</span><span class="o">&amp;</span><span class="n">page</span><span class="o">-&gt;</span><span class="n">flags</span><span class="p">,</span> <span class="n">old_flags</span><span class="p">,</span> <span class="n">flags</span><span class="p">)</span> <span class="o">!=</span> <span class="n">old_flags</span><span class="p">));</span>
+
+	<span class="k">return</span> <span class="n">last_cpupid</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

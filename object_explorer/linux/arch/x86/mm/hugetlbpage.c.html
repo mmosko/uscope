@@ -1,0 +1,384 @@
+arch/x86/mm/hugetlbpage.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/arch/x86/mm/hugetlbpage.c#L187">187</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * IA-32 Huge TLB Page Support for Kernel.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Copyright (C) 2002, Rohit Seth &lt;rohit.seth@intel.com&gt;</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/init.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/fs.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/mm.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/hugetlb.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/pagemap.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/err.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/sysctl.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/mman.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/tlb.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/tlbflush.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/pgalloc.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#if 0</span><span class="c">	/* This is just for testing */</span>
+<span class="c">struct page *</span>
+<span class="c">follow_huge_addr(struct mm_struct *mm, unsigned long address, int write)</span>
+<span class="c">{</span>
+<span class="c">	unsigned long start = address;</span>
+<span class="c">	int length = 1;</span>
+<span class="c">	int nr;</span>
+<span class="c">	struct page *page;</span>
+<span class="c">	struct vm_area_struct *vma;</span>
+
+<span class="c">	vma = find_vma(mm, addr);</span>
+<span class="c">	if (!vma || !is_vm_hugetlb_page(vma))</span>
+<span class="c">		return ERR_PTR(-EINVAL);</span>
+
+<span class="c">	pte = huge_pte_offset(mm, address);</span>
+
+<span class="c">	/* hugetlb should be locked, and hence, prefaulted */</span>
+<span class="c">	WARN_ON(!pte || pte_none(*pte));</span>
+
+<span class="c">	page = &amp;pte_page(*pte)[vpfn % (HPAGE_SIZE/PAGE_SIZE)];</span>
+
+<span class="c">	WARN_ON(!PageHead(page));</span>
+
+<span class="c">	return page;</span>
+<span class="c">}</span>
+
+<span class="c">int pmd_huge(pmd_t pmd)</span>
+<span class="c">{</span>
+<span class="c">	return 0;</span>
+<span class="c">}</span>
+
+<span class="c">int pud_huge(pud_t pud)</span>
+<span class="c">{</span>
+<span class="c">	return 0;</span>
+<span class="c">}</span>
+
+<span class="cp">#else</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * pmd_huge() returns 1 if @pmd is hugetlb related entry, that is normal</span>
+<span class="cm"> * hugetlb entry or non-present (migration or hwpoisoned) hugetlb entry.</span>
+<span class="cm"> * Otherwise, returns 0.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">pmd_huge</span><span class="p">(</span><span class="n">pmd_t</span> <span class="n">pmd</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="o">!</span><span class="n">pmd_none</span><span class="p">(</span><span class="n">pmd</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+		<span class="p">(</span><span class="n">pmd_val</span><span class="p">(</span><span class="n">pmd</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">_PAGE_PRESENT</span><span class="o">|</span><span class="n">_PAGE_PSE</span><span class="p">))</span> <span class="o">!=</span> <span class="n">_PAGE_PRESENT</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">pud_huge</span><span class="p">(</span><span class="n">pud_t</span> <span class="n">pud</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="o">!!</span><span class="p">(</span><span class="n">pud_val</span><span class="p">(</span><span class="n">pud</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">_PAGE_PSE</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifdef CONFIG_HUGETLB_PAGE</span>
+<span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="nf">hugetlb_get_unmapped_area_bottomup</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">len</span><span class="p">,</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pgoff</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">hstate</span> <span class="o">*</span><span class="n">h</span> <span class="o">=</span> <span class="n">hstate_file</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">vm_unmapped_area_info</span> <span class="n">info</span><span class="p">;</span>
+
+	<span class="n">info</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">info</span><span class="p">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">len</span><span class="p">;</span>
+	<span class="n">info</span><span class="p">.</span><span class="n">low_limit</span> <span class="o">=</span> <span class="n">current</span><span class="o">-&gt;</span><span class="n">mm</span><span class="o">-&gt;</span><span class="n">mmap_legacy_base</span><span class="p">;</span>
+	<span class="n">info</span><span class="p">.</span><span class="n">high_limit</span> <span class="o">=</span> <span class="n">TASK_SIZE</span><span class="p">;</span>
+	<span class="n">info</span><span class="p">.</span><span class="n">align_mask</span> <span class="o">=</span> <span class="n">PAGE_MASK</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">huge_page_mask</span><span class="p">(</span><span class="n">h</span><span class="p">);</span>
+	<span class="n">info</span><span class="p">.</span><span class="n">align_offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">vm_unmapped_area</span><span class="p">(</span><span class="o">&amp;</span><span class="n">info</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="nf">hugetlb_get_unmapped_area_topdown</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr0</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">len</span><span class="p">,</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pgoff</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">hstate</span> <span class="o">*</span><span class="n">h</span> <span class="o">=</span> <span class="n">hstate_file</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">vm_unmapped_area_info</span> <span class="n">info</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">;</span>
+
+	<span class="n">info</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">VM_UNMAPPED_AREA_TOPDOWN</span><span class="p">;</span>
+	<span class="n">info</span><span class="p">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">len</span><span class="p">;</span>
+	<span class="n">info</span><span class="p">.</span><span class="n">low_limit</span> <span class="o">=</span> <span class="n">PAGE_SIZE</span><span class="p">;</span>
+	<span class="n">info</span><span class="p">.</span><span class="n">high_limit</span> <span class="o">=</span> <span class="n">current</span><span class="o">-&gt;</span><span class="n">mm</span><span class="o">-&gt;</span><span class="n">mmap_base</span><span class="p">;</span>
+	<span class="n">info</span><span class="p">.</span><span class="n">align_mask</span> <span class="o">=</span> <span class="n">PAGE_MASK</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">huge_page_mask</span><span class="p">(</span><span class="n">h</span><span class="p">);</span>
+	<span class="n">info</span><span class="p">.</span><span class="n">align_offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">addr</span> <span class="o">=</span> <span class="n">vm_unmapped_area</span><span class="p">(</span><span class="o">&amp;</span><span class="n">info</span><span class="p">);</span>
+
+	<span class="cm">/*</span>
+<span class="cm">	 * A failed mmap() very likely causes application failure,</span>
+<span class="cm">	 * so fall back to the bottom-up function here. This scenario</span>
+<span class="cm">	 * can happen with large stack limits and large mmap()</span>
+<span class="cm">	 * allocations.</span>
+<span class="cm">	 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">addr</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">PAGE_MASK</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">VM_BUG_ON</span><span class="p">(</span><span class="n">addr</span> <span class="o">!=</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">);</span>
+		<span class="n">info</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="n">info</span><span class="p">.</span><span class="n">low_limit</span> <span class="o">=</span> <span class="n">TASK_UNMAPPED_BASE</span><span class="p">;</span>
+		<span class="n">info</span><span class="p">.</span><span class="n">high_limit</span> <span class="o">=</span> <span class="n">TASK_SIZE</span><span class="p">;</span>
+		<span class="n">addr</span> <span class="o">=</span> <span class="n">vm_unmapped_area</span><span class="p">(</span><span class="o">&amp;</span><span class="n">info</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">addr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">unsigned</span> <span class="kt">long</span>
+<span class="nf">hugetlb_get_unmapped_area</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span>
+		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">len</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pgoff</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">hstate</span> <span class="o">*</span><span class="n">h</span> <span class="o">=</span> <span class="n">hstate_file</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span> <span class="o">=</span> <span class="n">current</span><span class="o">-&gt;</span><span class="n">mm</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">huge_page_mask</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="n">TASK_SIZE</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">MAP_FIXED</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">prepare_hugepage_range</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">len</span><span class="p">))</span>
+			<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+		<span class="k">return</span> <span class="n">addr</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">addr</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">addr</span> <span class="o">=</span> <span class="n">ALIGN</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">huge_page_size</span><span class="p">(</span><span class="n">h</span><span class="p">));</span>
+		<span class="n">vma</span> <span class="o">=</span> <span class="n">find_vma</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">addr</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">TASK_SIZE</span> <span class="o">-</span> <span class="n">len</span> <span class="o">&gt;=</span> <span class="n">addr</span> <span class="o">&amp;&amp;</span>
+		    <span class="p">(</span><span class="o">!</span><span class="n">vma</span> <span class="o">||</span> <span class="n">addr</span> <span class="o">+</span> <span class="n">len</span> <span class="o">&lt;=</span> <span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_start</span><span class="p">))</span>
+			<span class="k">return</span> <span class="n">addr</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">mm</span><span class="o">-&gt;</span><span class="n">get_unmapped_area</span> <span class="o">==</span> <span class="n">arch_get_unmapped_area</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">hugetlb_get_unmapped_area_bottomup</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span>
+				<span class="n">pgoff</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="k">return</span> <span class="n">hugetlb_get_unmapped_area_topdown</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span>
+				<span class="n">pgoff</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_HUGETLB_PAGE */</span><span class="cp"></span>
+
+<span class="cp">#ifdef CONFIG_X86_64</span>
+<span class="k">static</span> <span class="n">__init</span> <span class="kt">int</span> <span class="nf">setup_hugepagesz</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">opt</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">ps</span> <span class="o">=</span> <span class="n">memparse</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">opt</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ps</span> <span class="o">==</span> <span class="n">PMD_SIZE</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">hugetlb_add_hstate</span><span class="p">(</span><span class="n">PMD_SHIFT</span> <span class="o">-</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">ps</span> <span class="o">==</span> <span class="n">PUD_SIZE</span> <span class="o">&amp;&amp;</span> <span class="n">boot_cpu_has</span><span class="p">(</span><span class="n">X86_FEATURE_GBPAGES</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">hugetlb_add_hstate</span><span class="p">(</span><span class="n">PUD_SHIFT</span> <span class="o">-</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">hugetlb_bad_size</span><span class="p">();</span>
+		<span class="n">printk</span><span class="p">(</span><span class="n">KERN_ERR</span> <span class="s">&quot;hugepagesz: Unsupported page size %lu M</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+			<span class="n">ps</span> <span class="o">&gt;&gt;</span> <span class="mi">20</span><span class="p">);</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">__setup</span><span class="p">(</span><span class="s">&quot;hugepagesz=&quot;</span><span class="p">,</span> <span class="n">setup_hugepagesz</span><span class="p">);</span>
+
+<span class="cp">#if (defined(CONFIG_MEMORY_ISOLATION) &amp;&amp; defined(CONFIG_COMPACTION)) || defined(CONFIG_CMA)</span>
+<span class="k">static</span> <span class="n">__init</span> <span class="kt">int</span> <span class="nf">gigantic_pages_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/* With compaction or CMA we can allocate gigantic pages at runtime */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">boot_cpu_has</span><span class="p">(</span><span class="n">X86_FEATURE_GBPAGES</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">size_to_hstate</span><span class="p">(</span><span class="mi">1UL</span> <span class="o">&lt;&lt;</span> <span class="n">PUD_SHIFT</span><span class="p">))</span>
+		<span class="n">hugetlb_add_hstate</span><span class="p">(</span><span class="n">PUD_SHIFT</span> <span class="o">-</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">arch_initcall</span><span class="p">(</span><span class="n">gigantic_pages_init</span><span class="p">);</span>
+<span class="cp">#endif</span>
+<span class="cp">#endif</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

@@ -1,0 +1,272 @@
+net/ipv4/datagram.c<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/datagram.c#L131">131</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> *	common UDP/RAW code</span>
+<span class="cm"> *	Linux INET implementation</span>
+<span class="cm"> *</span>
+<span class="cm"> * Authors:</span>
+<span class="cm"> * 	Hideaki YOSHIFUJI &lt;yoshfuji@linux-ipv6.org&gt;</span>
+<span class="cm"> *</span>
+<span class="cm"> * 	This program is free software; you can redistribute it and/or</span>
+<span class="cm"> * 	modify it under the terms of the GNU General Public License</span>
+<span class="cm"> * 	as published by the Free Software Foundation; either version</span>
+<span class="cm"> * 	2 of the License, or (at your option) any later version.</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/types.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/module.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/ip.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/in.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;net/ip.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;net/sock.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;net/route.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;net/tcp_states.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">__ip4_datagram_connect</span><span class="p">(</span><span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">uaddr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">addr_len</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">inet_sock</span> <span class="o">*</span><span class="n">inet</span> <span class="o">=</span> <span class="n">inet_sk</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+	<span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="o">*</span><span class="n">usin</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="o">*</span><span class="p">)</span> <span class="n">uaddr</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">flowi4</span> <span class="o">*</span><span class="n">fl4</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">rtable</span> <span class="o">*</span><span class="n">rt</span><span class="p">;</span>
+	<span class="n">__be32</span> <span class="n">saddr</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">oif</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">err</span><span class="p">;</span>
+
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">addr_len</span> <span class="o">&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">usin</span><span class="p">))</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">usin</span><span class="o">-&gt;</span><span class="n">sin_family</span> <span class="o">!=</span> <span class="n">AF_INET</span><span class="p">)</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EAFNOSUPPORT</span><span class="p">;</span>
+
+	<span class="n">sk_dst_reset</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+
+	<span class="n">oif</span> <span class="o">=</span> <span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_bound_dev_if</span><span class="p">;</span>
+	<span class="n">saddr</span> <span class="o">=</span> <span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_saddr</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ipv4_is_multicast</span><span class="p">(</span><span class="n">usin</span><span class="o">-&gt;</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span><span class="p">))</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">oif</span><span class="p">)</span>
+			<span class="n">oif</span> <span class="o">=</span> <span class="n">inet</span><span class="o">-&gt;</span><span class="n">mc_index</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">saddr</span><span class="p">)</span>
+			<span class="n">saddr</span> <span class="o">=</span> <span class="n">inet</span><span class="o">-&gt;</span><span class="n">mc_addr</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">fl4</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">inet</span><span class="o">-&gt;</span><span class="n">cork</span><span class="p">.</span><span class="n">fl</span><span class="p">.</span><span class="n">u</span><span class="p">.</span><span class="n">ip4</span><span class="p">;</span>
+	<span class="n">rt</span> <span class="o">=</span> <span class="n">ip_route_connect</span><span class="p">(</span><span class="n">fl4</span><span class="p">,</span> <span class="n">usin</span><span class="o">-&gt;</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span><span class="p">,</span> <span class="n">saddr</span><span class="p">,</span>
+			      <span class="n">RT_CONN_FLAGS</span><span class="p">(</span><span class="n">sk</span><span class="p">),</span> <span class="n">oif</span><span class="p">,</span>
+			      <span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_protocol</span><span class="p">,</span>
+			      <span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_sport</span><span class="p">,</span> <span class="n">usin</span><span class="o">-&gt;</span><span class="n">sin_port</span><span class="p">,</span> <span class="n">sk</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">IS_ERR</span><span class="p">(</span><span class="n">rt</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="n">PTR_ERR</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">==</span> <span class="o">-</span><span class="n">ENETUNREACH</span><span class="p">)</span>
+			<span class="n">IP_INC_STATS</span><span class="p">(</span><span class="n">sock_net</span><span class="p">(</span><span class="n">sk</span><span class="p">),</span> <span class="n">IPSTATS_MIB_OUTNOROUTES</span><span class="p">);</span>
+		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">rt</span><span class="o">-&gt;</span><span class="n">rt_flags</span> <span class="o">&amp;</span> <span class="n">RTCF_BROADCAST</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">sock_flag</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">SOCK_BROADCAST</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">ip_rt_put</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span>
+		<span class="n">err</span> <span class="o">=</span> <span class="o">-</span><span class="n">EACCES</span><span class="p">;</span>
+		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_saddr</span><span class="p">)</span>
+		<span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_saddr</span> <span class="o">=</span> <span class="n">fl4</span><span class="o">-&gt;</span><span class="n">saddr</span><span class="p">;</span>	<span class="cm">/* Update source address */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_rcv_saddr</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_rcv_saddr</span> <span class="o">=</span> <span class="n">fl4</span><span class="o">-&gt;</span><span class="n">saddr</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_prot</span><span class="o">-&gt;</span><span class="n">rehash</span><span class="p">)</span>
+			<span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_prot</span><span class="o">-&gt;</span><span class="n">rehash</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_daddr</span> <span class="o">=</span> <span class="n">fl4</span><span class="o">-&gt;</span><span class="n">daddr</span><span class="p">;</span>
+	<span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_dport</span> <span class="o">=</span> <span class="n">usin</span><span class="o">-&gt;</span><span class="n">sin_port</span><span class="p">;</span>
+	<span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_state</span> <span class="o">=</span> <span class="n">TCP_ESTABLISHED</span><span class="p">;</span>
+	<span class="n">sk_set_txhash</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+	<span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_id</span> <span class="o">=</span> <span class="n">jiffies</span><span class="p">;</span>
+
+	<span class="n">sk_dst_set</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rt</span><span class="o">-&gt;</span><span class="n">dst</span><span class="p">);</span>
+	<span class="n">err</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nl">out</span><span class="p">:</span>
+	<span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">__ip4_datagram_connect</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">ip4_datagram_connect</span><span class="p">(</span><span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">uaddr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">addr_len</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">res</span><span class="p">;</span>
+
+	<span class="n">lock_sock</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+	<span class="n">res</span> <span class="o">=</span> <span class="n">__ip4_datagram_connect</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">uaddr</span><span class="p">,</span> <span class="n">addr_len</span><span class="p">);</span>
+	<span class="n">release_sock</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">ip4_datagram_connect</span><span class="p">);</span>
+
+<span class="cm">/* Because UDP xmit path can manipulate sk_dst_cache without holding</span>
+<span class="cm"> * socket lock, we need to use sk_dst_set() here,</span>
+<span class="cm"> * even if we own the socket lock.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">ip4_datagram_release_cb</span><span class="p">(</span><span class="k">struct</span> <span class="n">sock</span> <span class="o">*</span><span class="n">sk</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">inet_sock</span> <span class="o">*</span><span class="n">inet</span> <span class="o">=</span> <span class="n">inet_sk</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">ip_options_rcu</span> <span class="o">*</span><span class="n">inet_opt</span><span class="p">;</span>
+	<span class="n">__be32</span> <span class="n">daddr</span> <span class="o">=</span> <span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_daddr</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">dst_entry</span> <span class="o">*</span><span class="n">dst</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">flowi4</span> <span class="n">fl4</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">rtable</span> <span class="o">*</span><span class="n">rt</span><span class="p">;</span>
+
+	<span class="n">rcu_read_lock</span><span class="p">();</span>
+
+	<span class="n">dst</span> <span class="o">=</span> <span class="n">__sk_dst_get</span><span class="p">(</span><span class="n">sk</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">dst</span> <span class="o">||</span> <span class="o">!</span><span class="n">dst</span><span class="o">-&gt;</span><span class="n">obsolete</span> <span class="o">||</span> <span class="n">dst</span><span class="o">-&gt;</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">check</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+		<span class="n">rcu_read_unlock</span><span class="p">();</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">inet_opt</span> <span class="o">=</span> <span class="n">rcu_dereference</span><span class="p">(</span><span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_opt</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">inet_opt</span> <span class="o">&amp;&amp;</span> <span class="n">inet_opt</span><span class="o">-&gt;</span><span class="n">opt</span><span class="p">.</span><span class="n">srr</span><span class="p">)</span>
+		<span class="n">daddr</span> <span class="o">=</span> <span class="n">inet_opt</span><span class="o">-&gt;</span><span class="n">opt</span><span class="p">.</span><span class="n">faddr</span><span class="p">;</span>
+	<span class="n">rt</span> <span class="o">=</span> <span class="n">ip_route_output_ports</span><span class="p">(</span><span class="n">sock_net</span><span class="p">(</span><span class="n">sk</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">fl4</span><span class="p">,</span> <span class="n">sk</span><span class="p">,</span> <span class="n">daddr</span><span class="p">,</span>
+				   <span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_saddr</span><span class="p">,</span> <span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_dport</span><span class="p">,</span>
+				   <span class="n">inet</span><span class="o">-&gt;</span><span class="n">inet_sport</span><span class="p">,</span> <span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_protocol</span><span class="p">,</span>
+				   <span class="n">RT_CONN_FLAGS</span><span class="p">(</span><span class="n">sk</span><span class="p">),</span> <span class="n">sk</span><span class="o">-&gt;</span><span class="n">sk_bound_dev_if</span><span class="p">);</span>
+
+	<span class="n">dst</span> <span class="o">=</span> <span class="o">!</span><span class="n">IS_ERR</span><span class="p">(</span><span class="n">rt</span><span class="p">)</span> <span class="o">?</span> <span class="o">&amp;</span><span class="n">rt</span><span class="o">-&gt;</span><span class="nl">dst</span> <span class="p">:</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">sk_dst_set</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>
+
+	<span class="n">rcu_read_unlock</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">ip4_datagram_release_cb</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

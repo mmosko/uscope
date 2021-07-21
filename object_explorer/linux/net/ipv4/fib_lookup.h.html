@@ -1,0 +1,116 @@
+net/ipv4/fib_lookup.h<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L1"> 1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L2"> 2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L3"> 3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L4"> 4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L5"> 5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L6"> 6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L7"> 7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L8"> 8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L9"> 9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L10">10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L11">11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L12">12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L13">13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L14">14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L15">15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L16">16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L17">17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L18">18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L19">19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L20">20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L21">21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L22">22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L23">23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L24">24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L25">25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L26">26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L27">27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L28">28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L29">29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L30">30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L31">31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L32">32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L33">33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L34">34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L35">35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L36">36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L37">37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L38">38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L39">39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L40">40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L41">41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L42">42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L43">43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L44">44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L45">45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L46">46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L47">47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L48">48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L49">49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L50">50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L51">51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L52">52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/net/ipv4/fib_lookup.h#L53">53</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#ifndef _FIB_LOOKUP_H</span>
+<span class="cp">#define _FIB_LOOKUP_H</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/types.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/list.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;net/ip_fib.h&gt;</span><span class="cp"></span>
+
+<span class="k">struct</span> <span class="n">fib_alias</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">hlist_node</span>	<span class="n">fa_list</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">fib_info</span>		<span class="o">*</span><span class="n">fa_info</span><span class="p">;</span>
+	<span class="n">u8</span>			<span class="n">fa_tos</span><span class="p">;</span>
+	<span class="n">u8</span>			<span class="n">fa_type</span><span class="p">;</span>
+	<span class="n">u8</span>			<span class="n">fa_state</span><span class="p">;</span>
+	<span class="n">u8</span>			<span class="n">fa_slen</span><span class="p">;</span>
+	<span class="n">u32</span>			<span class="n">tb_id</span><span class="p">;</span>
+	<span class="n">s16</span>			<span class="n">fa_default</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">rcu_head</span>		<span class="n">rcu</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cp">#define FA_S_ACCESSED	0x01</span>
+
+<span class="cm">/* Dont write on fa_state unless needed, to keep it shared on all cpus */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">fib_alias_accessed</span><span class="p">(</span><span class="k">struct</span> <span class="n">fib_alias</span> <span class="o">*</span><span class="n">fa</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">fa</span><span class="o">-&gt;</span><span class="n">fa_state</span> <span class="o">&amp;</span> <span class="n">FA_S_ACCESSED</span><span class="p">))</span>
+		<span class="n">fa</span><span class="o">-&gt;</span><span class="n">fa_state</span> <span class="o">|=</span> <span class="n">FA_S_ACCESSED</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Exported by fib_semantics.c */</span>
+<span class="kt">void</span> <span class="nf">fib_release_info</span><span class="p">(</span><span class="k">struct</span> <span class="n">fib_info</span> <span class="o">*</span><span class="p">);</span>
+<span class="k">struct</span> <span class="n">fib_info</span> <span class="o">*</span><span class="nf">fib_create_info</span><span class="p">(</span><span class="k">struct</span> <span class="n">fib_config</span> <span class="o">*</span><span class="n">cfg</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">fib_nh_match</span><span class="p">(</span><span class="k">struct</span> <span class="n">fib_config</span> <span class="o">*</span><span class="n">cfg</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fib_info</span> <span class="o">*</span><span class="n">fi</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">fib_dump_info</span><span class="p">(</span><span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb</span><span class="p">,</span> <span class="n">u32</span> <span class="n">pid</span><span class="p">,</span> <span class="n">u32</span> <span class="n">seq</span><span class="p">,</span> <span class="kt">int</span> <span class="n">event</span><span class="p">,</span> <span class="n">u32</span> <span class="n">tb_id</span><span class="p">,</span>
+		  <span class="n">u8</span> <span class="n">type</span><span class="p">,</span> <span class="n">__be32</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dst_len</span><span class="p">,</span> <span class="n">u8</span> <span class="n">tos</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fib_info</span> <span class="o">*</span><span class="n">fi</span><span class="p">,</span>
+		  <span class="kt">unsigned</span> <span class="kt">int</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">rtmsg_fib</span><span class="p">(</span><span class="kt">int</span> <span class="n">event</span><span class="p">,</span> <span class="n">__be32</span> <span class="n">key</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fib_alias</span> <span class="o">*</span><span class="n">fa</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dst_len</span><span class="p">,</span>
+	       <span class="n">u32</span> <span class="n">tb_id</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">nl_info</span> <span class="o">*</span><span class="n">info</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">nlm_flags</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">fib_result_assign</span><span class="p">(</span><span class="k">struct</span> <span class="n">fib_result</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span>
+				     <span class="k">struct</span> <span class="n">fib_info</span> <span class="o">*</span><span class="n">fi</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/* we used to play games with refcounts, but we now use RCU */</span>
+	<span class="n">res</span><span class="o">-&gt;</span><span class="n">fi</span> <span class="o">=</span> <span class="n">fi</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">fib_prop</span> <span class="p">{</span>
+	<span class="kt">int</span>	<span class="n">error</span><span class="p">;</span>
+	<span class="n">u8</span>	<span class="n">scope</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">extern</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">fib_prop</span> <span class="n">fib_props</span><span class="p">[</span><span class="n">RTN_MAX</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+
+<span class="cp">#endif </span><span class="cm">/* _FIB_LOOKUP_H */</span><span class="cp"></span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>

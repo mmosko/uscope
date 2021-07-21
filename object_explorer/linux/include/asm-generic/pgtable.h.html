@@ -1,0 +1,1630 @@
+include/asm-generic/pgtable.h<br /><!doctype html>
+<html class="no-js">
+
+			<main>
+				<div class="workspace">
+					<div class="lxrcode"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><a name="L1" id="L1" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L1">  1</a>
+<a name="L2" id="L2" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L2">  2</a>
+<a name="L3" id="L3" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L3">  3</a>
+<a name="L4" id="L4" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L4">  4</a>
+<a name="L5" id="L5" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L5">  5</a>
+<a name="L6" id="L6" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L6">  6</a>
+<a name="L7" id="L7" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L7">  7</a>
+<a name="L8" id="L8" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L8">  8</a>
+<a name="L9" id="L9" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L9">  9</a>
+<a name="L10" id="L10" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L10"> 10</a>
+<a name="L11" id="L11" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L11"> 11</a>
+<a name="L12" id="L12" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L12"> 12</a>
+<a name="L13" id="L13" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L13"> 13</a>
+<a name="L14" id="L14" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L14"> 14</a>
+<a name="L15" id="L15" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L15"> 15</a>
+<a name="L16" id="L16" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L16"> 16</a>
+<a name="L17" id="L17" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L17"> 17</a>
+<a name="L18" id="L18" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L18"> 18</a>
+<a name="L19" id="L19" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L19"> 19</a>
+<a name="L20" id="L20" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L20"> 20</a>
+<a name="L21" id="L21" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L21"> 21</a>
+<a name="L22" id="L22" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L22"> 22</a>
+<a name="L23" id="L23" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L23"> 23</a>
+<a name="L24" id="L24" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L24"> 24</a>
+<a name="L25" id="L25" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L25"> 25</a>
+<a name="L26" id="L26" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L26"> 26</a>
+<a name="L27" id="L27" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L27"> 27</a>
+<a name="L28" id="L28" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L28"> 28</a>
+<a name="L29" id="L29" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L29"> 29</a>
+<a name="L30" id="L30" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L30"> 30</a>
+<a name="L31" id="L31" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L31"> 31</a>
+<a name="L32" id="L32" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L32"> 32</a>
+<a name="L33" id="L33" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L33"> 33</a>
+<a name="L34" id="L34" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L34"> 34</a>
+<a name="L35" id="L35" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L35"> 35</a>
+<a name="L36" id="L36" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L36"> 36</a>
+<a name="L37" id="L37" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L37"> 37</a>
+<a name="L38" id="L38" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L38"> 38</a>
+<a name="L39" id="L39" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L39"> 39</a>
+<a name="L40" id="L40" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L40"> 40</a>
+<a name="L41" id="L41" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L41"> 41</a>
+<a name="L42" id="L42" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L42"> 42</a>
+<a name="L43" id="L43" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L43"> 43</a>
+<a name="L44" id="L44" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L44"> 44</a>
+<a name="L45" id="L45" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L45"> 45</a>
+<a name="L46" id="L46" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L46"> 46</a>
+<a name="L47" id="L47" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L47"> 47</a>
+<a name="L48" id="L48" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L48"> 48</a>
+<a name="L49" id="L49" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L49"> 49</a>
+<a name="L50" id="L50" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L50"> 50</a>
+<a name="L51" id="L51" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L51"> 51</a>
+<a name="L52" id="L52" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L52"> 52</a>
+<a name="L53" id="L53" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L53"> 53</a>
+<a name="L54" id="L54" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L54"> 54</a>
+<a name="L55" id="L55" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L55"> 55</a>
+<a name="L56" id="L56" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L56"> 56</a>
+<a name="L57" id="L57" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L57"> 57</a>
+<a name="L58" id="L58" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L58"> 58</a>
+<a name="L59" id="L59" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L59"> 59</a>
+<a name="L60" id="L60" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L60"> 60</a>
+<a name="L61" id="L61" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L61"> 61</a>
+<a name="L62" id="L62" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L62"> 62</a>
+<a name="L63" id="L63" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L63"> 63</a>
+<a name="L64" id="L64" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L64"> 64</a>
+<a name="L65" id="L65" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L65"> 65</a>
+<a name="L66" id="L66" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L66"> 66</a>
+<a name="L67" id="L67" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L67"> 67</a>
+<a name="L68" id="L68" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L68"> 68</a>
+<a name="L69" id="L69" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L69"> 69</a>
+<a name="L70" id="L70" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L70"> 70</a>
+<a name="L71" id="L71" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L71"> 71</a>
+<a name="L72" id="L72" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L72"> 72</a>
+<a name="L73" id="L73" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L73"> 73</a>
+<a name="L74" id="L74" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L74"> 74</a>
+<a name="L75" id="L75" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L75"> 75</a>
+<a name="L76" id="L76" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L76"> 76</a>
+<a name="L77" id="L77" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L77"> 77</a>
+<a name="L78" id="L78" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L78"> 78</a>
+<a name="L79" id="L79" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L79"> 79</a>
+<a name="L80" id="L80" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L80"> 80</a>
+<a name="L81" id="L81" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L81"> 81</a>
+<a name="L82" id="L82" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L82"> 82</a>
+<a name="L83" id="L83" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L83"> 83</a>
+<a name="L84" id="L84" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L84"> 84</a>
+<a name="L85" id="L85" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L85"> 85</a>
+<a name="L86" id="L86" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L86"> 86</a>
+<a name="L87" id="L87" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L87"> 87</a>
+<a name="L88" id="L88" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L88"> 88</a>
+<a name="L89" id="L89" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L89"> 89</a>
+<a name="L90" id="L90" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L90"> 90</a>
+<a name="L91" id="L91" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L91"> 91</a>
+<a name="L92" id="L92" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L92"> 92</a>
+<a name="L93" id="L93" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L93"> 93</a>
+<a name="L94" id="L94" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L94"> 94</a>
+<a name="L95" id="L95" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L95"> 95</a>
+<a name="L96" id="L96" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L96"> 96</a>
+<a name="L97" id="L97" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L97"> 97</a>
+<a name="L98" id="L98" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L98"> 98</a>
+<a name="L99" id="L99" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L99"> 99</a>
+<a name="L100" id="L100" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L100">100</a>
+<a name="L101" id="L101" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L101">101</a>
+<a name="L102" id="L102" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L102">102</a>
+<a name="L103" id="L103" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L103">103</a>
+<a name="L104" id="L104" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L104">104</a>
+<a name="L105" id="L105" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L105">105</a>
+<a name="L106" id="L106" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L106">106</a>
+<a name="L107" id="L107" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L107">107</a>
+<a name="L108" id="L108" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L108">108</a>
+<a name="L109" id="L109" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L109">109</a>
+<a name="L110" id="L110" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L110">110</a>
+<a name="L111" id="L111" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L111">111</a>
+<a name="L112" id="L112" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L112">112</a>
+<a name="L113" id="L113" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L113">113</a>
+<a name="L114" id="L114" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L114">114</a>
+<a name="L115" id="L115" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L115">115</a>
+<a name="L116" id="L116" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L116">116</a>
+<a name="L117" id="L117" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L117">117</a>
+<a name="L118" id="L118" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L118">118</a>
+<a name="L119" id="L119" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L119">119</a>
+<a name="L120" id="L120" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L120">120</a>
+<a name="L121" id="L121" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L121">121</a>
+<a name="L122" id="L122" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L122">122</a>
+<a name="L123" id="L123" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L123">123</a>
+<a name="L124" id="L124" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L124">124</a>
+<a name="L125" id="L125" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L125">125</a>
+<a name="L126" id="L126" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L126">126</a>
+<a name="L127" id="L127" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L127">127</a>
+<a name="L128" id="L128" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L128">128</a>
+<a name="L129" id="L129" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L129">129</a>
+<a name="L130" id="L130" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L130">130</a>
+<a name="L131" id="L131" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L131">131</a>
+<a name="L132" id="L132" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L132">132</a>
+<a name="L133" id="L133" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L133">133</a>
+<a name="L134" id="L134" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L134">134</a>
+<a name="L135" id="L135" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L135">135</a>
+<a name="L136" id="L136" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L136">136</a>
+<a name="L137" id="L137" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L137">137</a>
+<a name="L138" id="L138" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L138">138</a>
+<a name="L139" id="L139" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L139">139</a>
+<a name="L140" id="L140" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L140">140</a>
+<a name="L141" id="L141" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L141">141</a>
+<a name="L142" id="L142" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L142">142</a>
+<a name="L143" id="L143" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L143">143</a>
+<a name="L144" id="L144" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L144">144</a>
+<a name="L145" id="L145" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L145">145</a>
+<a name="L146" id="L146" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L146">146</a>
+<a name="L147" id="L147" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L147">147</a>
+<a name="L148" id="L148" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L148">148</a>
+<a name="L149" id="L149" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L149">149</a>
+<a name="L150" id="L150" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L150">150</a>
+<a name="L151" id="L151" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L151">151</a>
+<a name="L152" id="L152" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L152">152</a>
+<a name="L153" id="L153" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L153">153</a>
+<a name="L154" id="L154" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L154">154</a>
+<a name="L155" id="L155" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L155">155</a>
+<a name="L156" id="L156" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L156">156</a>
+<a name="L157" id="L157" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L157">157</a>
+<a name="L158" id="L158" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L158">158</a>
+<a name="L159" id="L159" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L159">159</a>
+<a name="L160" id="L160" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L160">160</a>
+<a name="L161" id="L161" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L161">161</a>
+<a name="L162" id="L162" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L162">162</a>
+<a name="L163" id="L163" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L163">163</a>
+<a name="L164" id="L164" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L164">164</a>
+<a name="L165" id="L165" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L165">165</a>
+<a name="L166" id="L166" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L166">166</a>
+<a name="L167" id="L167" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L167">167</a>
+<a name="L168" id="L168" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L168">168</a>
+<a name="L169" id="L169" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L169">169</a>
+<a name="L170" id="L170" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L170">170</a>
+<a name="L171" id="L171" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L171">171</a>
+<a name="L172" id="L172" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L172">172</a>
+<a name="L173" id="L173" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L173">173</a>
+<a name="L174" id="L174" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L174">174</a>
+<a name="L175" id="L175" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L175">175</a>
+<a name="L176" id="L176" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L176">176</a>
+<a name="L177" id="L177" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L177">177</a>
+<a name="L178" id="L178" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L178">178</a>
+<a name="L179" id="L179" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L179">179</a>
+<a name="L180" id="L180" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L180">180</a>
+<a name="L181" id="L181" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L181">181</a>
+<a name="L182" id="L182" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L182">182</a>
+<a name="L183" id="L183" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L183">183</a>
+<a name="L184" id="L184" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L184">184</a>
+<a name="L185" id="L185" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L185">185</a>
+<a name="L186" id="L186" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L186">186</a>
+<a name="L187" id="L187" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L187">187</a>
+<a name="L188" id="L188" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L188">188</a>
+<a name="L189" id="L189" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L189">189</a>
+<a name="L190" id="L190" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L190">190</a>
+<a name="L191" id="L191" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L191">191</a>
+<a name="L192" id="L192" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L192">192</a>
+<a name="L193" id="L193" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L193">193</a>
+<a name="L194" id="L194" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L194">194</a>
+<a name="L195" id="L195" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L195">195</a>
+<a name="L196" id="L196" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L196">196</a>
+<a name="L197" id="L197" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L197">197</a>
+<a name="L198" id="L198" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L198">198</a>
+<a name="L199" id="L199" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L199">199</a>
+<a name="L200" id="L200" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L200">200</a>
+<a name="L201" id="L201" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L201">201</a>
+<a name="L202" id="L202" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L202">202</a>
+<a name="L203" id="L203" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L203">203</a>
+<a name="L204" id="L204" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L204">204</a>
+<a name="L205" id="L205" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L205">205</a>
+<a name="L206" id="L206" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L206">206</a>
+<a name="L207" id="L207" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L207">207</a>
+<a name="L208" id="L208" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L208">208</a>
+<a name="L209" id="L209" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L209">209</a>
+<a name="L210" id="L210" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L210">210</a>
+<a name="L211" id="L211" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L211">211</a>
+<a name="L212" id="L212" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L212">212</a>
+<a name="L213" id="L213" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L213">213</a>
+<a name="L214" id="L214" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L214">214</a>
+<a name="L215" id="L215" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L215">215</a>
+<a name="L216" id="L216" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L216">216</a>
+<a name="L217" id="L217" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L217">217</a>
+<a name="L218" id="L218" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L218">218</a>
+<a name="L219" id="L219" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L219">219</a>
+<a name="L220" id="L220" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L220">220</a>
+<a name="L221" id="L221" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L221">221</a>
+<a name="L222" id="L222" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L222">222</a>
+<a name="L223" id="L223" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L223">223</a>
+<a name="L224" id="L224" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L224">224</a>
+<a name="L225" id="L225" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L225">225</a>
+<a name="L226" id="L226" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L226">226</a>
+<a name="L227" id="L227" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L227">227</a>
+<a name="L228" id="L228" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L228">228</a>
+<a name="L229" id="L229" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L229">229</a>
+<a name="L230" id="L230" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L230">230</a>
+<a name="L231" id="L231" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L231">231</a>
+<a name="L232" id="L232" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L232">232</a>
+<a name="L233" id="L233" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L233">233</a>
+<a name="L234" id="L234" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L234">234</a>
+<a name="L235" id="L235" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L235">235</a>
+<a name="L236" id="L236" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L236">236</a>
+<a name="L237" id="L237" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L237">237</a>
+<a name="L238" id="L238" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L238">238</a>
+<a name="L239" id="L239" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L239">239</a>
+<a name="L240" id="L240" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L240">240</a>
+<a name="L241" id="L241" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L241">241</a>
+<a name="L242" id="L242" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L242">242</a>
+<a name="L243" id="L243" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L243">243</a>
+<a name="L244" id="L244" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L244">244</a>
+<a name="L245" id="L245" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L245">245</a>
+<a name="L246" id="L246" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L246">246</a>
+<a name="L247" id="L247" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L247">247</a>
+<a name="L248" id="L248" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L248">248</a>
+<a name="L249" id="L249" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L249">249</a>
+<a name="L250" id="L250" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L250">250</a>
+<a name="L251" id="L251" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L251">251</a>
+<a name="L252" id="L252" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L252">252</a>
+<a name="L253" id="L253" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L253">253</a>
+<a name="L254" id="L254" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L254">254</a>
+<a name="L255" id="L255" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L255">255</a>
+<a name="L256" id="L256" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L256">256</a>
+<a name="L257" id="L257" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L257">257</a>
+<a name="L258" id="L258" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L258">258</a>
+<a name="L259" id="L259" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L259">259</a>
+<a name="L260" id="L260" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L260">260</a>
+<a name="L261" id="L261" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L261">261</a>
+<a name="L262" id="L262" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L262">262</a>
+<a name="L263" id="L263" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L263">263</a>
+<a name="L264" id="L264" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L264">264</a>
+<a name="L265" id="L265" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L265">265</a>
+<a name="L266" id="L266" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L266">266</a>
+<a name="L267" id="L267" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L267">267</a>
+<a name="L268" id="L268" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L268">268</a>
+<a name="L269" id="L269" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L269">269</a>
+<a name="L270" id="L270" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L270">270</a>
+<a name="L271" id="L271" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L271">271</a>
+<a name="L272" id="L272" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L272">272</a>
+<a name="L273" id="L273" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L273">273</a>
+<a name="L274" id="L274" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L274">274</a>
+<a name="L275" id="L275" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L275">275</a>
+<a name="L276" id="L276" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L276">276</a>
+<a name="L277" id="L277" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L277">277</a>
+<a name="L278" id="L278" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L278">278</a>
+<a name="L279" id="L279" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L279">279</a>
+<a name="L280" id="L280" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L280">280</a>
+<a name="L281" id="L281" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L281">281</a>
+<a name="L282" id="L282" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L282">282</a>
+<a name="L283" id="L283" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L283">283</a>
+<a name="L284" id="L284" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L284">284</a>
+<a name="L285" id="L285" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L285">285</a>
+<a name="L286" id="L286" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L286">286</a>
+<a name="L287" id="L287" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L287">287</a>
+<a name="L288" id="L288" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L288">288</a>
+<a name="L289" id="L289" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L289">289</a>
+<a name="L290" id="L290" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L290">290</a>
+<a name="L291" id="L291" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L291">291</a>
+<a name="L292" id="L292" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L292">292</a>
+<a name="L293" id="L293" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L293">293</a>
+<a name="L294" id="L294" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L294">294</a>
+<a name="L295" id="L295" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L295">295</a>
+<a name="L296" id="L296" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L296">296</a>
+<a name="L297" id="L297" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L297">297</a>
+<a name="L298" id="L298" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L298">298</a>
+<a name="L299" id="L299" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L299">299</a>
+<a name="L300" id="L300" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L300">300</a>
+<a name="L301" id="L301" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L301">301</a>
+<a name="L302" id="L302" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L302">302</a>
+<a name="L303" id="L303" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L303">303</a>
+<a name="L304" id="L304" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L304">304</a>
+<a name="L305" id="L305" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L305">305</a>
+<a name="L306" id="L306" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L306">306</a>
+<a name="L307" id="L307" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L307">307</a>
+<a name="L308" id="L308" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L308">308</a>
+<a name="L309" id="L309" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L309">309</a>
+<a name="L310" id="L310" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L310">310</a>
+<a name="L311" id="L311" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L311">311</a>
+<a name="L312" id="L312" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L312">312</a>
+<a name="L313" id="L313" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L313">313</a>
+<a name="L314" id="L314" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L314">314</a>
+<a name="L315" id="L315" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L315">315</a>
+<a name="L316" id="L316" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L316">316</a>
+<a name="L317" id="L317" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L317">317</a>
+<a name="L318" id="L318" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L318">318</a>
+<a name="L319" id="L319" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L319">319</a>
+<a name="L320" id="L320" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L320">320</a>
+<a name="L321" id="L321" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L321">321</a>
+<a name="L322" id="L322" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L322">322</a>
+<a name="L323" id="L323" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L323">323</a>
+<a name="L324" id="L324" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L324">324</a>
+<a name="L325" id="L325" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L325">325</a>
+<a name="L326" id="L326" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L326">326</a>
+<a name="L327" id="L327" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L327">327</a>
+<a name="L328" id="L328" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L328">328</a>
+<a name="L329" id="L329" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L329">329</a>
+<a name="L330" id="L330" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L330">330</a>
+<a name="L331" id="L331" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L331">331</a>
+<a name="L332" id="L332" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L332">332</a>
+<a name="L333" id="L333" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L333">333</a>
+<a name="L334" id="L334" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L334">334</a>
+<a name="L335" id="L335" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L335">335</a>
+<a name="L336" id="L336" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L336">336</a>
+<a name="L337" id="L337" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L337">337</a>
+<a name="L338" id="L338" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L338">338</a>
+<a name="L339" id="L339" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L339">339</a>
+<a name="L340" id="L340" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L340">340</a>
+<a name="L341" id="L341" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L341">341</a>
+<a name="L342" id="L342" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L342">342</a>
+<a name="L343" id="L343" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L343">343</a>
+<a name="L344" id="L344" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L344">344</a>
+<a name="L345" id="L345" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L345">345</a>
+<a name="L346" id="L346" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L346">346</a>
+<a name="L347" id="L347" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L347">347</a>
+<a name="L348" id="L348" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L348">348</a>
+<a name="L349" id="L349" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L349">349</a>
+<a name="L350" id="L350" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L350">350</a>
+<a name="L351" id="L351" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L351">351</a>
+<a name="L352" id="L352" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L352">352</a>
+<a name="L353" id="L353" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L353">353</a>
+<a name="L354" id="L354" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L354">354</a>
+<a name="L355" id="L355" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L355">355</a>
+<a name="L356" id="L356" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L356">356</a>
+<a name="L357" id="L357" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L357">357</a>
+<a name="L358" id="L358" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L358">358</a>
+<a name="L359" id="L359" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L359">359</a>
+<a name="L360" id="L360" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L360">360</a>
+<a name="L361" id="L361" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L361">361</a>
+<a name="L362" id="L362" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L362">362</a>
+<a name="L363" id="L363" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L363">363</a>
+<a name="L364" id="L364" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L364">364</a>
+<a name="L365" id="L365" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L365">365</a>
+<a name="L366" id="L366" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L366">366</a>
+<a name="L367" id="L367" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L367">367</a>
+<a name="L368" id="L368" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L368">368</a>
+<a name="L369" id="L369" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L369">369</a>
+<a name="L370" id="L370" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L370">370</a>
+<a name="L371" id="L371" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L371">371</a>
+<a name="L372" id="L372" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L372">372</a>
+<a name="L373" id="L373" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L373">373</a>
+<a name="L374" id="L374" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L374">374</a>
+<a name="L375" id="L375" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L375">375</a>
+<a name="L376" id="L376" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L376">376</a>
+<a name="L377" id="L377" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L377">377</a>
+<a name="L378" id="L378" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L378">378</a>
+<a name="L379" id="L379" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L379">379</a>
+<a name="L380" id="L380" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L380">380</a>
+<a name="L381" id="L381" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L381">381</a>
+<a name="L382" id="L382" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L382">382</a>
+<a name="L383" id="L383" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L383">383</a>
+<a name="L384" id="L384" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L384">384</a>
+<a name="L385" id="L385" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L385">385</a>
+<a name="L386" id="L386" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L386">386</a>
+<a name="L387" id="L387" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L387">387</a>
+<a name="L388" id="L388" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L388">388</a>
+<a name="L389" id="L389" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L389">389</a>
+<a name="L390" id="L390" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L390">390</a>
+<a name="L391" id="L391" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L391">391</a>
+<a name="L392" id="L392" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L392">392</a>
+<a name="L393" id="L393" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L393">393</a>
+<a name="L394" id="L394" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L394">394</a>
+<a name="L395" id="L395" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L395">395</a>
+<a name="L396" id="L396" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L396">396</a>
+<a name="L397" id="L397" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L397">397</a>
+<a name="L398" id="L398" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L398">398</a>
+<a name="L399" id="L399" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L399">399</a>
+<a name="L400" id="L400" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L400">400</a>
+<a name="L401" id="L401" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L401">401</a>
+<a name="L402" id="L402" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L402">402</a>
+<a name="L403" id="L403" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L403">403</a>
+<a name="L404" id="L404" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L404">404</a>
+<a name="L405" id="L405" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L405">405</a>
+<a name="L406" id="L406" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L406">406</a>
+<a name="L407" id="L407" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L407">407</a>
+<a name="L408" id="L408" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L408">408</a>
+<a name="L409" id="L409" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L409">409</a>
+<a name="L410" id="L410" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L410">410</a>
+<a name="L411" id="L411" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L411">411</a>
+<a name="L412" id="L412" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L412">412</a>
+<a name="L413" id="L413" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L413">413</a>
+<a name="L414" id="L414" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L414">414</a>
+<a name="L415" id="L415" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L415">415</a>
+<a name="L416" id="L416" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L416">416</a>
+<a name="L417" id="L417" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L417">417</a>
+<a name="L418" id="L418" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L418">418</a>
+<a name="L419" id="L419" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L419">419</a>
+<a name="L420" id="L420" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L420">420</a>
+<a name="L421" id="L421" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L421">421</a>
+<a name="L422" id="L422" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L422">422</a>
+<a name="L423" id="L423" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L423">423</a>
+<a name="L424" id="L424" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L424">424</a>
+<a name="L425" id="L425" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L425">425</a>
+<a name="L426" id="L426" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L426">426</a>
+<a name="L427" id="L427" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L427">427</a>
+<a name="L428" id="L428" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L428">428</a>
+<a name="L429" id="L429" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L429">429</a>
+<a name="L430" id="L430" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L430">430</a>
+<a name="L431" id="L431" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L431">431</a>
+<a name="L432" id="L432" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L432">432</a>
+<a name="L433" id="L433" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L433">433</a>
+<a name="L434" id="L434" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L434">434</a>
+<a name="L435" id="L435" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L435">435</a>
+<a name="L436" id="L436" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L436">436</a>
+<a name="L437" id="L437" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L437">437</a>
+<a name="L438" id="L438" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L438">438</a>
+<a name="L439" id="L439" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L439">439</a>
+<a name="L440" id="L440" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L440">440</a>
+<a name="L441" id="L441" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L441">441</a>
+<a name="L442" id="L442" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L442">442</a>
+<a name="L443" id="L443" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L443">443</a>
+<a name="L444" id="L444" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L444">444</a>
+<a name="L445" id="L445" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L445">445</a>
+<a name="L446" id="L446" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L446">446</a>
+<a name="L447" id="L447" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L447">447</a>
+<a name="L448" id="L448" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L448">448</a>
+<a name="L449" id="L449" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L449">449</a>
+<a name="L450" id="L450" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L450">450</a>
+<a name="L451" id="L451" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L451">451</a>
+<a name="L452" id="L452" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L452">452</a>
+<a name="L453" id="L453" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L453">453</a>
+<a name="L454" id="L454" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L454">454</a>
+<a name="L455" id="L455" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L455">455</a>
+<a name="L456" id="L456" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L456">456</a>
+<a name="L457" id="L457" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L457">457</a>
+<a name="L458" id="L458" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L458">458</a>
+<a name="L459" id="L459" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L459">459</a>
+<a name="L460" id="L460" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L460">460</a>
+<a name="L461" id="L461" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L461">461</a>
+<a name="L462" id="L462" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L462">462</a>
+<a name="L463" id="L463" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L463">463</a>
+<a name="L464" id="L464" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L464">464</a>
+<a name="L465" id="L465" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L465">465</a>
+<a name="L466" id="L466" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L466">466</a>
+<a name="L467" id="L467" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L467">467</a>
+<a name="L468" id="L468" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L468">468</a>
+<a name="L469" id="L469" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L469">469</a>
+<a name="L470" id="L470" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L470">470</a>
+<a name="L471" id="L471" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L471">471</a>
+<a name="L472" id="L472" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L472">472</a>
+<a name="L473" id="L473" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L473">473</a>
+<a name="L474" id="L474" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L474">474</a>
+<a name="L475" id="L475" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L475">475</a>
+<a name="L476" id="L476" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L476">476</a>
+<a name="L477" id="L477" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L477">477</a>
+<a name="L478" id="L478" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L478">478</a>
+<a name="L479" id="L479" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L479">479</a>
+<a name="L480" id="L480" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L480">480</a>
+<a name="L481" id="L481" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L481">481</a>
+<a name="L482" id="L482" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L482">482</a>
+<a name="L483" id="L483" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L483">483</a>
+<a name="L484" id="L484" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L484">484</a>
+<a name="L485" id="L485" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L485">485</a>
+<a name="L486" id="L486" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L486">486</a>
+<a name="L487" id="L487" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L487">487</a>
+<a name="L488" id="L488" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L488">488</a>
+<a name="L489" id="L489" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L489">489</a>
+<a name="L490" id="L490" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L490">490</a>
+<a name="L491" id="L491" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L491">491</a>
+<a name="L492" id="L492" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L492">492</a>
+<a name="L493" id="L493" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L493">493</a>
+<a name="L494" id="L494" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L494">494</a>
+<a name="L495" id="L495" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L495">495</a>
+<a name="L496" id="L496" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L496">496</a>
+<a name="L497" id="L497" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L497">497</a>
+<a name="L498" id="L498" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L498">498</a>
+<a name="L499" id="L499" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L499">499</a>
+<a name="L500" id="L500" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L500">500</a>
+<a name="L501" id="L501" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L501">501</a>
+<a name="L502" id="L502" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L502">502</a>
+<a name="L503" id="L503" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L503">503</a>
+<a name="L504" id="L504" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L504">504</a>
+<a name="L505" id="L505" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L505">505</a>
+<a name="L506" id="L506" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L506">506</a>
+<a name="L507" id="L507" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L507">507</a>
+<a name="L508" id="L508" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L508">508</a>
+<a name="L509" id="L509" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L509">509</a>
+<a name="L510" id="L510" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L510">510</a>
+<a name="L511" id="L511" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L511">511</a>
+<a name="L512" id="L512" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L512">512</a>
+<a name="L513" id="L513" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L513">513</a>
+<a name="L514" id="L514" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L514">514</a>
+<a name="L515" id="L515" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L515">515</a>
+<a name="L516" id="L516" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L516">516</a>
+<a name="L517" id="L517" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L517">517</a>
+<a name="L518" id="L518" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L518">518</a>
+<a name="L519" id="L519" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L519">519</a>
+<a name="L520" id="L520" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L520">520</a>
+<a name="L521" id="L521" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L521">521</a>
+<a name="L522" id="L522" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L522">522</a>
+<a name="L523" id="L523" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L523">523</a>
+<a name="L524" id="L524" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L524">524</a>
+<a name="L525" id="L525" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L525">525</a>
+<a name="L526" id="L526" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L526">526</a>
+<a name="L527" id="L527" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L527">527</a>
+<a name="L528" id="L528" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L528">528</a>
+<a name="L529" id="L529" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L529">529</a>
+<a name="L530" id="L530" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L530">530</a>
+<a name="L531" id="L531" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L531">531</a>
+<a name="L532" id="L532" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L532">532</a>
+<a name="L533" id="L533" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L533">533</a>
+<a name="L534" id="L534" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L534">534</a>
+<a name="L535" id="L535" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L535">535</a>
+<a name="L536" id="L536" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L536">536</a>
+<a name="L537" id="L537" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L537">537</a>
+<a name="L538" id="L538" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L538">538</a>
+<a name="L539" id="L539" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L539">539</a>
+<a name="L540" id="L540" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L540">540</a>
+<a name="L541" id="L541" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L541">541</a>
+<a name="L542" id="L542" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L542">542</a>
+<a name="L543" id="L543" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L543">543</a>
+<a name="L544" id="L544" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L544">544</a>
+<a name="L545" id="L545" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L545">545</a>
+<a name="L546" id="L546" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L546">546</a>
+<a name="L547" id="L547" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L547">547</a>
+<a name="L548" id="L548" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L548">548</a>
+<a name="L549" id="L549" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L549">549</a>
+<a name="L550" id="L550" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L550">550</a>
+<a name="L551" id="L551" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L551">551</a>
+<a name="L552" id="L552" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L552">552</a>
+<a name="L553" id="L553" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L553">553</a>
+<a name="L554" id="L554" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L554">554</a>
+<a name="L555" id="L555" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L555">555</a>
+<a name="L556" id="L556" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L556">556</a>
+<a name="L557" id="L557" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L557">557</a>
+<a name="L558" id="L558" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L558">558</a>
+<a name="L559" id="L559" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L559">559</a>
+<a name="L560" id="L560" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L560">560</a>
+<a name="L561" id="L561" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L561">561</a>
+<a name="L562" id="L562" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L562">562</a>
+<a name="L563" id="L563" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L563">563</a>
+<a name="L564" id="L564" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L564">564</a>
+<a name="L565" id="L565" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L565">565</a>
+<a name="L566" id="L566" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L566">566</a>
+<a name="L567" id="L567" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L567">567</a>
+<a name="L568" id="L568" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L568">568</a>
+<a name="L569" id="L569" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L569">569</a>
+<a name="L570" id="L570" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L570">570</a>
+<a name="L571" id="L571" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L571">571</a>
+<a name="L572" id="L572" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L572">572</a>
+<a name="L573" id="L573" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L573">573</a>
+<a name="L574" id="L574" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L574">574</a>
+<a name="L575" id="L575" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L575">575</a>
+<a name="L576" id="L576" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L576">576</a>
+<a name="L577" id="L577" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L577">577</a>
+<a name="L578" id="L578" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L578">578</a>
+<a name="L579" id="L579" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L579">579</a>
+<a name="L580" id="L580" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L580">580</a>
+<a name="L581" id="L581" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L581">581</a>
+<a name="L582" id="L582" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L582">582</a>
+<a name="L583" id="L583" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L583">583</a>
+<a name="L584" id="L584" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L584">584</a>
+<a name="L585" id="L585" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L585">585</a>
+<a name="L586" id="L586" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L586">586</a>
+<a name="L587" id="L587" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L587">587</a>
+<a name="L588" id="L588" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L588">588</a>
+<a name="L589" id="L589" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L589">589</a>
+<a name="L590" id="L590" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L590">590</a>
+<a name="L591" id="L591" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L591">591</a>
+<a name="L592" id="L592" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L592">592</a>
+<a name="L593" id="L593" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L593">593</a>
+<a name="L594" id="L594" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L594">594</a>
+<a name="L595" id="L595" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L595">595</a>
+<a name="L596" id="L596" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L596">596</a>
+<a name="L597" id="L597" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L597">597</a>
+<a name="L598" id="L598" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L598">598</a>
+<a name="L599" id="L599" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L599">599</a>
+<a name="L600" id="L600" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L600">600</a>
+<a name="L601" id="L601" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L601">601</a>
+<a name="L602" id="L602" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L602">602</a>
+<a name="L603" id="L603" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L603">603</a>
+<a name="L604" id="L604" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L604">604</a>
+<a name="L605" id="L605" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L605">605</a>
+<a name="L606" id="L606" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L606">606</a>
+<a name="L607" id="L607" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L607">607</a>
+<a name="L608" id="L608" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L608">608</a>
+<a name="L609" id="L609" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L609">609</a>
+<a name="L610" id="L610" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L610">610</a>
+<a name="L611" id="L611" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L611">611</a>
+<a name="L612" id="L612" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L612">612</a>
+<a name="L613" id="L613" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L613">613</a>
+<a name="L614" id="L614" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L614">614</a>
+<a name="L615" id="L615" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L615">615</a>
+<a name="L616" id="L616" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L616">616</a>
+<a name="L617" id="L617" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L617">617</a>
+<a name="L618" id="L618" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L618">618</a>
+<a name="L619" id="L619" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L619">619</a>
+<a name="L620" id="L620" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L620">620</a>
+<a name="L621" id="L621" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L621">621</a>
+<a name="L622" id="L622" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L622">622</a>
+<a name="L623" id="L623" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L623">623</a>
+<a name="L624" id="L624" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L624">624</a>
+<a name="L625" id="L625" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L625">625</a>
+<a name="L626" id="L626" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L626">626</a>
+<a name="L627" id="L627" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L627">627</a>
+<a name="L628" id="L628" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L628">628</a>
+<a name="L629" id="L629" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L629">629</a>
+<a name="L630" id="L630" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L630">630</a>
+<a name="L631" id="L631" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L631">631</a>
+<a name="L632" id="L632" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L632">632</a>
+<a name="L633" id="L633" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L633">633</a>
+<a name="L634" id="L634" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L634">634</a>
+<a name="L635" id="L635" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L635">635</a>
+<a name="L636" id="L636" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L636">636</a>
+<a name="L637" id="L637" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L637">637</a>
+<a name="L638" id="L638" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L638">638</a>
+<a name="L639" id="L639" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L639">639</a>
+<a name="L640" id="L640" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L640">640</a>
+<a name="L641" id="L641" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L641">641</a>
+<a name="L642" id="L642" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L642">642</a>
+<a name="L643" id="L643" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L643">643</a>
+<a name="L644" id="L644" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L644">644</a>
+<a name="L645" id="L645" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L645">645</a>
+<a name="L646" id="L646" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L646">646</a>
+<a name="L647" id="L647" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L647">647</a>
+<a name="L648" id="L648" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L648">648</a>
+<a name="L649" id="L649" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L649">649</a>
+<a name="L650" id="L650" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L650">650</a>
+<a name="L651" id="L651" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L651">651</a>
+<a name="L652" id="L652" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L652">652</a>
+<a name="L653" id="L653" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L653">653</a>
+<a name="L654" id="L654" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L654">654</a>
+<a name="L655" id="L655" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L655">655</a>
+<a name="L656" id="L656" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L656">656</a>
+<a name="L657" id="L657" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L657">657</a>
+<a name="L658" id="L658" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L658">658</a>
+<a name="L659" id="L659" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L659">659</a>
+<a name="L660" id="L660" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L660">660</a>
+<a name="L661" id="L661" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L661">661</a>
+<a name="L662" id="L662" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L662">662</a>
+<a name="L663" id="L663" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L663">663</a>
+<a name="L664" id="L664" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L664">664</a>
+<a name="L665" id="L665" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L665">665</a>
+<a name="L666" id="L666" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L666">666</a>
+<a name="L667" id="L667" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L667">667</a>
+<a name="L668" id="L668" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L668">668</a>
+<a name="L669" id="L669" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L669">669</a>
+<a name="L670" id="L670" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L670">670</a>
+<a name="L671" id="L671" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L671">671</a>
+<a name="L672" id="L672" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L672">672</a>
+<a name="L673" id="L673" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L673">673</a>
+<a name="L674" id="L674" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L674">674</a>
+<a name="L675" id="L675" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L675">675</a>
+<a name="L676" id="L676" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L676">676</a>
+<a name="L677" id="L677" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L677">677</a>
+<a name="L678" id="L678" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L678">678</a>
+<a name="L679" id="L679" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L679">679</a>
+<a name="L680" id="L680" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L680">680</a>
+<a name="L681" id="L681" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L681">681</a>
+<a name="L682" id="L682" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L682">682</a>
+<a name="L683" id="L683" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L683">683</a>
+<a name="L684" id="L684" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L684">684</a>
+<a name="L685" id="L685" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L685">685</a>
+<a name="L686" id="L686" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L686">686</a>
+<a name="L687" id="L687" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L687">687</a>
+<a name="L688" id="L688" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L688">688</a>
+<a name="L689" id="L689" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L689">689</a>
+<a name="L690" id="L690" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L690">690</a>
+<a name="L691" id="L691" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L691">691</a>
+<a name="L692" id="L692" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L692">692</a>
+<a name="L693" id="L693" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L693">693</a>
+<a name="L694" id="L694" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L694">694</a>
+<a name="L695" id="L695" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L695">695</a>
+<a name="L696" id="L696" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L696">696</a>
+<a name="L697" id="L697" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L697">697</a>
+<a name="L698" id="L698" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L698">698</a>
+<a name="L699" id="L699" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L699">699</a>
+<a name="L700" id="L700" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L700">700</a>
+<a name="L701" id="L701" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L701">701</a>
+<a name="L702" id="L702" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L702">702</a>
+<a name="L703" id="L703" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L703">703</a>
+<a name="L704" id="L704" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L704">704</a>
+<a name="L705" id="L705" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L705">705</a>
+<a name="L706" id="L706" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L706">706</a>
+<a name="L707" id="L707" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L707">707</a>
+<a name="L708" id="L708" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L708">708</a>
+<a name="L709" id="L709" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L709">709</a>
+<a name="L710" id="L710" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L710">710</a>
+<a name="L711" id="L711" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L711">711</a>
+<a name="L712" id="L712" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L712">712</a>
+<a name="L713" id="L713" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L713">713</a>
+<a name="L714" id="L714" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L714">714</a>
+<a name="L715" id="L715" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L715">715</a>
+<a name="L716" id="L716" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L716">716</a>
+<a name="L717" id="L717" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L717">717</a>
+<a name="L718" id="L718" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L718">718</a>
+<a name="L719" id="L719" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L719">719</a>
+<a name="L720" id="L720" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L720">720</a>
+<a name="L721" id="L721" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L721">721</a>
+<a name="L722" id="L722" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L722">722</a>
+<a name="L723" id="L723" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L723">723</a>
+<a name="L724" id="L724" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L724">724</a>
+<a name="L725" id="L725" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L725">725</a>
+<a name="L726" id="L726" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L726">726</a>
+<a name="L727" id="L727" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L727">727</a>
+<a name="L728" id="L728" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L728">728</a>
+<a name="L729" id="L729" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L729">729</a>
+<a name="L730" id="L730" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L730">730</a>
+<a name="L731" id="L731" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L731">731</a>
+<a name="L732" id="L732" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L732">732</a>
+<a name="L733" id="L733" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L733">733</a>
+<a name="L734" id="L734" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L734">734</a>
+<a name="L735" id="L735" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L735">735</a>
+<a name="L736" id="L736" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L736">736</a>
+<a name="L737" id="L737" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L737">737</a>
+<a name="L738" id="L738" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L738">738</a>
+<a name="L739" id="L739" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L739">739</a>
+<a name="L740" id="L740" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L740">740</a>
+<a name="L741" id="L741" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L741">741</a>
+<a name="L742" id="L742" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L742">742</a>
+<a name="L743" id="L743" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L743">743</a>
+<a name="L744" id="L744" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L744">744</a>
+<a name="L745" id="L745" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L745">745</a>
+<a name="L746" id="L746" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L746">746</a>
+<a name="L747" id="L747" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L747">747</a>
+<a name="L748" id="L748" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L748">748</a>
+<a name="L749" id="L749" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L749">749</a>
+<a name="L750" id="L750" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L750">750</a>
+<a name="L751" id="L751" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L751">751</a>
+<a name="L752" id="L752" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L752">752</a>
+<a name="L753" id="L753" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L753">753</a>
+<a name="L754" id="L754" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L754">754</a>
+<a name="L755" id="L755" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L755">755</a>
+<a name="L756" id="L756" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L756">756</a>
+<a name="L757" id="L757" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L757">757</a>
+<a name="L758" id="L758" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L758">758</a>
+<a name="L759" id="L759" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L759">759</a>
+<a name="L760" id="L760" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L760">760</a>
+<a name="L761" id="L761" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L761">761</a>
+<a name="L762" id="L762" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L762">762</a>
+<a name="L763" id="L763" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L763">763</a>
+<a name="L764" id="L764" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L764">764</a>
+<a name="L765" id="L765" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L765">765</a>
+<a name="L766" id="L766" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L766">766</a>
+<a name="L767" id="L767" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L767">767</a>
+<a name="L768" id="L768" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L768">768</a>
+<a name="L769" id="L769" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L769">769</a>
+<a name="L770" id="L770" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L770">770</a>
+<a name="L771" id="L771" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L771">771</a>
+<a name="L772" id="L772" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L772">772</a>
+<a name="L773" id="L773" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L773">773</a>
+<a name="L774" id="L774" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L774">774</a>
+<a name="L775" id="L775" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L775">775</a>
+<a name="L776" id="L776" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L776">776</a>
+<a name="L777" id="L777" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L777">777</a>
+<a name="L778" id="L778" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L778">778</a>
+<a name="L779" id="L779" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L779">779</a>
+<a name="L780" id="L780" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L780">780</a>
+<a name="L781" id="L781" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L781">781</a>
+<a name="L782" id="L782" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L782">782</a>
+<a name="L783" id="L783" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L783">783</a>
+<a name="L784" id="L784" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L784">784</a>
+<a name="L785" id="L785" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L785">785</a>
+<a name="L786" id="L786" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L786">786</a>
+<a name="L787" id="L787" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L787">787</a>
+<a name="L788" id="L788" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L788">788</a>
+<a name="L789" id="L789" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L789">789</a>
+<a name="L790" id="L790" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L790">790</a>
+<a name="L791" id="L791" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L791">791</a>
+<a name="L792" id="L792" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L792">792</a>
+<a name="L793" id="L793" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L793">793</a>
+<a name="L794" id="L794" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L794">794</a>
+<a name="L795" id="L795" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L795">795</a>
+<a name="L796" id="L796" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L796">796</a>
+<a name="L797" id="L797" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L797">797</a>
+<a name="L798" id="L798" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L798">798</a>
+<a name="L799" id="L799" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L799">799</a>
+<a name="L800" id="L800" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L800">800</a>
+<a name="L801" id="L801" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L801">801</a>
+<a name="L802" id="L802" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L802">802</a>
+<a name="L803" id="L803" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L803">803</a>
+<a name="L804" id="L804" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L804">804</a>
+<a name="L805" id="L805" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L805">805</a>
+<a name="L806" id="L806" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L806">806</a>
+<a name="L807" id="L807" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L807">807</a>
+<a name="L808" id="L808" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L808">808</a>
+<a name="L809" id="L809" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L809">809</a>
+<a name="L810" id="L810" href="https://uscope-linux.github.io/object_explorer/linux/include/asm-generic/pgtable.h#L810">810</a></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#ifndef _ASM_GENERIC_PGTABLE_H</span>
+<span class="cp">#define _ASM_GENERIC_PGTABLE_H</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/pfn.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#ifndef __ASSEMBLY__</span>
+<span class="cp">#ifdef CONFIG_MMU</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;linux/mm_types.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/bug.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/errno.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#if 4 - defined(__PAGETABLE_PUD_FOLDED) - defined(__PAGETABLE_PMD_FOLDED) != \</span>
+<span class="cp">	CONFIG_PGTABLE_LEVELS</span>
+<span class="cp">#error CONFIG_PGTABLE_LEVELS is not consistent with __PAGETABLE_{PUD,PMD}_FOLDED</span>
+<span class="cp">#endif</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * On almost all architectures and configurations, 0 can be used as the</span>
+<span class="cm"> * upper ceiling to free_pgtables(): on many architectures it has the same</span>
+<span class="cm"> * effect as using TASK_SIZE.  However, there is one configuration which</span>
+<span class="cm"> * must impose a more careful limit, to avoid freeing kernel pgtables.</span>
+<span class="cm"> */</span>
+<span class="cp">#ifndef USER_PGTABLES_CEILING</span>
+<span class="cp">#define USER_PGTABLES_CEILING	0UL</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PTEP_SET_ACCESS_FLAGS</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">ptep_set_access_flags</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+				 <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">,</span>
+				 <span class="n">pte_t</span> <span class="n">entry</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dirty</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PMDP_SET_ACCESS_FLAGS</span>
+<span class="cp">#ifdef CONFIG_TRANSPARENT_HUGEPAGE</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">pmdp_set_access_flags</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+				 <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">,</span>
+				 <span class="n">pmd_t</span> <span class="n">entry</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dirty</span><span class="p">);</span>
+<span class="cp">#else</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmdp_set_access_flags</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+					<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">,</span>
+					<span class="n">pmd_t</span> <span class="n">entry</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dirty</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">BUILD_BUG</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_TRANSPARENT_HUGEPAGE */</span><span class="cp"></span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PTEP_TEST_AND_CLEAR_YOUNG</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">ptep_test_and_clear_young</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+					    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span>
+					    <span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pte_t</span> <span class="n">pte</span> <span class="o">=</span> <span class="o">*</span><span class="n">ptep</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">pte_young</span><span class="p">(</span><span class="n">pte</span><span class="p">))</span>
+		<span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">set_pte_at</span><span class="p">(</span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_mm</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">ptep</span><span class="p">,</span> <span class="n">pte_mkold</span><span class="p">(</span><span class="n">pte</span><span class="p">));</span>
+	<span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PMDP_TEST_AND_CLEAR_YOUNG</span>
+<span class="cp">#ifdef CONFIG_TRANSPARENT_HUGEPAGE</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmdp_test_and_clear_young</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+					    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span>
+					    <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pmd_t</span> <span class="n">pmd</span> <span class="o">=</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">pmd_young</span><span class="p">(</span><span class="n">pmd</span><span class="p">))</span>
+		<span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">set_pmd_at</span><span class="p">(</span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_mm</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">pmdp</span><span class="p">,</span> <span class="n">pmd_mkold</span><span class="p">(</span><span class="n">pmd</span><span class="p">));</span>
+	<span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#else</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmdp_test_and_clear_young</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+					    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span>
+					    <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">BUILD_BUG</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_TRANSPARENT_HUGEPAGE */</span><span class="cp"></span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PTEP_CLEAR_YOUNG_FLUSH</span>
+<span class="kt">int</span> <span class="nf">ptep_clear_flush_young</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+			   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PMDP_CLEAR_YOUNG_FLUSH</span>
+<span class="cp">#ifdef CONFIG_TRANSPARENT_HUGEPAGE</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">pmdp_clear_flush_young</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+				  <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">);</span>
+<span class="cp">#else</span>
+<span class="cm">/*</span>
+<span class="cm"> * Despite relevant to THP only, this API is called from generic rmap code</span>
+<span class="cm"> * under PageTransHuge(), hence needs a dummy implementation for !THP</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmdp_clear_flush_young</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+					 <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">BUILD_BUG</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_TRANSPARENT_HUGEPAGE */</span><span class="cp"></span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PTEP_GET_AND_CLEAR</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pte_t</span> <span class="nf">ptep_get_and_clear</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+				       <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span>
+				       <span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pte_t</span> <span class="n">pte</span> <span class="o">=</span> <span class="o">*</span><span class="n">ptep</span><span class="p">;</span>
+	<span class="n">pte_clear</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">ptep</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">pte</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR</span>
+<span class="cp">#ifdef CONFIG_TRANSPARENT_HUGEPAGE</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pmd_t</span> <span class="nf">pmdp_huge_get_and_clear</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+					    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span>
+					    <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pmd_t</span> <span class="n">pmd</span> <span class="o">=</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">;</span>
+	<span class="n">pmd_clear</span><span class="p">(</span><span class="n">pmdp</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">pmd</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_TRANSPARENT_HUGEPAGE */</span><span class="cp"></span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR_FULL</span>
+<span class="cp">#ifdef CONFIG_TRANSPARENT_HUGEPAGE</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pmd_t</span> <span class="nf">pmdp_huge_get_and_clear_full</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+					    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">,</span>
+					    <span class="kt">int</span> <span class="n">full</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pmdp_huge_get_and_clear</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">pmdp</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_TRANSPARENT_HUGEPAGE */</span><span class="cp"></span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PTEP_GET_AND_CLEAR_FULL</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pte_t</span> <span class="nf">ptep_get_and_clear_full</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+					    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">,</span>
+					    <span class="kt">int</span> <span class="n">full</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pte_t</span> <span class="n">pte</span><span class="p">;</span>
+	<span class="n">pte</span> <span class="o">=</span> <span class="n">ptep_get_and_clear</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">ptep</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">pte</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Some architectures may be able to avoid expensive synchronization</span>
+<span class="cm"> * primitives when modifications are made to PTE&#39;s which are already</span>
+<span class="cm"> * not present, or in the process of an address space destruction.</span>
+<span class="cm"> */</span>
+<span class="cp">#ifndef __HAVE_ARCH_PTE_CLEAR_NOT_PRESENT_FULL</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">pte_clear_not_present_full</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+					      <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span>
+					      <span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">,</span>
+					      <span class="kt">int</span> <span class="n">full</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pte_clear</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">ptep</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PTEP_CLEAR_FLUSH</span>
+<span class="k">extern</span> <span class="n">pte_t</span> <span class="nf">ptep_clear_flush</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+			      <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span>
+			      <span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PMDP_HUGE_CLEAR_FLUSH</span>
+<span class="k">extern</span> <span class="n">pmd_t</span> <span class="nf">pmdp_huge_clear_flush</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+			      <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span>
+			      <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PTEP_SET_WRPROTECT</span>
+<span class="k">struct</span> <span class="n">mm_struct</span><span class="p">;</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">ptep_set_wrprotect</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pte_t</span> <span class="n">old_pte</span> <span class="o">=</span> <span class="o">*</span><span class="n">ptep</span><span class="p">;</span>
+	<span class="n">set_pte_at</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">ptep</span><span class="p">,</span> <span class="n">pte_wrprotect</span><span class="p">(</span><span class="n">old_pte</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PMDP_SET_WRPROTECT</span>
+<span class="cp">#ifdef CONFIG_TRANSPARENT_HUGEPAGE</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">pmdp_set_wrprotect</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+				      <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pmd_t</span> <span class="n">old_pmd</span> <span class="o">=</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">;</span>
+	<span class="n">set_pmd_at</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">pmdp</span><span class="p">,</span> <span class="n">pmd_wrprotect</span><span class="p">(</span><span class="n">old_pmd</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="cp">#else</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">pmdp_set_wrprotect</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+				      <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">BUILD_BUG</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_TRANSPARENT_HUGEPAGE */</span><span class="cp"></span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef pmdp_collapse_flush</span>
+<span class="cp">#ifdef CONFIG_TRANSPARENT_HUGEPAGE</span>
+<span class="k">extern</span> <span class="n">pmd_t</span> <span class="nf">pmdp_collapse_flush</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+				 <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">);</span>
+<span class="cp">#else</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pmd_t</span> <span class="nf">pmdp_collapse_flush</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+					<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span>
+					<span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">BUILD_BUG</span><span class="p">();</span>
+	<span class="k">return</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#define pmdp_collapse_flush pmdp_collapse_flush</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_TRANSPARENT_HUGEPAGE */</span><span class="cp"></span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PGTABLE_DEPOSIT</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">pgtable_trans_huge_deposit</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">,</span>
+				       <span class="n">pgtable_t</span> <span class="n">pgtable</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PGTABLE_WITHDRAW</span>
+<span class="k">extern</span> <span class="n">pgtable_t</span> <span class="nf">pgtable_trans_huge_withdraw</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PMDP_INVALIDATE</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">pmdp_invalidate</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span>
+			    <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PMDP_HUGE_SPLIT_PREPARE</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">pmdp_huge_split_prepare</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+					   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">address</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">)</span>
+<span class="p">{</span>
+
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PTE_SAME</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pte_same</span><span class="p">(</span><span class="n">pte_t</span> <span class="n">pte_a</span><span class="p">,</span> <span class="n">pte_t</span> <span class="n">pte_b</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pte_val</span><span class="p">(</span><span class="n">pte_a</span><span class="p">)</span> <span class="o">==</span> <span class="n">pte_val</span><span class="p">(</span><span class="n">pte_b</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PTE_UNUSED</span>
+<span class="cm">/*</span>
+<span class="cm"> * Some architectures provide facilities to virtualization guests</span>
+<span class="cm"> * so that they can flag allocated pages as unused. This allows the</span>
+<span class="cm"> * host to transparently reclaim unused pages. This function returns</span>
+<span class="cm"> * whether the pte&#39;s page is unused.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pte_unused</span><span class="p">(</span><span class="n">pte_t</span> <span class="n">pte</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PMD_SAME</span>
+<span class="cp">#ifdef CONFIG_TRANSPARENT_HUGEPAGE</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmd_same</span><span class="p">(</span><span class="n">pmd_t</span> <span class="n">pmd_a</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="n">pmd_b</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pmd_val</span><span class="p">(</span><span class="n">pmd_a</span><span class="p">)</span> <span class="o">==</span> <span class="n">pmd_val</span><span class="p">(</span><span class="n">pmd_b</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#else </span><span class="cm">/* CONFIG_TRANSPARENT_HUGEPAGE */</span><span class="cp"></span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmd_same</span><span class="p">(</span><span class="n">pmd_t</span> <span class="n">pmd_a</span><span class="p">,</span> <span class="n">pmd_t</span> <span class="n">pmd_b</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">BUILD_BUG</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_TRANSPARENT_HUGEPAGE */</span><span class="cp"></span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PGD_OFFSET_GATE</span>
+<span class="cp">#define pgd_offset_gate(mm, addr)	pgd_offset(mm, addr)</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_MOVE_PTE</span>
+<span class="cp">#define move_pte(pte, prot, old_addr, new_addr)	(pte)</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef pte_accessible</span>
+<span class="cp"># define pte_accessible(mm, pte)	((void)(pte), 1)</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef flush_tlb_fix_spurious_fault</span>
+<span class="cp">#define flush_tlb_fix_spurious_fault(vma, address) flush_tlb_page(vma, address)</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef pgprot_noncached</span>
+<span class="cp">#define pgprot_noncached(prot)	(prot)</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef pgprot_writecombine</span>
+<span class="cp">#define pgprot_writecombine pgprot_noncached</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef pgprot_writethrough</span>
+<span class="cp">#define pgprot_writethrough pgprot_noncached</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef pgprot_device</span>
+<span class="cp">#define pgprot_device pgprot_noncached</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef pgprot_modify</span>
+<span class="cp">#define pgprot_modify pgprot_modify</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pgprot_t</span> <span class="nf">pgprot_modify</span><span class="p">(</span><span class="n">pgprot_t</span> <span class="n">oldprot</span><span class="p">,</span> <span class="n">pgprot_t</span> <span class="n">newprot</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pgprot_val</span><span class="p">(</span><span class="n">oldprot</span><span class="p">)</span> <span class="o">==</span> <span class="n">pgprot_val</span><span class="p">(</span><span class="n">pgprot_noncached</span><span class="p">(</span><span class="n">oldprot</span><span class="p">)))</span>
+		<span class="n">newprot</span> <span class="o">=</span> <span class="n">pgprot_noncached</span><span class="p">(</span><span class="n">newprot</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pgprot_val</span><span class="p">(</span><span class="n">oldprot</span><span class="p">)</span> <span class="o">==</span> <span class="n">pgprot_val</span><span class="p">(</span><span class="n">pgprot_writecombine</span><span class="p">(</span><span class="n">oldprot</span><span class="p">)))</span>
+		<span class="n">newprot</span> <span class="o">=</span> <span class="n">pgprot_writecombine</span><span class="p">(</span><span class="n">newprot</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pgprot_val</span><span class="p">(</span><span class="n">oldprot</span><span class="p">)</span> <span class="o">==</span> <span class="n">pgprot_val</span><span class="p">(</span><span class="n">pgprot_device</span><span class="p">(</span><span class="n">oldprot</span><span class="p">)))</span>
+		<span class="n">newprot</span> <span class="o">=</span> <span class="n">pgprot_device</span><span class="p">(</span><span class="n">newprot</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">newprot</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * When walking page tables, get the address of the next boundary,</span>
+<span class="cm"> * or the end address of the range if that comes earlier.  Although no</span>
+<span class="cm"> * vma end wraps to 0, rounded up __boundary may wrap to 0 throughout.</span>
+<span class="cm"> */</span>
+
+<span class="cp">#define pgd_addr_end(addr, end)						\</span>
+<span class="cp">({	unsigned long __boundary = ((addr) + PGDIR_SIZE) &amp; PGDIR_MASK;	\</span>
+<span class="cp">	(__boundary - 1 &lt; (end) - 1)? __boundary: (end);		\</span>
+<span class="cp">})</span>
+
+<span class="cp">#ifndef pud_addr_end</span>
+<span class="cp">#define pud_addr_end(addr, end)						\</span>
+<span class="cp">({	unsigned long __boundary = ((addr) + PUD_SIZE) &amp; PUD_MASK;	\</span>
+<span class="cp">	(__boundary - 1 &lt; (end) - 1)? __boundary: (end);		\</span>
+<span class="cp">})</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef pmd_addr_end</span>
+<span class="cp">#define pmd_addr_end(addr, end)						\</span>
+<span class="cp">({	unsigned long __boundary = ((addr) + PMD_SIZE) &amp; PMD_MASK;	\</span>
+<span class="cp">	(__boundary - 1 &lt; (end) - 1)? __boundary: (end);		\</span>
+<span class="cp">})</span>
+<span class="cp">#endif</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * When walking page tables, we usually want to skip any p?d_none entries;</span>
+<span class="cm"> * and any p?d_bad entries - reporting the error before resetting to none.</span>
+<span class="cm"> * Do the tests inline, but report and clear the bad entry in mm/memory.c.</span>
+<span class="cm"> */</span>
+<span class="kt">void</span> <span class="nf">pgd_clear_bad</span><span class="p">(</span><span class="n">pgd_t</span> <span class="o">*</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">pud_clear_bad</span><span class="p">(</span><span class="n">pud_t</span> <span class="o">*</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">pmd_clear_bad</span><span class="p">(</span><span class="n">pmd_t</span> <span class="o">*</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pgd_none_or_clear_bad</span><span class="p">(</span><span class="n">pgd_t</span> <span class="o">*</span><span class="n">pgd</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pgd_none</span><span class="p">(</span><span class="o">*</span><span class="n">pgd</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">pgd_bad</span><span class="p">(</span><span class="o">*</span><span class="n">pgd</span><span class="p">)))</span> <span class="p">{</span>
+		<span class="n">pgd_clear_bad</span><span class="p">(</span><span class="n">pgd</span><span class="p">);</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pud_none_or_clear_bad</span><span class="p">(</span><span class="n">pud_t</span> <span class="o">*</span><span class="n">pud</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pud_none</span><span class="p">(</span><span class="o">*</span><span class="n">pud</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">pud_bad</span><span class="p">(</span><span class="o">*</span><span class="n">pud</span><span class="p">)))</span> <span class="p">{</span>
+		<span class="n">pud_clear_bad</span><span class="p">(</span><span class="n">pud</span><span class="p">);</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmd_none_or_clear_bad</span><span class="p">(</span><span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmd</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pmd_none</span><span class="p">(</span><span class="o">*</span><span class="n">pmd</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">pmd_bad</span><span class="p">(</span><span class="o">*</span><span class="n">pmd</span><span class="p">)))</span> <span class="p">{</span>
+		<span class="n">pmd_clear_bad</span><span class="p">(</span><span class="n">pmd</span><span class="p">);</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pte_t</span> <span class="nf">__ptep_modify_prot_start</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+					     <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span>
+					     <span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * Get the current pte state, but zero it out to make it</span>
+<span class="cm">	 * non-present, preventing the hardware from asynchronously</span>
+<span class="cm">	 * updating it.</span>
+<span class="cm">	 */</span>
+	<span class="k">return</span> <span class="n">ptep_get_and_clear</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">ptep</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">__ptep_modify_prot_commit</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+					     <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span>
+					     <span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">,</span> <span class="n">pte_t</span> <span class="n">pte</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * The pte is non-present, so there&#39;s no hardware state to</span>
+<span class="cm">	 * preserve.</span>
+<span class="cm">	 */</span>
+	<span class="n">set_pte_at</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">ptep</span><span class="p">,</span> <span class="n">pte</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cp">#ifndef __HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION</span>
+<span class="cm">/*</span>
+<span class="cm"> * Start a pte protection read-modify-write transaction, which</span>
+<span class="cm"> * protects against asynchronous hardware modifications to the pte.</span>
+<span class="cm"> * The intention is not to prevent the hardware from making pte</span>
+<span class="cm"> * updates, but to prevent any updates it may make from being lost.</span>
+<span class="cm"> *</span>
+<span class="cm"> * This does not protect against other software modifications of the</span>
+<span class="cm"> * pte; the appropriate pte lock must be held over the transation.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Note that this interface is intended to be batchable, meaning that</span>
+<span class="cm"> * ptep_modify_prot_commit may not actually update the pte, but merely</span>
+<span class="cm"> * queue the update to be done at some later time.  The update must be</span>
+<span class="cm"> * actually committed before the pte lock is released, however.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pte_t</span> <span class="nf">ptep_modify_prot_start</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+					   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span>
+					   <span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">__ptep_modify_prot_start</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">ptep</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Commit an update to a pte, leaving any hardware-controlled bits in</span>
+<span class="cm"> * the PTE unmodified.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">ptep_modify_prot_commit</span><span class="p">(</span><span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+					   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span>
+					   <span class="n">pte_t</span> <span class="o">*</span><span class="n">ptep</span><span class="p">,</span> <span class="n">pte_t</span> <span class="n">pte</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">__ptep_modify_prot_commit</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">ptep</span><span class="p">,</span> <span class="n">pte</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* __HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION */</span><span class="cp"></span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_MMU */</span><span class="cp"></span>
+
+<span class="cm">/*</span>
+<span class="cm"> * A facility to provide lazy MMU batching.  This allows PTE updates and</span>
+<span class="cm"> * page invalidations to be delayed until a call to leave lazy MMU mode</span>
+<span class="cm"> * is issued.  Some architectures may benefit from doing this, and it is</span>
+<span class="cm"> * beneficial for both shadow and direct mode hypervisors, which may batch</span>
+<span class="cm"> * the PTE updates which happen during this window.  Note that using this</span>
+<span class="cm"> * interface requires that read hazards be removed from the code.  A read</span>
+<span class="cm"> * hazard could result in the direct mode hypervisor case, since the actual</span>
+<span class="cm"> * write to the page tables may not yet have taken place, so reads though</span>
+<span class="cm"> * a raw PTE pointer after it has been modified are not guaranteed to be</span>
+<span class="cm"> * up to date.  This mode can only be entered and left under the protection of</span>
+<span class="cm"> * the page table locks for all page tables which may be modified.  In the UP</span>
+<span class="cm"> * case, this is required so that preemption is disabled, and in the SMP case,</span>
+<span class="cm"> * it must synchronize the delayed page table writes properly on other CPUs.</span>
+<span class="cm"> */</span>
+<span class="cp">#ifndef __HAVE_ARCH_ENTER_LAZY_MMU_MODE</span>
+<span class="cp">#define arch_enter_lazy_mmu_mode()	do {} while (0)</span>
+<span class="cp">#define arch_leave_lazy_mmu_mode()	do {} while (0)</span>
+<span class="cp">#define arch_flush_lazy_mmu_mode()	do {} while (0)</span>
+<span class="cp">#endif</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * A facility to provide batching of the reload of page tables and</span>
+<span class="cm"> * other process state with the actual context switch code for</span>
+<span class="cm"> * paravirtualized guests.  By convention, only one of the batched</span>
+<span class="cm"> * update (lazy) modes (CPU, MMU) should be active at any given time,</span>
+<span class="cm"> * entry should never be nested, and entry and exits should always be</span>
+<span class="cm"> * paired.  This is for sanity of maintaining and reasoning about the</span>
+<span class="cm"> * kernel code.  In this case, the exit (end of the context switch) is</span>
+<span class="cm"> * in architecture-specific code, and so doesn&#39;t need a generic</span>
+<span class="cm"> * definition.</span>
+<span class="cm"> */</span>
+<span class="cp">#ifndef __HAVE_ARCH_START_CONTEXT_SWITCH</span>
+<span class="cp">#define arch_start_context_switch(prev)	do {} while (0)</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef CONFIG_HAVE_ARCH_SOFT_DIRTY</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pte_soft_dirty</span><span class="p">(</span><span class="n">pte_t</span> <span class="n">pte</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmd_soft_dirty</span><span class="p">(</span><span class="n">pmd_t</span> <span class="n">pmd</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pte_t</span> <span class="nf">pte_mksoft_dirty</span><span class="p">(</span><span class="n">pte_t</span> <span class="n">pte</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pte</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pmd_t</span> <span class="nf">pmd_mksoft_dirty</span><span class="p">(</span><span class="n">pmd_t</span> <span class="n">pmd</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pmd</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pte_t</span> <span class="nf">pte_clear_soft_dirty</span><span class="p">(</span><span class="n">pte_t</span> <span class="n">pte</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pte</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pmd_t</span> <span class="nf">pmd_clear_soft_dirty</span><span class="p">(</span><span class="n">pmd_t</span> <span class="n">pmd</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pmd</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pte_t</span> <span class="nf">pte_swp_mksoft_dirty</span><span class="p">(</span><span class="n">pte_t</span> <span class="n">pte</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pte</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pte_swp_soft_dirty</span><span class="p">(</span><span class="n">pte_t</span> <span class="n">pte</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pte_t</span> <span class="nf">pte_swp_clear_soft_dirty</span><span class="p">(</span><span class="n">pte_t</span> <span class="n">pte</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pte</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef __HAVE_PFNMAP_TRACKING</span>
+<span class="cm">/*</span>
+<span class="cm"> * Interfaces that can be used by architecture code to keep track of</span>
+<span class="cm"> * memory type of pfn mappings specified by the remap_pfn_range,</span>
+<span class="cm"> * vm_insert_pfn.</span>
+<span class="cm"> */</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * track_pfn_remap is called when a _new_ pfn mapping is being established</span>
+<span class="cm"> * by remap_pfn_range() for physical range indicated by pfn and size.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">track_pfn_remap</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span> <span class="n">pgprot_t</span> <span class="o">*</span><span class="n">prot</span><span class="p">,</span>
+				  <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pfn</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span>
+				  <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * track_pfn_insert is called when a _new_ single pfn is established</span>
+<span class="cm"> * by vm_insert_pfn().</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">track_pfn_insert</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span> <span class="n">pgprot_t</span> <span class="o">*</span><span class="n">prot</span><span class="p">,</span>
+				    <span class="n">pfn_t</span> <span class="n">pfn</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * track_pfn_copy is called when vma that is covering the pfnmap gets</span>
+<span class="cm"> * copied through copy_page_range().</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">track_pfn_copy</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * untrack_pfn is called while unmapping a pfnmap for a region.</span>
+<span class="cm"> * untrack can be called for a specific region indicated by pfn and size or</span>
+<span class="cm"> * can be for the entire vma (in which case pfn, size are zero).</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">untrack_pfn</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span>
+			       <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pfn</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * untrack_pfn_moved is called while mremapping a pfnmap for a new region.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">untrack_pfn_moved</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+<span class="cp">#else</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">track_pfn_remap</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span> <span class="n">pgprot_t</span> <span class="o">*</span><span class="n">prot</span><span class="p">,</span>
+			   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pfn</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">,</span>
+			   <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">size</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">track_pfn_insert</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span> <span class="n">pgprot_t</span> <span class="o">*</span><span class="n">prot</span><span class="p">,</span>
+			     <span class="n">pfn_t</span> <span class="n">pfn</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="nf">track_pfn_copy</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">untrack_pfn</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pfn</span><span class="p">,</span>
+			<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">size</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">untrack_pfn_moved</span><span class="p">(</span><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">vma</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifdef __HAVE_COLOR_ZERO_PAGE</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">is_zero_pfn</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pfn</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">extern</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">zero_pfn</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">offset_from_zero_pfn</span> <span class="o">=</span> <span class="n">pfn</span> <span class="o">-</span> <span class="n">zero_pfn</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">offset_from_zero_pfn</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">zero_page_mask</span> <span class="o">&gt;&gt;</span> <span class="n">PAGE_SHIFT</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cp">#define my_zero_pfn(addr)	page_to_pfn(ZERO_PAGE(addr))</span>
+
+<span class="cp">#else</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">is_zero_pfn</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pfn</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">extern</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">zero_pfn</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">pfn</span> <span class="o">==</span> <span class="n">zero_pfn</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="nf">my_zero_pfn</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">addr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">extern</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">zero_pfn</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">zero_pfn</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifdef CONFIG_MMU</span>
+
+<span class="cp">#ifndef CONFIG_TRANSPARENT_HUGEPAGE</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmd_trans_huge</span><span class="p">(</span><span class="n">pmd_t</span> <span class="n">pmd</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#ifndef __HAVE_ARCH_PMD_WRITE</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmd_write</span><span class="p">(</span><span class="n">pmd_t</span> <span class="n">pmd</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">BUG</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* __HAVE_ARCH_PMD_WRITE */</span><span class="cp"></span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_TRANSPARENT_HUGEPAGE */</span><span class="cp"></span>
+
+<span class="cp">#ifndef pmd_read_atomic</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">pmd_t</span> <span class="nf">pmd_read_atomic</span><span class="p">(</span><span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * Depend on compiler for an atomic pmd read. NOTE: this is</span>
+<span class="cm">	 * only going to work, if the pmdval_t isn&#39;t larger than</span>
+<span class="cm">	 * an unsigned long.</span>
+<span class="cm">	 */</span>
+	<span class="k">return</span> <span class="o">*</span><span class="n">pmdp</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef arch_needs_pgtable_deposit</span>
+<span class="cp">#define arch_needs_pgtable_deposit() (false)</span>
+<span class="cp">#endif</span>
+<span class="cm">/*</span>
+<span class="cm"> * This function is meant to be used by sites walking pagetables with</span>
+<span class="cm"> * the mmap_sem hold in read mode to protect against MADV_DONTNEED and</span>
+<span class="cm"> * transhuge page faults. MADV_DONTNEED can convert a transhuge pmd</span>
+<span class="cm"> * into a null pmd and the transhuge page fault can convert a null pmd</span>
+<span class="cm"> * into an hugepmd or into a regular pmd (if the hugepage allocation</span>
+<span class="cm"> * fails). While holding the mmap_sem in read mode the pmd becomes</span>
+<span class="cm"> * stable and stops changing under us only if it&#39;s not null and not a</span>
+<span class="cm"> * transhuge pmd. When those races occurs and this function makes a</span>
+<span class="cm"> * difference vs the standard pmd_none_or_clear_bad, the result is</span>
+<span class="cm"> * undefined so behaving like if the pmd was none is safe (because it</span>
+<span class="cm"> * can return none anyway). The compiler level barrier() is critically</span>
+<span class="cm"> * important to compute the two checks atomically on the same pmdval.</span>
+<span class="cm"> *</span>
+<span class="cm"> * For 32bit kernels with a 64bit large pmd_t this automatically takes</span>
+<span class="cm"> * care of reading the pmd atomically to avoid SMP race conditions</span>
+<span class="cm"> * against pmd_populate() when the mmap_sem is hold for reading by the</span>
+<span class="cm"> * caller (a special atomic read not done by &quot;gcc&quot; as in the generic</span>
+<span class="cm"> * version above, is also needed when THP is disabled because the page</span>
+<span class="cm"> * fault can populate the pmd from under us).</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmd_none_or_trans_huge_or_clear_bad</span><span class="p">(</span><span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmd</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pmd_t</span> <span class="n">pmdval</span> <span class="o">=</span> <span class="n">pmd_read_atomic</span><span class="p">(</span><span class="n">pmd</span><span class="p">);</span>
+	<span class="cm">/*</span>
+<span class="cm">	 * The barrier will stabilize the pmdval in a register or on</span>
+<span class="cm">	 * the stack so that it will stop changing under the code.</span>
+<span class="cm">	 *</span>
+<span class="cm">	 * When CONFIG_TRANSPARENT_HUGEPAGE=y on x86 32bit PAE,</span>
+<span class="cm">	 * pmd_read_atomic is allowed to return a not atomic pmdval</span>
+<span class="cm">	 * (for example pointing to an hugepage that has never been</span>
+<span class="cm">	 * mapped in the pmd). The below checks will only care about</span>
+<span class="cm">	 * the low part of the pmd with 32bit PAE x86 anyway, with the</span>
+<span class="cm">	 * exception of pmd_none(). So the important thing is that if</span>
+<span class="cm">	 * the low part of the pmd is found null, the high part will</span>
+<span class="cm">	 * be also null or the pmd_none() check below would be</span>
+<span class="cm">	 * confused.</span>
+<span class="cm">	 */</span>
+<span class="cp">#ifdef CONFIG_TRANSPARENT_HUGEPAGE</span>
+	<span class="n">barrier</span><span class="p">();</span>
+<span class="cp">#endif</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pmd_none</span><span class="p">(</span><span class="n">pmdval</span><span class="p">)</span> <span class="o">||</span> <span class="n">pmd_trans_huge</span><span class="p">(</span><span class="n">pmdval</span><span class="p">))</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">pmd_bad</span><span class="p">(</span><span class="n">pmdval</span><span class="p">)))</span> <span class="p">{</span>
+		<span class="n">pmd_clear_bad</span><span class="p">(</span><span class="n">pmd</span><span class="p">);</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * This is a noop if Transparent Hugepage Support is not built into</span>
+<span class="cm"> * the kernel. Otherwise it is equivalent to</span>
+<span class="cm"> * pmd_none_or_trans_huge_or_clear_bad(), and shall only be called in</span>
+<span class="cm"> * places that already verified the pmd is not none and they want to</span>
+<span class="cm"> * walk ptes while holding the mmap sem in read mode (write mode don&#39;t</span>
+<span class="cm"> * need this). If THP is not enabled, the pmd can&#39;t go away under the</span>
+<span class="cm"> * code even if MADV_DONTNEED runs, but if THP is enabled we need to</span>
+<span class="cm"> * run a pmd_trans_unstable before walking the ptes after</span>
+<span class="cm"> * split_huge_page_pmd returns (because it may have run when the pmd</span>
+<span class="cm"> * become null, but then a page fault can map in a THP and not a</span>
+<span class="cm"> * regular page).</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmd_trans_unstable</span><span class="p">(</span><span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmd</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="cp">#ifdef CONFIG_TRANSPARENT_HUGEPAGE</span>
+	<span class="k">return</span> <span class="n">pmd_none_or_trans_huge_or_clear_bad</span><span class="p">(</span><span class="n">pmd</span><span class="p">);</span>
+<span class="cp">#else</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="cp">#endif</span>
+<span class="p">}</span>
+
+<span class="cp">#ifndef CONFIG_NUMA_BALANCING</span>
+<span class="cm">/*</span>
+<span class="cm"> * Technically a PTE can be PROTNONE even when not doing NUMA balancing but</span>
+<span class="cm"> * the only case the kernel cares is for NUMA balancing and is only ever set</span>
+<span class="cm"> * when the VMA is accessible. For PROT_NONE VMAs, the PTEs are not marked</span>
+<span class="cm"> * _PAGE_PROTNONE so by by default, implement the helper as &quot;always no&quot;. It</span>
+<span class="cm"> * is the responsibility of the caller to distinguish between PROT_NONE</span>
+<span class="cm"> * protections and NUMA hinting fault protections.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pte_protnone</span><span class="p">(</span><span class="n">pte_t</span> <span class="n">pte</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmd_protnone</span><span class="p">(</span><span class="n">pmd_t</span> <span class="n">pmd</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="cm">/* CONFIG_NUMA_BALANCING */</span><span class="cp"></span>
+
+<span class="cp">#endif </span><span class="cm">/* CONFIG_MMU */</span><span class="cp"></span>
+
+<span class="cp">#ifdef CONFIG_HAVE_ARCH_HUGE_VMAP</span>
+<span class="kt">int</span> <span class="nf">pud_set_huge</span><span class="p">(</span><span class="n">pud_t</span> <span class="o">*</span><span class="n">pud</span><span class="p">,</span> <span class="n">phys_addr_t</span> <span class="n">addr</span><span class="p">,</span> <span class="n">pgprot_t</span> <span class="n">prot</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">pmd_set_huge</span><span class="p">(</span><span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmd</span><span class="p">,</span> <span class="n">phys_addr_t</span> <span class="n">addr</span><span class="p">,</span> <span class="n">pgprot_t</span> <span class="n">prot</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">pud_clear_huge</span><span class="p">(</span><span class="n">pud_t</span> <span class="o">*</span><span class="n">pud</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">pmd_clear_huge</span><span class="p">(</span><span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmd</span><span class="p">);</span>
+<span class="cp">#else	</span><span class="cm">/* !CONFIG_HAVE_ARCH_HUGE_VMAP */</span><span class="cp"></span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pud_set_huge</span><span class="p">(</span><span class="n">pud_t</span> <span class="o">*</span><span class="n">pud</span><span class="p">,</span> <span class="n">phys_addr_t</span> <span class="n">addr</span><span class="p">,</span> <span class="n">pgprot_t</span> <span class="n">prot</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmd_set_huge</span><span class="p">(</span><span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmd</span><span class="p">,</span> <span class="n">phys_addr_t</span> <span class="n">addr</span><span class="p">,</span> <span class="n">pgprot_t</span> <span class="n">prot</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pud_clear_huge</span><span class="p">(</span><span class="n">pud_t</span> <span class="o">*</span><span class="n">pud</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">pmd_clear_huge</span><span class="p">(</span><span class="n">pmd_t</span> <span class="o">*</span><span class="n">pmd</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#endif	</span><span class="cm">/* CONFIG_HAVE_ARCH_HUGE_VMAP */</span><span class="cp"></span>
+
+<span class="cp">#ifndef __HAVE_ARCH_FLUSH_PMD_TLB_RANGE</span>
+<span class="cp">#ifdef CONFIG_TRANSPARENT_HUGEPAGE</span>
+<span class="cm">/*</span>
+<span class="cm"> * ARCHes with special requirements for evicting THP backing TLB entries can</span>
+<span class="cm"> * implement this. Otherwise also, it can help optimize normal TLB flush in</span>
+<span class="cm"> * THP regime. stock flush_tlb_range() typically has optimization to nuke the</span>
+<span class="cm"> * entire TLB TLB if flush span is greater than a threshold, which will</span>
+<span class="cm"> * likely be true for a single huge page. Thus a single thp flush will</span>
+<span class="cm"> * invalidate the entire TLB which is not desitable.</span>
+<span class="cm"> * e.g. see arch/arc: flush_pmd_tlb_range</span>
+<span class="cm"> */</span>
+<span class="cp">#define flush_pmd_tlb_range(vma, addr, end)	flush_tlb_range(vma, addr, end)</span>
+<span class="cp">#else</span>
+<span class="cp">#define flush_pmd_tlb_range(vma, addr, end)	BUILD_BUG()</span>
+<span class="cp">#endif</span>
+<span class="cp">#endif</span>
+
+<span class="k">struct</span> <span class="n">file</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">phys_mem_access_prot_allowed</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pfn</span><span class="p">,</span>
+			<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">size</span><span class="p">,</span> <span class="n">pgprot_t</span> <span class="o">*</span><span class="n">vma_prot</span><span class="p">);</span>
+<span class="cp">#endif </span><span class="cm">/* !__ASSEMBLY__ */</span><span class="cp"></span>
+
+<span class="cp">#ifndef io_remap_pfn_range</span>
+<span class="cp">#define io_remap_pfn_range remap_pfn_range</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef has_transparent_hugepage</span>
+<span class="cp">#ifdef CONFIG_TRANSPARENT_HUGEPAGE</span>
+<span class="cp">#define has_transparent_hugepage() 1</span>
+<span class="cp">#else</span>
+<span class="cp">#define has_transparent_hugepage() 0</span>
+<span class="cp">#endif</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#endif </span><span class="cm">/* _ASM_GENERIC_PGTABLE_H */</span><span class="cp"></span>
+</pre></div>
+</td></tr></table></div>
+
+				</div>
+			</main>
+</html>
