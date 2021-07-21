@@ -9,22 +9,20 @@ Link to the [Paper](https://fierce-lab.gitlab.io/uscope/uscope_raid21.pdf)
 ```
 .
 ├── README.md                        This document.
-├── compartment-explorer             Linux kernel compartment
-exploerer.
+├── compartment-explorer             Linux kernel compartment exploerer.
 ├── css 
 ├── index.html                       μSCOPE landing page
-├── object-explorer                  Linux kernel object
-explorer.
-├── uscope\_raid21.pdf               Full paper for μSCOPE
+├── object-explorer                  Linux kernel object explorer.
+├── uscope_raid21.pdf                Full paper for μSCOPE
 
 ```
 
 ## Analysis Code
 
-[Compartment explorer](./compartment-explorer):
+[Compartment explorer](https://fierce-lab.gitlab.io/uscope/compartment-explorer):
 
 
-[Object explorer](./object-explorer):
+[Object explorer](https://fierce-lab.gitlab.io/uscope/object-explorer):
 
 
 ## Abstract
@@ -40,10 +38,11 @@ We discover opportunities for orders of magnitude privilege reduction while pred
 
 We collected a significant amount of data as well as present a few ways to explore compartmentalizations.
 
-μSCOPE Linux Object Explorer: [Object Explorer](./object-explorer/)
+μSCOPE Linux Object Explorer: [Object
+Explorer](https://fierce-lab.gitlab.io/uscope/object-explorer/)
 
 μSCOPE Linux Compartment Explorer: [Compartment
-Explorer](./compartment-explorer/)
+Explorer](https://fierce-lab.gitlab.io/uscope/compartment-explorer/)
 
 ## Bibtex
 
