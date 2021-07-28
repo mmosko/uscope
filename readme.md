@@ -33,15 +33,21 @@ The mapping of fine-grained memory accesses and calls to semantic information
 The reporting of a separability analysis on the kernel, using both quantitative privilege and overhead metrics
 We discover opportunities for orders of magnitude privilege reduction while predicting relatively low overheads - at 15% mediation overhead, overprivilege in Linux can be reduced up to 99.8% - suggesting fine-grained privilege separation is feasible and laying the groundwork for accelerating real privilege separation.
 
-## Data Explorer
+## Data Exploration
 
 We collected a significant amount of data as well as present a few ways to explore compartmentalizations.
 
-μSCOPE Linux Object Explorer: [Object
-Explorer](https://fierce-lab.gitlab.io/uscope/object-explorer/)
+[μSCOPE Linux Object Explorer](https://fierce-lab.gitlab.io/uscope/object-explorer/): shows access trace for select set of objects with links to code.
 
-μSCOPE Linux Compartment Explorer: [Compartment
-Explorer](https://fierce-lab.gitlab.io/uscope/compartment-explorer/)
+[μSCOPE Linux Compartment Explorer](https://fierce-lab.gitlab.io/uscope/compartment-explorer/): shows compartmentalization results from µSCOPE algorithms.
+
+[μSCOPE Visualizations](https://fierce-lab.gitlab.io/memorizer/dashboard/index.html): profiling visualizations to understand what's happening in Linux.
+
+[μSCOPE Directory Based Communication Heatmap](https://fierce-lab.gitlab.io/memorizer/dashboard/heatmap.html): heatmap showing interactions between directory based compartmentalization in Linux.
+
+[Who's using the most privilege in Linux?](https://fierce-lab.gitlab.io/memorizer/dashboard/sunburst.html): sunburst showing components with highest access degree.
+
+[Who's allocating the most data in Linux?](https://fierce-lab.gitlab.io/memorizer/dashboard/alloc.html): flame graphs showing who's allocating the most in Linux.
 
 ## Raw data
 
