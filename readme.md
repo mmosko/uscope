@@ -9,7 +9,8 @@ Link to the [Paper](https://fierce-lab.gitlab.io/uscope/uscope_raid21.pdf)
 ```
 .
 ├── README.md                        This document.
-├── compartment-explorer             Linux kernel compartment exploerer.
+├── analysis                         μSCOPE analysis code
+├── compartment-explorer             Linux kernel compartment explorer.
 ├── css 
 ├── index.html                       μSCOPE landing page
 ├── object-explorer                  Linux kernel object explorer.
@@ -19,11 +20,9 @@ Link to the [Paper](https://fierce-lab.gitlab.io/uscope/uscope_raid21.pdf)
 
 ## Analysis Code
 
-[Compartment
-explorer](https://fierce-lab.gitlab.io/uscope/compartment-explorer): TBD
-[Object
-explorer](https://fierce-lab.gitlab.io/uscope/object-explorer): TBD
+μSCOPE's compartment-generation and analysis code can be found in the [analysis directory](https://gitlab.com/fierce-lab/uscope/-/tree/master/analysis).
 
+To get started, follow the [μSCOPE analysis tutorial](https://gitlab.com/fierce-lab/uscope/-/tree/master/tutorial/README.md)
 
 ## Abstract
 
@@ -34,7 +33,7 @@ The mapping of fine-grained memory accesses and calls to semantic information
 The reporting of a separability analysis on the kernel, using both quantitative privilege and overhead metrics
 We discover opportunities for orders of magnitude privilege reduction while predicting relatively low overheads - at 15% mediation overhead, overprivilege in Linux can be reduced up to 99.8% - suggesting fine-grained privilege separation is feasible and laying the groundwork for accelerating real privilege separation.
 
-## Analysis Tools
+## Data Explorer
 
 We collected a significant amount of data as well as present a few ways to explore compartmentalizations.
 
@@ -43,6 +42,14 @@ Explorer](https://fierce-lab.gitlab.io/uscope/object-explorer/)
 
 μSCOPE Linux Compartment Explorer: [Compartment
 Explorer](https://fierce-lab.gitlab.io/uscope/compartment-explorer/)
+
+## Raw data
+
+The raw data collected for μSCOPE can be downloaded here: [RAID2021.tar.gz](https://drive.google.com/file/d/1ms7bQvJiUUpq5LpBIeQQZJXZVpNrLMFS).
+
+Warning: the tar file is 2.7GB and unpacks into about 16GB of data.
+
+This data is collected from 8 CPU-months of Linux kernel workload traces on the [Memorizer kernel](https://fierce-lab.gitlab.io/memorizer/).
 
 ## Bibtex
 
