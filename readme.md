@@ -4,10 +4,6 @@ Welcome. Please find information related to our project on automated analysis on
 
 Link to the [Paper](https://fierce-lab.gitlab.io/uscope/uscope_raid21.pdf)
 
-<!-- Visitor Counter, using dynamic badge generator from https://img.shields.io -->
-<img
-  src="https://img.shields.io/badge/dynamic/json?color=brightgreen&label=visitors&query=%24.value&url=https%3A%2F%2Fapi.countapi.xyz%2Fhit%2Ffierce-lab.gitlab.io%2Fuscope-repo"
-  alt="hits-uscope">
 <!-- Trigger our visits counter by visiting countapi -->
 <script async src="https://api.countapi.xyz/hit/fierce-lab.gitlab.io/uscope-repo"></script>
 
