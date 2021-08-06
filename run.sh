@@ -65,8 +65,8 @@ run_uscope()
             docker cp $vmlinux tmp_compartment:$analysis_dir/$base_vmlinux
             docker cp $cmap_file tmp_compartment:$analysis_dir/$base_cmap
             docker exec tmp_compartment python $analysis_dir/DomainCreator.py $analysis_dir/$base_vmlinux $analysis_dir/$base_cmap
-            docker cp -a tmp_compartment:$cluster_dir  $USCOPE_RESULT_DIR/compartment
-            echo "Output compartment result to $USCOPE_RESULT_DIR/compartment"
+            docker cp -a tmp_compartment:$cluster_dir  $USCOPE_RESULT_DIR
+            echo "Output compartment result to $USCOPE_RESULT_DIR"
             echo ""
             
             docker stop tmp_compartment > /dev/null 2>&1
@@ -86,13 +86,13 @@ run_uscope()
             docker cp $vmlinux tmp_continum:$analysis_dir/$base_vmlinux
             docker cp $cmap_file tmp_continum:$analysis_dir/$base_cmap
             docker exec tmp_continum python $analysis_dir/sweep_edge_assignment.py $analysis_dir/$base_vmlinux $analysis_dir/$base_cmap
-            docker cp -a tmp_continum:$edge_dir  $USCOPE_RESULT_DIR/continum
-            echo "Output continum result to $USCOPE_RESULT_DIR/continum"
+            docker cp -a tmp_continum:$edge_dir  $USCOPE_RESULT_DIR
+            echo "Output continum result to $USCOPE_RESULT_DIR"
             echo ""
             
             # Copy the pdf plot to host
-            docker cp -a tmp_continum:$pdf_dir  $USCOPE_RESULT_DIR/continum
-            echo "Output continum pdf graph to $USCOPE_RESULT_DIR/continum"
+            docker cp -a tmp_continum:$pdf_dir  $USCOPE_RESULT_DIR
+            echo "Output continum pdf graph to $USCOPE_RESULT_DIR"
             echo ""
             docker stop tmp_continum > /dev/null 2>&1
             docker rm tmp_continum > /dev/null 2>&1
