@@ -16,6 +16,7 @@ Link to the [Paper](https://fierce-lab.gitlab.io/uscope/uscope_raid21.pdf)
 ├── css 
 ├── index.html                       μSCOPE landing page
 ├── object-explorer                  Linux kernel object explorer.
+├── run.sh                           Script to run uscope analysis.
 ├── uscope_raid21.pdf                Full paper for μSCOPE
 
 ```
