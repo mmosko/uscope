@@ -120,7 +120,7 @@ if __name__ == '__main__':
                         print("Skipping " + name + " for mechanism " + m["shortname"] + "(do not use obj clustering)")
                         continue
                 
-                trace_edge_assignment_curve(cmap_phx, cut, name, objclustering, m, outfile, pointfile, WXORE, benchmark_cmaps, return_at_level=None)
+                trace_edge_assignment_curve(cmap_phx, cut, name, objclustering, m, outfile, WXORE, benchmark_cmaps, return_at_level=None)
                 
         outfile.close()
 

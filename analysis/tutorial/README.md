@@ -1,7 +1,8 @@
 # μSCOPE Analysis Tutorial
 This tutorial demos μSCOPE's core analysis features: automatically generating compartments and exploring privilege/performance tradeoffs.
 
-To run this part of the tutorial, open a shell and navigate to the `analysis/` directory. Make sure that you have Python3 installed as well as the NetworkX python package. You will also need some CAPMAP trace files, such as those provided in the ```RAID2021.tar.gz``` data file that accompanies the RAID submission (see Raw Data download link on the μSCOPE landing page). We recommend making a ```data``` subdirectory and unpacking the tar file into ```./data/RAID2021/```. CAPMAP files either have the ```.cmap``` extension or the ```.cmap.comp``` extension (if they are compressed; either works fine). CAPMAP trace files include raw instruction and object addresses, which means they are specific to a particular ```vmlinux``` image. The ```vmlinux``` image that matches these traces files is included in the tar file and can be found at ```./data/RAID2021/vmlinux```.
+To run this part of the tutorial, open a shell and navigate to the `analysis/`
+directory. Make sure that you have Python2.7 installed as well as the NetworkX python package. You will also need some CAPMAP trace files, such as those provided in the ```RAID2021.tar.gz``` data file that accompanies the RAID submission (see Raw Data download link on the μSCOPE landing page). We recommend making a ```data``` subdirectory and unpacking the tar file into ```./data/RAID2021/```. CAPMAP files either have the ```.cmap``` extension or the ```.cmap.comp``` extension (if they are compressed; either works fine). CAPMAP trace files include raw instruction and object addresses, which means they are specific to a particular ```vmlinux``` image. The ```vmlinux``` image that matches these traces files is included in the tar file and can be found at ```./data/RAID2021/vmlinux```.
 
 ***1. Creating Compartments***
 
