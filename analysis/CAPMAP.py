@@ -382,7 +382,7 @@ class CAPMAP:
 
                         memtype = MemType.SPECIAL # Treated as special
 
-                        if allocator == "STACk_PAGE":
+                        if allocator == "STACK_PAGE":
                             name = "STACK_PAGE"
                         elif allocator == "STACK_FRAME":
                             name = "STACK_FRAME"
