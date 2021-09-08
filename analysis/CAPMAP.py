@@ -367,7 +367,7 @@ class CAPMAP:
                         
                         # There is one stack with size 0 in each cmap. Give it 32768
                         # I think this is per cpu-stack vs thread stack?
-                        if size == 0 and allocator == "STACK_PAGE":
+                        if size == 0:
                             size = 32768
                         
                         # Remove a few invalidly freed stacks in current data
@@ -639,7 +639,7 @@ class CAPMAP:
             for obj_addr in instance_store:
 
                 # Find the object node in the graph
-                if obj_addr in ["STACK_PAGE", "THREAD_STACK", "PER_CPU_STACK"] or obj_addr[0:10] == "prealloced":
+                if obj_addr in ["STACK_PAGE", "STACK_FRAME", "STACK_ARGS", "THREAD_STACK", "PER_CPU_STACK"] or obj_addr[0:10] == "prealloced":
                     memtype = MemType.SPECIAL
                 else:
                     memtype = MemType.HEAP
@@ -1946,7 +1946,7 @@ class CAPMAP:
                         total_memblock_size += size
                     elif "ANON" in node_ip:
                         total_anon_size += size
-                    elif node_ip in ["STACK_PAGE", "THREAD_STACK", "PER_CPU_STACK"]:
+                    elif node_ip in ["STACK_PAGE", "STACK_FRAME", "STACK_ARGS", "THREAD_STACK", "PER_CPU_STACK"]:
                         total_stack_size += size
                     elif node_ip == "GEN_HEAP" or node_ip[0:10] == "prealloced":
                         total_heap_size += size
