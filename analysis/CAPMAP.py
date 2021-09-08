@@ -363,11 +363,11 @@ class CAPMAP:
                             name = "GLOBAL_anon"
 
                     # 3) Parse stack pages
-                    elif allocator == "STACK_PAGE":
+                    elif allocator in ["STACK_FRAME", "STACK_ARGS", "STACK_PAGE"]:
                         
                         # There is one stack with size 0 in each cmap. Give it 32768
                         # I think this is per cpu-stack vs thread stack?
-                        if size == 0:
+                        if size == 0 and allocator == "STACK_PAGE":
                             size = 32768
                         
                         # Remove a few invalidly freed stacks in current data
@@ -382,7 +382,12 @@ class CAPMAP:
 
                         memtype = MemType.SPECIAL # Treated as special
 
-                        name = "STACK_PAGE"
+                        if allocator == "STACk_PAGE":
+                            name = "STACK_PAGE"
+                        elif allocator == "STACK_FRAME":
+                            name = "STACK_FRAME"
+                        elif allocator == "STACK_ARGS":
+                            name = "STACK_ARGS"
 
                         # Update instance store for max/average live calculations
                         if found_compressed == False and alloc_time != 0 and add_to_store:
@@ -986,7 +991,7 @@ class CAPMAP:
                     self.ip_to_ip[addr] = addr
 
                     # Skip fentry calls.
-                    if "__fentry__" in line:
+                    if "cyg_profile" in line:
                         continue
 
                     # This occured in my plain vmlinux. Not sure what it's from, but removing
