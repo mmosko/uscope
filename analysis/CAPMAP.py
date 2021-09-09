@@ -296,7 +296,6 @@ class CAPMAP:
 
                     # Skip the null objects at the beginning of the cmap file (one per class)
                     if "(null)" in alloc_ip and "(null)" in va:
-                        print("Skipping " + alloc_ip + " " + allocator + " " + va)
                         obj = None
                         continue
 
