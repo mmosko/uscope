@@ -35,7 +35,9 @@ def calculate_ECR(cmap, cut):
                 internal_accesses += edge["call"]
             else:
                 external_accesses += edge["call"]
-                
+
+    if internal_accesses + external_accesses == 0:
+        raise Exception("Error: tried to calculate ECR for cmap with no call data")
     ECR = round(float(external_accesses) / (internal_accesses + external_accesses), 5)
     return ECR
 

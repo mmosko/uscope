@@ -648,6 +648,10 @@ class DomainCreator:
             return "PAGE"
         elif "VMALLOC" in obj_name:
             return "VMALLOC"
+        elif "STACK_FRAME" in obj_name:
+            return "STACK_FRAME"
+        elif "STACK_ARGS" in obj_name:
+            return "STACK_FRAME"
         elif "GLOBAL_" in obj_name:
             if "|R" in obj_name:
                 return "GLOBAL_R"

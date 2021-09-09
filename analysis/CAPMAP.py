@@ -294,6 +294,12 @@ class CAPMAP:
                         obj = None
                         continue
 
+                    # Skip the null objects at the beginning of the cmap file (one per class)
+                    if "(null)" in alloc_ip and "(null)" in va:
+                        print("Skipping " + alloc_ip + " " + allocator + " " + va)
+                        obj = None
+                        continue
+
                     # We now prepare an object_addr and memtype for this object.
                     # Top-level parsing logic switches based on the allocator for
                     # this object:
@@ -301,11 +307,6 @@ class CAPMAP:
                     # 1) Parse heap objects
                     if allocator in ["KMALLOC", "KMALLOC_ND", "KMEM_CACHE",
                                      "KMEM_CACHE_ND", "ALLOC_PAGES"]:
-
-                        # There is a blank object of each kind, skip over them
-                        if "null" in alloc_ip:
-                            obj = None
-                            continue
                         
                         object_addr = alloc_ip
                         memtype = MemType.HEAP
@@ -362,8 +363,16 @@ class CAPMAP:
                         else:
                             name = "GLOBAL_anon"
 
-                    # 3) Parse stack pages
-                    elif allocator in ["STACK_FRAME", "STACK_ARGS", "STACK_PAGE"]:
+                    # 3) Parse fine-grained stack frames
+                    elif allocator in ["STACK_FRAME", "STACK_ARGS"]:
+
+                        object_addr = alloc_ip
+                        name = allocator + "_" + self.ip_to_func[alloc_ip]
+                        memtype = MemType.SPECIAL                        
+                        print("Parsed a stack frame object: " + name)
+                        
+                    # 4) Parse coarse-grained stack pages
+                    elif allocator in ["STACK_PAGE"]:
                         
                         # There is one stack with size 0 in each cmap. Give it 32768
                         # I think this is per cpu-stack vs thread stack?
@@ -382,12 +391,7 @@ class CAPMAP:
 
                         memtype = MemType.SPECIAL # Treated as special
 
-                        if allocator == "STACK_PAGE":
-                            name = "STACK_PAGE"
-                        elif allocator == "STACK_FRAME":
-                            name = "STACK_FRAME"
-                        elif allocator == "STACK_ARGS":
-                            name = "STACK_ARGS"
+                        name = "STACK_PAGE"
 
                         # Update instance store for max/average live calculations
                         if found_compressed == False and alloc_time != 0 and add_to_store:
@@ -397,37 +401,37 @@ class CAPMAP:
 
                     # After heap, globals, and stacks we have the special kinds of memory
 
-                    # 4) Parse MEMBLOCK objects
+                    # 5) Parse MEMBLOCK objects
                     elif allocator in ["UFO_MEMBLOCK", "MEMBLOCK"]:
                         object_addr = "MEMBLOCK"
                         name = "MEMBLOCK"
                         memtype = MemType.SPECIAL
 
-                    # 5) Parse vmalloc() objects
+                    # 6) Parse vmalloc() objects
                     elif allocator == "VMALLOC":
                         object_addr = alloc_ip
                         name = "VMALLOC_" + alloc_ip
                         memtype = MemType.SPECIAL
 
-                    # 6) UFOs that are in the VMEM region are VMEM objects
+                    # 7) UFOs that are in the VMEM region are VMEM objects
                     elif allocator == "UFO_NONE" and va[0:6] == "ffffea":
                         object_addr = "VMEMMAP"
                         name = "VMEMMAP"
                         memtype = MemType.SPECIAL
 
-                    # 7) Parse FIXMAP (only in compressed)
+                    # 8) Parse FIXMAP (only in compressed)
                     elif alloc_ip in ["FIXMAP"]:
                         object_addr = alloc_ip
                         name = "FIXMAP"
                         memtype = MemType.SPECIAL
                         
-                    # 8) Parse code (only in compressed)
+                    # 9) Parse code (only in compressed)
                     elif alloc_ip[0:5] == "code_":
                         object_addr = alloc_ip
                         name = "CODE_" + alloc_ip
                         memtype = MemType.SPECIAL
 
-                    # 9) The grab bag:
+                    # 10) The grab bag:
                     # What's left are one missing memblock region, a few things we can salvage from globals,
                     # and true anonymous objects.
                     elif allocator == "UFO_NONE" or allocator == "UFO_HEAP":
