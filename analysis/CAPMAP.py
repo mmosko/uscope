@@ -367,8 +367,7 @@ class CAPMAP:
 
                         object_addr = alloc_ip
                         name = allocator + "_" + self.ip_to_func[alloc_ip]
-                        memtype = MemType.SPECIAL                        
-                        print("Parsed a stack frame object: " + name)
+                        memtype = MemType.SPECIAL
                         
                     # 4) Parse coarse-grained stack pages
                     elif allocator in ["STACK_PAGE"]:
