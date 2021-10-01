@@ -25,7 +25,7 @@ Link to the [Paper](https://fierce-lab.gitlab.io/uscope/uscope_raid21.pdf)
 
 μSCOPE's compartment-generation and analysis code can be found in the [analysis directory](https://gitlab.com/fierce-lab/uscope/-/tree/master/analysis).
 
-To get started, follow the [μSCOPE analysis tutorial](https://gitlab.com/fierce-lab/uscope/-/tree/master/tutorial/README.md)
+To get started, follow the [μSCOPE analysis tutorial](analysis/tutorial/README.md)
 
 ## Abstract
 
